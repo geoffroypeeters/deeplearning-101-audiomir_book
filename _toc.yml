@@ -4,9 +4,16 @@
 format: jb-book
 root: intro
 parts:
-- caption: Introduction
+- caption: Tools to make life easier
   chapters:
-    - file: bricks_deeplearning
+    - file: tools
+- caption: Deep Learning Bricks
+  chapters:
+    - file: bricks_frontend
+    - file: bricks_projection.md
+    - file: bricks_bottleneck
+    - file: bricks_architecture
+    - file: bricks_paradigm
 - caption: Tasks
   chapters:
     - file: task_multipitchestimation
@@ -15,8 +22,6 @@ parts:
     - file: task_sourceseparation
     - file: task_autotagging
     - file: task_musicgeneration
-- caption: Others
+- caption: References
   chapters:
-    - file: markdown
-    - file: notebooks
-    - file: markdown-notebooks
+    - file: bibiography
