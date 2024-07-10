@@ -3,8 +3,20 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: multipitch
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+parts:
+- caption: Introduction
+  chapters:
+    - file: bricks_deeplearning
+- caption: Tasks
+  chapters:
+    - file: task_multipitchestimation
+    - file: task_chordestimation
+    - file: task_coverdetection
+    - file: task_sourceseparation
+    - file: task_autotagging
+    - file: task_musicgeneration
+- caption: Others
+  chapters:
+    - file: markdown
+    - file: notebooks
+    - file: markdown-notebooks
