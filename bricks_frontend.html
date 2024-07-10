@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Deep Learning Bricks &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Front-ends &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -62,11 +62,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_deeplearning';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_frontend';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
-    <link rel="prev" title="Deep Learning 101 for Audio-based MIR" href="intro.html" />
+    <link rel="next" title="Projections" href="bricks_projection.html" />
+    <link rel="prev" title="Tools to make life easier" href="tools.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,9 +168,17 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tools to make life easier</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools to make life easier</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deep Learning Bricks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -261,7 +269,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbricks_deeplearning.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbricks_frontend.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +299,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/bricks_deeplearning.md" target="_blank"
+      <li><a href="_sources/bricks_frontend.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +383,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Deep Learning Bricks</h1>
+    <h1>Front-ends</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,48 +393,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs">Inputs</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#waveform">Waveform</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projections">Projections</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">2D-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1D-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dephtwise-separable-convolution">Dephtwise Separable Convolution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-convolution-network-tcn">Temporal Convolution Network (TCN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bottleneck">Bottleneck</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-encoder">Auto-encoder</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-auto-encoder-vae">Variational auto-encoder (VAE)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantised-variational-autoencoder-vq-vae">Vector Quantised-Variational AutoEncoder (VQ-VAE)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-vector-quantizers-rvq">Residual Vector Quantizers (RVQ)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architectures">Architectures</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#u-net">U-Net</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-lstm">RNN/ LSTM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/ Self-Attention</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conformer">Conformer</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paradigms">Paradigms</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#waveform">Waveform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
 </ul>
             </nav>
         </div>
@@ -438,22 +411,20 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-bricks">
-<h1>Deep Learning Bricks<a class="headerlink" href="#deep-learning-bricks" title="Permalink to this heading">#</a></h1>
-<section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">#</a></h2>
+  <section id="front-ends">
+<h1>Front-ends<a class="headerlink" href="#front-ends" title="Permalink to this heading">#</a></h1>
 <section id="waveform">
-<h3>Waveform<a class="headerlink" href="#waveform" title="Permalink to this heading">#</a></h3>
+<h2>Waveform<a class="headerlink" href="#waveform" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="log-mel-spectrogram-lms">
-<h3>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h3>
+<h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="constant-q-transform-hcqt">
-<span id="lab-cqt"></span><h3>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Permalink to this heading">#</a></h3>
+<span id="lab-cqt"></span><h2>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Permalink to this heading">#</a></h2>
 <p>CQT was proposed in <span id="id1">[<a class="reference internal" href="markdown.html#id5" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span></p>
 </section>
 <section id="harmonic-cqt-hcqt">
-<span id="lab-hcqt"></span><h3>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h3>
+<span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h2>
 <p>HCQT was proposed in <span id="id2">[<a class="reference internal" href="markdown.html#id3" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_hcqt</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -481,7 +452,7 @@ document.write(`
 </div>
 </section>
 <section id="parametric-front-end-sincnet">
-<span id="label-sincnet"></span><h3>Parametric front-end: SincNet<a class="headerlink" href="#parametric-front-end-sincnet" title="Permalink to this heading">#</a></h3>
+<span id="label-sincnet"></span><h2>Parametric front-end: SincNet<a class="headerlink" href="#parametric-front-end-sincnet" title="Permalink to this heading">#</a></h2>
 <p>SincNet was proposed in <span id="id3">[<a class="reference internal" href="markdown.html#id4" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SincConv_fast</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sinc-based convolution</span>
@@ -617,121 +588,13 @@ document.write(`
 </div>
 </section>
 <section id="parametric-front-end-leaf">
-<h3>Parametric front-end: LEAF<a class="headerlink" href="#parametric-front-end-leaf" title="Permalink to this heading">#</a></h3>
+<h2>Parametric front-end: LEAF<a class="headerlink" href="#parametric-front-end-leaf" title="Permalink to this heading">#</a></h2>
 <p>LEAF (Learnable Audio Front-End) was proposed in <span id="id4">[<a class="reference internal" href="markdown.html#id6" title="Neil Zeghidour, Olivier Teboul, Félix de Chaumont Quitry, and Marco Tagliasacchi. LEAF: A learnable frontend for audio classification. In 9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net, 2021. URL: https://openreview.net/forum?id=jM76BCb6F9m.">ZTdCQT21</a>]</span></p>
+<p><a class="github reference external" href="https://github.com/SarthakYadav/leaf-pytorch/blob/master/leaf_pytorch/frontend.py">SarthakYadav/leaf-pytorch</a></p>
 </section>
 <section id="audio-augmentations">
-<h3>Audio augmentations<a class="headerlink" href="#audio-augmentations" title="Permalink to this heading">#</a></h3>
-</section>
-</section>
-<section id="projections">
-<h2>Projections<a class="headerlink" href="#projections" title="Permalink to this heading">#</a></h2>
-<section id="d-conv">
-<h3>2D-Conv<a class="headerlink" href="#d-conv" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="id5">
-<h3>1D-Conv<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="dilated-conv">
-<h3>Dilated-Conv<a class="headerlink" href="#dilated-conv" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="dephtwise-separable-convolution">
-<h3>Dephtwise Separable Convolution<a class="headerlink" href="#dephtwise-separable-convolution" title="Permalink to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">depthwise_conv</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nin</span><span class="p">,</span> <span class="n">kernels_per_layer</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">depthwise_conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">depthwise</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">nin</span><span class="p">,</span> <span class="n">nin</span> <span class="o">*</span> <span class="n">kernels_per_layer</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">nin</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depthwise</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-<span class="k">class</span> <span class="nc">pointwise_conv</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nin</span><span class="p">,</span> <span class="n">nout</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">pointwise_conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pointwise</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">nin</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointwise</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-<span class="k">class</span> <span class="nc">depthwise_separable_conv</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nin</span><span class="p">,</span> <span class="n">kernels_per_layer</span><span class="p">,</span> <span class="n">nout</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">depthwise_separable_conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">depthwise</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">nin</span><span class="p">,</span> <span class="n">nin</span> <span class="o">*</span> <span class="n">kernels_per_layer</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">nin</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pointwise</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">nin</span> <span class="o">*</span> <span class="n">kernels_per_layer</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depthwise</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointwise</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">depthwise_separable_conv</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">23</span><span class="p">)</span>
-<span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
-<section id="temporal-convolution-network-tcn">
-<h3>Temporal Convolution Network (TCN)<a class="headerlink" href="#temporal-convolution-network-tcn" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="wavenet">
-<h3>WaveNet<a class="headerlink" href="#wavenet" title="Permalink to this heading">#</a></h3>
-</section>
-</section>
-<section id="bottleneck">
-<h2>Bottleneck<a class="headerlink" href="#bottleneck" title="Permalink to this heading">#</a></h2>
-<section id="auto-encoder">
-<h3>Auto-encoder<a class="headerlink" href="#auto-encoder" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="variational-auto-encoder-vae">
-<h3>Variational auto-encoder (VAE)<a class="headerlink" href="#variational-auto-encoder-vae" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="vector-quantised-variational-autoencoder-vq-vae">
-<h3>Vector Quantised-Variational AutoEncoder (VQ-VAE)<a class="headerlink" href="#vector-quantised-variational-autoencoder-vq-vae" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="residual-vector-quantizers-rvq">
-<h3>Residual Vector Quantizers (RVQ)<a class="headerlink" href="#residual-vector-quantizers-rvq" title="Permalink to this heading">#</a></h3>
-</section>
-</section>
-<section id="architectures">
-<h2>Architectures<a class="headerlink" href="#architectures" title="Permalink to this heading">#</a></h2>
-<section id="u-net">
-<h3>U-Net<a class="headerlink" href="#u-net" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="rnn-lstm">
-<h3>RNN/ LSTM<a class="headerlink" href="#rnn-lstm" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="transformer-self-attention">
-<h3>Transformer/ Self-Attention<a class="headerlink" href="#transformer-self-attention" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="conformer">
-<h3>Conformer<a class="headerlink" href="#conformer" title="Permalink to this heading">#</a></h3>
-</section>
-</section>
-<section id="paradigms">
-<h2>Paradigms<a class="headerlink" href="#paradigms" title="Permalink to this heading">#</a></h2>
-<section id="supervised">
-<h3>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="self-supervised">
-<h3>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="metric-learning">
-<h3>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="adversarial">
-<h3>Adversarial<a class="headerlink" href="#adversarial" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="encoder-decoder">
-<h3>Encoder-Decoder<a class="headerlink" href="#encoder-decoder" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="diffusion">
-<h3>Diffusion<a class="headerlink" href="#diffusion" title="Permalink to this heading">#</a></h3>
-</section>
+<h2>Audio augmentations<a class="headerlink" href="#audio-augmentations" title="Permalink to this heading">#</a></h2>
+<p>blablabla</p>
 </section>
 </section>
 
@@ -766,20 +629,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="tools.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Deep Learning 101 for Audio-based MIR</p>
+        <p class="prev-next-title">Tools to make life easier</p>
       </div>
     </a>
     <a class="right-next"
-       href="task_multipitchestimation.html"
+       href="bricks_projection.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Multi-Pitch-Estimation</p>
+        <p class="prev-next-title">Projections</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -798,48 +661,13 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs">Inputs</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#waveform">Waveform</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projections">Projections</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">2D-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1D-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dephtwise-separable-convolution">Dephtwise Separable Convolution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-convolution-network-tcn">Temporal Convolution Network (TCN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bottleneck">Bottleneck</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-encoder">Auto-encoder</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-auto-encoder-vae">Variational auto-encoder (VAE)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantised-variational-autoencoder-vq-vae">Vector Quantised-Variational AutoEncoder (VQ-VAE)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-vector-quantizers-rvq">Residual Vector Quantizers (RVQ)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architectures">Architectures</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#u-net">U-Net</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-lstm">RNN/ LSTM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/ Self-Attention</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conformer">Conformer</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paradigms">Paradigms</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#waveform">Waveform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
 </ul>
   </nav></div>
 
