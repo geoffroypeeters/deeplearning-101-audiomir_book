@@ -62,11 +62,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_multipitchestimation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Automatic Chord Estimation" href="task_chordestimation.html" />
-    <link rel="prev" title="Deep Learning Bricks" href="bricks_deeplearning.html" />
+    <link rel="prev" title="Paradigms" href="bricks_paradigm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,9 +170,17 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tools to make life easier</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="bricks_deeplearning.html">Deep Learning Bricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools to make life easier</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
@@ -184,12 +194,6 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="bibiography.html">Bibliography</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Others</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 </ul>
 
     </div>
@@ -404,17 +408,136 @@ document.write(`
 <h1>Multi-Pitch-Estimation<a class="headerlink" href="#multi-pitch-estimation" title="Permalink to this heading">#</a></h1>
 <section id="goal-of-the-task">
 <h2>Goal of the task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<p>Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
+The task can either consists in:</p>
+<ul class="simple">
+<li><p>estimating at each time frame the existing fundamental frequencies (in Hz)</p></li>
+<li><p>estimating the start time and end time of each musical note (expressed as MIDI note)</p></li>
+<li><p>assigning an instrument-name (source) to each note</p></li>
+</ul>
+<p>The task has a long history.
+First approches (signal-based) have focused on Single-Pitch-Estimation.
+But as far as 2003, Klapuri et el <span id="id1">[<a class="reference internal" href="bibiography.html#id8" title="Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. Speech and Audio Processing, IEEE Transactions on, 11(6):804–816, 2003.">Kla03</a>]</span> have proposed a signal-based method to iteratively estimate the Multiple-Pitch.
+MPE then became a major research field, with method based on NMF or ??? (unsupervised method).</p>
+<p>For this task, Deep Learning Approaches have become the standard, either based on</p>
+<ul class="simple">
+<li><p>Supervised Learning</p></li>
+<li><p>Unsupervised learning (PESTO)</p></li>
+</ul>
+<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id2">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end using a U-Net <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019.">DEP19</a>, <a class="reference internal" href="bibiography.html#id9" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>.</p>
 </section>
 <section id="performance-measures">
 <h2>Performance measures<a class="headerlink" href="#performance-measures" title="Permalink to this heading">#</a></h2>
+<p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id4">[<a class="reference internal" href="bibiography.html#id10" title="Mert Bay, Andreas F. Ehmann, and J. Stephen Downie. Evaluation of multiple-f0 estimation and tracking systems. In Keiji Hirata, George Tzanetakis, and Kazuyoshi Yoshii, editors, Proceedings of the 10th International Society for Music Information Retrieval Conference, ISMIR 2009, Kobe International Conference Center, Kobe, Japan, October 26-30, 2009, 315–320. International Society for Music Information Retrieval, 2009. URL: http://ismir2009.ismir.net/proceedings/PS2-21.pdf.">BED09</a>]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/">mir_eval</a> package.
+By default, a frequency is “correct” if it is within 0.5 semitones of a reference frequency</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Predicted Positive</p></th>
+<th class="head"><p>Predicted Negative</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Actual Positive</strong></p></td>
+<td><p>TP</p></td>
+<td><p>FN</p></td>
+<td><p>n_ref</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Actual Negative</strong></p></td>
+<td><p>FP</p></td>
+<td><p>TN</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td><p>n_est</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>Accuracy= <span class="math notranslate nohighlight">\(\frac{TP}{TP+FP+FN}\)</span></p></li>
+<li><p>Precision= <span class="math notranslate nohighlight">\(\frac{TP}{TP+FN}\)</span></p></li>
+<li><p>Recall= <span class="math notranslate nohighlight">\(\frac{TP}{TP+FP}\)</span></p></li>
+</ul>
+<p>Same but considering octave error as correct</p>
+<ul class="simple">
+<li><p>Chroma Accuracy, Precision, Recall</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">midi</span> <span class="p">:</span> <span class="mi">440</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="p">((</span><span class="n">midi</span><span class="o">-</span><span class="mi">69</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+<span class="n">ref_freqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">72</span><span class="p">)]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">72</span><span class="p">)]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">72</span><span class="p">)])]</span>
+
+<span class="n">est_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+<span class="n">est_freqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mf">70.4</span><span class="o">+</span><span class="mi">12</span><span class="p">)]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">72</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">74</span><span class="p">)]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">freq</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">freq</span><span class="p">(</span><span class="mi">72</span><span class="p">)])]</span>
+
+<span class="n">mir_eval</span><span class="o">.</span><span class="n">multipitch</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_freqs</span><span class="p">,</span> <span class="n">est_time</span><span class="p">,</span> <span class="n">est_freqs</span><span class="p">)</span>
+
+<span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Precision&#39;</span><span class="p">,</span> <span class="mf">0.6666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Recall&#39;</span><span class="p">,</span> <span class="mf">0.6666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Substitution Error&#39;</span><span class="p">,</span> <span class="mf">0.16666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Miss Error&#39;</span><span class="p">,</span> <span class="mf">0.16666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;False Alarm Error&#39;</span><span class="p">,</span> <span class="mf">0.16666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Total Error&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Precision&#39;</span><span class="p">,</span> <span class="mf">0.8333333333333334</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Recall&#39;</span><span class="p">,</span> <span class="mf">0.8333333333333334</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Accuracy&#39;</span><span class="p">,</span> <span class="mf">0.7142857142857143</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Substitution Error&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Miss Error&#39;</span><span class="p">,</span> <span class="mf">0.16666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma False Alarm Error&#39;</span><span class="p">,</span> <span class="mf">0.16666666666666666</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Chroma Total Error&#39;</span><span class="p">,</span> <span class="mf">0.3333333333333333</span><span class="p">)])</span>
+</pre></div>
+</div>
 </section>
 <section id="datasets">
 <h2>Datasets<a class="headerlink" href="#datasets" title="Permalink to this heading">#</a></h2>
+<p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
+<p>Popular datasets used for MPE are</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataset</p></th>
+<th class="head"><p>Column 2</p></th>
+<th class="head"><p>Column 3</p></th>
+<th class="head"><p>Column 4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bach10</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Su</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>MedleyDB</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>MIDI-fied piano: SMD, MAPS, MAESTRO</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Score-audio pairs: MusicNet, Winterreise Dataset</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="potential-approaches">
 <h2>Potential approaches<a class="headerlink" href="#potential-approaches" title="Permalink to this heading">#</a></h2>
-<p><span id="id1">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/85\_Paper.pdf.">BMS+17</a>]</span></p>
-<p>We will use as input the <a class="reference internal" href="bricks_deeplearning.html#lab-hcqt"><span class="std std-ref">HCQT</span></a></p>
+<p><span id="id5">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span></p>
+<p>We will use as input the <a class="reference internal" href="bricks_frontend.html#lab-hcqt"><span class="std std-ref">HCQT</span></a></p>
 </section>
 </section>
 
@@ -449,12 +572,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="bricks_deeplearning.html"
+       href="bricks_paradigm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Deep Learning Bricks</p>
+        <p class="prev-next-title">Paradigms</p>
       </div>
     </a>
     <a class="right-next"

@@ -37,7 +37,7 @@ His work "PESTO: Pitch Estimation with Self-supervised Transposition-equivariant
 His current interests include human-computer interaction in music creation, live staging, and information theory in music.
 He specializes in generative sequence models, computational short-term memories, (self-supervised) representation learning and musical audio generation. In 2019, Lattner received the best paper award at ISMIR for his work, “Learning Complex Basis Functions for Invariant Representations of Audio.”
 
-blablabla{cite}`holdgraf_evidence_2014`
+
 
 
 ## Citing this book¶

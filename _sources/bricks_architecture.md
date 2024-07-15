@@ -6,4 +6,10 @@
 
 ### Transformer/ Self-Attention
 
+ViT
+
+AST
+
+HTS-AT
+
 ### Conformer
