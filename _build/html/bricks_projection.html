@@ -388,6 +388,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">2D-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXT</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1D-Conv</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dephtwise-separable-convolution">Dephtwise Separable Convolution</a></li>
@@ -408,6 +410,85 @@ document.write(`
 <h1>Projections<a class="headerlink" href="#projections" title="Permalink to this heading">#</a></h1>
 <section id="d-conv">
 <h2>2D-Conv<a class="headerlink" href="#d-conv" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="resnet">
+<h2>ResNet<a class="headerlink" href="#resnet" title="Permalink to this heading">#</a></h2>
+<p><img alt="tcn" src="_images/brick_resnet.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ResidualBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">downsample</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResidualBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_channels</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">out_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">downsample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">residual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">residual</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="mi">64</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">downsample</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">!=</span> <span class="n">planes</span><span class="p">:</span>
+
+            <span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">),</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">planes</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">downsample</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="n">planes</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blocks</span><span class="p">):</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer0</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</section>
+<section id="convnext">
+<h2>ConvNeXT<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="id1">
 <h2>1D-Conv<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
@@ -457,15 +538,15 @@ document.write(`
 </section>
 <section id="wavenet">
 <h2>WaveNet<a class="headerlink" href="#wavenet" title="Permalink to this heading">#</a></h2>
-<p>WaveNet was proposed in <span id="id2">[<a class="reference internal" href="markdown.html#id8" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016, 125. ISCA, 2016. URL: http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html.">vdODZ+16</a>]</span></p>
+<p>WaveNet was proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id7" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016, 125. ISCA, 2016. URL: http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html.">vdODZ+16</a>]</span></p>
+<p><img alt="tcn" src="_images/brick_wavenet.png" /></p>
 <p><a class="github reference external" href="https://github.com/facebookresearch/music-translation/blob/main/src/wavenet.py">facebookresearch/music-translation</a></p>
 </section>
 <section id="temporal-convolution-network-tcn">
 <h2>Temporal Convolution Network (TCN)<a class="headerlink" href="#temporal-convolution-network-tcn" title="Permalink to this heading">#</a></h2>
-<p>LEAF (Learnable Audio Front-End) was proposed in <span id="id3">[<a class="reference internal" href="markdown.html#id7" title="Shaojie Bai, J. Zico Kolter, and Vladlen Koltun. An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. CoRR, 2018. URL: http://arxiv.org/abs/1803.01271, arXiv:1803.01271.">BKK18</a>]</span></p>
+<p>TCN was proposed in <span id="id3">[<a class="reference internal" href="bibiography.html#id6" title="Shaojie Bai, J. Zico Kolter, and Vladlen Koltun. An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. CoRR, 2018. URL: http://arxiv.org/abs/1803.01271, arXiv:1803.01271.">BKK18</a>]</span></p>
 <p><img alt="tcn" src="_images/brick_tcn.png" /></p>
-<p><a class="github reference external" href="https://github.com/paul-krug/pytorch-tcn">paul-krug/pytorch-tcn</a></p>
-<p><a class="reference external" href="https://www.kaggle.com/code/ceshine/pytorch-temporal-convolutional-networks">https://www.kaggle.com/code/ceshine/pytorch-temporal-convolutional-networks</a></p>
+<p><a class="github reference external" href="https://github.com/locuslab/TCN/blob/master/TCN/tcn.py#L6">locuslab/TCN</a></p>
 </section>
 </section>
 
@@ -533,6 +614,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">2D-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXT</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1D-Conv</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dephtwise-separable-convolution">Dephtwise Separable Convolution</a></li>

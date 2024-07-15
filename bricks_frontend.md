@@ -182,6 +182,8 @@ plt.figure(figsize=(14,4)); plt.plot(fft_filter_m.T);
 
 LEAF (Learnable Audio Front-End) was proposed in {cite}`DBLP:conf/iclr/ZeghidourTQT21`
 
+![tcn](/images/brick_leaf.png)
+
 https://github.com/SarthakYadav/leaf-pytorch/blob/master/leaf_pytorch/frontend.py
 
 

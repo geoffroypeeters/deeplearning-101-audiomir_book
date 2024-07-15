@@ -7,3 +7,5 @@
 ### Vector Quantised-Variational AutoEncoder (VQ-VAE)
 
 ### Residual Vector Quantizers (RVQ)
+
+Soundstream
