@@ -1,0 +1,112 @@
+Traceback (most recent call last):
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import torch
+import torch.nn.functional as F
+from torch import nn
+import torchaudio
+from torch.utils.data import Dataset
+import torch.optim as optim
+
+
+import lightning.pytorch as pl
+from lightning.pytorch.callbacks import Callback
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
+
+import wandb
+from pytorch_lightning.loggers import WandbLogger
+
+import json
+import h5py
+import pprint as pp
+from tqdm import tqdm
+import datetime
+from argparse import Namespace
+
+
+import librosa
+import matplotlib.pyplot as plt
+import numpy as np
+
+from argparse import Namespace
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mOSError[0m                                   Traceback (most recent call last)
+Cell [0;32mIn[1], line 4[0m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mtorch[39;00m[38;5;21;01m.[39;00m[38;5;21;01mnn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mfunctional[39;00m [38;5;28;01mas[39;00m [38;5;21;01mF[39;00m
+[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtorch[39;00m [38;5;28;01mimport[39;00m nn
+[0;32m----> 4[0m [38;5;28;01mimport[39;00m [38;5;21;01mtorchaudio[39;00m
+[1;32m      5[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtorch[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutils[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdata[39;00m [38;5;28;01mimport[39;00m Dataset
+[1;32m      6[0m [38;5;28;01mimport[39;00m [38;5;21;01mtorch[39;00m[38;5;21;01m.[39;00m[38;5;21;01moptim[39;00m [38;5;28;01mas[39;00m [38;5;21;01moptim[39;00m
+
+File [0;32m~/opt/anaconda3/lib/python3.8/site-packages/torchaudio/__init__.py:1[0m
+[0;32m----> 1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtorchaudio[39;00m [38;5;28;01mimport[39;00m _extension  [38;5;66;03m# noqa: F401[39;00m
+[1;32m      2[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtorchaudio[39;00m [38;5;28;01mimport[39;00m (
+[1;32m      3[0m     compliance,
+[1;32m      4[0m     datasets,
+[0;32m   (...)[0m
+[1;32m     11[0m     transforms,
+[1;32m     12[0m )
+[1;32m     14[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtorchaudio[39;00m[38;5;21;01m.[39;00m[38;5;21;01mbackend[39;00m [38;5;28;01mimport[39;00m (
+[1;32m     15[0m     list_audio_backends,
+[1;32m     16[0m     get_audio_backend,
+[1;32m     17[0m     set_audio_backend,
+[1;32m     18[0m )
+
+File [0;32m~/opt/anaconda3/lib/python3.8/site-packages/torchaudio/_extension.py:27[0m
+[1;32m     23[0m     [38;5;66;03m# This import is for initializing the methods registered via PyBind11[39;00m
+[1;32m     24[0m     [38;5;28;01mfrom[39;00m [38;5;21;01mtorchaudio[39;00m [38;5;28;01mimport[39;00m _torchaudio  [38;5;66;03m# noqa[39;00m
+[0;32m---> 27[0m [43m_init_extension[49m[43m([49m[43m)[49m
+
+File [0;32m~/opt/anaconda3/lib/python3.8/site-packages/torchaudio/_extension.py:21[0m, in [0;36m_init_extension[0;34m()[0m
+[1;32m     16[0m [38;5;66;03m# In case `torchaudio` is deployed with `pex` format, this file does not exist.[39;00m
+[1;32m     17[0m [38;5;66;03m# In this case, we expect that `libtorchaudio` is available somewhere[39;00m
+[1;32m     18[0m [38;5;66;03m# in the search path of dynamic loading mechanism, and importing `_torchaudio`,[39;00m
+[1;32m     19[0m [38;5;66;03m# which depends on `libtorchaudio` and dynamic loader will handle it for us.[39;00m
+[1;32m     20[0m [38;5;28;01mif[39;00m path[38;5;241m.[39mexists():
+[0;32m---> 21[0m     [43mtorch[49m[38;5;241;43m.[39;49m[43mops[49m[38;5;241;43m.[39;49m[43mload_library[49m[43m([49m[43mpath[49m[43m)[49m
+[1;32m     22[0m     torch[38;5;241m.[39mclasses[38;5;241m.[39mload_library(path)
+[1;32m     23[0m [38;5;66;03m# This import is for initializing the methods registered via PyBind11[39;00m
+
+File [0;32m~/opt/anaconda3/lib/python3.8/site-packages/torch/_ops.py:933[0m, in [0;36m_Ops.load_library[0;34m(self, path)[0m
+[1;32m    928[0m path [38;5;241m=[39m _utils_internal[38;5;241m.[39mresolve_library_path(path)
+[1;32m    929[0m [38;5;28;01mwith[39;00m dl_open_guard():
+[1;32m    930[0m     [38;5;66;03m# Import the shared library into the process, thus running its[39;00m
+[1;32m    931[0m     [38;5;66;03m# static (global) initialization code in order to register custom[39;00m
+[1;32m    932[0m     [38;5;66;03m# operators with the JIT.[39;00m
+[0;32m--> 933[0m     [43mctypes[49m[38;5;241;43m.[39;49m[43mCDLL[49m[43m([49m[43mpath[49m[43m)[49m
+[1;32m    934[0m [38;5;28mself[39m[38;5;241m.[39mloaded_libraries[38;5;241m.[39madd(path)
+
+File [0;32m~/opt/anaconda3/lib/python3.8/ctypes/__init__.py:373[0m, in [0;36mCDLL.__init__[0;34m(self, name, mode, handle, use_errno, use_last_error, winmode)[0m
+[1;32m    370[0m [38;5;28mself[39m[38;5;241m.[39m_FuncPtr [38;5;241m=[39m _FuncPtr
+[1;32m    372[0m [38;5;28;01mif[39;00m handle [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[0;32m--> 373[0m     [38;5;28mself[39m[38;5;241m.[39m_handle [38;5;241m=[39m [43m_dlopen[49m[43m([49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_name[49m[43m,[49m[43m [49m[43mmode[49m[43m)[49m
+[1;32m    374[0m [38;5;28;01melse[39;00m:
+[1;32m    375[0m     [38;5;28mself[39m[38;5;241m.[39m_handle [38;5;241m=[39m handle
+
+[0;31mOSError[0m: dlopen(/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so, 6): Symbol not found: __ZNK3c104Type14isSubtypeOfExtERKNSt3__110shared_ptrIS0_EEPNS1_13basic_ostreamIcNS1_11char_traitsIcEEEE
+  Referenced from: /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so
+  Expected in: /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torch/lib/libtorch_cpu.dylib
+ in /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so
+OSError: dlopen(/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so, 6): Symbol not found: __ZNK3c104Type14isSubtypeOfExtERKNSt3__110shared_ptrIS0_EEPNS1_13basic_ostreamIcNS1_11char_traitsIcEEEE
+  Referenced from: /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so
+  Expected in: /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torch/lib/libtorch_cpu.dylib
+ in /Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so
+

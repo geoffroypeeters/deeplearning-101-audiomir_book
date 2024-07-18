@@ -1,6 +1,10 @@
 # Multi-Pitch-Estimation
 
-## Goal of the task
+- author: Geoffroy
+- code: based on Bittner, Doras
+- datasets: bach-10, MAPS
+
+## Goal of the task ?
 
 Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
 The task can either consists in:
@@ -20,7 +24,7 @@ For this task, Deep Learning Approaches have become the standard, either based o
 
 We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17` and show how we can extend it with the same front-end using a U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`.
 
-## Performance measures
+## How is the task evaluated ?
 
 To evaluate the performances of an MPE algorithm we rely on the metrics defined in {cite}`DBLP:conf/ismir/BayED09` and implemented in the [mir\_eval](https://craffel.github.io/mir_eval/) package.
 By default, a frequency is "correct" if it is within 0.5 semitones of a reference frequency
@@ -67,7 +71,7 @@ OrderedDict([('Precision', 0.6666666666666666),
 ```
 
 
-## Datasets
+## Some popular datasets
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
@@ -81,8 +85,12 @@ Popular datasets used for MPE are
 | Score-audio pairs: MusicNet, Winterreise Dataset | | | |
 
 
-## Potential approaches
+## How we can solve it using deep learning
 
-{cite}`DBLP:conf/ismir/BittnerMSLB17`
+We will implement two different models which both takes as input the [HCQT](lab_hcqt) features.
+- the first is the traditional ConvNet proposed by {cite}`DBLP:conf/ismir/BittnerMSLB17`
+- the second is the U-Net proposed by U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`
 
-We will use as input the [HCQT](lab_hcqt)
+We will train and evaluate them on two different datasets
+- Bach10 {cite}`DBLP:journals/taslp/DuanPZ10`: which is a multi-track datasets in which each track is annotated in pitch (continuous f0-value) over time
+- MAPS {cite}`DBLP:journals/taslp/EmiyaBD10`: which is a piano dataset annotated as a set of notes (start,stop,value) over time

@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_paradigm';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -183,8 +185,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
@@ -389,7 +391,11 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-loss">Triplet Loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-mining">Triplet Mining</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
@@ -414,6 +420,21 @@ document.write(`
 </section>
 <section id="metric-learning">
 <h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
+<section id="triplet-loss">
+<span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
+<p>train the network <span class="math notranslate nohighlight">\(f_{theta}\)</span> such that the resulting projections satisfy the following constraint:</p>
+<p><span class="math notranslate nohighlight">\(d( f_{\theta}(A), f_{\theta}(P) ) + \alpha &lt; d(f_{\theta}(A), f_{\theta}(N)) \)</span></p>
+<p>where <span class="math notranslate nohighlight">\(A\)</span> is an anchor, <span class="math notranslate nohighlight">\(P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(N\)</span> a negative we consider distance from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> a margin.</p>
+<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span>
+<img alt="triplet-loss" src="_images/brick_triplet.png" /></p>
+<p>We solve this by minimizing the following loss
+<span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span></p>
+<p><code class="docutils literal notranslate"><span class="pre">loss</span> <span class="pre">=</span> <span class="pre">F.relu(dist_pos</span> <span class="pre">+</span> <span class="pre">(param_d.margin</span> <span class="pre">-</span> <span class="pre">dist_neg))</span> </code></p>
+</section>
+<section id="triplet-mining">
+<h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
+<p><img alt="tripletmining" src="_images/brick_tripletmining.png" /></p>
+</section>
 </section>
 <section id="adversarial">
 <h2>Adversarial<a class="headerlink" href="#adversarial" title="Permalink to this heading">#</a></h2>
@@ -491,7 +512,11 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-loss">Triplet Loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-mining">Triplet Mining</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
