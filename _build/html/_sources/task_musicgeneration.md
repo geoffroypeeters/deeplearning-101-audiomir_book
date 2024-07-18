@@ -1,1 +1,3 @@
 # Music Generation
+
+- author: Steffan

@@ -1,0 +1,1480 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>TUTO Cover-Detection based on Triplet-Loss &#8212; Deep Learning 101 for Audio-based MIR</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'TUTO_task2_CoverDetection';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Automatic Chord Estimation" href="task_chordestimation.html" />
+    <link rel="prev" title="Cover Detection" href="task_coverdetection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/wave.png" class="logo__image only-light" alt="Deep Learning 101 for Audio-based MIR - Home"/>
+    <script>document.write(`<img src="_static/wave.png" class="logo__image only-dark" alt="Deep Learning 101 for Audio-based MIR - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Deep Learning 101 for Audio-based MIR
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tools to make life easier</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools to make life easier</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">TUTO Cover-Detection based on Triplet-Loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bibiography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTUTO_task2_CoverDetection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/TUTO_task2_CoverDetection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>TUTO Cover-Detection based on Triplet-Loss</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-dataloader">Get dataloader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-model">Get model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-losses">Define losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-using-torchlightning">Training using torchlightning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-ranking-metrics">Compute Ranking Metrics</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tuto-cover-detection-based-on-triplet-loss">
+<h1>TUTO Cover-Detection based on Triplet-Loss<a class="headerlink" href="#tuto-cover-detection-based-on-triplet-loss" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>date: 2024-07-16</p></li>
+<li><p>author: <a class="reference external" href="mailto:geoffroy&#46;peeters&#37;&#52;&#48;telecom-paris&#46;fr">geoffroy<span>&#46;</span>peeters<span>&#64;</span>telecom-paris<span>&#46;</span>fr</a></p></li>
+</ul>
+<p>code based on</p>
+<ul class="simple">
+<li><p>MOVE <a class="reference external" href="https://arxiv.org/pdf/1910.12551">https://arxiv.org/pdf/1910.12551</a> <a class="github reference external" href="https://github.com/furkanyesiler/move">furkanyesiler/move</a></p></li>
+</ul>
+<p>using datasets</p>
+<ul class="simple">
+<li><p>Cover-1000 <a class="reference external" href="https://www.covers1000.net/dataset.html">https://www.covers1000.net/dataset.html</a></p></li>
+<li><p>DA-TACOS <a class="github reference external" href="https://github.com/MTG/da-tacos">MTG/da-tacos</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torchaudio</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">lightning.pytorch.callbacks</span> <span class="kn">import</span> <span class="n">Callback</span>
+<span class="kn">from</span> <span class="nn">lightning.pytorch.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span><span class="p">,</span> <span class="n">ModelCheckpoint</span>
+
+<span class="kn">import</span> <span class="nn">wandb</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning.loggers</span> <span class="kn">import</span> <span class="n">WandbLogger</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">pprint</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">Namespace</span>
+
+
+<span class="kn">import</span> <span class="nn">librosa</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">Namespace</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OSError</span><span class="g g-Whitespace">                                   </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">torchaudio</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">opt</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchaudio</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">torchaudio</span> <span class="kn">import</span> <span class="n">_extension</span>  <span class="c1"># noqa: F401</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">torchaudio</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">compliance</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">datasets</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">transforms</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">from</span> <span class="nn">torchaudio.backend</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">list_audio_backends</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">get_audio_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">set_audio_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="p">)</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">opt</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchaudio</span><span class="o">/</span><span class="n">_extension</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">27</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="c1"># This import is for initializing the methods registered via PyBind11</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span>     <span class="kn">from</span> <span class="nn">torchaudio</span> <span class="kn">import</span> <span class="n">_torchaudio</span>  <span class="c1"># noqa</span>
+<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">_init_extension</span><span class="p">()</span>
+
+<span class="nn">File ~/opt/anaconda3/lib/python3.8/site-packages/torchaudio/_extension.py:21,</span> in <span class="ni">_init_extension</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># In case `torchaudio` is deployed with `pex` format, this file does not exist.</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># In this case, we expect that `libtorchaudio` is available somewhere</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1"># in the search path of dynamic loading mechanism, and importing `_torchaudio`,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># which depends on `libtorchaudio` and dynamic loader will handle it for us.</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<span class="ne">---&gt; </span><span class="mi">21</span>     <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">torch</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1"># This import is for initializing the methods registered via PyBind11</span>
+
+<span class="nn">File ~/opt/anaconda3/lib/python3.8/site-packages/torch/_ops.py:933,</span> in <span class="ni">_Ops.load_library</span><span class="nt">(self, path)</span>
+<span class="g g-Whitespace">    </span><span class="mi">928</span> <span class="n">path</span> <span class="o">=</span> <span class="n">_utils_internal</span><span class="o">.</span><span class="n">resolve_library_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">929</span> <span class="k">with</span> <span class="n">dl_open_guard</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">930</span>     <span class="c1"># Import the shared library into the process, thus running its</span>
+<span class="g g-Whitespace">    </span><span class="mi">931</span>     <span class="c1"># static (global) initialization code in order to register custom</span>
+<span class="g g-Whitespace">    </span><span class="mi">932</span>     <span class="c1"># operators with the JIT.</span>
+<span class="ne">--&gt; </span><span class="mi">933</span>     <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">934</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded_libraries</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/anaconda3/lib/python3.8/ctypes/__init__.py:373,</span> in <span class="ni">CDLL.__init__</span><span class="nt">(self, name, mode, handle, use_errno, use_last_error, winmode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span> <span class="bp">self</span><span class="o">.</span><span class="n">_FuncPtr</span> <span class="o">=</span> <span class="n">_FuncPtr</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span> <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">373</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_handle</span> <span class="o">=</span> <span class="n">_dlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">374</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">375</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_handle</span> <span class="o">=</span> <span class="n">handle</span>
+
+<span class="ne">OSError</span>: dlopen(/Users/peeters/opt/anaconda3/lib/python3.8/site-packages/torchaudio/lib/libtorchaudio.so, 6): Symbol not found: __ZNK3c104Type14isSubtypeOfExtERKNSt3__110shared_ptrIS0_EEPNS1_13basic_ostreamIcNS1_11char_traitsIcEEEE
+  <span class="n">Referenced</span> <span class="n">from</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">peeters</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchaudio</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libtorchaudio</span><span class="o">.</span><span class="n">so</span>
+  <span class="n">Expected</span> <span class="ow">in</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">peeters</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libtorch_cpu</span><span class="o">.</span><span class="n">dylib</span>
+ <span class="ow">in</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">peeters</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchaudio</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libtorchaudio</span><span class="o">.</span><span class="n">so</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ROOT</span> <span class="o">=</span> <span class="s1">&#39;/tsi/data_doctorants/gpeeters/_data/&#39;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s1">&#39;cover1000&#39;</span>
+
+<span class="n">pyjama_annot_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s1">.pyjama&#39;</span>
+<span class="n">hdf5_feat_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s1">_feat.hdf5&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span>
+    <span class="n">data_d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_fid</span><span class="p">)</span>
+<span class="n">audiofile_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;filepath&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data_d</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">][</span><span class="s1">&#39;entry&#39;</span><span class="p">]]</span>
+
+<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdf5_fid</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="c1">#for idx, audio_file in enumerate(audiofile_l):</span>
+    <span class="c1">#    print(f&quot;{idx} shape: {hdf5_fid[audio_file].shape}&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;KeysViewHDF5 [&#39;100259&#39;, &#39;100444&#39;, &#39;100445&#39;, &#39;100977&#39;, &#39;100978&#39;, &#39;10118&#39;, &#39;10119&#39;, &#39;101628&#39;, &#39;101988&#39;, &#39;10255&#39;, &#39;10339&#39;, &#39;103484&#39;, &#39;103816&#39;, &#39;105462&#39;, &#39;105475&#39;, &#39;105666&#39;, &#39;105979&#39;, &#39;107456&#39;, &#39;108638&#39;, &#39;108887&#39;, &#39;108889&#39;, &#39;109014&#39;, &#39;109016&#39;, &#39;1091&#39;, &#39;10985&#39;, &#39;110690&#39;, &#39;110944&#39;, &#39;11129&#39;, &#39;11130&#39;, &#39;111805&#39;, &#39;111994&#39;, &#39;112723&#39;, &#39;112724&#39;, &#39;112885&#39;, &#39;114871&#39;, &#39;11579&#39;, &#39;115846&#39;, &#39;115847&#39;, &#39;11591&#39;, &#39;116937&#39;, &#39;116947&#39;, &#39;116948&#39;, &#39;116950&#39;, &#39;117290&#39;, &#39;117291&#39;, &#39;117560&#39;, &#39;117561&#39;, &#39;117837&#39;, &#39;118446&#39;, &#39;120242&#39;, &#39;120243&#39;, &#39;120700&#39;, &#39;12174&#39;, &#39;123058&#39;, &#39;12396&#39;, &#39;124152&#39;, &#39;126122&#39;, &#39;126344&#39;, &#39;126867&#39;, &#39;126868&#39;, &#39;128413&#39;, &#39;128891&#39;, &#39;128894&#39;, &#39;1298&#39;, &#39;129901&#39;, &#39;129902&#39;, &#39;13048&#39;, &#39;13110&#39;, &#39;131132&#39;, &#39;13134&#39;, &#39;131709&#39;, &#39;132716&#39;, &#39;133360&#39;, &#39;134373&#39;, &#39;135909&#39;, &#39;136091&#39;, &#39;136463&#39;, &#39;137850&#39;, &#39;137851&#39;, &#39;137985&#39;, &#39;143720&#39;, &#39;14444&#39;, &#39;14474&#39;, &#39;144746&#39;, &#39;145985&#39;, &#39;147843&#39;, &#39;147845&#39;, &#39;147896&#39;, &#39;148228&#39;, &#39;148555&#39;, &#39;149756&#39;, &#39;149761&#39;, &#39;14977&#39;, &#39;14978&#39;, &#39;15045&#39;, &#39;15046&#39;, &#39;150936&#39;, &#39;150972&#39;, &#39;152045&#39;, &#39;15248&#39;, &#39;15249&#39;, &#39;152998&#39;, &#39;152999&#39;, &#39;153503&#39;, &#39;153504&#39;, &#39;154270&#39;, &#39;15456&#39;, &#39;15457&#39;, &#39;15605&#39;, &#39;156953&#39;, &#39;157446&#39;, &#39;15790&#39;, &#39;159332&#39;, &#39;161285&#39;, &#39;162110&#39;, &#39;162300&#39;, &#39;162470&#39;, &#39;163689&#39;, &#39;163690&#39;, &#39;163878&#39;, &#39;1641&#39;, &#39;16670&#39;, &#39;16671&#39;, &#39;167212&#39;, &#39;167402&#39;, &#39;167403&#39;, &#39;16762&#39;, &#39;167910&#39;, &#39;168060&#39;, &#39;16957&#39;, &#39;16958&#39;, &#39;17105&#39;, &#39;17106&#39;, &#39;173263&#39;, &#39;173770&#39;, &#39;174702&#39;, &#39;174724&#39;, &#39;174725&#39;, &#39;177632&#39;, &#39;177888&#39;, &#39;177889&#39;, &#39;178287&#39;, &#39;178398&#39;, &#39;179542&#39;, &#39;17971&#39;, &#39;17981&#39;, &#39;18048&#39;, &#39;180795&#39;, &#39;180796&#39;, &#39;18240&#39;, &#39;183462&#39;, &#39;184074&#39;, &#39;184199&#39;, &#39;184200&#39;, &#39;190113&#39;, &#39;190114&#39;, &#39;191233&#39;, &#39;191983&#39;, &#39;193541&#39;, &#39;193558&#39;, &#39;19515&#39;, &#39;195274&#39;, &#39;196362&#39;, &#39;196374&#39;, &#39;19756&#39;, &#39;19758&#39;, &#39;198685&#39;, &#39;201340&#39;, &#39;201998&#39;, &#39;202256&#39;, &#39;20304&#39;, &#39;204059&#39;, &#39;204061&#39;, &#39;204396&#39;, &#39;204408&#39;, &#39;204411&#39;, &#39;207373&#39;, &#39;207374&#39;, &#39;207866&#39;, &#39;20841&#39;, &#39;20842&#39;, &#39;20853&#39;, &#39;20854&#39;, &#39;209852&#39;, &#39;209855&#39;, &#39;210054&#39;, &#39;210543&#39;, &#39;210544&#39;, &#39;211139&#39;, &#39;211433&#39;, &#39;211634&#39;, &#39;211635&#39;, &#39;21202&#39;, &#39;212237&#39;, &#39;213110&#39;, &#39;21330&#39;, &#39;214148&#39;, &#39;214243&#39;, &#39;21709&#39;, &#39;21710&#39;, &#39;217256&#39;, &#39;217495&#39;, &#39;217496&#39;, &#39;218795&#39;, &#39;218796&#39;, &#39;219325&#39;, &#39;219326&#39;, &#39;220512&#39;, &#39;221090&#39;, &#39;222191&#39;, &#39;222193&#39;, &#39;222809&#39;, &#39;223496&#39;, &#39;223497&#39;, &#39;224892&#39;, &#39;22508&#39;, &#39;22509&#39;, &#39;225146&#39;, &#39;225225&#39;, &#39;225226&#39;, &#39;226147&#39;, &#39;22624&#39;, &#39;22625&#39;, &#39;226716&#39;, &#39;226988&#39;, &#39;226990&#39;, &#39;227234&#39;, &#39;227252&#39;, &#39;227275&#39;, &#39;228823&#39;, &#39;230522&#39;, &#39;230523&#39;, &#39;230594&#39;, &#39;231485&#39;, &#39;231524&#39;, &#39;231605&#39;, &#39;231607&#39;, &#39;233810&#39;, &#39;23388&#39;, &#39;234025&#39;, &#39;23403&#39;, &#39;23404&#39;, &#39;234746&#39;, &#39;234747&#39;, &#39;23802&#39;, &#39;238454&#39;, &#39;238978&#39;, &#39;239798&#39;, &#39;239799&#39;, &#39;240036&#39;, &#39;240037&#39;, &#39;240320&#39;, &#39;240357&#39;, &#39;240683&#39;, &#39;241457&#39;, &#39;241458&#39;, &#39;241493&#39;, &#39;243859&#39;, &#39;244695&#39;, &#39;244972&#39;, &#39;244975&#39;, &#39;245097&#39;, &#39;245179&#39;, &#39;246131&#39;, &#39;246133&#39;, &#39;246563&#39;, &#39;246996&#39;, &#39;246997&#39;, &#39;24705&#39;, &#39;24706&#39;, &#39;247396&#39;, &#39;247399&#39;, &#39;247618&#39;, &#39;247619&#39;, &#39;247638&#39;, &#39;248090&#39;, &#39;248093&#39;, &#39;248698&#39;, &#39;248701&#39;, &#39;252297&#39;, &#39;252298&#39;, &#39;252881&#39;, &#39;253081&#39;, &#39;253082&#39;, &#39;253217&#39;, &#39;253404&#39;, &#39;253411&#39;, &#39;253412&#39;, &#39;25449&#39;, &#39;25451&#39;, &#39;254534&#39;, &#39;254549&#39;, &#39;254905&#39;, &#39;254914&#39;, &#39;254929&#39;, &#39;255329&#39;, &#39;255339&#39;, &#39;25541&#39;, &#39;25543&#39;, &#39;256306&#39;, &#39;256307&#39;, &#39;256308&#39;, &#39;256792&#39;, &#39;256793&#39;, &#39;25706&#39;, &#39;25707&#39;, &#39;257334&#39;, &#39;258521&#39;, &#39;25886&#39;, &#39;25893&#39;, &#39;259337&#39;, &#39;259970&#39;, &#39;261001&#39;, &#39;261004&#39;, &#39;261091&#39;, &#39;261092&#39;, &#39;261803&#39;, &#39;261902&#39;, &#39;262480&#39;, &#39;263197&#39;, &#39;263203&#39;, &#39;263206&#39;, &#39;263287&#39;, &#39;263288&#39;, &#39;263289&#39;, &#39;263313&#39;, &#39;263314&#39;, &#39;263552&#39;, &#39;263554&#39;, &#39;263799&#39;, &#39;263802&#39;, &#39;26539&#39;, &#39;265424&#39;, &#39;265434&#39;, &#39;265435&#39;, &#39;266457&#39;, &#39;267062&#39;, &#39;269215&#39;, &#39;269216&#39;, &#39;269405&#39;, &#39;269958&#39;, &#39;270196&#39;, &#39;270198&#39;, &#39;270231&#39;, &#39;270232&#39;, &#39;270233&#39;, &#39;272837&#39;, &#39;273069&#39;, &#39;273070&#39;, &#39;273644&#39;, &#39;273755&#39;, &#39;273756&#39;, &#39;275168&#39;, &#39;275476&#39;, &#39;276805&#39;, &#39;276941&#39;, &#39;277413&#39;, &#39;27881&#39;, &#39;27898&#39;, &#39;279298&#39;, &#39;279422&#39;, &#39;27948&#39;, &#39;279484&#39;, &#39;279485&#39;, &#39;27949&#39;, &#39;2800&#39;, &#39;28014&#39;, &#39;280253&#39;, &#39;280258&#39;, &#39;28080&#39;, &#39;28081&#39;, &#39;281225&#39;, &#39;282310&#39;, &#39;282571&#39;, &#39;28310&#39;, &#39;283142&#39;, &#39;28333&#39;, &#39;284092&#39;, &#39;284120&#39;, &#39;28507&#39;, &#39;28510&#39;, &#39;285904&#39;, &#39;285906&#39;, &#39;285907&#39;, &#39;285911&#39;, &#39;28642&#39;, &#39;286508&#39;, &#39;286509&#39;, &#39;287648&#39;, &#39;288782&#39;, &#39;288788&#39;, &#39;289004&#39;, &#39;289250&#39;, &#39;289258&#39;, &#39;290387&#39;, &#39;290663&#39;, &#39;291617&#39;, &#39;291655&#39;, &#39;291656&#39;, &#39;291889&#39;, &#39;29321&#39;, &#39;293738&#39;, &#39;293989&#39;, &#39;294713&#39;, &#39;294714&#39;, &#39;295112&#39;, &#39;295114&#39;, &#39;295221&#39;, &#39;296614&#39;, &#39;296615&#39;, &#39;296617&#39;, &#39;297265&#39;, &#39;297558&#39;, &#39;297559&#39;, &#39;298502&#39;, &#39;298506&#39;, &#39;298696&#39;, &#39;29975&#39;, &#39;29976&#39;, &#39;300135&#39;, &#39;300137&#39;, &#39;301656&#39;, &#39;301658&#39;, &#39;301664&#39;, &#39;302060&#39;, &#39;302099&#39;, &#39;302100&#39;, &#39;302570&#39;, &#39;303341&#39;, &#39;305075&#39;, &#39;30554&#39;, &#39;30555&#39;, &#39;30600&#39;, &#39;30601&#39;, &#39;306343&#39;, &#39;306344&#39;, &#39;307554&#39;, &#39;307632&#39;, &#39;307633&#39;, &#39;307665&#39;, &#39;308145&#39;, &#39;308146&#39;, &#39;309236&#39;, &#39;309237&#39;, &#39;30952&#39;, &#39;309782&#39;, &#39;310050&#39;, &#39;310052&#39;, &#39;310474&#39;, &#39;310475&#39;, &#39;310778&#39;, &#39;312118&#39;, &#39;312467&#39;, &#39;313&#39;, &#39;313541&#39;, &#39;313583&#39;, &#39;314&#39;, &#39;31466&#39;, &#39;31468&#39;, &#39;316388&#39;, &#39;316414&#39;, &#39;316509&#39;, &#39;316511&#39;, &#39;316517&#39;, &#39;316522&#39;, &#39;316809&#39;, &#39;316810&#39;, &#39;316813&#39;, &#39;316814&#39;, &#39;316951&#39;, &#39;316962&#39;, &#39;317047&#39;, &#39;317048&#39;, &#39;317323&#39;, &#39;317333&#39;, &#39;317360&#39;, &#39;317449&#39;, &#39;317450&#39;, &#39;317453&#39;, &#39;317708&#39;, &#39;318043&#39;, &#39;318657&#39;, &#39;318658&#39;, &#39;319101&#39;, &#39;319104&#39;, &#39;320507&#39;, &#39;320895&#39;, &#39;320896&#39;, &#39;321305&#39;, &#39;321306&#39;, &#39;32133&#39;, &#39;322088&#39;, &#39;322089&#39;, &#39;322102&#39;, &#39;322602&#39;, &#39;322605&#39;, &#39;322952&#39;, &#39;323256&#39;, &#39;323644&#39;, &#39;323656&#39;, &#39;323766&#39;, &#39;326806&#39;, &#39;326816&#39;, &#39;326818&#39;, &#39;326819&#39;, &#39;326820&#39;, &#39;32727&#39;, &#39;327394&#39;, &#39;327399&#39;, &#39;327400&#39;, &#39;327587&#39;, &#39;328275&#39;, &#39;328276&#39;, &#39;328300&#39;, &#39;330274&#39;, &#39;330387&#39;, &#39;330388&#39;, &#39;330664&#39;, &#39;330665&#39;, &#39;330798&#39;, &#39;33171&#39;, &#39;331942&#39;, &#39;332686&#39;, &#39;332687&#39;, &#39;33304&#39;, &#39;333838&#39;, &#39;334180&#39;, &#39;334181&#39;, &#39;335554&#39;, &#39;335782&#39;, &#39;335822&#39;, &#39;335824&#39;, &#39;335920&#39;, &#39;336806&#39;, &#39;336807&#39;, &#39;337012&#39;, &#39;337137&#39;, &#39;337139&#39;, &#39;337296&#39;, &#39;337391&#39;, &#39;339729&#39;, &#39;340452&#39;, &#39;341360&#39;, &#39;342077&#39;, &#39;342084&#39;, &#39;344162&#39;, &#39;344203&#39;, &#39;344204&#39;, &#39;346327&#39;, &#39;347048&#39;, &#39;347062&#39;, &#39;347356&#39;, &#39;347991&#39;, &#39;347992&#39;, &#39;348913&#39;, &#39;349472&#39;, &#39;349473&#39;, &#39;351264&#39;, &#39;352229&#39;, &#39;352230&#39;, &#39;352643&#39;, &#39;35434&#39;, &#39;355267&#39;, &#39;355423&#39;, &#39;356121&#39;, &#39;357981&#39;, &#39;358241&#39;, &#39;358592&#39;, &#39;359802&#39;, &#39;359810&#39;, &#39;360355&#39;, &#39;360356&#39;, &#39;361173&#39;, &#39;361174&#39;, &#39;361477&#39;, &#39;361929&#39;, &#39;363711&#39;, &#39;364280&#39;, &#39;365220&#39;, &#39;365486&#39;, &#39;365488&#39;, &#39;365496&#39;, &#39;365891&#39;, &#39;365892&#39;, &#39;366167&#39;, &#39;366248&#39;, &#39;366710&#39;, &#39;366711&#39;, &#39;366884&#39;, &#39;367128&#39;, &#39;367134&#39;, &#39;367261&#39;, &#39;368163&#39;, &#39;368552&#39;, &#39;368553&#39;, &#39;368820&#39;, &#39;369016&#39;, &#39;369259&#39;, &#39;369352&#39;, &#39;369353&#39;, &#39;369790&#39;, &#39;369792&#39;, &#39;370198&#39;, &#39;370200&#39;, &#39;370206&#39;, &#39;370313&#39;, &#39;370314&#39;, &#39;371160&#39;, &#39;371434&#39;, &#39;371735&#39;, &#39;372033&#39;, &#39;373178&#39;, &#39;373738&#39;, &#39;374183&#39;, &#39;374253&#39;, &#39;375789&#39;, &#39;376166&#39;, &#39;377125&#39;, &#39;377133&#39;, &#39;377256&#39;, &#39;377258&#39;, &#39;37861&#39;, &#39;378930&#39;, &#39;380490&#39;, &#39;38201&#39;, &#39;383216&#39;, &#39;383415&#39;, &#39;38361&#39;, &#39;38362&#39;, &#39;383706&#39;, &#39;383707&#39;, &#39;38451&#39;, &#39;385214&#39;, &#39;385289&#39;, &#39;385563&#39;, &#39;385564&#39;, &#39;387442&#39;, &#39;387446&#39;, &#39;387447&#39;, &#39;387610&#39;, &#39;388093&#39;, &#39;388155&#39;, &#39;388577&#39;, &#39;389247&#39;, &#39;38954&#39;, &#39;38955&#39;, &#39;390655&#39;, &#39;39089&#39;, &#39;39090&#39;, &#39;392127&#39;, &#39;392128&#39;, &#39;393025&#39;, &#39;393228&#39;, &#39;393229&#39;, &#39;393246&#39;, &#39;393732&#39;, &#39;393818&#39;, &#39;39404&#39;, &#39;394765&#39;, &#39;395043&#39;, &#39;395307&#39;, &#39;395340&#39;, &#39;395342&#39;, &#39;395458&#39;, &#39;395832&#39;, &#39;396&#39;, &#39;396200&#39;, &#39;396202&#39;, &#39;396209&#39;, &#39;397024&#39;, &#39;398120&#39;, &#39;398151&#39;, &#39;398848&#39;, &#39;399091&#39;, &#39;399247&#39;, &#39;399249&#39;, &#39;399466&#39;, &#39;399629&#39;, &#39;399630&#39;, &#39;400785&#39;, &#39;400786&#39;, &#39;401346&#39;, &#39;401348&#39;, &#39;403057&#39;, &#39;403633&#39;, &#39;404946&#39;, &#39;405609&#39;, &#39;406975&#39;, &#39;40775&#39;, &#39;40826&#39;, &#39;408914&#39;, &#39;40987&#39;, &#39;409906&#39;, &#39;409907&#39;, &#39;411176&#39;, &#39;413535&#39;, &#39;416257&#39;, &#39;416505&#39;, &#39;418136&#39;, &#39;419663&#39;, &#39;42092&#39;, &#39;42234&#39;, &#39;422437&#39;, &#39;422438&#39;, &#39;423040&#39;, &#39;423044&#39;, &#39;423045&#39;, &#39;423046&#39;, &#39;423063&#39;, &#39;423991&#39;, &#39;423993&#39;, &#39;423994&#39;, &#39;425822&#39;, &#39;425828&#39;, &#39;426460&#39;, &#39;426762&#39;, &#39;42696&#39;, &#39;42772&#39;, &#39;42773&#39;, &#39;428003&#39;, &#39;430392&#39;, &#39;430503&#39;, &#39;430510&#39;, &#39;43138&#39;, &#39;433977&#39;, &#39;434423&#39;, &#39;434778&#39;, &#39;434933&#39;, &#39;43502&#39;, &#39;435445&#39;, &#39;435446&#39;, &#39;435783&#39;, &#39;436546&#39;, &#39;436812&#39;, &#39;436982&#39;, &#39;436983&#39;, &#39;437070&#39;, &#39;437071&#39;, &#39;43753&#39;, &#39;43754&#39;, &#39;438190&#39;, &#39;438817&#39;, &#39;438887&#39;, &#39;439020&#39;, &#39;439195&#39;, &#39;439202&#39;, &#39;439216&#39;, &#39;439232&#39;, &#39;439525&#39;, &#39;439816&#39;, &#39;440866&#39;, &#39;440873&#39;, &#39;441477&#39;, &#39;44154&#39;, &#39;44155&#39;, &#39;441953&#39;, &#39;442805&#39;, &#39;443056&#39;, &#39;443058&#39;, &#39;44308&#39;, &#39;443720&#39;, &#39;443723&#39;, &#39;443725&#39;, &#39;445090&#39;, &#39;445811&#39;, &#39;446085&#39;, &#39;446086&#39;, &#39;446087&#39;, &#39;446717&#39;, &#39;446758&#39;, &#39;447191&#39;, &#39;447209&#39;, &#39;447236&#39;, &#39;447271&#39;, &#39;450267&#39;, &#39;450647&#39;, &#39;450648&#39;, &#39;450664&#39;, &#39;450668&#39;, &#39;451379&#39;, &#39;451390&#39;, &#39;451394&#39;, &#39;452494&#39;, &#39;45426&#39;, &#39;45427&#39;, &#39;454571&#39;, &#39;454789&#39;, &#39;454805&#39;, &#39;45550&#39;, &#39;455714&#39;, &#39;457274&#39;, &#39;457298&#39;, &#39;458428&#39;, &#39;458435&#39;, &#39;458810&#39;, &#39;460437&#39;, &#39;460820&#39;, &#39;461791&#39;, &#39;461792&#39;, &#39;464578&#39;, &#39;464579&#39;, &#39;464599&#39;, &#39;464600&#39;, &#39;464894&#39;, &#39;465100&#39;, &#39;465102&#39;, &#39;466399&#39;, &#39;466402&#39;, &#39;466549&#39;, &#39;466550&#39;, &#39;466631&#39;, &#39;466790&#39;, &#39;466791&#39;, &#39;467468&#39;, &#39;467475&#39;, &#39;468031&#39;, &#39;468672&#39;, &#39;468674&#39;, &#39;468680&#39;, &#39;468689&#39;, &#39;469027&#39;, &#39;471533&#39;, &#39;471685&#39;, &#39;471686&#39;, &#39;471687&#39;, &#39;47184&#39;, &#39;472150&#39;, &#39;472259&#39;, &#39;472263&#39;, &#39;472527&#39;, &#39;472878&#39;, &#39;473621&#39;, &#39;474292&#39;, &#39;475069&#39;, &#39;475371&#39;, &#39;476431&#39;, &#39;476811&#39;, &#39;477185&#39;, &#39;477854&#39;, &#39;480572&#39;, &#39;480573&#39;, &#39;480575&#39;, &#39;481064&#39;, &#39;481065&#39;, &#39;481258&#39;, &#39;481626&#39;, &#39;481688&#39;, &#39;481913&#39;, &#39;482566&#39;, &#39;482567&#39;, &#39;483994&#39;, &#39;484952&#39;, &#39;485375&#39;, &#39;485390&#39;, &#39;486002&#39;, &#39;486061&#39;, &#39;486189&#39;, &#39;486190&#39;, &#39;486253&#39;, &#39;486254&#39;, &#39;486269&#39;, &#39;486644&#39;, &#39;487500&#39;, &#39;487576&#39;, &#39;488308&#39;, &#39;488341&#39;, &#39;488557&#39;, &#39;488587&#39;, &#39;49065&#39;, &#39;49574&#39;, &#39;49575&#39;, &#39;49775&#39;, &#39;50224&#39;, &#39;50352&#39;, &#39;51320&#39;, &#39;51464&#39;, &#39;51465&#39;, &#39;51527&#39;, &#39;51528&#39;, &#39;51782&#39;, &#39;53165&#39;, &#39;53169&#39;, &#39;53471&#39;, &#39;53483&#39;, &#39;53532&#39;, &#39;53533&#39;, &#39;53574&#39;, &#39;53603&#39;, &#39;54029&#39;, &#39;55189&#39;, &#39;55327&#39;, &#39;56202&#39;, &#39;56206&#39;, &#39;56421&#39;, &#39;57395&#39;, &#39;58603&#39;, &#39;58604&#39;, &#39;58941&#39;, &#39;58942&#39;, &#39;59021&#39;, &#39;59219&#39;, &#39;59569&#39;, &#39;60146&#39;, &#39;60765&#39;, &#39;60766&#39;, &#39;61636&#39;, &#39;61955&#39;, &#39;62165&#39;, &#39;62178&#39;, &#39;62318&#39;, &#39;636&#39;, &#39;637&#39;, &#39;63718&#39;, &#39;63719&#39;, &#39;64045&#39;, &#39;66311&#39;, &#39;67258&#39;, &#39;67378&#39;, &#39;67416&#39;, &#39;67568&#39;, &#39;68097&#39;, &#39;68249&#39;, &#39;68340&#39;, &#39;68917&#39;, &#39;69116&#39;, &#39;69132&#39;, &#39;70002&#39;, &#39;70011&#39;, &#39;70592&#39;, &#39;70699&#39;, &#39;70714&#39;, &#39;71463&#39;, &#39;71465&#39;, &#39;72203&#39;, &#39;72204&#39;, &#39;72340&#39;, &#39;72445&#39;, &#39;72446&#39;, &#39;73590&#39;, &#39;73591&#39;, &#39;74026&#39;, &#39;74587&#39;, &#39;74971&#39;, &#39;75009&#39;, &#39;76366&#39;, &#39;76367&#39;, &#39;76637&#39;, &#39;77165&#39;, &#39;77443&#39;, &#39;77444&#39;, &#39;77620&#39;, &#39;78085&#39;, &#39;78449&#39;, &#39;78614&#39;, &#39;78939&#39;, &#39;79256&#39;, &#39;79257&#39;, &#39;80930&#39;, &#39;82999&#39;, &#39;83001&#39;, &#39;83196&#39;, &#39;83197&#39;, &#39;83837&#39;, &#39;84282&#39;, &#39;87382&#39;, &#39;87832&#39;, &#39;88014&#39;, &#39;88725&#39;, &#39;88726&#39;, &#39;88727&#39;, &#39;90340&#39;, &#39;91416&#39;, &#39;91418&#39;, &#39;91650&#39;, &#39;91827&#39;, &#39;91828&#39;, &#39;91946&#39;, &#39;92488&#39;, &#39;92489&#39;, &#39;93329&#39;, &#39;93616&#39;, &#39;94020&#39;, &#39;94051&#39;, &#39;95304&#39;, &#39;95663&#39;, &#39;95932&#39;, &#39;96120&#39;, &#39;96146&#39;, &#39;97333&#39;, &#39;97334&#39;, &#39;98704&#39;, &#39;98710&#39;, &#39;98717&#39;, &#39;99212&#39;, &#39;99763&#39;, &#39;99766&#39;]&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">Namespace</span>
+<span class="n">param_d</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+
+<span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span> <span class="o">=</span> <span class="mi">32</span>   <span class="c1">#16000</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">=</span>  <span class="mf">1.0</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">mining_strategy</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">norm_dist</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">param_d</span><span class="o">.</span><span class="n">nb_epoch</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">param_d</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cuda:0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="get-dataloader">
+<h2>Get dataloader<a class="headerlink" href="#get-dataloader" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span> <span class="n">data_d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_fid</span><span class="p">)</span>
+<span class="n">entry_l</span> <span class="o">=</span> <span class="n">data_d</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">][</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span>
+<span class="n">performanceid_l</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;performance-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">])</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">performanceid_l</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>996
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CoverDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mi">23</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">1800</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span> <span class="n">data_d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_fid</span><span class="p">)</span>
+        <span class="n">entry_l</span> <span class="o">=</span> <span class="n">data_d</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">][</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span>
+        <span class="n">all_workid_l</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;work-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">]))</span>
+        <span class="n">performanceid_l</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;performance-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_train</span> <span class="o">=</span> <span class="n">do_train</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_train</span><span class="p">:</span>   <span class="n">workid_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_workid_l</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_workid_l</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="mi">5</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>               <span class="n">workid_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_workid_l</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_workid_l</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">workid</span> <span class="ow">in</span> <span class="n">workid_l</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;performance-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span> <span class="k">if</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;work-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">workid</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">workid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># --- check the number of performanceid for each workid</span>
+            <span class="c1"># --- if this number is large this workid will be present in many clique</span>
+            <span class="n">nb_performanceid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">nb_performanceid</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>     <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">nb_performanceid</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">workid</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nb_performanceid</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">workid</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nb_performanceid</span> <span class="o">&lt;</span> <span class="mi">14</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">workid</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>                       <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">workid</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">feat_fid</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">workid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="c1"># --- get the list of performanceid assoicated to this workid</span>
+                <span class="n">perfomanceid_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">perfomanceid</span> <span class="ow">in</span> <span class="n">perfomanceid_l</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;workid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">workid</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;perfomanceid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perfomanceid</span>
+                    <span class="c1"># --- Get data and convert to make rotation invariant -&gt; self.data_d (1, 23, 1800)</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">feat_fid</span><span class="p">[</span><span class="s1">&#39;/&#39;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">][:]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+                
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">getitem_by_performanceid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perfomanceid</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="c1"># if the song is longer than the required width, choose a random start point to crop</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">:</span> <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>                       <span class="n">item</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">item</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">-</span> <span class="n">item</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]])),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">][</span><span class="s1">&#39;workid&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clique_idx</span><span class="p">):</span>
+        
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="p">[</span><span class="n">clique_idx</span><span class="p">]</span>  <span class="c1"># getting the clique chosen by the dataloader</span>
+
+        <span class="c1"># selecting 4 songs from the given clique</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># if the clique size is 2, repeat the already selected songs</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span> <span class="o">=</span> <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># if the clique size is 3, choose one of the songs twice</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># if the clique size is larger than or equal to 4, choose 4 songs randomly</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span><span class="p">]:</span>
+            <span class="n">item</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getitem_by_performanceid</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_collate</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom collate function for triplet mining</span>
+<span class="sd">    :param batch: elements of the mini-batch (pcp features and labels)</span>
+<span class="sd">    :return: collated elements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">labels</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">triplet_mining_collate</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">items</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+<span class="n">items</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">valid_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">valid_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">triplet_mining_collate</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([4, 1, 23, 1800])
+2
+torch.Size([64, 1, 23, 1800])
+[350, 73, 337, 139, 393, 83, 175, 162, 294, 250, 92, 99, 307, 88, 364, 239]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="get-model">
+<h2>Get model<a class="headerlink" href="#get-model" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOVEModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model object for MOVE.</span>
+<span class="sd">    The explanation of the design choices can be found at https://arxiv.org/abs/1910.12551.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializing the network</span>
+<span class="sd">        :param emb_size: the size of the final embeddings produced by the model</span>
+<span class="sd">        :param sum_method: the summarization method for the model</span>
+<span class="sd">        :param final_activation: final activation to use for the model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prelu1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PReLU</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prelu2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PReLU</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prelu3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PReLU</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prelu4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PReLU</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prelu5</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PReLU</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n3</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n4</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param_d</span><span class="o">.</span><span class="n">sum_method</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">n5</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n6</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n5</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">512</span><span class="o">/</span><span class="n">param_d</span><span class="o">.</span><span class="n">downsampling_parameters</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n6</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n5</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n3</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dilation</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n3</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n4</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv4</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv5</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n4</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n5</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dilation</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv5</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fin_emb_size</span> <span class="o">=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">autopool_p</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">sum_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">final_activation</span>
+
+
+        <span class="n">lin_bias</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_bn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">lin_bias</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n6</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">lin_bias</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defining a forward pass of the network</span>
+<span class="sd">        :param data: input tensor for the network</span>
+<span class="sd">        :return: output tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># --- data (batch, dim=23, time=1800)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prelu1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prelu2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prelu3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prelu4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prelu5</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv5</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># --- weights are computed using autopool and the same channels </span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">autopool_weights</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">weights</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_method</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c1"># --- weights are computed using softmax and the first 256 channels</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">256</span><span class="p">:],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">256</span><span class="p">]</span> <span class="o">*</span> <span class="n">weights</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># --- weights are computed using autopool and the first 256 channels</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">autopool_weights</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n5</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n5</span><span class="o">/</span><span class="mi">2</span><span class="p">):]</span> <span class="o">*</span> <span class="n">weights</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n6</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>      <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_activation</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">autopool_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculating the autopool weights for a given tensor</span>
+<span class="sd">        :param data: tensor for calculating the softmax weights with autopool</span>
+<span class="sd">        :return: softmax weights with autopool</span>
+
+<span class="sd">        see https://arxiv.org/pdf/1804.10070</span>
+<span class="sd">        alpha=0: unweighted mean</span>
+<span class="sd">        alpha=1: softmax</span>
+<span class="sd">        alpha=inf: max-pooling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># --- x: (batch, 256, 1, T)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">autopool_p</span>
+        <span class="c1"># --- max_values: (batch, 256, 1, 1)</span>
+        <span class="n">max_values</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="c1"># --- softmax (batch, 256, 1, T)</span>
+        <span class="n">softmax</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">max_values</span><span class="p">)</span>
+        <span class="c1"># --- weights (batch, 256, 1, T)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">softmax</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">move_model</span> <span class="o">=</span> <span class="n">MOVEModel</span><span class="p">(</span><span class="n">param_d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">move_model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+
+<span class="kn">import</span> <span class="nn">torchsummary</span>
+<span class="n">torchsummary</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">move_model</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">1800</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([64, 32])
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1        [-1, 128, 12, 1621]         276,608
+             PReLU-2        [-1, 128, 12, 1621]               1
+         MaxPool2d-3         [-1, 128, 1, 1621]               0
+            Conv2d-4         [-1, 128, 1, 1617]          82,048
+             PReLU-5         [-1, 128, 1, 1617]               1
+            Conv2d-6         [-1, 128, 1, 1537]          82,048
+             PReLU-7         [-1, 128, 1, 1537]               1
+            Conv2d-8         [-1, 128, 1, 1533]          82,048
+             PReLU-9         [-1, 128, 1, 1533]               1
+           Conv2d-10         [-1, 256, 1, 1481]         164,096
+            PReLU-11         [-1, 256, 1, 1481]               1
+           Linear-12                   [-1, 32]           4,096
+      BatchNorm1d-13                   [-1, 32]               0
+================================================================
+Total params: 690,949
+Trainable params: 690,949
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.16
+Forward/backward pass size (MB): 54.52
+Params size (MB): 2.64
+Estimated Total Size (MB): 57.31
+----------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-losses">
+<h2>Define losses<a class="headerlink" href="#define-losses" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_distance_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculating squared euclidean distances between the elements of two tensors</span>
+<span class="sd">    :param x: first tensor</span>
+<span class="sd">    :param y: second tensor (optional)</span>
+<span class="sd">    :param eps: epsilon value for avoiding div by zero</span>
+<span class="sd">    :return: pairwise distance matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x_norm</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">y_norm</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">y_norm</span> <span class="o">=</span> <span class="n">x_norm</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">x_norm</span> <span class="o">+</span> <span class="n">y_norm</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_renumber</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    renumber the labels (which correspond to work-id) starting from 0 and get 4 of them each time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aux</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">i_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+            <span class="n">aux</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">aux</span><span class="p">)</span>
+        <span class="n">i_labels</span> <span class="o">+=</span> <span class="p">[</span><span class="n">aux</span><span class="p">[</span><span class="n">l</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span>
+    <span class="k">return</span> <span class="n">i_labels</span>
+
+<span class="c1">#f_renumber([300, 200, 500, 300])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_loss_mining</span><span class="p">(</span><span class="n">embedding_m</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">param_d</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Online mining function for selecting the triplets</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">embedding_m</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># creating positive and negative masks for online mining</span>
+    <span class="n">i_labels</span> <span class="o">=</span> <span class="n">f_renumber</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">i_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">i_labels</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># --- get a ones matrix with zero on main diagonal (to avoid selecting the anchor itself for positive or negative)</span>
+    <span class="n">mask_diag</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">batch_size</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># --- the mask with 1 if same work-id 0 otherwise</span>
+    <span class="n">sameworkid_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pairwise_distance_matrix</span><span class="p">(</span><span class="n">i_labels</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+    <span class="c1"># --- same work-id but not the anchor</span>
+    <span class="n">mask_pos</span> <span class="o">=</span> <span class="n">mask_diag</span> <span class="o">*</span> <span class="n">sameworkid_mask</span>
+    <span class="c1"># --- different work-id and not the anchor</span>
+    <span class="n">mask_neg</span> <span class="o">=</span> <span class="n">mask_diag</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mask_pos</span><span class="p">)</span>
+
+    <span class="c1"># getting the pairwise distance matrix</span>
+    <span class="n">dist_all</span> <span class="o">=</span> <span class="n">pairwise_distance_matrix</span><span class="p">(</span><span class="n">embedding_m</span><span class="p">)</span>  
+    <span class="c1"># normalizing the distances by the embedding size</span>
+    <span class="k">if</span> <span class="n">param_d</span><span class="o">.</span><span class="n">norm_dist</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="n">dist_all</span> <span class="o">/=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span>
+
+    <span class="k">if</span> <span class="n">param_d</span><span class="o">.</span><span class="n">mining_strategy</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>    <span class="n">dist_pos</span><span class="p">,</span> <span class="n">dist_neg</span> <span class="o">=</span> <span class="n">triplet_mining_random</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">param_d</span><span class="o">.</span><span class="n">mining_strategy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="n">dist_pos</span><span class="p">,</span> <span class="n">dist_neg</span> <span class="o">=</span> <span class="n">triplet_mining_semihard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">param_d</span><span class="o">.</span><span class="n">margin</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>                               <span class="n">dist_pos</span><span class="p">,</span> <span class="n">dist_neg</span> <span class="o">=</span> <span class="n">triplet_mining_hard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>  <span class="c1"># calculating triplet loss</span>
+    
+    <span class="n">nb1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dist_pos</span><span class="o">+</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">&lt;</span> <span class="n">dist_neg</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">nb2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">loss</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="c1">#print(f&#39;ok:{nb1}/used:{nb2}/total:{batch_size} \t loss:{loss.mean().item()}&#39; )</span>
+    
+    <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">nb1</span><span class="c1">#loss.sum()/nb2, nb1</span>
+
+
+<span class="k">def</span> <span class="nf">triplet_mining_random</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online random triplet mining</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_pos) as the positive</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_neg) as the negative</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_neg</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
+
+
+<span class="k">def</span> <span class="nf">triplet_mining_semihard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">margin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online semi-hard triplet mining (a random positive, a semi-hard negative)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># --- the code below seems wrong</span>
+    <span class="c1"># --- need criteria</span>
+    <span class="c1"># 1) should be negative (should be from a different work-id)</span>
+    <span class="c1"># 2) should be P &lt; N &lt; P+margin</span>
+
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_pos) as the positive</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span> 
+                            <span class="p">(</span><span class="n">mask_neg</span> <span class="o">+</span> <span class="n">mask_neg</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_all</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">dists_pos</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">dist_all</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">+</span><span class="n">margin</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> 
+                           <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> 
+                           <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
+
+
+<span class="k">def</span> <span class="nf">triplet_mining_hard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online hard triplet mining (both positive and negative)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># --- the code below seems wrong</span>
+    <span class="c1"># --- need criteria</span>
+    <span class="c1"># 1) should be negative (from a different work-id)</span>
+    <span class="c1"># 2) should be N &lt; P</span>
+
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># --- for each anchor (row) we take the positive with the largest distance</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dist_all</span> <span class="o">*</span> <span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># modifying the negative mask for hard mining (because we will use the min)</span>
+    <span class="c1"># --- if mask_neg==0 then inf   </span>
+    <span class="c1"># --- if mask_neg==1 then 1</span>
+    <span class="n">true_value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">false_value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">mask_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_neg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">true_value</span><span class="p">,</span> <span class="n">false_value</span><span class="p">)</span>
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="c1"># --- for each anchor (row) we take the negative with the smallest distance</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dist_all</span> <span class="o">+</span> <span class="n">mask_neg</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-using-torchlightning">
+<h2>Training using torchlightning<a class="headerlink" href="#training-using-torchlightning" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_config_d</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">project_name</span> <span class="o">=</span> <span class="s1">&#39;wandb_cover&#39;</span>
+<span class="n">current_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">formatted_datetime</span> <span class="o">=</span> <span class="n">current_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">-%H-%M-%S&quot;</span><span class="p">)</span>
+<span class="n">expe_name</span> <span class="o">=</span> <span class="n">formatted_datetime</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">expe_name</span><span class="p">)</span>
+<span class="n">WORK_DIR</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="n">wandb</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="n">wandb_logger</span> <span class="o">=</span> <span class="n">WandbLogger</span><span class="p">(</span><span class="n">project</span> <span class="o">=</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">expe_name</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="n">WORK_DIR</span> <span class="p">)</span>
+<span class="n">wandb_logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">train_config_d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-07-18-10-42-44
+</pre></div>
+</div>
+<div class="output text_html"> View run <strong style="color:#cdcd00">2024-07-18-10-42-19</strong> at: <a href='https://wandb.ai/adasp/wandb_cover/runs/iq6k1r1r' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/iq6k1r1r</a><br/>Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)</div><div class="output text_html">Find logs at: <code>./wandb/run-20240718_104221-iq6k1r1r/logs</code></div><div class="output text_html">wandb version 0.17.4 is available!  To upgrade, please run:
+ $ pip install wandb --upgrade</div><div class="output text_html">Tracking run with wandb version 0.16.4</div><div class="output text_html">Run data is saved locally in <code>./wandb/run-20240718_104249-6v5mgwm6</code></div><div class="output text_html">Syncing run <strong><a href='https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6' target="_blank">2024-07-18-10-42-44</a></strong> to <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">Weights & Biases</a> (<a href='https://wandb.me/run' target="_blank">docs</a>)<br/></div><div class="output text_html"> View project at <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">https://wandb.ai/adasp/wandb_cover</a></div><div class="output text_html"> View run at <a href='https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6</a></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CoverLigthing</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">in_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">items</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">embedding_m</span> <span class="o">=</span> <span class="n">move_model</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">oktriplet</span> <span class="o">=</span> <span class="n">triplet_loss_mining</span><span class="p">(</span><span class="n">embedding_m</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">param_d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_oktriplet&quot;</span><span class="p">,</span> <span class="n">oktriplet</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">items</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">embedding_m</span> <span class="o">=</span> <span class="n">move_model</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">oktriplet</span> <span class="o">=</span> <span class="n">triplet_loss_mining</span><span class="p">(</span><span class="n">embedding_m</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">param_d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;valid_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;valid_oktriplet&quot;</span><span class="p">,</span> <span class="n">oktriplet</span><span class="p">)</span>
+         
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">momentum</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+    
+
+<span class="n">move_model</span> <span class="o">=</span> <span class="n">MOVEModel</span><span class="p">(</span><span class="n">param_d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">my_lighting</span> <span class="o">=</span> <span class="n">CoverLigthing</span><span class="p">(</span><span class="n">move_model</span><span class="p">)</span>
+<span class="n">early_stop_callback</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;valid_loss&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
+<span class="n">checkpoint_callback</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;valid_loss&#39;</span><span class="p">,</span> <span class="n">dirpath</span><span class="o">=</span><span class="s1">&#39;my_model/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;best_model&#39;</span><span class="p">,</span> <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>  <span class="n">logger</span> <span class="o">=</span> <span class="n">wandb_logger</span><span class="p">,</span> <span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">early_stop_callback</span><span class="p">,</span> <span class="n">checkpoint_callback</span><span class="p">])</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">my_lighting</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">valid_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ids/gpeeters/anaconda3/envs/conda_gpeeters_202 ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ids/gpeeters/anaconda3/envs/conda_gpeeters_202 ...
+You are using a CUDA device (&#39;NVIDIA A100-PCIE-40GB&#39;) that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision(&#39;medium&#39; | &#39;high&#39;)` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:653: Checkpoint directory /home/ids/gpeeters/proj_tuto-ISMIR2024/code/my_model exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name  | Type              | Params
+--------------------------------------------
+0 | model | MOVEModel         | 690 K 
+1 | loss  | BCEWithLogitsLoss | 0     
+--------------------------------------------
+690 K     Trainable params
+0         Non-trainable params
+690 K     Total params
+2.764     Total estimated model params size (MB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sanity Checking DataLoader 0:  50%|█████     | 1/2 [00:00&lt;00:00,  8.73it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;val_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/utilities/data.py:77: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 64. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                           
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;train_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/loops/fit_loop.py:298: The number of training batches (19) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 19/19 [00:02&lt;00:00,  8.98it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved. New best score: 0.778
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 19/19 [00:01&lt;00:00, 11.88it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.064 &gt;= min_delta = 0.0. New best score: 0.715
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 19/19 [00:02&lt;00:00,  8.93it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.019 &gt;= min_delta = 0.0. New best score: 0.696
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3: 100%|██████████| 19/19 [00:02&lt;00:00,  9.49it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.078 &gt;= min_delta = 0.0. New best score: 0.618
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 19/19 [00:01&lt;00:00, 11.83it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.029 &gt;= min_delta = 0.0. New best score: 0.589
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6: 100%|██████████| 19/19 [00:01&lt;00:00, 11.79it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.009 &gt;= min_delta = 0.0. New best score: 0.580
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 13: 100%|██████████| 19/19 [00:01&lt;00:00, 11.69it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.002 &gt;= min_delta = 0.0. New best score: 0.577
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 16: 100%|██████████| 19/19 [00:01&lt;00:00, 11.74it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.024 &gt;= min_delta = 0.0. New best score: 0.553
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 22: 100%|██████████| 19/19 [00:01&lt;00:00,  9.63it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.008 &gt;= min_delta = 0.0. New best score: 0.546
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 26: 100%|██████████| 19/19 [00:01&lt;00:00, 11.35it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.540
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 29: 100%|██████████| 19/19 [00:01&lt;00:00, 11.72it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.006 &gt;= min_delta = 0.0. New best score: 0.534
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 36: 100%|██████████| 19/19 [00:01&lt;00:00, 11.65it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.006 &gt;= min_delta = 0.0. New best score: 0.528
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 39: 100%|██████████| 19/19 [00:02&lt;00:00,  9.33it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.014 &gt;= min_delta = 0.0. New best score: 0.514
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 54: 100%|██████████| 19/19 [00:01&lt;00:00, 11.56it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.023 &gt;= min_delta = 0.0. New best score: 0.491
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 74: 100%|██████████| 19/19 [00:01&lt;00:00, 11.35it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.003 &gt;= min_delta = 0.0. New best score: 0.488
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 86: 100%|██████████| 19/19 [00:01&lt;00:00, 11.48it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.482
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 115: 100%|██████████| 19/19 [00:01&lt;00:00, 11.41it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.477
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 165: 100%|██████████| 19/19 [00:01&lt;00:00, 11.49it/s, v_num=gwm6]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Monitored metric valid_loss did not improve in the last 50 records. Best score: 0.477. Signaling Trainer to stop.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 165: 100%|██████████| 19/19 [00:01&lt;00:00, 11.48it/s, v_num=gwm6]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">move_model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">move_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">embed_all_m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([],</span> <span class="n">device</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">coverid_l</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">performanceid</span> <span class="ow">in</span> <span class="n">test_set</span><span class="o">.</span><span class="n">data_d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">items</span><span class="p">,</span> <span class="n">coverid</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">getitem_by_performanceid</span><span class="p">(</span><span class="n">performanceid</span><span class="p">)</span>
+        <span class="n">embedding_m</span> <span class="o">=</span> <span class="n">move_model</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">embed_all_m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">embed_all_m</span><span class="p">,</span> <span class="n">embedding_m</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+        <span class="n">coverid_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coverid</span><span class="p">)</span>
+        
+<span class="n">dist_all_m</span> <span class="o">=</span> <span class="n">pairwise_distance_matrix</span><span class="p">(</span><span class="n">embed_all_m</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">param_d</span><span class="o">.</span><span class="n">norm_dist</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="n">dist_all_m</span> <span class="o">/=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="compute-ranking-metrics">
+<h3>Compute Ranking Metrics<a class="headerlink" href="#compute-ranking-metrics" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="https://gist.github.com/bwhite/3726239">https://gist.github.com/bwhite/3726239</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">relevance</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">F_mean_reciprocal_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.</span><span class="o">/</span> <span class="n">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">relevance</span><span class="p">[:</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">F_average_precision</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">relevance</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">relevance</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+<span class="n">dist_all_np</span> <span class="o">=</span> <span class="n">dist_all_m</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">nb_target</span> <span class="o">=</span> <span class="n">dist_all_np</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dist_all_np</span> <span class="o">+=</span> <span class="mf">1e6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nb_target</span><span class="p">)</span> <span class="c1"># --- to prevent detecting the target itself</span>
+<span class="n">mean_rank_l</span><span class="p">,</span> <span class="n">mean_reciprocal_rank_l</span><span class="p">,</span> <span class="n">precision_at_1_l</span><span class="p">,</span> <span class="n">precision_at_5_l</span><span class="p">,</span> <span class="n">precision_at_10_l</span><span class="p">,</span> <span class="n">average_precision_l</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="n">score_d</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mean_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_reciprocal_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;precision_at_1&#39;</span><span class="p">,</span><span class="s1">&#39;precision_at_5&#39;</span><span class="p">,</span> <span class="s1">&#39;precision_at_10&#39;</span><span class="p">,</span> <span class="s1">&#39;average_precision&#39;</span><span class="p">]:</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> 
+
+<span class="k">for</span> <span class="n">idx_target</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_target</span><span class="p">):</span>
+    <span class="n">relevance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span> <span class="k">if</span> <span class="n">coverid_l</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">==</span><span class="n">coverid_l</span><span class="p">[</span><span class="n">idx_target</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist_all_np</span><span class="p">[</span><span class="n">idx_target</span><span class="p">,:])])</span>    
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;mean_rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;mean_reciprocal_rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_mean_reciprocal_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;precision_at_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;precision_at_5&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;precision_at_10&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">score_d</span><span class="p">[</span><span class="s1">&#39;average_precision&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="p">)</span>
+    
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">score_d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">score_d</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean_rank: 26.005
+mean_reciprocal_rank: 0.37922787945073666
+precision_at_1: 0.285
+precision_at_5: 0.11
+precision_at_10: 0.06849999999999999
+average_precision: 0.06849999999999999
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="task_coverdetection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cover Detection</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="task_chordestimation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Automatic Chord Estimation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-dataloader">Get dataloader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-model">Get model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-losses">Define losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-using-torchlightning">Training using torchlightning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-ranking-metrics">Compute Ranking Metrics</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

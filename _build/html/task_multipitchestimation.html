@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_multipitchestimation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Automatic Chord Estimation" href="task_chordestimation.html" />
+    <link rel="next" title="Cover Detection" href="task_coverdetection.html" />
     <link rel="prev" title="Paradigms" href="bricks_paradigm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,8 +185,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
@@ -389,10 +389,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-measures">Performance measures</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets">Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-approaches">Potential approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
 </ul>
             </nav>
         </div>
@@ -406,8 +406,13 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multi-pitch-estimation">
 <h1>Multi-Pitch-Estimation<a class="headerlink" href="#multi-pitch-estimation" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>author: Geoffroy</p></li>
+<li><p>code: based on Bittner, Doras</p></li>
+<li><p>datasets: bach-10, MAPS</p></li>
+</ul>
 <section id="goal-of-the-task">
-<h2>Goal of the task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
 <p>Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
 The task can either consists in:</p>
 <ul class="simple">
@@ -424,10 +429,10 @@ MPE then became a major research field, with method based on NMF or ??? (unsuper
 <li><p>Supervised Learning</p></li>
 <li><p>Unsupervised learning (PESTO)</p></li>
 </ul>
-<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id2">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end using a U-Net <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019.">DEP19</a>, <a class="reference internal" href="bibiography.html#id9" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>.</p>
+<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id2">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end using a U-Net <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id9" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>.</p>
 </section>
-<section id="performance-measures">
-<h2>Performance measures<a class="headerlink" href="#performance-measures" title="Permalink to this heading">#</a></h2>
+<section id="how-is-the-task-evaluated">
+<h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
 <p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id4">[<a class="reference internal" href="bibiography.html#id10" title="Mert Bay, Andreas F. Ehmann, and J. Stephen Downie. Evaluation of multiple-f0 estimation and tracking systems. In Keiji Hirata, George Tzanetakis, and Kazuyoshi Yoshii, editors, Proceedings of the 10th International Society for Music Information Retrieval Conference, ISMIR 2009, Kobe International Conference Center, Kobe, Japan, October 26-30, 2009, 315–320. International Society for Music Information Retrieval, 2009. URL: http://ismir2009.ismir.net/proceedings/PS2-21.pdf.">BED09</a>]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/">mir_eval</a> package.
 By default, a frequency is “correct” if it is within 0.5 semitones of a reference frequency</p>
 <table class="colwidths-auto table">
@@ -493,8 +498,8 @@ By default, a frequency is “correct” if it is within 0.5 semitones of a refe
 </pre></div>
 </div>
 </section>
-<section id="datasets">
-<h2>Datasets<a class="headerlink" href="#datasets" title="Permalink to this heading">#</a></h2>
+<section id="some-popular-datasets">
+<h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
 <p>Popular datasets used for MPE are</p>
 <table class="colwidths-auto table">
@@ -534,10 +539,18 @@ By default, a frequency is “correct” if it is within 0.5 semitones of a refe
 </tbody>
 </table>
 </section>
-<section id="potential-approaches">
-<h2>Potential approaches<a class="headerlink" href="#potential-approaches" title="Permalink to this heading">#</a></h2>
-<p><span id="id5">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span></p>
-<p>We will use as input the <a class="reference internal" href="bricks_frontend.html#lab-hcqt"><span class="std std-ref">HCQT</span></a></p>
+<section id="how-we-can-solve-it-using-deep-learning">
+<h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
+<p>We will implement two different models which both takes as input the <a class="reference internal" href="bricks_frontend.html#lab-hcqt"><span class="std std-ref">HCQT</span></a> features.</p>
+<ul class="simple">
+<li><p>the first is the traditional ConvNet proposed by <span id="id5">[<a class="reference internal" href="bibiography.html#id2" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span></p></li>
+<li><p>the second is the U-Net proposed by U-Net <span id="id6">[<a class="reference internal" href="bibiography.html#id11" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id9" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span></p></li>
+</ul>
+<p>We will train and evaluate them on two different datasets</p>
+<ul class="simple">
+<li><p>Bach10 <span id="id7">[<a class="reference internal" href="bibiography.html#id12" title="Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. IEEE Trans. Speech Audio Process., 18(8):2121–2133, 2010. URL: https://doi.org/10.1109/TASL.2010.2042119, doi:10.1109/TASL.2010.2042119.">DPZ10</a>]</span>: which is a multi-track datasets in which each track is annotated in pitch (continuous f0-value) over time</p></li>
+<li><p>MAPS <span id="id8">[<a class="reference internal" href="bibiography.html#id13" title="Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. IEEE Trans. Speech Audio Process., 18(6):1643–1654, 2010. URL: https://doi.org/10.1109/TASL.2009.2038819, doi:10.1109/TASL.2009.2038819.">EBD10</a>]</span>: which is a piano dataset annotated as a set of notes (start,stop,value) over time</p></li>
+</ul>
 </section>
 </section>
 
@@ -581,11 +594,11 @@ By default, a frequency is “correct” if it is within 0.5 semitones of a refe
       </div>
     </a>
     <a class="right-next"
-       href="task_chordestimation.html"
+       href="task_coverdetection.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Automatic Chord Estimation</p>
+        <p class="prev-next-title">Cover Detection</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -604,10 +617,10 @@ By default, a frequency is “correct” if it is within 0.5 semitones of a refe
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-measures">Performance measures</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets">Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-approaches">Potential approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
 </ul>
   </nav></div>
 

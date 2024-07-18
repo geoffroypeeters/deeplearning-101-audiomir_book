@@ -17,8 +17,10 @@ parts:
 - caption: Tasks
   chapters:
     - file: task_multipitchestimation
-    - file: task_chordestimation
+    - file: TUTO_task1_MultiPitch.ipynb
     - file: task_coverdetection
+    - file: TUTO_task2_CoverDetection.ipynb
+    - file: task_chordestimation
     - file: task_sourceseparation
     - file: task_autotagging
     - file: task_musicgeneration
