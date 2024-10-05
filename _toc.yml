@@ -9,6 +9,7 @@ parts:
     - file: tools
 - caption: Deep Learning Bricks
   chapters:
+    - file: bricks_input
     - file: bricks_frontend
     - file: bricks_projection.md
     - file: bricks_bottleneck

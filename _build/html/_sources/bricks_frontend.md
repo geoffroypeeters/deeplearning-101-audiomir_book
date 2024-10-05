@@ -1,45 +1,5 @@
 ## Front-ends
 
-### Waveform
-
-### Log-Mel-Spectrogram (LMS)
-
-(lab_cqt)=
-### Constant-Q-Transform (HCQT)
-
-CQT was proposed in {cite}`Brown1991ConstantQ`
-
-
-(lab_hcqt)=
-### Harmonic-CQT (HCQT)
-
-HCQT was proposed in {cite}`DBLP:conf/ismir/BittnerMSLB17`
-
-```python
-def f_get_hcqt(audio_v, sr_hz):
-    """
-    """
-    h_l = [0.5, 1, 2, 3, 4, 5]
-    BINS_PER_SEMITONE = 3
-    BINS_PER_OCTAVE = 12 * BINS_PER_SEMITONE
-    N_OCTAVES = 6
-    N_BINS = N_OCTAVES * BINS_PER_OCTAVE
-    FMIN = 32.7
-    HOP_LENGTH = 512
-
-    for idx, h in enumerate(h_l):
-        A_m = np.abs(librosa.cqt(y=audio_v, sr=sr_hz, fmin=h*32.7, hop_length=HOP_LENGTH, bins_per_octave=BINS_PER_OCTAVE, n_bins=N_BINS))
-        if idx==0:
-            CQT_3m = np.zeros((len(h_l), A_m.shape[0], A_m.shape[1]))
-        CQT_3m[idx,:,:] = A_m
-
-    n_times = CQT_3m.shape[2]
-    cqt_time_sec_v = librosa.frames_to_time(np.arange(n_times), sr=sr_hz, hop_length=HOP_LENGTH)
-    cqt_frequency_hz_v = librosa.cqt_frequencies(n_bins=N_BINS, fmin=FMIN, bins_per_octave=BINS_PER_OCTAVE)
-
-    return CQT_3m, cqt_time_sec_v, cqt_frequency_hz_v
-```
-
 (label_sincnet)=
 ### Parametric front-end: SincNet
 
