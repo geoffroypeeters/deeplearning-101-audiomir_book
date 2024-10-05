@@ -173,6 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_input.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
@@ -182,7 +183,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTO_task1_MultiPitch.html">TUTO Multi-pitch Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTO_task2_CoverDetection.html">TUTO Cover-Detection based on Triplet-Loss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
@@ -392,43 +395,55 @@ document.write(`
 <h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h1>
 <div class="docutils container" id="id1">
 <dl class="citation">
-<dt class="label" id="id6"><span class="brackets">BKK18</span></dt>
+<dt class="label" id="id10"><span class="brackets">BKK18</span></dt>
 <dd><p>Shaojie Bai, J. Zico Kolter, and Vladlen Koltun. An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. <em>CoRR</em>, 2018. URL: <a class="reference external" href="http://arxiv.org/abs/1803.01271">http://arxiv.org/abs/1803.01271</a>, <a class="reference external" href="https://arxiv.org/abs/1803.01271">arXiv:1803.01271</a>.</p>
 </dd>
-<dt class="label" id="id10"><span class="brackets">BED09</span></dt>
+<dt class="label" id="id14"><span class="brackets">BED09</span></dt>
 <dd><p>Mert Bay, Andreas F. Ehmann, and J. Stephen Downie. Evaluation of multiple-f0 estimation and tracking systems. In Keiji Hirata, George Tzanetakis, and Kazuyoshi Yoshii, editors, <em>Proceedings of the 10th International Society for Music Information Retrieval Conference, ISMIR 2009, Kobe International Conference Center, Kobe, Japan, October 26-30, 2009</em>, 315–320. International Society for Music Information Retrieval, 2009. URL: <a class="reference external" href="http://ismir2009.ismir.net/proceedings/PS2-21.pdf">http://ismir2009.ismir.net/proceedings/PS2-21.pdf</a>.</p>
 </dd>
-<dt class="label" id="id2"><span class="brackets">BMS+17</span></dt>
+<dt class="label" id="id6"><span class="brackets">BMS+17</span></dt>
 <dd><p>Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, <em>Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017</em>, 63–70. 2017. URL: <a class="reference external" href="https://brianmcfee.net/papers/ismir2017_salience.pdf">https://brianmcfee.net/papers/ismir2017_salience.pdf</a>.</p>
 </dd>
-<dt class="label" id="id4"><span class="brackets">Bro91</span></dt>
+<dt class="label" id="id8"><span class="brackets">Bro91</span></dt>
 <dd><p>J. Brown. Calculation of a constant q spectral transform. <em>JASA (Journal of the Acoustical Society of America)</em>, 89(1):425–434, 1991.</p>
 </dd>
-<dt class="label" id="id11"><span class="brackets">DEP19</span></dt>
+<dt class="label" id="id5"><span class="brackets">Cho17</span></dt>
+<dd><p>François Chollet. Xception: deep learning with depthwise separable convolutions. In <em>2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu, HI, USA, July 21-26, 2017</em>, 1800–1807. IEEE Computer Society, 2017. URL: <a class="reference external" href="https://doi.org/10.1109/CVPR.2017.195">https://doi.org/10.1109/CVPR.2017.195</a>, <a class="reference external" href="https://doi.org/10.1109/CVPR.2017.195">doi:10.1109/CVPR.2017.195</a>.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets">DEP19</span></dt>
 <dd><p>Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In <em>Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19)</em>. Milan, Italy, January , 24-25 2019. URL: <a class="reference external" href="https://hal.science/hal-02457728/document">https://hal.science/hal-02457728/document</a>.</p>
 </dd>
-<dt class="label" id="id12"><span class="brackets">DPZ10</span></dt>
+<dt class="label" id="id16"><span class="brackets">DPZ10</span></dt>
 <dd><p>Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. <em>IEEE Trans. Speech Audio Process.</em>, 18(8):2121–2133, 2010. URL: <a class="reference external" href="https://doi.org/10.1109/TASL.2010.2042119">https://doi.org/10.1109/TASL.2010.2042119</a>, <a class="reference external" href="https://doi.org/10.1109/TASL.2010.2042119">doi:10.1109/TASL.2010.2042119</a>.</p>
 </dd>
-<dt class="label" id="id13"><span class="brackets">EBD10</span></dt>
+<dt class="label" id="id17"><span class="brackets">EBD10</span></dt>
 <dd><p>Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. <em>IEEE Trans. Speech Audio Process.</em>, 18(6):1643–1654, 2010. URL: <a class="reference external" href="https://doi.org/10.1109/TASL.2009.2038819">https://doi.org/10.1109/TASL.2009.2038819</a>, <a class="reference external" href="https://doi.org/10.1109/TASL.2009.2038819">doi:10.1109/TASL.2009.2038819</a>.</p>
 </dd>
-<dt class="label" id="id8"><span class="brackets">Kla03</span></dt>
+<dt class="label" id="id3"><span class="brackets">HZRS16</span></dt>
+<dd><p>Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In <em>2016 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2016, Las Vegas, NV, USA, June 27-30, 2016</em>, 770–778. IEEE Computer Society, 2016. URL: <a class="reference external" href="https://doi.org/10.1109/CVPR.2016.90">https://doi.org/10.1109/CVPR.2016.90</a>, <a class="reference external" href="https://doi.org/10.1109/CVPR.2016.90">doi:10.1109/CVPR.2016.90</a>.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets">HZC+17</span></dt>
+<dd><p>Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko, Weijun Wang, Tobias Weyand, Marco Andreetto, and Hartwig Adam. Mobilenets: efficient convolutional neural networks for mobile vision applications. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1704.04861">http://arxiv.org/abs/1704.04861</a>, <a class="reference external" href="https://arxiv.org/abs/1704.04861">arXiv:1704.04861</a>.</p>
+</dd>
+<dt class="label" id="id12"><span class="brackets">Kla03</span></dt>
 <dd><p>Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. <em>Speech and Audio Processing, IEEE Transactions on</em>, 11(6):804–816, 2003.</p>
 </dd>
-<dt class="label" id="id3"><span class="brackets">RB18</span></dt>
+<dt class="label" id="id2"><span class="brackets">LMW+22</span></dt>
+<dd><p>Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In <em>IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022</em>, 11966–11976. IEEE, 2022. URL: <a class="reference external" href="https://doi.org/10.1109/CVPR52688.2022.01167">https://doi.org/10.1109/CVPR52688.2022.01167</a>, <a class="reference external" href="https://doi.org/10.1109/CVPR52688.2022.01167">doi:10.1109/CVPR52688.2022.01167</a>.</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets">RB18</span></dt>
 <dd><p>Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In <em>2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018</em>, 1021–1028. IEEE, 2018. URL: <a class="reference external" href="https://doi.org/10.1109/SLT.2018.8639585">https://doi.org/10.1109/SLT.2018.8639585</a>, <a class="reference external" href="https://doi.org/10.1109/SLT.2018.8639585">doi:10.1109/SLT.2018.8639585</a>.</p>
 </dd>
-<dt class="label" id="id7"><span class="brackets">vdODZ+16</span></dt>
+<dt class="label" id="id11"><span class="brackets">vdODZ+16</span></dt>
 <dd><p>Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In <em>The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016</em>, 125. ISCA, 2016. URL: <a class="reference external" href="http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html">http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html</a>.</p>
 </dd>
-<dt class="label" id="id9"><span class="brackets">WP22</span></dt>
+<dt class="label" id="id13"><span class="brackets">WP22</span></dt>
 <dd><p>Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. <em>Speech and Audio Processing, IEEE Transactions on</em>, 2022. URL: <a class="reference external" href="https://arxiv.org/pdf/2202.09198">https://arxiv.org/pdf/2202.09198</a>.</p>
 </dd>
-<dt class="label" id="id14"><span class="brackets">YSerraGomez20</span></dt>
+<dt class="label" id="id18"><span class="brackets">YSerraGomez20</span></dt>
 <dd><p>Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In <em>2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020</em>, 21–25. IEEE, 2020. URL: <a class="reference external" href="https://doi.org/10.1109/ICASSP40776.2020.9053793">https://doi.org/10.1109/ICASSP40776.2020.9053793</a>, <a class="reference external" href="https://doi.org/10.1109/ICASSP40776.2020.9053793">doi:10.1109/ICASSP40776.2020.9053793</a>.</p>
 </dd>
-<dt class="label" id="id5"><span class="brackets">ZTdCQT21</span></dt>
+<dt class="label" id="id9"><span class="brackets">ZTdCQT21</span></dt>
 <dd><p>Neil Zeghidour, Olivier Teboul, Félix de Chaumont Quitry, and Marco Tagliasacchi. LEAF: A learnable frontend for audio classification. In <em>9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021</em>. OpenReview.net, 2021. URL: <a class="reference external" href="https://openreview.net/forum?id=jM76BCb6F9m">https://openreview.net/forum?id=jM76BCb6F9m</a>.</p>
 </dd>
 </dl>

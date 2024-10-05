@@ -67,8 +67,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_coverdetection';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Automatic Chord Estimation" href="task_chordestimation.html" />
-    <link rel="prev" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
+    <link rel="next" title="TUTO Cover-Detection based on Triplet-Loss" href="TUTO_task2_CoverDetection.html" />
+    <link rel="prev" title="TUTO Multi-pitch Estimation" href="TUTO_task1_MultiPitch.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -176,6 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_input.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
@@ -185,7 +186,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTO_task1_MultiPitch.html">TUTO Multi-pitch Estimation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Cover Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTO_task2_CoverDetection.html">TUTO Cover-Detection based on Triplet-Loss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
@@ -413,9 +416,9 @@ document.write(`
 </ul>
 <section id="goal-of-the-task">
 <h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Cover(Version) Detection(Identification) is the task aiming at detecting a given music track is a cover/version of another track.
-For example detecting that this <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of this <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beathes</a>. They are over/version of the same composition (work-id or ISWC).</p>
-<p>Considering the very large number of possible work-id it is not possible to solve this as a classification problem (too many classes).
+<p>Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
+For example detecting that this <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of this <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beathes</a>. They are covers/versions of the same composition (work-id or ISWC).</p>
+<p>Considering the very large number of possible work-id it is not possible to solve this as a classification (multi-class) problem (too many classes).
 To solve this, the approach commonly used is to have a reference dataset <span class="math notranslate nohighlight">\(R\)</span>, containing tracks <span class="math notranslate nohighlight">\(\{r_i\}\)</span> with known work-id, and to compare the query track <span class="math notranslate nohighlight">\(q\)</span> to each track <span class="math notranslate nohighlight">\(r_i\)</span> the reference dataset. If one track <span class="math notranslate nohighlight">\(q\)</span> is similar to one track of the dataset (the distance <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> is small) , we decide that <span class="math notranslate nohighlight">\(q\)</span> is a cover of <span class="math notranslate nohighlight">\(r_i\)</span> and they share the same work-id.
 This involves setting a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on <span class="math notranslate nohighlight">\(d(q,r_i)\)</span>. If <span class="math notranslate nohighlight">\(d(q,r_i)&lt;\tau\)</span> we decide they are cover of each other.</p>
 <p>In practice to evaluate the task, another problem is considered. The distances between <span class="math notranslate nohighlight">\(q\)</span> and the <span class="math notranslate nohighlight">\(r_i\)</span> are compuated and ranked. If we denote by <span class="math notranslate nohighlight">\(w(.)\)</span> the function that give the work-id of a track, we then check at which position in the ranked list <span class="math notranslate nohighlight">\(w(r_i)==w(q)\)</span>.
@@ -452,7 +455,7 @@ For our implementations, we will consider the two following ones (notes that tho
 <p>Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of <span class="math notranslate nohighlight">\(q\)</span> and the one of <span class="math notranslate nohighlight">\(r_i\)</span>. This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
 <p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Eucliden distances.
 Various approaches can be used for metric learning, but the most common is the <a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a>.</p>
-<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id14" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
+<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id15" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /></p>
 </section>
 </section>
@@ -488,20 +491,20 @@ Various approaches can be used for metric learning, but the most common is the <
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="task_multipitchestimation.html"
+       href="TUTO_task1_MultiPitch.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Multi-Pitch-Estimation</p>
+        <p class="prev-next-title">TUTO Multi-pitch Estimation</p>
       </div>
     </a>
     <a class="right-next"
-       href="task_chordestimation.html"
+       href="TUTO_task2_CoverDetection.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Automatic Chord Estimation</p>
+        <p class="prev-next-title">TUTO Cover-Detection based on Triplet-Loss</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

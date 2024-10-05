@@ -174,6 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_input.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
@@ -183,6 +184,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTO_task1_MultiPitch.html">TUTO Multi-pitch Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">TUTO Cover-Detection based on Triplet-Loss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
@@ -523,6 +525,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ROOT</span> <span class="o">=</span> <span class="s1">&#39;/tsi/data_doctorants/gpeeters/_data/&#39;</span>
 <span class="n">base</span> <span class="o">=</span> <span class="s1">&#39;cover1000&#39;</span>
+<span class="c1">#base = &#39;datacos-benchmark&#39;</span>
 
 <span class="n">pyjama_annot_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s1">.pyjama&#39;</span>
 <span class="n">hdf5_feat_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ROOT</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s1">_feat.hdf5&#39;</span>
@@ -608,6 +611,9 @@ document.write(`
         
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span> <span class="n">data_d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_fid</span><span class="p">)</span>
         <span class="n">entry_l</span> <span class="o">=</span> <span class="n">data_d</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">][</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span>
+
+        <span class="c1">#entry_l = entry_l[:1000]</span>
+
         <span class="n">all_workid_l</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;work-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">]))</span>
         <span class="n">performanceid_l</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;performance-id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">])</span>
 
@@ -636,12 +642,12 @@ document.write(`
                 <span class="c1"># --- get the list of performanceid assoicated to this workid</span>
                 <span class="n">perfomanceid_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">perfomanceid</span> <span class="ow">in</span> <span class="n">perfomanceid_l</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{}</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;workid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">workid</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;perfomanceid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perfomanceid</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">][</span><span class="s1">&#39;workid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">workid</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">][</span><span class="s1">&#39;perfomanceid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perfomanceid</span>
                     <span class="c1"># --- Get data and convert to make rotation invariant -&gt; self.data_d (1, 23, 1800)</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">feat_fid</span><span class="p">[</span><span class="s1">&#39;/&#39;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">][:]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">perfomanceid</span><span class="p">)][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_d</span><span class="p">[</span><span class="n">perfomanceid</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
                 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="p">)</span>
@@ -655,24 +661,24 @@ document.write(`
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clique_idx</span><span class="p">):</span>
         
-        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="p">[</span><span class="n">clique_idx</span><span class="p">]</span>  <span class="c1"># getting the clique chosen by the dataloader</span>
+        <span class="n">workid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clique_list_l</span><span class="p">[</span><span class="n">clique_idx</span><span class="p">]</span>  <span class="c1"># getting the clique chosen by the dataloader</span>
 
         <span class="c1"># selecting 4 songs from the given clique</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># if the clique size is 2, repeat the already selected songs</span>
-            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># if the clique size is 2, repeat the already selected songs</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span> <span class="o">=</span> <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># if the clique size is 3, choose one of the songs twice</span>
-            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># if the clique size is 3, choose one of the songs twice</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">],</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># if the clique size is larger than or equal to 4, choose 4 songs randomly</span>
-            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workid_to_perfomanceid_d</span><span class="p">[</span><span class="n">workid</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         
         <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">,</span> <span class="n">idx4</span><span class="p">]:</span>
             <span class="n">item</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getitem_by_performanceid</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">label</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">workid</span>
 </pre></div>
 </div>
 </div>
@@ -698,16 +704,23 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">triplet_mining_collate</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">items</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">valid_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">valid_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">triplet_mining_collate</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">items</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 
 <span class="n">items</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-
-<span class="n">valid_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">valid_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">num_of_labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">triplet_mining_collate</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -715,9 +728,10 @@ document.write(`
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([4, 1, 23, 1800])
 2
 torch.Size([64, 1, 23, 1800])
-[350, 73, 337, 139, 393, 83, 175, 162, 294, 250, 92, 99, 307, 88, 364, 239]
+[303, 227, 42, 184, 368, 64, 295, 334, 93, 348, 80, 372, 109, 282, 132, 318]
 </pre></div>
 </div>
+<img alt="_images/b55a56a46f5a23f9ac8975ba712d5c033e2962629408e533d03221814f80acef.png" src="_images/b55a56a46f5a23f9ac8975ba712d5c033e2962629408e533d03221814f80acef.png" />
 </div>
 </div>
 </section>
@@ -940,7 +954,12 @@ Estimated Total Size (MB): 57.31
         <span class="n">i_labels</span> <span class="o">+=</span> <span class="p">[</span><span class="n">aux</span><span class="p">[</span><span class="n">l</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span>
     <span class="k">return</span> <span class="n">i_labels</span>
 
-<span class="c1">#f_renumber([300, 200, 500, 300])</span>
+<span class="n">f_renumber</span><span class="p">([</span><span class="s1">&#39;W_300&#39;</span><span class="p">,</span> <span class="s1">&#39;W_200&#39;</span><span class="p">,</span> <span class="s1">&#39;W_500&#39;</span><span class="p">,</span> <span class="s1">&#39;W_300&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0]
 </pre></div>
 </div>
 </div>
@@ -1078,11 +1097,16 @@ Estimated Total Size (MB): 57.31
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-07-18-10-42-44
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-07-18-15-41-08
 </pre></div>
 </div>
-<div class="output text_html"> View run <strong style="color:#cdcd00">2024-07-18-10-42-19</strong> at: <a href='https://wandb.ai/adasp/wandb_cover/runs/iq6k1r1r' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/iq6k1r1r</a><br/>Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)</div><div class="output text_html">Find logs at: <code>./wandb/run-20240718_104221-iq6k1r1r/logs</code></div><div class="output text_html">wandb version 0.17.4 is available!  To upgrade, please run:
- $ pip install wandb --upgrade</div><div class="output text_html">Tracking run with wandb version 0.16.4</div><div class="output text_html">Run data is saved locally in <code>./wandb/run-20240718_104249-6v5mgwm6</code></div><div class="output text_html">Syncing run <strong><a href='https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6' target="_blank">2024-07-18-10-42-44</a></strong> to <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">Weights & Biases</a> (<a href='https://wandb.me/run' target="_blank">docs</a>)<br/></div><div class="output text_html"> View project at <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">https://wandb.ai/adasp/wandb_cover</a></div><div class="output text_html"> View run at <a href='https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/6v5mgwm6</a></div></div>
+<div class="output text_html"><style>
+    table.wandb td:nth-child(1) { padding: 0 10px; text-align: left ; width: auto;} td:nth-child(2) {text-align: left ; width: 100%}
+    .wandb-row { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; width: 100% }
+    .wandb-col { display: flex; flex-direction: column; flex-basis: 100%; flex: 1; padding: 10px; }
+    </style>
+<div class="wandb-row"><div class="wandb-col"><h3>Run history:</h3><br/><table class="wandb"><tr><td>epoch</td><td>▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███</td></tr><tr><td>train_loss</td><td>██▆█▅▆▆▅▇▅▄▆▆▄▄▃▁▅▅▅▃▄▃▃▃▄▆▄▄▃▂▆▁▃▃▃▄▄▃▃</td></tr><tr><td>train_oktriplet</td><td>▂▁▁▁▃▂▁▁▃▃▃▂▁▄▂▃▅▂▃▄▆▅▂▄▁▄▁▁▄▃▇▃█▄▇▃▃▃▂▅</td></tr><tr><td>trainer/global_step</td><td>▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███</td></tr><tr><td>valid_loss</td><td>█▄▃▂▂▂▂▂▂▁▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁</td></tr><tr><td>valid_oktriplet</td><td>▁▃▃▄▄▄▅▃▄▄▄▄▅▆▅▆▅▆▅▆▅▆▄▅▇▆▇▆▆▆▆▇▆▇█▆▇▄▆█</td></tr></table><br/></div><div class="wandb-col"><h3>Run summary:</h3><br/><table class="wandb"><tr><td>epoch</td><td>88</td></tr><tr><td>train_loss</td><td>0.90665</td></tr><tr><td>train_oktriplet</td><td>5.0</td></tr><tr><td>trainer/global_step</td><td>12999</td></tr><tr><td>valid_loss</td><td>0.92398</td></tr><tr><td>valid_oktriplet</td><td>7.05</td></tr></table><br/></div></div></div><div class="output text_html"> View run <strong style="color:#cdcd00">2024-07-18-15-10-41</strong> at: <a href='https://wandb.ai/adasp/wandb_cover/runs/15jbczqs' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/15jbczqs</a><br/>Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)</div><div class="output text_html">Find logs at: <code>./wandb/run-20240718_151044-15jbczqs/logs</code></div><div class="output text_html">wandb version 0.17.4 is available!  To upgrade, please run:
+ $ pip install wandb --upgrade</div><div class="output text_html">Tracking run with wandb version 0.16.4</div><div class="output text_html">Run data is saved locally in <code>./wandb/run-20240718_154113-9enmon2g</code></div><div class="output text_html">Syncing run <strong><a href='https://wandb.ai/adasp/wandb_cover/runs/9enmon2g' target="_blank">2024-07-18-15-41-08</a></strong> to <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">Weights & Biases</a> (<a href='https://wandb.me/run' target="_blank">docs</a>)<br/></div><div class="output text_html"> View project at <a href='https://wandb.ai/adasp/wandb_cover' target="_blank">https://wandb.ai/adasp/wandb_cover</a></div><div class="output text_html"> View run at <a href='https://wandb.ai/adasp/wandb_cover/runs/9enmon2g' target="_blank">https://wandb.ai/adasp/wandb_cover/runs/9enmon2g</a></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1116,7 +1140,7 @@ Estimated Total Size (MB): 57.31
 
 <span class="n">my_lighting</span> <span class="o">=</span> <span class="n">CoverLigthing</span><span class="p">(</span><span class="n">move_model</span><span class="p">)</span>
 <span class="n">early_stop_callback</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;valid_loss&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
-<span class="n">checkpoint_callback</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;valid_loss&#39;</span><span class="p">,</span> <span class="n">dirpath</span><span class="o">=</span><span class="s1">&#39;my_model/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;best_model&#39;</span><span class="p">,</span> <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="n">checkpoint_callback</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;valid_loss&#39;</span><span class="p">,</span> <span class="n">dirpath</span><span class="o">=</span><span class="s1">&#39;model_cover/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;best_model&#39;</span><span class="p">,</span> <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
 <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>  <span class="n">logger</span> <span class="o">=</span> <span class="n">wandb_logger</span><span class="p">,</span> <span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">early_stop_callback</span><span class="p">,</span> <span class="n">checkpoint_callback</span><span class="p">])</span>
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">my_lighting</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">valid_loader</span><span class="p">)</span>
 </pre></div>
@@ -1126,11 +1150,11 @@ Estimated Total Size (MB): 57.31
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ids/gpeeters/anaconda3/envs/conda_gpeeters_202 ...
 GPU available: True (cuda), used: True
 TPU available: False, using: 0 TPU cores
-IPU available: False, using: 0 IPUs
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IPU available: False, using: 0 IPUs
 HPU available: False, using: 0 HPUs
-/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ids/gpeeters/anaconda3/envs/conda_gpeeters_202 ...
-You are using a CUDA device (&#39;NVIDIA A100-PCIE-40GB&#39;) that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision(&#39;medium&#39; | &#39;high&#39;)` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
-/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:653: Checkpoint directory /home/ids/gpeeters/proj_tuto-ISMIR2024/code/my_model exists and is not empty.
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:653: Checkpoint directory /home/ids/gpeeters/model_cover exists and is not empty.
 LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 
   | Name  | Type              | Params
@@ -1144,129 +1168,96 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 2.764     Total estimated model params size (MB)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sanity Checking DataLoader 0:  50%|█████     | 1/2 [00:00&lt;00:00,  8.73it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;val_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
-/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/utilities/data.py:77: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 64. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                           
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;train_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;val_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:441: The &#39;train_dataloader&#39; does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
 /home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/loops/fit_loop.py:298: The number of training batches (19) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 19/19 [00:02&lt;00:00,  8.98it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 19/19 [00:02&lt;00:00,  6.45it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved. New best score: 0.778
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved. New best score: 0.863
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 19/19 [00:01&lt;00:00, 11.88it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 19/19 [00:01&lt;00:00, 11.79it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.064 &gt;= min_delta = 0.0. New best score: 0.715
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.134 &gt;= min_delta = 0.0. New best score: 0.729
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 19/19 [00:02&lt;00:00,  8.93it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 19/19 [00:01&lt;00:00, 11.75it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.019 &gt;= min_delta = 0.0. New best score: 0.696
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.044 &gt;= min_delta = 0.0. New best score: 0.685
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3: 100%|██████████| 19/19 [00:02&lt;00:00,  9.49it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 19/19 [00:01&lt;00:00, 11.51it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.078 &gt;= min_delta = 0.0. New best score: 0.618
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.088 &gt;= min_delta = 0.0. New best score: 0.597
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 19/19 [00:01&lt;00:00, 11.83it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8: 100%|██████████| 19/19 [00:01&lt;00:00, 11.68it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.029 &gt;= min_delta = 0.0. New best score: 0.589
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.027 &gt;= min_delta = 0.0. New best score: 0.570
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6: 100%|██████████| 19/19 [00:01&lt;00:00, 11.79it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 13: 100%|██████████| 19/19 [00:01&lt;00:00, 11.62it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.009 &gt;= min_delta = 0.0. New best score: 0.580
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.026 &gt;= min_delta = 0.0. New best score: 0.544
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 13: 100%|██████████| 19/19 [00:01&lt;00:00, 11.69it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 15: 100%|██████████| 19/19 [00:01&lt;00:00, 11.60it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.002 &gt;= min_delta = 0.0. New best score: 0.577
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.011 &gt;= min_delta = 0.0. New best score: 0.534
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 16: 100%|██████████| 19/19 [00:01&lt;00:00, 11.74it/s, v_num=gwm6]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.024 &gt;= min_delta = 0.0. New best score: 0.553
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 22: 100%|██████████| 19/19 [00:01&lt;00:00,  9.63it/s, v_num=gwm6]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.008 &gt;= min_delta = 0.0. New best score: 0.546
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 26: 100%|██████████| 19/19 [00:01&lt;00:00, 11.35it/s, v_num=gwm6]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.540
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 29: 100%|██████████| 19/19 [00:01&lt;00:00, 11.72it/s, v_num=gwm6]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.006 &gt;= min_delta = 0.0. New best score: 0.534
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 36: 100%|██████████| 19/19 [00:01&lt;00:00, 11.65it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 22: 100%|██████████| 19/19 [00:01&lt;00:00, 11.63it/s, v_num=on2g]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.006 &gt;= min_delta = 0.0. New best score: 0.528
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 39: 100%|██████████| 19/19 [00:02&lt;00:00,  9.33it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 26: 100%|██████████| 19/19 [00:01&lt;00:00, 11.63it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.014 &gt;= min_delta = 0.0. New best score: 0.514
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.003 &gt;= min_delta = 0.0. New best score: 0.525
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 54: 100%|██████████| 19/19 [00:01&lt;00:00, 11.56it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 29: 100%|██████████| 19/19 [00:01&lt;00:00, 11.59it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.023 &gt;= min_delta = 0.0. New best score: 0.491
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.011 &gt;= min_delta = 0.0. New best score: 0.514
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 74: 100%|██████████| 19/19 [00:01&lt;00:00, 11.35it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 33: 100%|██████████| 19/19 [00:01&lt;00:00, 11.61it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.003 &gt;= min_delta = 0.0. New best score: 0.488
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.009 &gt;= min_delta = 0.0. New best score: 0.505
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 86: 100%|██████████| 19/19 [00:01&lt;00:00, 11.48it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 42: 100%|██████████| 19/19 [00:01&lt;00:00, 11.42it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.482
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.004 &gt;= min_delta = 0.0. New best score: 0.502
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 115: 100%|██████████| 19/19 [00:01&lt;00:00, 11.41it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 50: 100%|██████████| 19/19 [00:01&lt;00:00, 11.59it/s, v_num=on2g]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.005 &gt;= min_delta = 0.0. New best score: 0.477
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metric valid_loss improved by 0.013 &gt;= min_delta = 0.0. New best score: 0.488
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 165: 100%|██████████| 19/19 [00:01&lt;00:00, 11.49it/s, v_num=gwm6]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 52:  32%|███▏      | 6/19 [00:00&lt;00:00, 13.92it/s, v_num=on2g] 
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Monitored metric valid_loss did not improve in the last 50 records. Best score: 0.477. Signaling Trainer to stop.
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 165: 100%|██████████| 19/19 [00:01&lt;00:00, 11.48it/s, v_num=gwm6]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/ids/gpeeters/anaconda3/envs/conda_gpeeters_2024/lib/python3.8/site-packages/lightning/pytorch/trainer/call.py:54: Detected KeyboardInterrupt, attempting graceful shutdown...
 </pre></div>
 </div>
 </div>
@@ -1277,17 +1268,24 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_set</span> <span class="o">=</span> <span class="n">CoverDataset</span><span class="p">(</span><span class="n">hdf5_feat_file</span><span class="p">,</span> <span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">do_train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">move_model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">move_model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
     <span class="n">move_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">embed_all_m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([],</span> <span class="n">device</span><span class="o">=</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
     <span class="n">coverid_l</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">performanceid_l</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">performanceid</span> <span class="ow">in</span> <span class="n">test_set</span><span class="o">.</span><span class="n">data_d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">items</span><span class="p">,</span> <span class="n">coverid</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">getitem_by_performanceid</span><span class="p">(</span><span class="n">performanceid</span><span class="p">)</span>
         <span class="n">embedding_m</span> <span class="o">=</span> <span class="n">move_model</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
         <span class="n">embed_all_m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">embed_all_m</span><span class="p">,</span> <span class="n">embedding_m</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
         <span class="n">coverid_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coverid</span><span class="p">)</span>
+        <span class="n">performanceid_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">performanceid</span><span class="p">)</span>
         
 <span class="n">dist_all_m</span> <span class="o">=</span> <span class="n">pairwise_distance_matrix</span><span class="p">(</span><span class="n">embed_all_m</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">param_d</span><span class="o">.</span><span class="n">norm_dist</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="n">dist_all_m</span> <span class="o">/=</span> <span class="n">param_d</span><span class="o">.</span><span class="n">emb_size</span>
@@ -1337,12 +1335,12 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean_rank: 26.005
-mean_reciprocal_rank: 0.37922787945073666
-precision_at_1: 0.285
-precision_at_5: 0.11
-precision_at_10: 0.06849999999999999
-average_precision: 0.06849999999999999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean_rank: 10.755
+mean_reciprocal_rank: 0.5941661194043436
+precision_at_1: 0.495
+precision_at_5: 0.19
+precision_at_10: 0.10900000000000003
+average_precision: 0.10900000000000003
 </pre></div>
 </div>
 </div>

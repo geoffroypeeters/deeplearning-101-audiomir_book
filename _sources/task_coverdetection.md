@@ -6,10 +6,10 @@
 
 ## Goal of the task ?
 
-Cover(Version) Detection(Identification) is the task aiming at detecting a given music track is a cover/version of another track.
-For example detecting that this [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE) is a cover/version of this [Beathes](https://www.youtube.com/watch?v=QDYfEBY9NM4). They are over/version of the same composition (work-id or ISWC).
+Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
+For example detecting that this [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE) is a cover/version of this [Beathes](https://www.youtube.com/watch?v=QDYfEBY9NM4). They are covers/versions of the same composition (work-id or ISWC).
 
-Considering the very large number of possible work-id it is not possible to solve this as a classification problem (too many classes).
+Considering the very large number of possible work-id it is not possible to solve this as a classification (multi-class) problem (too many classes).
 To solve this, the approach commonly used is to have a reference dataset $R$, containing tracks $\{r_i\}$ with known work-id, and to compare the query track $q$ to each track $r_i$ the reference dataset. If one track $q$ is similar to one track of the dataset (the distance $d(q,r_i)$ is small) , we decide that $q$ is a cover of $r_i$ and they share the same work-id.
 This involves setting a threshold $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ we decide they are cover of each other.
 
