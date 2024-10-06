@@ -2,6 +2,9 @@
 
 The following type of data are commonly used in MIR as input of deep learning models.
 
+
+
+
 (lab_lms)
 ### Waveform
 
@@ -12,6 +15,11 @@ It is often either a 1D-convolution [], a [TCN](lab_tcn) or a parametric front-e
 
 More details can be found in the following tutorial.
 Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, TasNet, ConvTasNet.
+
+
+![waveform](/images/brick_waveform.png)
+
+
 
 (lab_lms)=
 ### Log-Mel-Spectrogram (LMS)
@@ -31,50 +39,122 @@ Another view of the LMS, is to consider that those are equivalent to the MFCC bu
 This DCT was necessary to decorrelate the dimensions and then allows covariance matrix in GMM-based system.
 However, this decorrelation is not necessary for deep learning models.
 
+![lms](/images/brick_lms.png)
+
 ```python
-def f_get_lms(audio_v, sr_hz):
-  C = 10000
-  data_m = librosa.feature.melspectrogram(y=audio_v, sr=sr_hz, n_melsint=128)
-  lms_m = np.log(1 + C*data_m)
-  return lms_m
+def f_get_lms(audio_v, sr_hz, param_lms):
+    """
+    description:
+        compute Log-Mel-Sepctrogram audio features
+    inputs:
+        - audio_v
+        - sr_hz
+    outputs:
+        - data_m (nb_dim, nb_frame): Log-Mel-Spectrogram matrix
+        - time_sec_v (nb_frame): corresponding time [in sec] of analysis windows
+    """
+    # --- data (nb_dim, nb_frames)
+    mel_data_m = librosa.feature.melspectrogram(y=audio_v, sr=sr_hz,
+                                                n_mels=param_lms.nb_band,
+                                                win_length=param_lms.L_n,
+                                                hop_length=param_lms.STEP_n)
+    data_m = f_log(mel_data_m)
+    nb_frame = data_m.shape[1]
+    time_sec_v = librosa.frames_to_time(frames=np.arange(nb_frame),
+                                        sr=sr_hz,
+                                        hop_length=param_lms.STEP_n)
+
+    return data_m, time_sec_v
 ```
 
 
 (lab_cqt)=
 ### Constant-Q-Transform (HCQT)
 
-CQT was proposed in {cite}`Brown1991ConstantQ`
+Constant-Q-Transform was proposed in {cite}`Brown1991ConstantQ`.
+As opposed to the Discrete Fourier Transform, which uses a fixed window length for all its frequencies $f_k$ (hence with a fixed spectral resolution), the CQT adapts the length of the window in order to be able to separate adjacent frequencies.
+The CQT divides the frequency axis into bins where the ratio between adjacent frequencies $f_{k+1}/f_k = cst$ and  is constant (i.e., logarithmically spaced). This is different from the Short-Time Fourier Transform (STFT), where frequency bins are linearly spaced $f_{k+1}-f_k = cst$.
+In music this ratio is $2^{1/12}$ for adjacent musical pitches (semitones).
+The CQT allows decreasing this ratio by increasing the number of bins for each semitone (if 3 bins per semitone the ratio is $2^{1/(3*12)}$).
+The window length is then chosen to guarantee a good spectral resolution between adjacent bins, hence adjacent musical pitches.
+This makes the CQT representation adequates to represent musical signals.
+
+Because of the log-frequency axis, another property arises. The change of pitch of a given musical instrument correspond to a vertical translation of the corresponding CQT ($\alpha f \rightarrow \log(\alpha) + \log(f)$.
+This property has been used in some works such as Shift-Invariant PLCA or in 2D-Convolution.
+
+![cqt](/images/brick_cqt.png)
+
+
+
+
 
 
 (lab_hcqt)=
 ### Harmonic-CQT (HCQT)
 
-HCQT was proposed in {cite}`DBLP:conf/ismir/BittnerMSLB17`
+The Harmonic CQT has been proposed in {cite}`DBLP:conf/ismir/BittnerMSLB17`.
+While the harmonics $h f_0$ of a given sound with fundamental frequency $f0$ are not close together in the spectrum.
+The usual "local correlation of the pixels" assumption underlying 2D-Conv therefore does not hold for musical sound.
+The idea of the HCQT is to represent this proximity through a new depth/channel dimension.
+The resulting HCQT is therefore a 3D-tensor where the depth represent different downsampled CQTs (in practice they are all CQT but computed starting from a different $f_{min}$) and the other dimensons the time and the CQT frequencies.
+
+In the figure below, the default CQT is referred as "h=1".
+The red vertical stripe highlight the fundamental frequency  of a sound.
+In $h=1$, the stripe highlights $f_0$.
+If we downsample the CQT by a factor 2 (indicated in "h=2"), the stripe now highlight $2 f_0$.
+If we downsample the CQT by a factor 3 (indicated in "h=3"), the stripe now highlight $3 f_0$.
+The various harmonics $h f_0$ are now aligned vertically across downsampled versions.
+
+![hcqt](/images/brick_hcqt.png)
+
+The HCQT is obtained by stacking the various downsampled CQTs in depth/channel dimension (see figure below).
+The HCQT is usually used as input to a 2D-Convolution layer with small kernels $(5 \times 5$ which extend over the whole depth of the HCQT.
+When used for Multi-Pitch-Estimation, the kernels should therefore learn the specific relationship among harmonics specific to harmonics versus non-harmonics.
+An extra component $h=0.5$ is added to avoid octave errors.
+
+![hcqt](/images/brick_hcqt2.png)
+
 
 ```python
-def f_get_hcqt(audio_v, sr_hz):
+def f_get_hcqt(audio_v, sr_hz, param_hcqt):
     """
+    description:
+        compute Harmonic CQT
+    inputs:
+        - audio_v
+        - sr_hz
+    outputs:
+        - data_3m (H, nb_dim, nb_frame): Harmonic CQT
+        - time_sec_v (nb_frame): corresponding time [in sec] of analysis windows
+        - frequency_hz_v (nb_dim): corresponding frequency [in Hz] of CQT channels
     """
-    h_l = [0.5, 1, 2, 3, 4, 5]
-    BINS_PER_SEMITONE = 3
-    BINS_PER_OCTAVE = 12 * BINS_PER_SEMITONE
-    N_OCTAVES = 6
-    N_BINS = N_OCTAVES * BINS_PER_OCTAVE
-    FMIN = 32.7
-    HOP_LENGTH = 512
-
-    for idx, h in enumerate(h_l):
-        A_m = np.abs(librosa.cqt(y=audio_v, sr=sr_hz, fmin=h*32.7, hop_length=HOP_LENGTH, bins_per_octave=BINS_PER_OCTAVE, n_bins=N_BINS))
+    for idx, h in enumerate(param_hcqt.h_l):
+        A_m = np.abs(librosa.cqt(y=audio_v, sr=sr_hz,
+                                fmin=h*param_hcqt.FMIN,
+                                hop_length=param_hcqt.HOP_LENGTH,
+                                bins_per_octave=param_hcqt.BINS_PER_OCTAVE,
+                                n_bins=param_hcqt.N_BINS))
         if idx==0:
-            CQT_3m = np.zeros((len(h_l), A_m.shape[0], A_m.shape[1]))
-        CQT_3m[idx,:,:] = A_m
+            data_3m = np.zeros((len(param_hcqt.h_l), A_m.shape[0], A_m.shape[1]))
+        data_3m[idx,:,:] = A_m
 
-    n_times = CQT_3m.shape[2]
-    cqt_time_sec_v = librosa.frames_to_time(np.arange(n_times), sr=sr_hz, hop_length=HOP_LENGTH)
-    cqt_frequency_hz_v = librosa.cqt_frequencies(n_bins=N_BINS, fmin=FMIN, bins_per_octave=BINS_PER_OCTAVE)
+    n_times = data_3m.shape[2]
+    time_sec_v = librosa.frames_to_time(np.arange(n_times),
+                                            sr=sr_hz,
+                                            hop_length=param_hcqt.HOP_LENGTH)
+    frequency_hz_v = librosa.cqt_frequencies(n_bins=param_hcqt.N_BINS,
+                                                    fmin=param_hcqt.FMIN,
+                                                    bins_per_octave=param_hcqt.BINS_PER_OCTAVE)
 
-    return CQT_3m, cqt_time_sec_v, cqt_frequency_hz_v
+    return data_3m, time_sec_v, frequency_hz_v
 ```
+
+
+
+(lab_chroma)=
+### Chroma
+
+
 
 ### Audio augmentations
 

@@ -145,9 +145,3 @@ LEAF (Learnable Audio Front-End) was proposed in {cite}`DBLP:conf/iclr/Zeghidour
 ![tcn](/images/brick_leaf.png)
 
 https://github.com/SarthakYadav/leaf-pytorch/blob/master/leaf_pytorch/frontend.py
-
-
-
-### Audio augmentations
-
-blablabla
