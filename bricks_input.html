@@ -396,6 +396,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chroma">Chroma</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
 </ul>
             </nav>
@@ -420,6 +421,7 @@ The first layer of the models then act as a learnable feature extractor.
 It is often either a 1D-convolution [], a <a class="reference internal" href="bricks_projection.html#lab-tcn"><span class="std std-ref">TCN</span></a> or a parametric front-end such as <a class="reference internal" href="bricks_frontend.html#label-sincnet"><span class="std std-ref">SincNet</span></a> or <span class="xref myst">LEAF</span>.</p>
 <p>More details can be found in the following tutorial.
 Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, TasNet, ConvTasNet.</p>
+<p><img alt="waveform" src="_images/brick_waveform.png" /></p>
 </section>
 <section id="log-mel-spectrogram-lms">
 <span id="lab-lms"></span><h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h2>
@@ -439,45 +441,101 @@ Usually, a <span class="math notranslate nohighlight">\(\log(1+C x)\)</span> (wi
 <p>Another view of the LMS, is to consider that those are equivalent to the MFCC but without the last DCT.
 This DCT was necessary to decorrelate the dimensions and then allows covariance matrix in GMM-based system.
 However, this decorrelation is not necessary for deep learning models.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_lms</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">):</span>
-  <span class="n">C</span> <span class="o">=</span> <span class="mi">10000</span>
-  <span class="n">data_m</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span> <span class="n">n_melsint</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-  <span class="n">lms_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">C</span><span class="o">*</span><span class="n">data_m</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">lms_m</span>
+<p><img alt="lms" src="_images/brick_lms.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_lms</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_lms</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    description:</span>
+<span class="sd">        compute Log-Mel-Sepctrogram audio features</span>
+<span class="sd">    inputs:</span>
+<span class="sd">        - audio_v</span>
+<span class="sd">        - sr_hz</span>
+<span class="sd">    outputs:</span>
+<span class="sd">        - data_m (nb_dim, nb_frame): Log-Mel-Spectrogram matrix</span>
+<span class="sd">        - time_sec_v (nb_frame): corresponding time [in sec] of analysis windows</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># --- data (nb_dim, nb_frames)</span>
+    <span class="n">mel_data_m</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span>
+                                                <span class="n">n_mels</span><span class="o">=</span><span class="n">param_lms</span><span class="o">.</span><span class="n">nb_band</span><span class="p">,</span>
+                                                <span class="n">win_length</span><span class="o">=</span><span class="n">param_lms</span><span class="o">.</span><span class="n">L_n</span><span class="p">,</span>
+                                                <span class="n">hop_length</span><span class="o">=</span><span class="n">param_lms</span><span class="o">.</span><span class="n">STEP_n</span><span class="p">)</span>
+    <span class="n">data_m</span> <span class="o">=</span> <span class="n">f_log</span><span class="p">(</span><span class="n">mel_data_m</span><span class="p">)</span>
+    <span class="n">nb_frame</span> <span class="o">=</span> <span class="n">data_m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">time_sec_v</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nb_frame</span><span class="p">),</span>
+                                        <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span>
+                                        <span class="n">hop_length</span><span class="o">=</span><span class="n">param_lms</span><span class="o">.</span><span class="n">STEP_n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data_m</span><span class="p">,</span> <span class="n">time_sec_v</span>
 </pre></div>
 </div>
 </section>
 <section id="constant-q-transform-hcqt">
 <span id="lab-cqt"></span><h2>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Permalink to this heading">#</a></h2>
-<p>CQT was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id5" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span></p>
+<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id8" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.
+As opposed to the Discrete Fourier Transform, which uses a fixed window length for all its frequencies <span class="math notranslate nohighlight">\(f_k\)</span> (hence with a fixed spectral resolution), the CQT adapts the length of the window in order to be able to separate adjacent frequencies.
+The CQT divides the frequency axis into bins where the ratio between adjacent frequencies <span class="math notranslate nohighlight">\(f_{k+1}/f_k = cst\)</span> and  is constant (i.e., logarithmically spaced). This is different from the Short-Time Fourier Transform (STFT), where frequency bins are linearly spaced <span class="math notranslate nohighlight">\(f_{k+1}-f_k = cst\)</span>.
+In music this ratio is <span class="math notranslate nohighlight">\(2^{1/12}\)</span> for adjacent musical pitches (semitones).
+The CQT allows decreasing this ratio by increasing the number of bins for each semitone (if 3 bins per semitone the ratio is <span class="math notranslate nohighlight">\(2^{1/(3*12)}\)</span>).
+The window length is then chosen to guarantee a good spectral resolution between adjacent bins, hence adjacent musical pitches.
+This makes the CQT representation adequates to represent musical signals.</p>
+<p>Because of the log-frequency axis, another property arises. The change of pitch of a given musical instrument correspond to a vertical translation of the corresponding CQT (<span class="math notranslate nohighlight">\(\alpha f \rightarrow \log(\alpha) + \log(f)\)</span>.
+This property has been used in some works such as Shift-Invariant PLCA or in 2D-Convolution.</p>
+<p><img alt="cqt" src="_images/brick_cqt.png" /></p>
 </section>
 <section id="harmonic-cqt-hcqt">
 <span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h2>
-<p>HCQT was proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id3" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_hcqt</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">):</span>
+<p>The Harmonic CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id6" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.
+While the harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> of a given sound with fundamental frequency <span class="math notranslate nohighlight">\(f0\)</span> are not close together in the spectrum.
+The usual “local correlation of the pixels” assumption underlying 2D-Conv therefore does not hold for musical sound.
+The idea of the HCQT is to represent this proximity through a new depth/channel dimension.
+The resulting HCQT is therefore a 3D-tensor where the depth represent different downsampled CQTs (in practice they are all CQT but computed starting from a different <span class="math notranslate nohighlight">\(f_{min}\)</span>) and the other dimensons the time and the CQT frequencies.</p>
+<p>In the figure below, the default CQT is referred as “h=1”.
+The red vertical stripe highlight the fundamental frequency  of a sound.
+In <span class="math notranslate nohighlight">\(h=1\)</span>, the stripe highlights <span class="math notranslate nohighlight">\(f_0\)</span>.
+If we downsample the CQT by a factor 2 (indicated in “h=2”), the stripe now highlight <span class="math notranslate nohighlight">\(2 f_0\)</span>.
+If we downsample the CQT by a factor 3 (indicated in “h=3”), the stripe now highlight <span class="math notranslate nohighlight">\(3 f_0\)</span>.
+The various harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> are now aligned vertically across downsampled versions.</p>
+<p><img alt="hcqt" src="_images/brick_hcqt.png" /></p>
+<p>The HCQT is obtained by stacking the various downsampled CQTs in depth/channel dimension (see figure below).
+The HCQT is usually used as input to a 2D-Convolution layer with small kernels <span class="math notranslate nohighlight">\((5 \times 5\)</span> which extend over the whole depth of the HCQT.
+When used for Multi-Pitch-Estimation, the kernels should therefore learn the specific relationship among harmonics specific to harmonics versus non-harmonics.
+An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> is added to avoid octave errors.</p>
+<p><img alt="hcqt" src="_images/brick_hcqt2.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_hcqt</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_hcqt</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    description:</span>
+<span class="sd">        compute Harmonic CQT</span>
+<span class="sd">    inputs:</span>
+<span class="sd">        - audio_v</span>
+<span class="sd">        - sr_hz</span>
+<span class="sd">    outputs:</span>
+<span class="sd">        - data_3m (H, nb_dim, nb_frame): Harmonic CQT</span>
+<span class="sd">        - time_sec_v (nb_frame): corresponding time [in sec] of analysis windows</span>
+<span class="sd">        - frequency_hz_v (nb_dim): corresponding frequency [in Hz] of CQT channels</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">h_l</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-    <span class="n">BINS_PER_SEMITONE</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">BINS_PER_OCTAVE</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">BINS_PER_SEMITONE</span>
-    <span class="n">N_OCTAVES</span> <span class="o">=</span> <span class="mi">6</span>
-    <span class="n">N_BINS</span> <span class="o">=</span> <span class="n">N_OCTAVES</span> <span class="o">*</span> <span class="n">BINS_PER_OCTAVE</span>
-    <span class="n">FMIN</span> <span class="o">=</span> <span class="mf">32.7</span>
-    <span class="n">HOP_LENGTH</span> <span class="o">=</span> <span class="mi">512</span>
-
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">h_l</span><span class="p">):</span>
-        <span class="n">A_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">h</span><span class="o">*</span><span class="mf">32.7</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">HOP_LENGTH</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">BINS_PER_OCTAVE</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">N_BINS</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">h_l</span><span class="p">):</span>
+        <span class="n">A_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span>
+                                <span class="n">fmin</span><span class="o">=</span><span class="n">h</span><span class="o">*</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">FMIN</span><span class="p">,</span>
+                                <span class="n">hop_length</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">HOP_LENGTH</span><span class="p">,</span>
+                                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">BINS_PER_OCTAVE</span><span class="p">,</span>
+                                <span class="n">n_bins</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">N_BINS</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">idx</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">CQT_3m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">h_l</span><span class="p">),</span> <span class="n">A_m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A_m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="n">CQT_3m</span><span class="p">[</span><span class="n">idx</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">A_m</span>
+            <span class="n">data_3m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">h_l</span><span class="p">),</span> <span class="n">A_m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A_m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">data_3m</span><span class="p">[</span><span class="n">idx</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">A_m</span>
 
-    <span class="n">n_times</span> <span class="o">=</span> <span class="n">CQT_3m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">cqt_time_sec_v</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_times</span><span class="p">),</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">HOP_LENGTH</span><span class="p">)</span>
-    <span class="n">cqt_frequency_hz_v</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="n">N_BINS</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">FMIN</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">BINS_PER_OCTAVE</span><span class="p">)</span>
+    <span class="n">n_times</span> <span class="o">=</span> <span class="n">data_3m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">time_sec_v</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_times</span><span class="p">),</span>
+                                            <span class="n">sr</span><span class="o">=</span><span class="n">sr_hz</span><span class="p">,</span>
+                                            <span class="n">hop_length</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">HOP_LENGTH</span><span class="p">)</span>
+    <span class="n">frequency_hz_v</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">N_BINS</span><span class="p">,</span>
+                                                    <span class="n">fmin</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">FMIN</span><span class="p">,</span>
+                                                    <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">param_hcqt</span><span class="o">.</span><span class="n">BINS_PER_OCTAVE</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">CQT_3m</span><span class="p">,</span> <span class="n">cqt_time_sec_v</span><span class="p">,</span> <span class="n">cqt_frequency_hz_v</span>
+    <span class="k">return</span> <span class="n">data_3m</span><span class="p">,</span> <span class="n">time_sec_v</span><span class="p">,</span> <span class="n">frequency_hz_v</span>
 </pre></div>
 </div>
+</section>
+<section id="chroma">
+<span id="lab-chroma"></span><h2>Chroma<a class="headerlink" href="#chroma" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="audio-augmentations">
 <h2>Audio augmentations<a class="headerlink" href="#audio-augmentations" title="Permalink to this heading">#</a></h2>
@@ -552,6 +610,7 @@ However, this decorrelation is not necessary for deep learning models.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-mel-spectrogram-lms">Log-Mel-Spectrogram (LMS)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-q-transform-hcqt">Constant-Q-Transform (HCQT)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic-cqt-hcqt">Harmonic-CQT (HCQT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chroma">Chroma</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-augmentations">Audio augmentations</a></li>
 </ul>
   </nav></div>
