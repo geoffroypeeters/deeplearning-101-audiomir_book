@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_frontend';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -390,8 +392,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">1D-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-convolution-network-tcn">Temporal Convolution Network (TCN)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
 </ul>
             </nav>
         </div>
@@ -405,9 +409,133 @@ document.write(`
                   
   <section id="front-ends">
 <h1>Front-ends<a class="headerlink" href="#front-ends" title="Permalink to this heading">#</a></h1>
+<section id="d-conv">
+<span id="label-1dconv"></span><h2>1D-Conv<a class="headerlink" href="#d-conv" title="Permalink to this heading">#</a></h2>
+<p>Dieleman et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id14" title="Sander Dieleman and Benjamin Schrauwen. End-to-end learning for music audio. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2014, Florence, Italy, May 4-9, 2014, 6964–6968. IEEE, 2014. URL: https://doi.org/10.1109/ICASSP.2014.6854950, doi:10.1109/ICASSP.2014.6854950.">DS14</a>]</span> were probably the first to attempt replacing the spectrogram input by a learnable front-end, here 1D-convolution.
+They replicated the spectrogram parameters (window length, hop size) in the 1D-convolution parameters (kernel-length and stride).
+A major difference between the spectrogram (magnitude of the STFT) and learnable 1D-kernels, is the phase-shift invariance provided by the former (to perform this with the later will necessitates a kernel for all possible phase-shift of a given frequency).
+To facilitate the learning of such kernels, smaller kernel (hence with less possibilities for phase-shifts) has been proposed, such as in Sample-CNN (a cascade, as in VGG-net, or small 1D filters) <span id="id2">[<a class="reference internal" href="bibiography.html#id13" title="Jongpil Lee, Jiyoung Park, Keunhyoung Luke Kim, and Juhan Nam. Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms. CoRR, 2017. URL: http://arxiv.org/abs/1703.01789, arXiv:1703.01789.">LPKN17</a>]</span>.</p>
+<p>1D-Convolution is very popular for source separation front-ends: as in ConvTasNet</p>
+<p>As in Wav-U-Net <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Daniel Stoller, Sebastian Ewert, and Simon Dixon. Wave-u-net: A multi-scale neural network for end-to-end audio source separation. In Emilia Gómez, Xiao Hu, Eric Humphrey, and Emmanouil Benetos, editors, Proceedings of the 19th International Society for Music Information Retrieval Conference, ISMIR 2018, Paris, France, September 23-27, 2018, 334–340. 2018. URL: http://ismir2018.ircam.fr/doc/pdfs/205\_Paper.pdf.">SED18</a>]</span>, ConvTasNet <span id="id4">[<a class="reference internal" href="bibiography.html#id12" title="Yi Luo and Nima Mesgarani. Conv-tasnet: surpassing ideal time-frequency magnitude masking for speech separation. IEEE ACM Trans. Audio Speech Lang. Process., 27(8):1256–1266, 2019. URL: https://doi.org/10.1109/TASLP.2019.2915167, doi:10.1109/TASLP.2019.2915167.">LM19</a>]</span> or Demucs <span id="id5">[<a class="reference internal" href="bibiography.html#id10" title="Alexandre Défossez, Nicolas Usunier, Léon Bottou, and Francis R. Bach. Demucs: deep extractor for music sources with extra unlabeled data remixed. CoRR, 2019. URL: http://arxiv.org/abs/1909.01174, arXiv:1909.01174.">DefossezUBB19</a>]</span>.</p>
+<p><img alt="conv1d" src="_images/brick_conv1d.png" /></p>
+<p><em>image source: WaveNet <span id="id6">[<a class="reference internal" href="bibiography.html#id24" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016, 125. ISCA, 2016. URL: http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html.">vdODZ+16</a>]</span></em></p>
+</section>
+<section id="dilated-conv">
+<span id="label-dilated"></span><h2>Dilated-Conv<a class="headerlink" href="#dilated-conv" title="Permalink to this heading">#</a></h2>
+<p>The 1D-dilated convolution was proposed in the paper WaveNet was proposed in <span id="id7">[<a class="reference internal" href="bibiography.html#id24" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016, 125. ISCA, 2016. URL: http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html.">vdODZ+16</a>]</span>.
+The goal of it is to increase the side of the receptive field.
+Indeed, since audio signals has a large dimensionality (16.000 values for 1 second of audio at a sampling rate of 16Khz), one would need a very large kernel, or a very large number of layers in order the receptive field to capture the whole signal.
+Dilated convolution consists in skipping 1 sample over 2 (over 4, over 8, …) when computing convolution (or equivalently adding holes in the kernel).</p>
+<p>For a 1D-filter <span class="math notranslate nohighlight">\(w\)</span> of size <span class="math notranslate nohighlight">\(l\)</span> and a sequence <span class="math notranslate nohighlight">\(x(n)\)</span>,</p>
+<ul class="simple">
+<li><p>the usual convolution is written <span class="math notranslate nohighlight">\((x \circledast w)(n) = \sum_{i=0}^{l-1} w(i) x(n-i)\)</span>; t</p></li>
+<li><p>he dilated convolution with a dilatation factor <span class="math notranslate nohighlight">\(d\)</span> is written <span class="math notranslate nohighlight">\((x \circledast_d w)(n) = \sum_{i=0}^{l-1} w(i) x(n - (d \cdot i))\)</span>,</p>
+<ul>
+<li><p>the filter is convolved with the signal only considering one over <span class="math notranslate nohighlight">\(d\)</span> values.</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="tcn" src="_images/brick_dilated.png" /></p>
+<p><em>image source: WaveNet <span id="id8">[<a class="reference internal" href="bibiography.html#id24" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016, 125. ISCA, 2016. URL: http://www.isca-speech.org/archive/SSW\_2016/abstracts/ssw9\_DS-4\_van\_den\_Oord.html.">vdODZ+16</a>]</span></em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="temporal-convolution-network-tcn">
+<span id="lab-tcn"></span><h2>Temporal Convolution Network (TCN)<a class="headerlink" href="#temporal-convolution-network-tcn" title="Permalink to this heading">#</a></h2>
+<p>Temporal Convolution Network was proposed in <span id="id9">[<a class="reference internal" href="bibiography.html#id23" title="Shaojie Bai, J. Zico Kolter, and Vladlen Koltun. An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. CoRR, 2018. URL: http://arxiv.org/abs/1803.01271, arXiv:1803.01271.">BKK18</a>]</span>.
+It is a simplification of the computational block underlying WaveNet.
+It is made of</p>
+<ul class="simple">
+<li><p>Two blocks of</p>
+<ul>
+<li><p>Dilated <em>causal</em> convolution</p></li>
+<li><p>Weight normalization</p></li>
+<li><p>ReLU</p></li>
+<li><p>Dropout</p></li>
+</ul>
+</li>
+<li><p>A residual/skip connnection</p></li>
+</ul>
+<p><img alt="tcn" src="_images/brick_tcn.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># TCN code: https://github.com/locuslab/TCN</span>
+<span class="k">class</span> <span class="nc">Chomp1d</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chomp_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Chomp1d</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chomp_size</span> <span class="o">=</span> <span class="n">chomp_size</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">chomp_size</span><span class="p">]</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">TemporalBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">dilation</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TemporalBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">weight_norm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span>
+                                           <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chomp1</span> <span class="o">=</span> <span class="n">Chomp1d</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">weight_norm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span>
+                                           <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chomp2</span> <span class="o">=</span> <span class="n">Chomp1d</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chomp1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chomp2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">n_inputs</span> <span class="o">!=</span> <span class="n">n_outputs</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_weights</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">x</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">res</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TemporalConvNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TemporalConvNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_levels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_levels</span><span class="p">):</span>
+            <span class="n">dilation_size</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">i</span>
+            <span class="n">in_channels</span> <span class="o">=</span> <span class="n">num_inputs</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">out_channels</span> <span class="o">=</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">layers</span> <span class="o">+=</span> <span class="p">[</span><span class="n">TemporalBlock</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation_size</span><span class="p">,</span>
+                                     <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dilation_size</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="parametric-front-end-sincnet">
 <span id="label-sincnet"></span><h2>Parametric front-end: SincNet<a class="headerlink" href="#parametric-front-end-sincnet" title="Permalink to this heading">#</a></h2>
-<p>SincNet was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id7" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></p>
+<p>SincNet was proposed in <span id="id10">[<a class="reference internal" href="bibiography.html#id20" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span>.
+It is one of the first <strong>parametric front-end</strong>.
+More precisely SincNet defines a 1D-kernel (to be used for 1D-convolution) as the results of a parametric function.</p>
+<p><strong>Parametric kernel:</strong> If we define a 1D-convolution filter of length N as <span class="math notranslate nohighlight">\(w(n), n \in \{0,\ldots,N-1\}\)</span>.
+When training a normal convolution kernel, one has to learn each of the <span class="math notranslate nohighlight">\(N\)</span> filter values.
+In parametric kernel, <span class="math notranslate nohighlight">\(w(n)\)</span> is the results of a parametric function <span class="math notranslate nohighlight">\(w_{\theta}(n)\)</span> (<span class="math notranslate nohighlight">\(\theta\)</span> is the parameter) which is evaluated at the points <span class="math notranslate nohighlight">\(n \in \{0,\ldots,N-1\}\)</span> to get the values of <span class="math notranslate nohighlight">\(w(n)\)</span></p>
+<p>SincNet aims at designing kernels which frequency response is a band-pass filter <span class="math notranslate nohighlight">\([f_1,f_2]\)</span>.
+Since band-pass filters can be obtained by subtracting a low-pass filters at frequency <span class="math notranslate nohighlight">\(f_1\)</span> from one at frequency <span class="math notranslate nohighlight">\(f_1\)</span>, and since low-pass filters are expressed as SinC function in time (<span class="math notranslate nohighlight">\(sinc(x)=\frac{\sin(x)}{x}\)</span>), the kernel is expressed as
+<span class="math notranslate nohighlight">\(w_{f_1,f_2}(n)=2 f_2 sinc(2 \pi f_2n) - 2 f_1 sinc(2 \pi f_1 n)\)</span>.
+To train a SincNet filter of length <span class="math notranslate nohighlight">\(N\)</span>, we only need to learn two parameters (<span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_2\)</span>) and not <span class="math notranslate nohighlight">\(N\)</span>.
+Because we can compute the derivative of the Loss w.r.t. <span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_2\)</span>, we can then optimize <span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_2\)</span> using standard gradient descent algorithm.</p>
+<p>SincNet is the first of a series of front-ends which rely on differentiable implementation of signal processing: analytic filters <span id="id11">[<a class="reference internal" href="bibiography.html#id4" title="Manuel Pariente, Samuele Cornell, Antoine Deleforge, and Emmanuel Vincent. Filterbank design for end-to-end speech separation. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 6364–6368. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053038, doi:10.1109/ICASSP40776.2020.9053038.">PCDV20</a>]</span>, complex Gabor (CG-CNN) <span id="id12">[<a class="reference internal" href="bibiography.html#id3" title="Paul-Gauthier Noé, Titouan Parcollet, and Mohamed Morchid. CGCNN: complex gabor convolutional neural network on raw speech. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 7724–7728. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9054220, doi:10.1109/ICASSP40776.2020.9054220.">NoePM20</a>]</span>, or LEAF (Learnable Audio Front-End) <span id="id13">[<a class="reference internal" href="bibiography.html#id22" title="Neil Zeghidour, Olivier Teboul, Félix de Chaumont Quitry, and Marco Tagliasacchi. LEAF: A learnable frontend for audio classification. In 9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net, 2021. URL: https://openreview.net/forum?id=jM76BCb6F9m.">ZTdCQT21</a>]</span>.
+It can be considered as the early stages of what would lead to the well-known DDSP <span id="id14">[<a class="reference internal" href="bibiography.html#id2" title="Jesse H. Engel, Lamtharn Hantrakul, Chenjie Gu, and Adam Roberts. DDSP: differentiable digital signal processing. In 8th International Conference on Learning Representations, ICLR 2020, Addis Ababa, Ethiopia, April 26-30, 2020. OpenReview.net, 2020. URL: https://openreview.net/forum?id=B1x1ma4tDr.">EHGR20</a>]</span>.</p>
+<p><img alt="sincnet" src="_images/brick_sincnet.png" /></p>
+<p><em>image source: SincNet <span id="id15">[<a class="reference internal" href="bibiography.html#id20" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SincConv_fast</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sinc-based convolution</span>
 <span class="sd">    Parameters</span>
@@ -541,12 +669,6 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="parametric-front-end-leaf">
-<h2>Parametric front-end: LEAF<a class="headerlink" href="#parametric-front-end-leaf" title="Permalink to this heading">#</a></h2>
-<p>LEAF (Learnable Audio Front-End) was proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id9" title="Neil Zeghidour, Olivier Teboul, Félix de Chaumont Quitry, and Marco Tagliasacchi. LEAF: A learnable frontend for audio classification. In 9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net, 2021. URL: https://openreview.net/forum?id=jM76BCb6F9m.">ZTdCQT21</a>]</span></p>
-<p><img alt="tcn" src="_images/brick_leaf.png" /></p>
-<p><a class="github reference external" href="https://github.com/SarthakYadav/leaf-pytorch/blob/master/leaf_pytorch/frontend.py">SarthakYadav/leaf-pytorch</a></p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -612,8 +734,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-conv">1D-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dilated-conv">Dilated-Conv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-convolution-network-tcn">Temporal Convolution Network (TCN)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-sincnet">Parametric front-end: SincNet</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-front-end-leaf">Parametric front-end: LEAF</a></li>
 </ul>
   </nav></div>
 

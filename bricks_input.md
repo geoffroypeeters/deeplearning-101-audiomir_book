@@ -5,7 +5,7 @@ The following type of data are commonly used in MIR as input of deep learning mo
 
 
 
-(lab_lms)
+(lab_waveform)
 ### Waveform
 
 It is possible to use directly the audio waveform $x(n)$ as input to a model. In this case, the input is a 1-dimensional sequence over time.
@@ -154,6 +154,23 @@ def f_get_hcqt(audio_v, sr_hz, param_hcqt):
 (lab_chroma)=
 ### Chroma
 
+Chroma (or Pitch-Class-Profile) {cite}`DBLP:conf/icmc/Fujishima99` {cite}`Wakefield1999Chroma` is a compact (12-dimensions) representation of the harmonic content over time of a music track.
+Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, ...
+Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to the pitch-classes (summing the content of all frequency bands corresponding to the C0, C1, C2, ... to obtain the Chroma C, ...).
+
+![chroma](/images/brick_chroma.png)
+
+```python
+librosa.feature.chroma_stft(*, y=None, sr=22050, S=None, norm=inf, n_fft=2048, hop_length=512, win_length=None, window='hann', center=True, pad_mode='constant', tuning=None, n_chroma=12)
+librosa.feature.chroma_cqt(*, y=None, sr=22050, C=None, hop_length=512, fmin=None, norm=inf, threshold=0.0, tuning=None, n_chroma=12, n_octaves=7, window=None, bins_per_octave=36)
+
+```
+
+
+Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma {cite}`DBLP:conf/ismir/KorzeniowskiW16` {cite}`DBLP:conf/ismir/McFeeB17` {cite}`DBLP:conf/ismir/WeissP21`.
+
+Chroma are often as input for applications such as Automatic-Chord-Recogniton (ACR), key-detection or Cover-Song-Identification (CSI).
+We use here for CSI the deep-chroma of {cite}`DBLP:conf/ismir/McFeeB17` named *crema-PCP*.
 
 
 ### Audio augmentations
