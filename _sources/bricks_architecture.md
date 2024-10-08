@@ -63,7 +63,7 @@ The $\alpha$ parameters is a trainable parameters (optimized using SGD).
 
 #### Using models
 
-It is also possible to use a RNN/LSTM in Many-to-One configuration (only the last hidden state $X_{T_x}$ is mapped to an output $\hat{y}$).
+It is also possible to use a **RNN/LSTM in Many-to-One configuration** (only the last hidden state $X_{T_x}$ is mapped to an output $\hat{y}$).
 
 Finally it is possible to add an extra CLASS token to a Transformer architecture.
 
@@ -71,7 +71,7 @@ It should be noted that the term "Attention" encapsultates a large set of differ
 
 In the **encode-decoder architecture** {cite}`DBLP:journals/corr/BahdanauCB14` it is used during decoding to define the correct context $c(\tau)$ to be used to generate the hidden state $s(\tau)$. For this it compares $s(\tau-1)$ to all the hidden state of the encoder $a(t)$.
 
-In the *transformer architecture* {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it is used to compute a self-attention. For this, the $x(t)$ are mapped (using matrix projections) to query $q(t)$, key $k(t)$ and values $v(t)$. A given $q(\tau)$ is then compared to all $k(t)$ to compute attention weights $a(t,\tau)$ which are used in the weighting sum of the $v(t)$:
+In the **transformer architecture** {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it is used to compute a self-attention. For this, the $x(t)$ are mapped (using matrix projections) to query $q(t)$, key $k(t)$ and values $v(t)$. A given $q(\tau)$ is then compared to all $k(t)$ to compute attention weights $a(t,\tau)$ which are used in the weighting sum of the $v(t)$:
 $e(\tau) = \sum_t a(t,\tau) v(t)$.
 
 
