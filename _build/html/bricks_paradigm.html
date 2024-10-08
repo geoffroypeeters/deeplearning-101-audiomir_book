@@ -444,6 +444,7 @@ In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</s
 <span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span> where <span class="math notranslate nohighlight">\(\alpha\)</span> is a margin parameters.
 It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilite the setting the <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
 <p><img alt="triplet-loss" src="_images/brick_triplet.png" /></p>
+<p><em>image source: <a class="reference external" href="https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905">https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -454,15 +455,16 @@ It is usual to L2-normalized the output of <span class="math notranslate nohighl
 The goal is to ensure the model learns effectively by choosing the right combination of examples.</p>
 <p>Given the choice of an Anchor and a Positive, we denotes by</p>
 <ul class="simple">
-<li><p><em>Easy negatives</em>: Negatives (different class) that are already far from the anchor. These don’t provide much useful information since the model already distinguishes them well.</p></li>
-<li><p><em>Semi-hard negatives</em>: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.</p></li>
-<li><p><em>Hard negatives</em>: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.</p></li>
+<li><p><strong>Easy negatives</strong>: Negatives (different class) that are already far from the anchor. These don’t provide much useful information since the model already distinguishes them well.</p></li>
+<li><p><strong>Semi-hard negatives</strong>: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.</p></li>
+<li><p><strong>Hard negatives</strong>: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.</p></li>
 </ul>
 <p><img alt="tripletmining" src="_images/brick_tripletmining.png" /></p>
+<p><em>image source: <a class="reference external" href="https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028">https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028</a></em></p>
 <p>We also distinguish between</p>
 <ul class="simple">
-<li><p><em>Offline mining</em>: triplets are chosen prior to training and may not adapt to the evolving model during training.</p></li>
-<li><p><em>Online mining</em>: triplets are selected from the current mini-batch using the already learned projection <span class="math notranslate nohighlight">\(f_{\theta}\)</span>, this allows selecting the most informative triplets</p></li>
+<li><p><strong>Offline mining</strong>: triplets are chosen prior to training and may not adapt to the evolving model during training.</p></li>
+<li><p><strong>Online mining</strong>: triplets are selected from the current mini-batch using the already learned projection <span class="math notranslate nohighlight">\(f_{\theta}\)</span>, this allows selecting the most informative triplets</p></li>
 </ul>
 </section>
 </section>

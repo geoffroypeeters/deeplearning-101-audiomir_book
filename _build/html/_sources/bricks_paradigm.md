@@ -34,6 +34,10 @@ $\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)$ where $\alpha$ is a margin para
 It is usual to L2-normalized the output of $f_{\theta}$ (which then lives in the unit-hypersphere) to facilite the setting the $\alpha$.
 
 ![triplet-loss](/images/brick_triplet.png)
+
+*image source: https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905*
+
+
 ```python
 loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 ```
@@ -46,16 +50,17 @@ The goal is to ensure the model learns effectively by choosing the right combina
 
 Given the choice of an Anchor and a Positive, we denotes by
 
-- *Easy negatives*: Negatives (different class) that are already far from the anchor. These don't provide much useful information since the model already distinguishes them well.
-- *Semi-hard negatives*: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.
-- *Hard negatives*: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.
+- **Easy negatives**: Negatives (different class) that are already far from the anchor. These don't provide much useful information since the model already distinguishes them well.
+- **Semi-hard negatives**: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.
+- **Hard negatives**: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.
 
 ![tripletmining](/images/brick_tripletmining.png)
 
+*image source: https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028*
 
 We also distinguish between
-- *Offline mining*: triplets are chosen prior to training and may not adapt to the evolving model during training.
-- *Online mining*: triplets are selected from the current mini-batch using the already learned projection $f_{\theta}$, this allows selecting the most informative triplets
+- **Offline mining**: triplets are chosen prior to training and may not adapt to the evolving model during training.
+- **Online mining**: triplets are selected from the current mini-batch using the already learned projection $f_{\theta}$, this allows selecting the most informative triplets
 
 
 

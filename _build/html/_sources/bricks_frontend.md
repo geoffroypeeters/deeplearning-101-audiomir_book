@@ -139,7 +139,7 @@ More precisely SincNet defines a 1D-kernel (to be used for 1D-convolution) as th
 When training a normal convolution kernel, one has to learn each of the $N$ filter values.
 In parametric kernel, $w(n)$ is the results of a parametric function $w_{\theta}(n)$ ($\theta$ is the parameter) which is evaluated at the points $n \in \{0,\ldots,N-1\}$ to get the values of $w(n)$
 
-SincNet aims at designing kernels which frequency response is a band-pass filter $[f_1,f_2]$.
+**SincNet** aims at designing kernels which frequency response is a band-pass filter $[f_1,f_2]$.
 Since band-pass filters can be obtained by subtracting a low-pass filters at frequency $f_1$ from one at frequency $f_1$, and since low-pass filters are expressed as SinC function in time ($sinc(x)=\frac{\sin(x)}{x}$), the kernel is expressed as
 $w_{f_1,f_2}(n)=2 f_2 sinc(2 \pi f_2n) - 2 f_1 sinc(2 \pi f_1 n)$.
 To train a SincNet filter of length $N$, we only need to learn two parameters ($f_1$ and $f_2$) and not $N$.
