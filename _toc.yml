@@ -17,13 +17,11 @@ parts:
     - file: bricks_paradigm
 - caption: Tasks
   chapters:
+    - file: task_autotagging_frontend
     - file: task_multipitchestimation
-    - file: TUTO_task1_MultiPitch.ipynb
     - file: task_coverdetection
-    - file: TUTO_task2_CoverDetection.ipynb
-    - file: task_chordestimation
     - file: task_sourceseparation
-    - file: task_autotagging
+    - file: task_autotagging_ssl
     - file: task_musicgeneration
 - caption: References
   chapters:

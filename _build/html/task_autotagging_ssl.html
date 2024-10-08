@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Deep Learning 101 for Audio-based MIR &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Auto-Tagging-SSL &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -62,10 +62,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'task_autotagging_ssl';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tools to make life easier" href="tools.html" />
+    <link rel="next" title="Music Generation" href="task_musicgeneration.html" />
+    <link rel="prev" title="Source Separation" href="task_sourceseparation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -141,7 +142,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -161,8 +162,8 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Deep Learning 101 for Audio-based MIR
                 </a>
             </li>
@@ -181,11 +182,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Auto-Tagging-SSL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
@@ -262,7 +263,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftask_autotagging_ssl.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -292,7 +293,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/task_autotagging_ssl.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -363,9 +364,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -376,21 +375,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Deep Learning 101 for Audio-based MIR</h1>
+    <h1>Auto-Tagging-SSL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-authors">About the authors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-book">Citing this book¶</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -400,55 +389,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-101-for-audio-based-mir">
-<h1>Deep Learning 101 for Audio-based MIR<a class="headerlink" href="#deep-learning-101-for-audio-based-mir" title="Permalink to this heading">#</a></h1>
-<p>This is a web book written for a tutorial session of the <a class="reference external" href="https://ismir2024.ismir.net/">25th International Society for Music Information Retrieval Conference</a>, Nov 10-14, 2024 in San Francisco, CA, USA. The <a class="reference external" href="https://ismir.net/">ISMIR conference</a> is the world’s leading research forum on processing, searching, organising and accessing music-related data.</p>
-<section id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">#</a></h2>
-<p><em>Audio-based MIR (MIR based on the processing of audio signals) covers a broad range of tasks, including analysis (pitch, chord, beats, tagging), similarity/cover identification, and processing/generation of samples or music fragments. A wide range of techniques can be employed for solving each of these tasks, spanning from conventional signal processing and machine learning algorithms to the whole zoo of deep learning techniques.</em></p>
-<p><em>This tutorial aims to review the various elements of this deep learning zoo commonly applied in Audio-based MIR tasks. We review typical audio front-ends (such as waveform, Log-Mel-Spectrogram, HCQT, SincNet, LEAF, quantization using VQ-VAE, RVQ), as well as projections (including 1D-Conv, 2D-Conv, Dilated-Conv, TCN, WaveNet, RNN, Transformer, Conformer, U-Net, VAE), and examine the various training paradigms (such as supervised, self-supervised, metric-learning, adversarial, encoder-decoder, diffusion).</em></p>
-<p><em>Rather than providing an exhaustive list of all of these elements, we illustrate their use within a subset of (commonly studied) Audio-based MIR tasks such as multi-pitch/chord-estimation, cover-detection, auto-tagging, source separation, music-translation or music generation. This subset of Audio-based MIR tasks is designed to encompass a wide range of deep learning elements.</em></p>
-<p><em>For each tack we address a) the goal of the tasks, b) how it is evaluated, c) provide some popular datasets to train a system, and d) explain (using slides and pytorch code) how we can solve it using deep learning.</em></p>
-<p><em>The objective is to provide a 101 lecture (introductory lecture) on deep learning techniques for Audio-based MIR. It does not aim at being exhaustive in terms of Audio-based MIR tasks neither on deep learning techniques but to provide an overview for newcomers to Audio-Based MIR on how to solve the most common tasks using deep learning. It will provide a portfolio of codes (Colab notebooks and Jupyter book) to help newcomers achieve the various Audio-based MIR Tasks.</em></p>
-</section>
-<section id="about-the-authors">
-<h2>About the authors<a class="headerlink" href="#about-the-authors" title="Permalink to this heading">#</a></h2>
-<p><img alt="geoffroy" src="_images/profile_geoffroy_100x100.png" /></p>
-<p><a class="reference external" href="https://perso.telecom-paristech.fr/gpeeters/"> Geoffroy Peeters</a> is a full professor in the Image-Data-Signal (IDS) department of <a class="reference external" href="https://www.telecom-paris.fr/">Télécom Paris</a>. Before that (from 2001 to 2018), he was Senior Researcher at IRCAM, leading research related to Music Information Retrieval. He received his Ph.D. in signal processing for speech processing in 2001 and his Habilitation (HDR) in Music Information Retrieval in 2013 from the University Paris VI. His research topics concern signal processing and machine learning (including deep learning) for audio processing, with a strong focus on music. He has participated in many national or European projects, published numerous articles and several patents in these areas, and co-authored the ISO MPEG-7 audio standard. He has been co-general-chair of the DAFx-2011 and ISMIR-2018 conferences, member and president of the ISMIR society, and is the current AASP review chair for ICASSP.</p>
-<p><img alt="gabriel" src="_images/profile_gabriel_100x100.png" /></p>
-<p><a class="reference external" href="https://github.com/gabolsgabs">Gabriel Meseguer-Brocal</a> is a research scientist at <a class="reference external" href="https://research.deezer.com/">Deezer</a> with over two years of experience at the company. Before joining Deezer, he completed postdoctoral research at Centre National de la Recherche Scientifique (CNRS) in France. In 2020, he earned his Ph.D. in Computer Science, Telecommunications, and Electronics with a focus on the Sciences &amp; Technologies of Music and Sound at IRCAM. His research interests include signal processing and deep learning techniques for music processing, with a focus on areas such as source separation, dataset creation, multi-tagging, self-supervised learning, and multimodal analysis.</p>
-<p><img alt="alain" src="_images/profile_alain_100x100.png" /></p>
-<p><a class="reference external" href="https://github.com/aRI0U">Alain Riou</a> is a PhD student working on self-supervised learning of musical representations at Télécom-Paris and Sony CSL Paris, under the supervision of Stefan Lattner, Gaëtan Hadjeres and Geoffroy Peeters.
-Before that, he obtained a master degree in mathematics for machine learning at Ecole Normale Supérieure de Cachan (2020) and another one in signal processing and computer science applied to music at IRCAM (2021).
-His main research interests are related to deep representation learning, with a strong focus on self-supervised methods for music information retrieval and controllable music generation.
-His work “PESTO: Pitch Estimation with Self-supervised Transposition-equivariant Objective” received the Best Paper Award at ISMIR 2023.</p>
-<p><img alt="stefan" src="_images/profile_stefan_100x100.png" /></p>
-<p><a class="reference external" href="https://csl.sony.fr/member/stefan-lattner-phd/">Stefan Lattner</a> serves as a researcher leader at the music team at <a class="reference external" href="https://csl.sony.fr">Sony CSL</a> Paris, where he focuses on generative AI for music production, music information retrieval, and computational music perception. He earned his PhD in 2019 from Johannes Kepler University (JKU) in Linz, Austria, following his research at the Austrian Research Institute for Artificial Intelligence in Vienna and the Institute of Computational Perception Linz. His studies centered on the modeling of musical structure, encompassing transformation learning and computational relative pitch perception.
-His current interests include human-computer interaction in music creation, live staging, and information theory in music.
-He specializes in generative sequence models, computational short-term memories, (self-supervised) representation learning and musical audio generation. In 2019, Lattner received the best paper award at ISMIR for his work, “Learning Complex Basis Functions for Invariant Representations of Audio.”</p>
-</section>
-<section id="citing-this-book">
-<h2>Citing this book¶<a class="headerlink" href="#citing-this-book" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>@book{deeplearning-101-audiomir:book,
-    Author = {Peeters, Geoffroy and Meseguer-Brocal, Gabriel and Riou, Alain and Lattner, Stefan},
-    Month = Nov.,
-    Publisher = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    Title = {Deep Learning 101 for Audio-based MIR},
-    Year = 2024,
-    Url = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    doi = {???}
-}
-</pre></div>
-</div>
-</section>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-ssl">
+<h1>Auto-Tagging-SSL<a class="headerlink" href="#auto-tagging-ssl" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>author: Gabriel, Alain</p></li>
+</ul>
 </section>
 
     <script type="text/x-thebe-config">
@@ -481,12 +426,21 @@ He specializes in generative sequence models, computational short-term memories,
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="task_sourceseparation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Source Separation</p>
+      </div>
+    </a>
     <a class="right-next"
-       href="tools.html"
+       href="task_musicgeneration.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tools to make life easier</p>
+        <p class="prev-next-title">Music Generation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -496,22 +450,6 @@ He specializes in generative sequence models, computational short-term memories,
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-authors">About the authors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-book">Citing this book¶</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
