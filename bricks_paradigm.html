@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_paradigm';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
+    <link rel="next" title="Auto-Tagging-FrontEnd" href="task_autotagging_frontend.html" />
     <link rel="prev" title="Architectures" href="bricks_architecture.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,13 +185,11 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TUTO_task1_MultiPitch.html">TUTO Multi-pitch Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TUTO_task2_CoverDetection.html">TUTO Cover-Detection based on Triplet-Loss</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
@@ -423,20 +421,49 @@ document.write(`
 </section>
 <section id="metric-learning">
 <h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
+<p>Metric learning is a type of machine learning technique focused on learning a distance function or similarity measure between data points. The goal is to map input data into a space where similar examples are close together and dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).</p>
+<p>There exist several type of supervision to achieve this</p>
+<ul class="simple">
+<li><p>Class labels: <span class="math notranslate nohighlight">\((x,y)\)</span></p></li>
+<li><p>Pairwise similarity/dissimilarity: <span class="math notranslate nohighlight">\((x^{(1)},x^{(2)},\pm)\)</span></p></li>
+<li><p>Relative comparisons (triplet): <span class="math notranslate nohighlight">\((x^{(1)}, x^{(2)},x^{(3)}) \Rightarrow d(x^{(1)},x^{(2)}) &lt; d(x^{(1)},x^{(3)})\)</span></p></li>
+</ul>
+<p>There exist many algorithm to train such a model such as</p>
+<ul class="simple">
+<li><p>Contrastive Loss <span id="id1">[<a class="reference internal" href="bibiography.html#id3" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jontly) the model to minize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
+<li><p>Triplet Loss <span id="id2">[<a class="reference internal" href="bibiography.html#id2" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
+</ul>
+<p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
 <section id="triplet-loss">
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
-<p>train the network <span class="math notranslate nohighlight">\(f_{theta}\)</span> such that the resulting projections satisfy the following constraint:</p>
-<p><span class="math notranslate nohighlight">\(d( f_{\theta}(A), f_{\theta}(P) ) + \alpha &lt; d(f_{\theta}(A), f_{\theta}(N)) \)</span></p>
-<p>where <span class="math notranslate nohighlight">\(A\)</span> is an anchor, <span class="math notranslate nohighlight">\(P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(N\)</span> a negative we consider distance from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> a margin.</p>
-<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span>
-<img alt="triplet-loss" src="_images/brick_triplet.png" /></p>
+<p>The goal is to train a network <span class="math notranslate nohighlight">\(f_{theta}\)</span> such that the resulting projections satisfy the following triplet constraint:
+<span class="math notranslate nohighlight">\(d( f_{\theta}(A), f_{\theta}(P) ) + \alpha &lt; d(f_{\theta}(A), f_{\theta}(N)) \)</span>
+where <span class="math notranslate nohighlight">\(A\)</span> is an anchor, <span class="math notranslate nohighlight">\(P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(N\)</span> a negative we consider distance from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> a margin.
+In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span></p>
 <p>We solve this by minimizing the following loss
-<span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span></p>
-<p><code class="docutils literal notranslate"><span class="pre">loss</span> <span class="pre">=</span> <span class="pre">F.relu(dist_pos</span> <span class="pre">+</span> <span class="pre">(param_d.margin</span> <span class="pre">-</span> <span class="pre">dist_neg))</span> </code></p>
+<span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span> where <span class="math notranslate nohighlight">\(\alpha\)</span> is a margin parameters.
+It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilite the setting the <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<p><img alt="triplet-loss" src="_images/brick_triplet.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
+</pre></div>
+</div>
 </section>
 <section id="triplet-mining">
 <h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
+<p>Triplet mining is the process of selecting triplets of examples (Anchor, Positive, Negative) for training in triplet loss.
+The goal is to ensure the model learns effectively by choosing the right combination of examples.</p>
+<p>Given the choice of an Anchor and a Positive, we denotes by</p>
+<ul class="simple">
+<li><p><em>Easy negatives</em>: Negatives (different class) that are already far from the anchor. These don’t provide much useful information since the model already distinguishes them well.</p></li>
+<li><p><em>Semi-hard negatives</em>: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.</p></li>
+<li><p><em>Hard negatives</em>: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.</p></li>
+</ul>
 <p><img alt="tripletmining" src="_images/brick_tripletmining.png" /></p>
+<p>We also distinguish between</p>
+<ul class="simple">
+<li><p><em>Offline mining</em>: triplets are chosen prior to training and may not adapt to the evolving model during training.</p></li>
+<li><p><em>Online mining</em>: triplets are selected from the current mini-batch using the already learned projection <span class="math notranslate nohighlight">\(f_{\theta}\)</span>, this allows selecting the most informative triplets</p></li>
+</ul>
 </section>
 </section>
 <section id="adversarial">
@@ -490,11 +517,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="task_multipitchestimation.html"
+       href="task_autotagging_frontend.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Multi-Pitch-Estimation</p>
+        <p class="prev-next-title">Auto-Tagging-FrontEnd</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
