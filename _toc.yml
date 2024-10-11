@@ -2,19 +2,11 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro
+root: front
 parts:
-- caption: Tools to make life easier
+- caption: Introduction
   chapters:
-    - file: tools
-- caption: Deep Learning Bricks
-  chapters:
-    - file: bricks_input
-    - file: bricks_frontend
-    - file: bricks_projection.md
-    - file: bricks_bottleneck
-    - file: bricks_architecture
-    - file: bricks_paradigm
+    - file: intro
 - caption: Tasks
   chapters:
     - file: task_autotagging_frontend
@@ -23,6 +15,15 @@ parts:
     - file: task_sourceseparation
     - file: task_autotagging_ssl
     - file: task_musicgeneration
+- caption: Deep Learning Bricks
+  chapters:
+    - file: bricks_input
+    - file: bricks_frontend
+    - file: bricks_projection.md
+    - file: bricks_bottleneck
+    - file: bricks_architecture
+    - file: bricks_paradigm
 - caption: References
   chapters:
+    - file: biography
     - file: bibiography

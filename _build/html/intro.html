@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Deep Learning 101 for Audio-based MIR &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Introduction &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -65,7 +65,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tools to make life easier" href="tools.html" />
+    <link rel="next" title="Auto-Tagging-FrontEnd" href="task_autotagging_frontend.html" />
+    <link rel="prev" title="Deep Learning 101 for Audio-based MIR" href="front.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -141,7 +142,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="front.html">
   
   
   
@@ -161,24 +162,16 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="front.html">
                     Deep Learning 101 for Audio-based MIR
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tools to make life easier</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools to make life easier</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="bricks_input.html">Inputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
+
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -189,8 +182,18 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="bricks_input.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_frontend.html">Front-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="biography.html">About the authors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibiography.html">Bibliography</a></li>
 </ul>
 
@@ -377,7 +380,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Deep Learning 101 for Audio-based MIR</h1>
+    <h1>Introduction</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -387,10 +390,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-authors">About the authors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-book">Citing this book¶</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-a-task-using-deep-learning">Solving a task using deep learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-hdf5-and-pyjama-file-of-a-dataset">Reading the .hdf5 and .pyjama file of a dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-dataset">Pytorch dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-model">Pytorch model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#torchlightning-model">TorchLightning model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation metrics</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -401,55 +411,217 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-101-for-audio-based-mir">
-<h1>Deep Learning 101 for Audio-based MIR<a class="headerlink" href="#deep-learning-101-for-audio-based-mir" title="Permalink to this heading">#</a></h1>
-<p>This is a web book written for a tutorial session of the <a class="reference external" href="https://ismir2024.ismir.net/">25th International Society for Music Information Retrieval Conference</a>, Nov 10-14, 2024 in San Francisco, CA, USA. The <a class="reference external" href="https://ismir.net/">ISMIR conference</a> is the world’s leading research forum on processing, searching, organising and accessing music-related data.</p>
-<section id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">#</a></h2>
-<p><em>Audio-based MIR (MIR based on the processing of audio signals) covers a broad range of tasks, including analysis (pitch, chord, beats, tagging), similarity/cover identification, and processing/generation of samples or music fragments. A wide range of techniques can be employed for solving each of these tasks, spanning from conventional signal processing and machine learning algorithms to the whole zoo of deep learning techniques.</em></p>
-<p><em>This tutorial aims to review the various elements of this deep learning zoo commonly applied in Audio-based MIR tasks. We review typical audio front-ends (such as waveform, Log-Mel-Spectrogram, HCQT, SincNet, LEAF, quantization using VQ-VAE, RVQ), as well as projections (including 1D-Conv, 2D-Conv, Dilated-Conv, TCN, WaveNet, RNN, Transformer, Conformer, U-Net, VAE), and examine the various training paradigms (such as supervised, self-supervised, metric-learning, adversarial, encoder-decoder, diffusion).</em></p>
-<p><em>Rather than providing an exhaustive list of all of these elements, we illustrate their use within a subset of (commonly studied) Audio-based MIR tasks such as multi-pitch/chord-estimation, cover-detection, auto-tagging, source separation, music-translation or music generation. This subset of Audio-based MIR tasks is designed to encompass a wide range of deep learning elements.</em></p>
-<p><em>For each tack we address a) the goal of the tasks, b) how it is evaluated, c) provide some popular datasets to train a system, and d) explain (using slides and pytorch code) how we can solve it using deep learning.</em></p>
-<p><em>The objective is to provide a 101 lecture (introductory lecture) on deep learning techniques for Audio-based MIR. It does not aim at being exhaustive in terms of Audio-based MIR tasks neither on deep learning techniques but to provide an overview for newcomers to Audio-Based MIR on how to solve the most common tasks using deep learning. It will provide a portfolio of codes (Colab notebooks and Jupyter book) to help newcomers achieve the various Audio-based MIR Tasks.</em></p>
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<p>In the following, to facilitate the reading, we follow the same structure for each of the task.
+We describe in turn:</p>
+<ul class="simple">
+<li><p>What is the goal of the task</p></li>
+<li><p>How it is evaluated</p></li>
+<li><p>Some popular datasets (used to train system or evaluate the performances of)</p></li>
+<li><p>How we can solve it using deep learning</p></li>
+</ul>
+<p>The last part (deep learning) refers to bricks that are described individually in the second part of the book.
+We have chosen to separate the bricks since most of them can be used for several tasks.
+We want also to emphasize the fact that those are just bricks.</p>
+<p>To make our life easier and facilitate the reading of the code of the notebooks we will rely on the following elements.</p>
+<ul class="simple">
+<li><p>for <strong>datasets</strong> (audio and annotations): .hdf5 (for audio) and .pyjama (for annotations), described below</p></li>
+<li><p>for deep learning <strong>models</strong>: pytorch, a python library for deep learning</p></li>
+<li><p>for <strong>training</strong> (optimisation): torchlighning stands on top of pytorch and facilitates training and deployment of models</p></li>
+</ul>
+<p><img alt="concept1" src="_images/main_concept1.png" /></p>
 </section>
-<section id="about-the-authors">
-<h2>About the authors<a class="headerlink" href="#about-the-authors" title="Permalink to this heading">#</a></h2>
-<p><img alt="geoffroy" src="_images/profile_geoffroy_100x100.png" /></p>
-<p><a class="reference external" href="https://perso.telecom-paristech.fr/gpeeters/"> Geoffroy Peeters</a> is a full professor in the Image-Data-Signal (IDS) department of <a class="reference external" href="https://www.telecom-paris.fr/">Télécom Paris</a>. Before that (from 2001 to 2018), he was Senior Researcher at IRCAM, leading research related to Music Information Retrieval. He received his Ph.D. in signal processing for speech processing in 2001 and his Habilitation (HDR) in Music Information Retrieval in 2013 from the University Paris VI. His research topics concern signal processing and machine learning (including deep learning) for audio processing, with a strong focus on music. He has participated in many national or European projects, published numerous articles and several patents in these areas, and co-authored the ISO MPEG-7 audio standard. He has been co-general-chair of the DAFx-2011 and ISMIR-2018 conferences, member and president of the ISMIR society, and is the current AASP review chair for ICASSP.</p>
-<p><img alt="gabriel" src="_images/profile_gabriel_100x100.png" /></p>
-<p><a class="reference external" href="https://github.com/gabolsgabs">Gabriel Meseguer-Brocal</a> is a research scientist at <a class="reference external" href="https://research.deezer.com/">Deezer</a> with over two years of experience at the company. Before joining Deezer, he completed postdoctoral research at Centre National de la Recherche Scientifique (CNRS) in France. In 2020, he earned his Ph.D. in Computer Science, Telecommunications, and Electronics with a focus on the Sciences &amp; Technologies of Music and Sound at IRCAM. His research interests include signal processing and deep learning techniques for music processing, with a focus on areas such as source separation, dataset creation, multi-tagging, self-supervised learning, and multimodal analysis.</p>
-<p><img alt="alain" src="_images/profile_alain_100x100.png" /></p>
-<p><a class="reference external" href="https://github.com/aRI0U">Alain Riou</a> is a PhD student working on self-supervised learning of musical representations at Télécom-Paris and Sony CSL Paris, under the supervision of Stefan Lattner, Gaëtan Hadjeres and Geoffroy Peeters.
-Before that, he obtained a master degree in mathematics for machine learning at Ecole Normale Supérieure de Cachan (2020) and another one in signal processing and computer science applied to music at IRCAM (2021).
-His main research interests are related to deep representation learning, with a strong focus on self-supervised methods for music information retrieval and controllable music generation.
-His work “PESTO: Pitch Estimation with Self-supervised Transposition-equivariant Objective” received the Best Paper Award at ISMIR 2023.</p>
-<p><img alt="stefan" src="_images/profile_stefan_100x100.png" /></p>
-<p><a class="reference external" href="https://csl.sony.fr/member/stefan-lattner-phd/">Stefan Lattner</a> serves as a researcher leader at the music team at <a class="reference external" href="https://csl.sony.fr">Sony CSL</a> Paris, where he focuses on generative AI for music production, music information retrieval, and computational music perception. He earned his PhD in 2019 from Johannes Kepler University (JKU) in Linz, Austria, following his research at the Austrian Research Institute for Artificial Intelligence in Vienna and the Institute of Computational Perception Linz. His studies centered on the modeling of musical structure, encompassing transformation learning and computational relative pitch perception.
-His current interests include human-computer interaction in music creation, live staging, and information theory in music.
-He specializes in generative sequence models, computational short-term memories, (self-supervised) representation learning and musical audio generation. In 2019, Lattner received the best paper award at ISMIR for his work, “Learning Complex Basis Functions for Invariant Representations of Audio.”</p>
+<section id="solving-a-task-using-deep-learning">
+<h1>Solving a task using deep learning<a class="headerlink" href="#solving-a-task-using-deep-learning" title="Permalink to this heading">#</a></h1>
+<p>Using those, dealing with a task mainly involve writing the code for the following elements.</p>
+<section id="reading-the-hdf5-and-pyjama-file-of-a-dataset">
+<h2>Reading the .hdf5 and .pyjama file of a dataset<a class="headerlink" href="#reading-the-hdf5-and-pyjama-file-of-a-dataset" title="Permalink to this heading">#</a></h2>
+<p>All the audio data of a dataset are stored in a single <a class="reference external" href="https://docs.h5py.org/">.hdf5</a> file.
+Each <code class="docutils literal notranslate"><span class="pre">key</span></code> corresponds to an entry, a specific audiofile.
+Its array contains the audio waveform.
+Its attribute <code class="docutils literal notranslate"><span class="pre">sr_hz</span></code> contains the sampling rate of the audio waveform.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_audio_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdf5_fid</span><span class="p">:</span>
+    <span class="n">audiofile_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hdf5_fid</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio shape: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">audiofile_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio sample-rate: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">audiofile_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;sr_hz&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>All the annotations of a dataset are stored in a single *.pyjama file.
+As <a class="reference external" href="https://github.com/marl/jams">JAMS</a> files, .pyjama files are JSON files.
+Howeve, a single .pyjama file can contain the annotations of ALL entries of a dataset.
+Its specifications are described here <a class="reference external" href="https://github.com/geoffroypeeters/pyjama">DOC</a>.
+The values of the <code class="docutils literal notranslate"><span class="pre">filepath</span></code> field of the .pyjama file correspond to the <code class="docutils literal notranslate"><span class="pre">key</span></code> values of the .hdf5 file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span>
+    <span class="n">data_d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_fid</span><span class="p">)</span>
+<span class="n">audiofile_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;filepath&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entry_l</span><span class="p">]</span>
+<span class="n">entry_l</span> <span class="o">=</span> <span class="n">data_d</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">][</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">entry_l</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;descriptiondefinition&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;album&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;filepath&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;original_url&#39;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+                                          <span class="s1">&#39;pitchmidi&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">},</span>
+                <span class="s1">&#39;entry&#39;</span><span class="p">:</span> <span class="p">[</span>
+													<span class="p">{</span>
+													 <span class="s1">&#39;album&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;J.S. Bach - Cantatas Volume V&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;American Bach Soloists&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;filepath&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;0+++american_bach_soloists-j_s__bach__cantatas_volume_v-01-gleichwie_der_regen_und_schnee_vom_himmel_fallt_bwv_18_i_sinfonia-117-146.mp3&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;original_url&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;http://he3.magnatune.com/all/01--Gleichwie</span><span class="si">%20d</span><span class="s1">er%20Regen</span><span class="si">%20u</span><span class="s1">nd%20Schnee%20vom%20Himmel</span><span class="si">%20f</span><span class="s1">allt%20BWV%2018_%20I%20Sinfonia--ABS.mp3&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;classical&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;violin&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;Gleichwie der Regen und Schnee vom Himmel fallt BWV 18_ I Sinfonia&#39;</span><span class="p">}],</span>
+                           <span class="p">},</span>
+                          <span class="p">{</span>
+                           <span class="s1">&#39;album&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;J.S. Bach - Cantatas Volume V&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;American Bach Soloists&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;filepath&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;0+++american_bach_soloists-j_s__bach__cantatas_volume_v-09-weinen_klagen_sorgen_zagen_bwv_12_iv_aria__kreuz_und_krone_sind_verbunden-146-175.mp3&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;original_url&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;http://he3.magnatune.com/all/09--Weinen%20Klagen%20Sorgen%20Zagen%20BWV%2012_%20IV%20Aria%20-%20Kreuz</span><span class="si">%20u</span><span class="s1">nd%20Krone</span><span class="si">%20s</span><span class="s1">ind%20verbunden--ABS.mp3&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;classical&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;violin&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;-Weinen Klagen Sorgen Zagen BWV 12_ IV Aria - Kreuz und Krone sind verbunden-&#39;</span><span class="p">}],</span>
+                           <span class="s1">&#39;pitchmidi&#39;</span><span class="p">:</span> <span class="p">[</span>
+                             <span class="p">{</span>
+                               <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">67</span><span class="p">,</span>
+                               <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mf">0.500004</span><span class="p">,</span>
+                               <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="mf">0.26785899999999996</span>
+                             <span class="p">},</span>
+                             <span class="p">{</span>
+                               <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
+                               <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mf">0.500004</span><span class="p">,</span>
+                               <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="mf">0.26785899999999996</span>
+                             <span class="p">}],</span>
+                           <span class="p">}</span>
+                           <span class="p">]},</span>
+ <span class="s1">&#39;schemaversion&#39;</span><span class="p">:</span> <span class="mf">1.31</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.</p>
 </section>
-<section id="citing-this-book">
-<h2>Citing this book¶<a class="headerlink" href="#citing-this-book" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>@book{deeplearning-101-audiomir:book,
-    Author = {Peeters, Geoffroy and Meseguer-Brocal, Gabriel and Riou, Alain and Lattner, Stefan},
-    Month = Nov.,
-    Publisher = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    Title = {Deep Learning 101 for Audio-based MIR},
-    Year = 2024,
-    Url = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    doi = {???}
-}
+<section id="pytorch-dataset">
+<h2>Pytorch dataset<a class="headerlink" href="#pytorch-dataset" title="Permalink to this heading">#</a></h2>
+<p>Writing pytorch Dataset is probably the most complex part.</p>
+<p>For short, it involves defining what should the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> return (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for the model) and involves providing in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>  all the necessary information so that <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> can do its job.</p>
+<ul class="simple">
+<li><p>It therefore involves defining what is the <strong>input representation</strong> of the model (<code class="docutils literal notranslate"><span class="pre">X</span></code> can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), computing those (either one-the-fly in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, pre-computed those in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> or store those in the memory of the CPU, the GPU or read them on-the-fly from the hard drive).</p></li>
+</ul>
+<p>In the first notebooks, we define a set of features in the <code class="docutils literal notranslate"><span class="pre">feature.py</span></code> package (<code class="docutils literal notranslate"><span class="pre">feature.f_get_lms</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_hcqt</span></code>). We also define the output of <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>/<code class="docutils literal notranslate"><span class="pre">X</span></code> as a <strong>patch</strong> (a segment/chunk of a specific duration).
+The list of all possible patches for a given audio is given by <code class="docutils literal notranslate"><span class="pre">feature.f_get_patches</span></code>.</p>
+<ul class="simple">
+<li><p>It also involves <strong>mapping the annotations</strong> contains in the .pyjama file (such as pitch, genre or work-id annotations) to the format of <code class="docutils literal notranslate"><span class="pre">y</span></code> (scalar, matrix or one-hot-encoding) and to map it to the time position and extend of the patches <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p></li>
+</ul>
+<p><img alt="concept2" src="_images/main_concept2.png" /></p>
+</section>
+<section id="pytorch-model">
+<h2>Pytorch model<a class="headerlink" href="#pytorch-model" title="Permalink to this heading">#</a></h2>
+<p>Models if pytorch are usually written as class using the <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.
+Such a class should have a <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method defining the parameters (layers) to be trained and a <code class="docutils literal notranslate"><span class="pre">__forward__</span></code> method describing how to do the forward with the layers defined before (for example how to go from <code class="docutils literal notranslate"><span class="pre">X</span></code> to <code class="docutils literal notranslate"><span class="pre">y</span></code>).</p>
+<p>It is common to specify the hyper-parameters of the model (number of layers, feature-maps, activation) in a dedicated <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>.
+We do a step forward here by defining all the model in a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.
+The model then becomes much more readable.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoTaggingModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">current_input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoTaggingModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_l</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">config_block</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">block_l</span><span class="p">:</span>
+            <span class="n">sequential_l</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">config_sequential</span> <span class="ow">in</span> <span class="n">config_block</span><span class="o">.</span><span class="n">sequential_l</span><span class="p">:</span>
+                <span class="n">component_l</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">config_component</span> <span class="ow">in</span> <span class="n">config_sequential</span><span class="o">.</span><span class="n">component_l</span><span class="p">:</span>
+                    <span class="n">module</span><span class="p">,</span> <span class="n">current_input_dim</span> <span class="o">=</span> <span class="n">model_factory</span><span class="o">.</span><span class="n">f_parse_component</span><span class="p">(</span><span class="n">config_component</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">config_component</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">current_input_dim</span><span class="p">)</span>
+                    <span class="n">component_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">module</span> <span class="p">)</span>
+                <span class="n">sequential_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span> <span class="p">(</span><span class="o">*</span><span class="n">component_l</span><span class="p">)</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="n">sequential_l</span><span class="p">)</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_l</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,):</span>
+        <span class="k">for</span> <span class="n">idx_block</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">idx_sequential</span><span class="p">,</span> <span class="n">sequential</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="n">sequential</span><span class="p">(</span> <span class="n">X</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+<p>with the corresponding configuration .<code class="docutils literal notranslate"><span class="pre">yaml</span></code> file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">AutoTagging</span>
+    <span class="n">block_l</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">]}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Conv2d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Squeeze</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Conv1d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">MaxPool1d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="s1">&#39;Permute&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}]</span>
+    <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">BatchNorm1dT</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;num_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">BatchNorm1dT</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;num_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="s1">&#39;Permute&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}]</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Mean</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]</span>
+    <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}]</span>
+          <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">Softmax</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<div class="toctree-wrapper compound">
+<section id="torchlightning-model">
+<h2>TorchLightning model<a class="headerlink" href="#torchlightning-model" title="Permalink to this heading">#</a></h2>
+<p>TorchLightning allows to uniformized the way the code is written and to by-pass the tedious work of writting training and validation loop over epoch and over mini-batch.</p>
+<p>The writing of the Lightning class is very standard and almost the same for all tasks.
+It involves indicating which model is used, what is a forward pass for training and validation and which optimizer to be used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoTaggingLigthing</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">in_model</span>
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">hat_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">hat_y</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">hat_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">hat_y</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="mf">0.001</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
+<p>The training code by itself is very simple and allows to define CallBack using predefined methods such as for <code class="docutils literal notranslate"><span class="pre">EarlyStopping</span></code> or for saving <code class="docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_lighting</span> <span class="o">=</span> <span class="n">AutoTaggingLigthing</span><span class="p">(</span> <span class="n">model</span> <span class="p">)</span>
+<span class="n">early_stop_callback</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
+<span class="n">checkpoint_callback</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">dirpath</span><span class="o">=</span><span class="n">param_lightning</span><span class="o">.</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">param_lightning</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>  <span class="n">max_epochs</span> <span class="o">=</span> <span class="n">param_lightning</span><span class="o">.</span><span class="n">max_epochs</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">early_stop_callback</span><span class="p">,</span> <span class="n">checkpoint_callback</span><span class="p">])</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">my_lighting</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">valid_dataloader</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
+</section>
+<section id="evaluation-metrics">
+<h2>Evaluation metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h2>
+<p>In the notebooks, we will rely most of the time on the <a class="reference external" href="https://github.com/craffel/mir_eval"><code class="docutils literal notranslate"><span class="pre">mir_eval</span></code></a> packages which collect most evaluation metrics for MIR tasks.
+We will complement it with the standard machine-learning evaluation metrics provided by <a class="reference external" href="https://scikit-learn.org/"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></a>.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -482,12 +654,21 @@ He specializes in generative sequence models, computational short-term memories,
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="front.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Deep Learning 101 for Audio-based MIR</p>
+      </div>
+    </a>
     <a class="right-next"
-       href="tools.html"
+       href="task_autotagging_frontend.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tools to make life easier</p>
+        <p class="prev-next-title">Auto-Tagging-FrontEnd</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -506,10 +687,17 @@ He specializes in generative sequence models, computational short-term memories,
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-authors">About the authors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-book">Citing this book¶</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-a-task-using-deep-learning">Solving a task using deep learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-hdf5-and-pyjama-file-of-a-dataset">Reading the .hdf5 and .pyjama file of a dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-dataset">Pytorch dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-model">Pytorch model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#torchlightning-model">TorchLightning model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation metrics</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>

@@ -1,9 +1,5 @@
 # Multi-Pitch-Estimation
 
-- author: Geoffroy
-- code: based on Bittner, Doras
-- datasets: bach-10, MAPS
-
 ## Goal of the task ?
 
 Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
@@ -13,34 +9,38 @@ The task can either consists in:
 - estimating the start time and end time of each musical note (expressed as MIDI note)
 - assigning an instrument-name (source) to each note
 
+![flow_autotagging](/images/flow_multipitch.png)
+
 The task has a long history.
 First approches (signal-based) have focused on Single-Pitch-Estimation.
 But as far as 2003, Klapuri et el {cite}`Klapuri2003IEEEMultipleF0` have proposed a signal-based method to iteratively estimate the Multiple-Pitch.
-MPE then became a major research field, with method based on NMF or ??? (unsupervised method).
+MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.
 
 For this task, Deep Learning Approaches have become the standard, either based on
-- Supervised Learning
-- Unsupervised learning (PESTO)
+- Supervised Learning (for example {cite}`DBLP:conf/ismir/BittnerMSLB17`)
+- Unsupervised learning (for example {cite}`DBLP:conf/ismir/RiouLHP23`)
 
 We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17` and show how we can extend it with the same front-end using a U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`.
 
+Fore more details, see the very good [tutorial on "Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies)
+
 ## How is the task evaluated ?
 
-To evaluate the performances of an MPE algorithm we rely on the metrics defined in {cite}`DBLP:conf/ismir/BayED09` and implemented in the [mir\_eval](https://craffel.github.io/mir_eval/) package.
+To evaluate the performances of an MPE algorithm we rely on the metrics defined in {cite}`DBLP:conf/ismir/BayED09` and implemented in the [mir\_eval](https://craffel.github.io/mir_eval/#module-mir_eval.multipitch) package.
 By default, a frequency is "correct" if it is within 0.5 semitones of a reference frequency
 
-|                | Predicted Positive | Predicted Negative | Total  |
-|----------------|--------------------|--------------------|--------|
-| **Actual Positive** | TP                 | FN                 | n_ref |
-| **Actual Negative** | FP                 | TN                 |  |
-| **Total**           | n_est            |             |  |
+At each time frame t:
+- "True Positives" TP(t):  calculated as the number of F0s detected that correctly correspond to the ground-truth F0s
+- "False Positives" FP(t): calculated as the number of F0s detected that do not exist in the ground-truth set
+- "False Negatives" FN(t): represent the number of active sources in the groundtruth that are not reported
 
-- Accuracy= $\frac{TP}{TP+FP+FN}$
+From this, one can compute
 - Precision= $\frac{TP}{TP+FN}$
 - Recall= $\frac{TP}{TP+FP}$
+- Accuracy= $\frac{TP}{TP+FP+FN}$
 
-Same but considering octave error as correct
-- Chroma Accuracy, Precision, Recall
+We can also compute the same metrics but considering only the chroma estimation (independently of the octave estimated).
+This leads to the Chroma Precision, Accuracy, Recall
 
 Example:
 ```python
@@ -75,22 +75,34 @@ OrderedDict([('Precision', 0.6666666666666666),
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
-Popular datasets used for MPE are
-| Dataset | Column 2 | Column 3 | Column 4 |
-|---------|----------|----------|----------|
-| Bach10  |          |          |          |
-| Su      |          |          |          |
-| MedleyDB|          |          |          |
-| MIDI-fied piano: SMD, MAPS, MAESTRO | | | |
-| Score-audio pairs: MusicNet, Winterreise Dataset | | | |
+Many datasets exist for mutli-pitch-estimation.
+Those can be obtained by
+- manually annotated full-tracks (),
+- annotating or mono-pitch estimation of the separated stems of a full-track (MedleyDB)
+- using a MIDI-field piano: SMD, MAPS, MAESTRO
+- using audio to score synchronization: MusicNet, Winterreise
+
+We have chosen the two following datasets since they represent two different types of annotations: continuous f0, segment-based quantified pitch.
+
+- Bach10 {cite}`DBLP:journals/taslp/DuanPZ10`.
+It is a multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.
+- MAPS {cite}`DBLP:journals/taslp/EmiyaBD10`.
+It is a piano dataset annotated as a set of notes (start,stop,midi-value) over time
+
 
 
 ## How we can solve it using deep learning
 
 We will implement two different models which both takes as input the [HCQT](lab_hcqt) features.
-- the first is the traditional ConvNet proposed by {cite}`DBLP:conf/ismir/BittnerMSLB17`
-- the second is the U-Net proposed by U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`
 
-We will train and evaluate them on two different datasets
-- Bach10 {cite}`DBLP:journals/taslp/DuanPZ10`: which is a multi-track datasets in which each track is annotated in pitch (continuous f0-value) over time
-- MAPS {cite}`DBLP:journals/taslp/EmiyaBD10`: which is a piano dataset annotated as a set of notes (start,stop,value) over time
+The first is the traditional ConvNet proposed by {cite}`DBLP:conf/ismir/BittnerMSLB17`
+![model_MPE_deepsalience](/images/model_MPE_deepsalience.png)
+
+The second is the U-Net proposed by U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`
+![model_MPE_unet](/images/model_MPE_unet.png)
+
+Using thes architectures as a baseline, we will vary in turn
+- the **inputs**: [CQT](lab_cqt) or [Harmonic-CQT](lab_hcqt)
+- the model **blocks**: [Conv-2D](lab_conv2d), [ResNet](lab_resnet), [ConvNext](lab_convnext)
+
+![bricks](/images/main_bricks.png)

@@ -5,8 +5,8 @@
 
 
 
-(label_2dconv)=
-### 2D-Conv
+(lab_conv2d)=
+### Conv-2D
 
 
 ```python
@@ -58,7 +58,7 @@ model(X).size()
 
 
 
-(label_resnet)=
+(lab_resnet)=
 ### ResNet
 
 ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of imae recognition.
@@ -176,7 +176,7 @@ class Bottleneck(nn.Module):
 
 
 (lab_convnext)=
-### ConvNeXT
+### ConvNeXt
 
 ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22` with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
 It especially bases its design on the Swin Transformers:
