@@ -67,8 +67,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_coverdetection';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="TUTO Cover-Detection based on Triplet-Loss" href="TUTO_task2_CoverDetection.html" />
-    <link rel="prev" title="TUTO Multi-pitch Estimation" href="TUTO_task1_MultiPitch.html" />
+    <link rel="next" title="Source Separation" href="task_sourceseparation.html" />
+    <link rel="prev" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -144,7 +144,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
 
-<a class="navbar-brand logo" href="intro.html">
+<a class="navbar-brand logo" href="front.html">
   
   
   
@@ -165,14 +165,24 @@ const thebe_selector_output = ".output, .cell_output"
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
-                <a class="reference internal" href="intro.html">
+                <a class="reference internal" href="front.html">
                     Deep Learning 101 for Audio-based MIR
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tools to make life easier</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools to make life easier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cover Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
@@ -183,19 +193,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TUTO_task1_MultiPitch.html">TUTO Multi-pitch Estimation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cover Detection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TUTO_task2_CoverDetection.html">TUTO Cover-Detection based on Triplet-Loss</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_chordestimation.html">Automatic Chord Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_autotagging.html">Auto-Tagging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
-</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="biography.html">About the authors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibiography.html">Bibliography</a></li>
 </ul>
 
@@ -396,6 +396,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a></li>
 </ul>
             </nav>
         </div>
@@ -409,34 +410,59 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="cover-detection">
 <h1>Cover Detection<a class="headerlink" href="#cover-detection" title="Permalink to this heading">#</a></h1>
-<ul class="simple">
-<li><p>author: Geoffroy</p></li>
-<li><p>code: based on ???</p></li>
-<li><p>datasets: datatacos</p></li>
-</ul>
 <section id="goal-of-the-task">
 <h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
 <p>Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
-For example detecting that this <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of this <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beathes</a>. They are covers/versions of the same composition (work-id or ISWC).</p>
-<p>Considering the very large number of possible work-id it is not possible to solve this as a classification (multi-class) problem (too many classes).
-To solve this, the approach commonly used is to have a reference dataset <span class="math notranslate nohighlight">\(R\)</span>, containing tracks <span class="math notranslate nohighlight">\(\{r_i\}\)</span> with known work-id, and to compare the query track <span class="math notranslate nohighlight">\(q\)</span> to each track <span class="math notranslate nohighlight">\(r_i\)</span> the reference dataset. If one track <span class="math notranslate nohighlight">\(q\)</span> is similar to one track of the dataset (the distance <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> is small) , we decide that <span class="math notranslate nohighlight">\(q\)</span> is a cover of <span class="math notranslate nohighlight">\(r_i\)</span> and they share the same work-id.
+For example detecting that this track performed by <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of the work-id “Let It Be”, composed by the Beatles and also performed in <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beatles</a>.
+They are covers/versions of the same composition (also named work-id or ISWC).</p>
+<p><img alt="flow_cover_identification" src="_images/flow_cover_identification.png" /></p>
+<p>Considering the very large number of possible work-id (there exist millions of compositions), it is not possible to solve this as a classification (multi-class) problem (too many classes).
+To solve this, the approach commonly used is to have a reference dataset <span class="math notranslate nohighlight">\(R\)</span>, containing tracks <span class="math notranslate nohighlight">\(\{r_i\}\)</span> with known work-id, and to compare the query track <span class="math notranslate nohighlight">\(q\)</span> to each track <span class="math notranslate nohighlight">\(r_i\)</span> of the reference dataset.
+If <span class="math notranslate nohighlight">\(q\)</span> is similar to one track of the dataset (i.e. the distance <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> is small), we decide that <span class="math notranslate nohighlight">\(q\)</span> is a cover of <span class="math notranslate nohighlight">\(r_i\)</span> and they share the same work-id.
 This involves setting a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on <span class="math notranslate nohighlight">\(d(q,r_i)\)</span>. If <span class="math notranslate nohighlight">\(d(q,r_i)&lt;\tau\)</span> we decide they are cover of each other.</p>
-<p>In practice to evaluate the task, another problem is considered. The distances between <span class="math notranslate nohighlight">\(q\)</span> and the <span class="math notranslate nohighlight">\(r_i\)</span> are compuated and ranked. If we denote by <span class="math notranslate nohighlight">\(w(.)\)</span> the function that give the work-id of a track, we then check at which position in the ranked list <span class="math notranslate nohighlight">\(w(r_i)==w(q)\)</span>.
+<p>In practice to evaluate the task, another problem is considered.
+The distances between <span class="math notranslate nohighlight">\(q\)</span> and all <span class="math notranslate nohighlight">\(r_i\)</span> are computed and ranked.
+If we denote by <span class="math notranslate nohighlight">\(w(.)\)</span> the function that give the work-id of a track, we then check at which position in the ranked list <span class="math notranslate nohighlight">\(w(r_i)==w(q)\)</span>.
 We can then use the ranking/recommendation performance metrics.</p>
+<p>Fore more details, see the very good <a class="reference external" href="https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28">tutorial on “Version Identification in the 20s”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>The algorithm use allow to compute a distance/similarity between two tracks <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.
-It is applied to get if a query track <span class="math notranslate nohighlight">\(A\)</span> is a cover of a track already existing in a datasets <span class="math notranslate nohighlight">\(B \in {b_1, b_2, b_3, \ldots\}\)</span>
-For this we compute the distance between <span class="math notranslate nohighlight">\(A\)</span> and each track of the dataset <span class="math notranslate nohighlight">\(d(A,b_1)\)</span>, <span class="math notranslate nohighlight">\(d(A,b_2)\)</span>, <span class="math notranslate nohighlight">\(d(A,b_3)\)</span>, …
-We then rank the of distances (from the smallest to the largest).
-From the ranked list we computer</p>
+<p>We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list of the version corresponding to <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>If we denote by</p>
 <ul class="simple">
-<li><p>mean rank</p></li>
-<li><p>mean reciprocal rank</p></li>
-<li><p>precision &#64; k</p></li>
-<li><p>mean average precision</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> the ranked list corresponding to query <span class="math notranslate nohighlight">\(q\)</span> of length <span class="math notranslate nohighlight">\(K\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(a_i\)</span> its <span class="math notranslate nohighlight">\(i^{th}\)</span> element,</p></li>
+<li><p><span class="math notranslate nohighlight">\(A^k=\{a_i\}_{i \; \in \; 1 \ldots k}\)</span> the <span class="math notranslate nohighlight">\(k\)</span> first ranked items,</p></li>
+<li><p><span class="math notranslate nohighlight">\(rel(q,a_i)\)</span> the relevance of items <span class="math notranslate nohighlight">\(a_i\)</span>, i.e. whether the item <span class="math notranslate nohighlight">\(a_i\)</span> has the same work-id than <span class="math notranslate nohighlight">\(q\)</span>: <span class="math notranslate nohighlight">\(w(a_i)==w(q)\)</span>.</p></li>
 </ul>
+<p>We then compute the usual ranking metrics:</p>
+<ul class="simple">
+<li><p><strong>MR1: Mean Rank</strong> (lower better): it is the mean (the average over queries <span class="math notranslate nohighlight">\(q\)</span>) of the rank of the first correct result<br />
+<span class="math notranslate nohighlight">\(MR1=\mathbb{E}_{q \in Q} \arg\min_i \{ rel(q,a_i)=1 \}\)</span></p></li>
+<li><p><strong>MRR1: Mean Reciprocal Rank</strong> (higher better): it is the mean (…) of 1/rank of the first correct result<br />
+<span class="math notranslate nohighlight">\(MRR1=\mathbb{E}_{q \in Q} \arg\max_i \frac{1}{ rel(q,a_i)=1}\)</span></p></li>
+<li><p><strong>Precision &#64; k</strong> (higher better): the number of correct results in the first <span class="math notranslate nohighlight">\(k\)</span> elements of the ranked list<br />
+<span class="math notranslate nohighlight">\(P(k) = \frac{1}{k} \sum_{i=1}^k rel(q,a_i)\)</span></p></li>
+<li><p><strong>mAP: mean Average Precision</strong> (higher better): same as for multi-label classification<br />
+<span class="math notranslate nohighlight">\(AP^q = \frac{1}{K} \sum_{k=1}^K P(k) \; rel(q,a_k)\)</span></p></li>
+</ul>
+<p><img alt="brick_map2" src="_images/brick_map2.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">relevance</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">F_mean_reciprocal_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.</span><span class="o">/</span> <span class="n">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">relevance</span><span class="p">[:</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">F_average_precision</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">F_precision_at_k</span><span class="p">(</span><span class="n">relevance</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">relevance</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">relevance</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other metrics are also commonly used such as the Cumulative Gain, (CG) Discounted Cumulative Gain (DCG), Normalised DCG.</p>
 </section>
 <section id="some-popular-datasets">
 <h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
@@ -453,10 +479,92 @@ For our implementations, we will consider the two following ones (notes that tho
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
 <p>The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span> which is related to their coverness.</p>
 <p>Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of <span class="math notranslate nohighlight">\(q\)</span> and the one of <span class="math notranslate nohighlight">\(r_i\)</span>. This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
-<p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Eucliden distances.
+<p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the <a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a>.</p>
-<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id15" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
+<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id44" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /></p>
+</section>
+<section id="online-triplet-mining-explained">
+<h2>Online Triplet mining explained<a class="headerlink" href="#online-triplet-mining-explained" title="Permalink to this heading">#</a></h2>
+<p>The online mining of the triplets is actually not a mining of the best data to feed into the model since all data are fed into the model.
+In online mining, batch of data are selected blindly and all send to the model to obtain the embeddings <span class="math notranslate nohighlight">\(e_i=f_{\theta}(x_i), i \in \{1, \ldots, batch\_size\}\)</span>.
+The online mining then uses those embeddings to select the ones that will be used to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD) and only those selected will be used for the loss.</p>
+<p><img alt="brick_mining_random" src="_images/brick_mining_random.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_random</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online random triplet mining</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_pos) as the positive</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_neg) as the negative</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_neg</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
+</pre></div>
+</div>
+<p><img alt="brick_mining_semi" src="_images/brick_mining_semi.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_semihard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">margin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online semi-hard triplet mining (a random positive, a semi-hard negative)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># --- the code below seems wrong</span>
+    <span class="c1"># --- need criteria</span>
+    <span class="c1"># 1) should be negative (should be from a different work-id)</span>
+    <span class="c1"># 2) should be P &lt; N &lt; P+margin</span>
+
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># we consider each row as an anchor and takes the maximum of the masked row (mask_pos) as the positive</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+                            <span class="p">(</span><span class="n">mask_neg</span> <span class="o">+</span> <span class="n">mask_neg</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_all</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">dists_pos</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">dist_all</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">+</span><span class="n">margin</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                           <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span>
+                           <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
+</pre></div>
+</div>
+<p><img alt="brick_mining_hard" src="_images/brick_mining_hard.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
+    &quot;&quot;&quot;
+    Performs online hard triplet mining (both positive and negative)
+    &quot;&quot;&quot;
+
+    # --- the code below seems wrong
+    # --- need criteria
+    # 1) should be negative (from a different work-id)
+    # 2) should be N &lt; P
+
+    # selecting the positive elements of triplets
+    # --- for each anchor (row) we take the positive with the largest distance
+    _, sel_pos = torch.max(dist_all * mask_pos.float(), 1)
+    dists_pos = torch.gather(input=dist_all, dim=1, index=sel_pos.view(-1, 1))
+
+    # modifying the negative mask for hard mining (because we will use the min)
+    # --- if mask_neg==0 then inf   
+    # --- if mask_neg==1 then 1
+    true_value = torch.tensor(float(&#39;inf&#39;), device=device)
+    false_value = torch.tensor(1., device=device)
+    mask_neg = torch.where(mask_neg == 0, true_value, false_value)
+    # selecting the negative elements of triplets
+    # --- for each anchor (row) we take the negative with the smallest distance
+    _, sel_neg = torch.min(dist_all + mask_neg.float(), dim=1)
+    dists_neg = torch.gather(input=dist_all, dim=1, index=sel_neg.view(-1, 1))
+
+    return dists_pos, dists_neg
+		```
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -491,20 +599,20 @@ Various approaches can be used for metric learning, but the most common is the <
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="TUTO_task1_MultiPitch.html"
+       href="task_multipitchestimation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">TUTO Multi-pitch Estimation</p>
+        <p class="prev-next-title">Multi-Pitch-Estimation</p>
       </div>
     </a>
     <a class="right-next"
-       href="TUTO_task2_CoverDetection.html"
+       href="task_sourceseparation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">TUTO Cover-Detection based on Triplet-Loss</p>
+        <p class="prev-next-title">Source Separation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -527,6 +635,7 @@ Various approaches can be used for metric learning, but the most common is the <
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a></li>
 </ul>
   </nav></div>
 

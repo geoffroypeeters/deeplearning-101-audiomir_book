@@ -5,7 +5,7 @@ The following type of data are commonly used in MIR as input of deep learning mo
 
 
 
-(lab_waveform)
+(lab_waveform)=
 ### Waveform
 
 It is possible to use directly the audio waveform $x(n)$ as input to a model. In this case, the input is a 1-dimensional sequence over time.
