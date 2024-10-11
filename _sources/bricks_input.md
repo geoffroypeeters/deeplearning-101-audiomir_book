@@ -11,7 +11,7 @@ The following type of data are commonly used in MIR as input of deep learning mo
 It is possible to use directly the audio waveform $x(n)$ as input to a model. In this case, the input is a 1-dimensional sequence over time.
 Such a system is often denoted by end-to-end (E2E).
 The first layer of the models then act as a learnable feature extractor.
-It is often either a 1D-convolution [], a [TCN](lab_tcn) or a parametric front-end such as [SincNet](label_sincnet) or [LEAF](label_leaf).
+It is often either a 1D-convolution [], a [TCN](lab_tcn) or a parametric front-end such as [SincNet](lab_sincnet) or [LEAF](lab_leaf).
 
 More details can be found in the following tutorial.
 Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, TasNet, ConvTasNet.
