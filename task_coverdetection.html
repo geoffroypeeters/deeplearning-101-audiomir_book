@@ -556,47 +556,66 @@ The online mining then uses those embeddings to select the ones that will be use
 <h3>Hard mining<a class="headerlink" href="#hard-mining" title="Permalink to this heading">#</a></h3>
 <p>For each anchor A (row), we select (among the mask_pos) the positive with the largest distance and the negative (among the mask_neg) with the smallest distance.</p>
 <p><img alt="brick_mining_hard" src="_images/brick_mining_hard.png" /></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
-    &quot;&quot;&quot;
-    Performs online hard triplet mining (both positive and negative)
-    &quot;&quot;&quot;
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_hard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs online hard triplet mining (both positive and negative)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    # --- the code below seems wrong
-    # --- need criteria
-    # 1) should be negative (from a different work-id)
-    # 2) should be N &lt; P
+    <span class="c1"># --- the code below seems wrong</span>
+    <span class="c1"># --- need criteria</span>
+    <span class="c1"># 1) should be negative (from a different work-id)</span>
+    <span class="c1"># 2) should be N &lt; P</span>
 
-    # selecting the positive elements of triplets
-    # --- for each anchor (row) we take the positive with the largest distance
-    _, sel_pos = torch.max(dist_all * mask_pos.float(), 1)
-    dists_pos = torch.gather(input=dist_all, dim=1, index=sel_pos.view(-1, 1))
+    <span class="c1"># selecting the positive elements of triplets</span>
+    <span class="c1"># --- for each anchor (row) we take the positive with the largest distance</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dist_all</span> <span class="o">*</span> <span class="n">mask_pos</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_pos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    # modifying the negative mask for hard mining (because we will use the min)
-    # --- if mask_neg==0 then inf   
-    # --- if mask_neg==1 then 1
-    true_value = torch.tensor(float(&#39;inf&#39;), device=device)
-    false_value = torch.tensor(1., device=device)
-    mask_neg = torch.where(mask_neg == 0, true_value, false_value)
-    # selecting the negative elements of triplets
-    # --- for each anchor (row) we take the negative with the smallest distance
-    _, sel_neg = torch.min(dist_all + mask_neg.float(), dim=1)
-    dists_neg = torch.gather(input=dist_all, dim=1, index=sel_neg.view(-1, 1))
+    <span class="c1"># modifying the negative mask for hard mining (because we will use the min)</span>
+    <span class="c1"># --- if mask_neg==0 then inf   </span>
+    <span class="c1"># --- if mask_neg==1 then 1</span>
+    <span class="n">true_value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">false_value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">mask_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_neg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">true_value</span><span class="p">,</span> <span class="n">false_value</span><span class="p">)</span>
+    <span class="c1"># selecting the negative elements of triplets</span>
+    <span class="c1"># --- for each anchor (row) we take the negative with the smallest distance</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dist_all</span> <span class="o">+</span> <span class="n">mask_neg</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    return dists_pos, dists_neg
-		```
-
-Experiments:
-- run MOVE on Cover1000
-- run MOVE on DataCOS
-- run MOVE on Cover1000, replace AutoPoolWeightSplit by Mean, by SoftmaxWeight, by AutoPoolWeight
-
-Experiments:
-| Dataset   | Input   | Model   | Results   | Code |
-|:---------- |:----------|:----------|:---------- |:---------- |
-| 1. Cover1000          | CREMA          |  MOVE  | meanRank=11.9, meanReciprocalRank=0.52, P@1=0.38, mAP=0.1  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_01.ipynb) |
-| 2. Da-TACOS Benchmark | CREMA          |  MOVE  | meanRank=???, meanReciprocalRank=???, P@1=???, mAP=???   | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb) |
+    <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
 </pre></div>
 </div>
+<p>Experiments:</p>
+<ul class="simple">
+<li><p>run MOVE on Cover1000</p></li>
+<li><p>run MOVE on DataCOS</p></li>
+<li><p>run MOVE on Cover1000, replace AutoPoolWeightSplit by Mean, by SoftmaxWeight, by AutoPoolWeight</p></li>
+</ul>
+<p>Experiments:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
+<th class="text-left head"><p>Input</p></th>
+<th class="text-left head"><p>Model</p></th>
+<th class="text-left head"><p>Results</p></th>
+<th class="text-left head"><p>Code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>1. Cover1000</p></td>
+<td class="text-left"><p>CREMA</p></td>
+<td class="text-left"><p>MOVE</p></td>
+<td class="text-left"><p>meanRank=11.9, meanReciprocalRank=0.52, P&#64;1=0.38, mAP=0.1</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_01.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>2. Da-TACOS Benchmark</p></td>
+<td class="text-left"><p>CREMA</p></td>
+<td class="text-left"><p>MOVE</p></td>
+<td class="text-left"><p>meanRank=???, meanReciprocalRank=???, P&#64;1=???, mAP=???</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb">LINK</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 </section>
