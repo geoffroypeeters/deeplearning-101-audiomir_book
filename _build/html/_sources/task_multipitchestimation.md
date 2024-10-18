@@ -106,6 +106,17 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 
 We will vary in turn
 - the **inputs**: [CQT](lab_cqt) or [Harmonic-CQT](lab_hcqt)
-- the model **blocks**: [Conv-2D](lab_conv2d), [ResNet](lab_resnet), [ConvNext](lab_convnext)
+- the model **blocks**: [Conv-2D](lab_conv2d), [ResNet](lab_resnet), [ConvNext](lab_convnext), [U-Net](lab_unet)
 
 ![bricks](/images/main_bricks.png)
+
+Experiments:
+| Dataset   | Input   | Model   | Results   | Code |
+|:---------- |:----------|:----------|:---------- |:---------- |
+| 1. Bach10 | CQT          |  ConvNet                          | P=0.85/R=0.45/A=0.42  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe01.ipynb) |
+| 2. Bach10 | Harmonic-CQT |  ConvNet                          | P=0.91/R=0.81/A=0.75  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe02.ipynb) |
+| 3. Bach10 | Harmonic-CQT |  Conv2d + Conv2dDS                | P=0.91/R=0.77/A=0.73  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe03.ipynb) |
+| 4. Bach10 | Harmonic-CQT |  Conv2d + Conv2dRes               | **P=0.92/R=0.84/A=0.78**  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe04.ipynb) |
+| 5. Bach10 | Harmonic-CQT |  Conv2d + Conv2dRes + Conv2dNext  | P=0.90/R=0.80/A=0.74  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe05.ipynb) |
+| 6. Bach10 | Harmonic-CQT |  U-Net                            | P=0.87/R=0.82/A=0.74  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe06.ipynb) |
+| 7. MAPS   | Harmonic-CQT |  Conv2d + Conv2dRes               |                       | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe07.ipynb) |

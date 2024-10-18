@@ -61,7 +61,7 @@ model(X).size()
 (lab_resnet)=
 ### ResNet
 
-ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of imae recognition.
+ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of image recognition.
 A ResNet is made of a large number of blocks each containing a residual connection (skip-connection).
 The later allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
 We are interested here in the two building blocks of ResNet:
