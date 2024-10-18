@@ -193,7 +193,7 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
     dists_neg = torch.gather(input=dist_all, dim=1, index=sel_neg.view(-1, 1))
 
     return dists_pos, dists_neg
-		```
+```
 
 Experiments:
 - run MOVE on Cover1000
