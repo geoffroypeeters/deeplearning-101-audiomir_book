@@ -19,6 +19,9 @@ As in Wav-U-Net {cite}`DBLP:conf/ismir/StollerED18`, ConvTasNet {cite}`DBLP:jour
 *image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
 
 
+```python
+torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
+```
 
 
 (lab_dilated)=
@@ -30,7 +33,7 @@ Indeed, since audio signals has a large dimensionality (16.000 values for 1 seco
 Dilated convolution consists in skipping 1 sample over 2 (over 4, over 8, ...) when computing convolution (or equivalently adding holes in the kernel).
 
 For a 1D-filter $w$ of size $l$ and a sequence $x(n)$,
-- the usual convolution is written $(x \circledast w)(n) = \sum_{i=0}^{l-1} w(i) x(n-i)$; t
+- the usual convolution is written $(x \circledast w)(n) = \sum_{i=0}^{l-1} w(i) x(n-i)$;
 - he dilated convolution with a dilatation factor $d$ is written $(x \circledast_d w)(n) = \sum_{i=0}^{l-1} w(i) x(n - (d \cdot i))$,
   - the filter is convolved with the signal only considering one over $d$ values.
 
@@ -43,7 +46,7 @@ For a 1D-filter $w$ of size $l$ and a sequence $x(n)$,
 %https://github.com/facebookresearch/music-translation/blob/main/src/wavenet.py
 
 ```python
-torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
+torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=2, groups=1, bias=True, padding_mode='zeros')
 ```
 
 
