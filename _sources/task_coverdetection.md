@@ -204,4 +204,4 @@ Experiments:
 | Dataset   | Input   | Model   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |
 | 1. Cover1000          | CREMA          |  MOVE  | meanRank=11.9, meanReciprocalRank=0.52, P@1=0.38, mAP=0.1  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_01.ipynb) |
-| 2. Da-TACOS Benchmark | CREMA          |  MOVE  | meanRank=???, meanReciprocalRank=???, P@1=???, mAP=???   | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb) |
+| 2. Da-TACOS Benchmark | CREMA          |  MOVE  | meanRank=466, meanReciprocalRank=0.18, P@1=0.12, mAP=0.067   | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb) |
