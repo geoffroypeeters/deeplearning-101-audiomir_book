@@ -112,3 +112,11 @@ We will vary in turn
 - the model **blocks**: [Conv-2D](lab_conv2d), [ResNet](lab_resnet), [ConvNext](lab_convnext)
 
 ![bricks](/images/main_bricks.png)
+
+
+Experiments:
+- run ConvNet code with LMS on GTZAN
+- run ConvNet code with LMS on MTT
+- run ConvNet code with Waveform, Conv1D on GTZAN
+- run ConvNet code with Waveform, SincNet on GTZAN
+- run ConvNet code with Waveform, TCN on GTZAN

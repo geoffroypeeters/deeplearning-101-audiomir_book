@@ -194,3 +194,8 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
 
     return dists_pos, dists_neg
 		```
+
+    Experiments:
+    - run MOVE on Cover1000
+    - run MOVE on DataCOS
+    - run MOVE on Cover1000, replace AutoPoolWeightSplit by Mean, by SoftmaxWeight, by AutoPoolWeight

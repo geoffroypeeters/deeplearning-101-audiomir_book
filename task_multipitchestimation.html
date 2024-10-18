@@ -507,9 +507,64 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a> or <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a></p></li>
-<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_projection.html#lab-resnet"><span class="std std-ref">ResNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-convnext"><span class="std std-ref">ConvNext</span></a></p></li>
+<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_projection.html#lab-resnet"><span class="std std-ref">ResNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-convnext"><span class="std std-ref">ConvNext</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-unet"><span class="std std-ref">U-Net</span></a></p></li>
 </ul>
 <p><img alt="bricks" src="_images/main_bricks.png" /></p>
+<p>Experiments:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
+<th class="text-left head"><p>Input</p></th>
+<th class="text-left head"><p>Model</p></th>
+<th class="text-left head"><p>Results</p></th>
+<th class="text-left head"><p>Code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>1. Bach10</p></td>
+<td class="text-left"><p>CQT</p></td>
+<td class="text-left"><p>ConvNet</p></td>
+<td class="text-left"><p>P=0.85/R=0.45/A=0.42</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe01.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>2. Bach10</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>ConvNet</p></td>
+<td class="text-left"><p>P=0.91/R=0.81/A=0.75</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe02.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>3. Bach10</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>Conv2d + Conv2dDS</p></td>
+<td class="text-left"><p>P=0.91/R=0.77/A=0.73</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe03.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>4. Bach10</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>Conv2d + Conv2dRes</p></td>
+<td class="text-left"><p><strong>P=0.92/R=0.84/A=0.78</strong></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe04.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>5. Bach10</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>Conv2d + Conv2dRes + Conv2dNext</p></td>
+<td class="text-left"><p>P=0.90/R=0.80/A=0.74</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe05.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>6. Bach10</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>U-Net</p></td>
+<td class="text-left"><p>P=0.87/R=0.82/A=0.74</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe06.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>7. MAPS</p></td>
+<td class="text-left"><p>Harmonic-CQT</p></td>
+<td class="text-left"><p>Conv2d + Conv2dRes</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe07.ipynb">LINK</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 
