@@ -182,7 +182,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="current nav bd-sidenav">
@@ -416,13 +416,45 @@ document.write(`
   <section id="paradigms">
 <h1>Paradigms<a class="headerlink" href="#paradigms" title="Permalink to this heading">#</a></h1>
 <section id="supervised">
-<h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
+<span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
+<p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span>.
+The goal is then to define a function <span class="math notranslate nohighlight">\(f\)</span> (a specific neural network architecture) and optimize its parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that <span class="math notranslate nohighlight">\(\hat{y}=f_{\theta}(X)\)</span> best approximates <span class="math notranslate nohighlight">\(y\)</span>.
+This is done by defining a loss <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> associated to the approximation of <span class="math notranslate nohighlight">\(y\)</span> by <span class="math notranslate nohighlight">\(\hat{y}\)</span>.
+Such a loss can be</p>
+<ul class="simple">
+<li><p>binary cross entropy (for binary classification problems, i.e. <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>, or multi-label problems i.e. <span class="math notranslate nohighlight">\(y \in \{0,1\}^C\)</span>,</p></li>
+<li><p>categorical cross entropy (for multi-class problem, i.e. <span class="math notranslate nohighlight">\(y \in \{0,\ldots, C-1\}\)</span>)</p></li>
+<li><p>mean square error (for regression problems, i.e. <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span>)</p></li>
+</ul>
+<p>Since we do not have access to the distribution <span class="math notranslate nohighlight">\(p(X,y)\)</span> but only to samples of it <span class="math notranslate nohighlight">\(X^{(i)}\)</span>, <span class="math notranslate nohighlight">\(y^{(i)} \sim p(X,y)\)</span>, we <strong>empirically minimize the loss/risk</strong> for a set of training examples <span class="math notranslate nohighlight">\((X^{(i)}\)</span>, <span class="math notranslate nohighlight">\(y^{(i)})\)</span>:
+<span class="math notranslate nohighlight">\(\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(X^{(i)}), y^{(i)})\)</span>.</p>
+<p>This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
+<p>The function <span class="math notranslate nohighlight">\(f\)</span> is defined by writing a class inherited from the <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>
+The choice of <span class="math notranslate nohighlight">\(I\)</span> is defined in the <code class="docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">TorchLightning</span></code>, the loss, model and updates method are defined as follow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoTaggingLigthing</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">in_model</span>
+        <span class="n">elf</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span> <span class="c1"># --- multiclass</span>
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">hat_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">hat_y</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">loss</span>
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">hat_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">hat_y</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="mf">0.001</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
+</div>
 </section>
 <section id="self-supervised">
 <h2>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="metric-learning">
-<h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
+<span id="lab-metric-learning"></span><h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
 <p>Metric learning is a type of machine learning technique focused on learning a distance function or similarity measure between data points. The goal is to map input data into a space where similar examples are close together and dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).</p>
 <p>There exist several type of supervision to achieve this</p>
 <ul class="simple">

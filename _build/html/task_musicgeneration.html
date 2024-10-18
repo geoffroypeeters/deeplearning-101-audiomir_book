@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Music Generation &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Musical Audio Generation &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -180,7 +180,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Music Generation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
@@ -367,7 +367,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -378,11 +380,31 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Music Generation</h1>
+    <h1>Musical Audio Generation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-musical-audio-generation-using-deep-learning">Solving Musical Audio Generation Using Deep Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#previous-approaches">Previous Approaches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -392,11 +414,50 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="music-generation">
-<h1>Music Generation<a class="headerlink" href="#music-generation" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="musical-audio-generation">
+<h1>Musical Audio Generation<a class="headerlink" href="#musical-audio-generation" title="Permalink to this heading">#</a></h1>
+<section id="goal-of-the-task">
+<h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<p>Musical audio generation aims to create a wide range of musical content, from individual notes to full instrumental arrangements and complete songs. In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain. Recent approaches, however, work with compressed representations, often using neural audio codecs.</p>
+<p>The most widely used models today are autoregressive (Transformer) architectures and diffusion models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.</p>
+</section>
+<section id="popular-datasets">
+<h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>author: Steffan</p></li>
+<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation. It contains short, synthetic, single-note samples from different instrument families, along with detailed metadata, making it a valuable resource for early experiments.</p></li>
+<li><p><strong>GTZAN</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
+<li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing both MIDI and corresponding audio recordings. This makes it particularly useful for training models focused on high-quality piano music generation.</p></li>
 </ul>
+</section>
+<section id="solving-musical-audio-generation-using-deep-learning">
+<h2>Solving Musical Audio Generation Using Deep Learning<a class="headerlink" href="#solving-musical-audio-generation-using-deep-learning" title="Permalink to this heading">#</a></h2>
+<section id="previous-approaches">
+<h3>Previous Approaches<a class="headerlink" href="#previous-approaches" title="Permalink to this heading">#</a></h3>
+<p>Before the rise of Transformers and diffusion models, models like Recurrent Neural Networks (RNNs) and Generative Adversarial Networks (GANs) were commonly used for musical audio generation. RNNs could handle sequences but often struggled with long-term dependencies, leading to repetitive or incoherent results. GANs were used to generate audio but faced challenges with training instability and producing high-quality, diverse outputs. These limitations led to a shift towards more robust architectures like Transformers and diffusion models, which can better capture the complexity of musical content.</p>
+</section>
+<section id="autoregressive-transformer-architectures">
+<h3>Autoregressive (Transformer) Architectures<a class="headerlink" href="#autoregressive-transformer-architectures" title="Permalink to this heading">#</a></h3>
+<p>Autoregressive models, especially those based on Transformers, are well-suited for generating sequences like musical audio. These models generate audio by predicting each subsequent token based on prior ones, capturing long-term relationships effectively, which helps in producing coherent compositions.</p>
+</section>
+<section id="diffusion-models">
+<h3>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h3>
+<p>Diffusion models offer another approach to musical audio generation. They transform random noise into meaningful continuous audio representations.</p>
+</section>
+</section>
+<section id="how-is-the-task-evaluated">
+<h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
+<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing for the estimation of precision for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set, without directly reproducing any training data.</p>
+<p>As a result, indirect, distribution-based evaluation metrics are commonly used, rather than relying on one-to-one comparisons like in autoencoders or classification tasks.</p>
+<section id="frechet-audio-distance-fad">
+<h3>Frechet Audio Distance (FAD)<a class="headerlink" href="#frechet-audio-distance-fad" title="Permalink to this heading">#</a></h3>
+<p>Nowadays, the most commonly used metric in audio generation is the Frechet Audio Distance (FAD). FAD compares the statistics of generated audio to those of real audio using embeddings from a pre-trained model. This metric provides a measure of how close the generated audio is to the original data distribution, which helps in assessing the quality and diversity of generated samples.</p>
+</section>
+<section id="subjective-evaluation">
+<h3>Subjective Evaluation<a class="headerlink" href="#subjective-evaluation" title="Permalink to this heading">#</a></h3>
+<p>Objective evaluation metrics cannot capture all details people care about when listening to audio. Therefore, it is very common (and important) in works on audio generation to perform user studies.</p>
+<p>Lickert Scale</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -453,6 +514,32 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-musical-audio-generation-using-deep-learning">Solving Musical Audio Generation Using Deep Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#previous-approaches">Previous Approaches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -1,5 +1,6 @@
 ## Architectures
 
+(lab_unet)=
 ### U-Net
 
 The U-Net was proposed in {cite}`DBLP:conf/miccai/RonnebergerFB15` in the framework of biomedical image segmentation and made popular in MIR by {cite}`DBLP:conf/ismir/JanssonHMBKW17` for singing voice separation.
