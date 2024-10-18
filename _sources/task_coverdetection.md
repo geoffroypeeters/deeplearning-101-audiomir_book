@@ -1,10 +1,13 @@
+(lab_cover_detection)=
 # Cover Detection
 
 ## Goal of the task ?
 
 Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
 For example detecting that this track performed by [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE) is a cover/version of the work-id "Let It Be", composed by the Beatles and also performed in [Beatles](https://www.youtube.com/watch?v=QDYfEBY9NM4).
-They are covers/versions of the same composition (also named work-id or ISWC).
+They are covers/versions of the same composition.
+We said that they are performances of the same work-id (or ISWC).
+The group of songs that are identified as cover versions of each other is often denoted as a *"clique"*.
 
 ![flow_cover_identification](/images/flow_cover_identification.png)
 
@@ -15,8 +18,8 @@ If $q$ is similar to one track of the dataset (i.e. the distance $d(q,r_i)$ is s
 This involves setting a threshold $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ we decide they are cover of each other.
 
 In practice to evaluate the task, another problem is considered.
-The distances between $q$ and all $r_i$ are computed and ranked.
-If we denote by $w(.)$ the function that give the work-id of a track, we then check at which position in the ranked list $w(r_i)==w(q)$.
+The distances between $q$ and all $r_i \in R$ are computed and ranked.
+If we denote by $w(.)$ the function that gives the work-id of a track, we then check at which position in the ranked list $w(r_i)==w(q)$.
 We can then use the ranking/recommendation performance metrics.
 
 Fore more details, see the very good [tutorial on "Version Identification in the 20s"](https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28)
@@ -24,10 +27,10 @@ Fore more details, see the very good [tutorial on "Version Identification in the
 
 ## How is the task evaluated ?
 
-We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list of the version corresponding to $A$.
+We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list $A$ of the first match with the query.
 
 If we denote by
-- $A$ the ranked list corresponding to query $q$ of length $K$
+- $A$ the ranked list (of length $K$) corresponding to a query $q$
 - $a_i$ its $i^{th}$ element,
 - $A^k=\{a_i\}_{i \; \in \; 1 \ldots k}$ the $k$ first ranked items,
 - $rel(q,a_i)$ the relevance of items $a_i$, i.e. whether the item $a_i$ has the same work-id than $q$: $w(a_i)==w(q)$.
@@ -66,19 +69,20 @@ Other metrics are also commonly used such as the Cumulative Gain, (CG) Discounte
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
-The first dataset proposed for this task was the ([cover80](http://labrosa.ee.columbia.edu/projects/coversongs/covers80/) containing 80 different work-id (or clique) with each 2 versions.
+The first dataset proposed for this task was the [cover80](http://labrosa.ee.columbia.edu/projects/coversongs/covers80/) datasets containing 80 different work-id (or cliques) with 2 versions each.
 
 Since then, much larger datasets have been created mostly relying on the data provided by the collaborative website [SecondHandSongs](https://secondhandsongs.com/).
-For our implementations, we will consider the two following ones (notes that those do not provide access to the audio but t already extracted audio features):
-- [Cover-1000](https://www.covers1000.net/dataset.html)
-- [DA-TACOS](https://github.com/MTG/da-tacos)
+For our implementations, we will consider the two following datasets (notes that those do not provide access to the audio but to the already extracted CREMA audio features (12-dimension)):
+- [Cover-1000](https://www.covers1000.net/dataset.html): 996 performances of 395 different works
+- [DA-TACOS](https://github.com/MTG/da-tacos): 15.000 performances of 3000 different works
 
 
 ## How we can solve it using deep learning
 
-The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks $q$ and $r_i$ which is related to their coverness.
+The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks $q$ and $r_i$, the distance should relates to their "coverness" (how much $q$ and $r_i$ are two performances of the same work-id).
 
-Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of $q$ and the one of $r_i$. This was however very costly in terms of computation time and prevented the algorithm to scale.
+Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of $q$ and the one of $r_i$.
+This was however very costly in terms of computation time and prevented the algorithm to scale.
 
 Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network $f_{\theta}$ such that the resulting projections of $q$, $f_{\theta}(q)$ can be directly compared (using Euclidean distance) to the projections of $r_i$, $f_{\theta}(r_i)$. In this case, only the projections (named embedding) of the elements of the reference-set $R$ are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the [triplet loss](lab_triplet).
@@ -87,14 +91,22 @@ For the proposal code we will used the [MOVE model](https://arxiv.org/pdf/1910.1
 
 ![task_cover_move](/images/task_cover_move.png)
 
+We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb) and using the [configuration](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml).
+
+
+
 ## Online Triplet mining explained
 
 The online mining of the triplets is actually not a mining of the best data to feed into the model since all data are fed into the model.
 In online mining, batch of data are selected blindly and all send to the model to obtain the embeddings $e_i=f_{\theta}(x_i), i \in \{1, \ldots, batch\_size\}$.
 The online mining then uses those embeddings to select the ones that will be used to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD) and only those selected will be used for the loss.
 
+#### Random mining
+
+For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg).
 
 ![brick_mining_random](/images/brick_mining_random.png)
+
 ```python
 def triplet_mining_random(dist_all, mask_pos, mask_neg):
     """
@@ -113,7 +125,12 @@ def triplet_mining_random(dist_all, mask_pos, mask_neg):
     return dists_pos, dists_neg
 ```
 
+#### Semi-hard mining
+
+For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg that statisfy D_neg < D_pos + margin).
+
 ![brick_mining_semi](/images/brick_mining_semi.png)
+
 ```python
 def triplet_mining_semihard(dist_all, mask_pos, mask_neg, margin):
     """
@@ -132,8 +149,9 @@ def triplet_mining_semihard(dist_all, mask_pos, mask_neg, margin):
 
     # selecting the negative elements of triplets
     _, sel_neg = torch.max(
-                            (mask_neg + mask_neg * (dist_all < (dists_pos.expand_as(dist_all)).long()+margin)).float()
-                           + torch.rand_like(dist_all),
+                            (mask_neg
+                            + mask_neg * (dist_all < (dists_pos.expand_as(dist_all)).long()+margin)).float()
+                            + torch.rand_like(dist_all),
                            dim=1)
 
     dists_neg = torch.gather(input=dist_all, dim=1, index=sel_neg.view(-1, 1))
@@ -141,7 +159,12 @@ def triplet_mining_semihard(dist_all, mask_pos, mask_neg, margin):
     return dists_pos, dists_neg
 ```
 
+#### Hard mining
+
+For each anchor A (row), we select (among the mask_pos) the positive with the largest distance and the negative (among the mask_neg) with the smallest distance.
+
 ![brick_mining_hard](/images/brick_mining_hard.png)
+
 ```python
 def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
     """

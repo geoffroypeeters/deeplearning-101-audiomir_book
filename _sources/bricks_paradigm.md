@@ -1,9 +1,47 @@
 ## Paradigms
 
+(lab_supervised)=
 ### Supervised
+
+Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data $X$ and the corresponding ground-truth $y$.
+The goal is then to define a function $f$ (a specific neural network architecture) and optimize its parameters $\theta$ such that $\hat{y}=f_{\theta}(X)$ best approximates $y$.
+This is done by defining a loss $\mathcal{L}$ associated to the approximation of $y$ by $\hat{y}$.
+Such a loss can be
+- binary cross entropy (for binary classification problems, i.e. $y \in \{0,1\}$, or multi-label problems i.e. $y \in \{0,1\}^C$,
+- categorical cross entropy (for multi-class problem, i.e. $y \in \{0,\ldots, C-1\}$)
+- mean square error (for regression problems, i.e. $y \in \mathbb{R}$)
+
+Since we do not have access to the distribution $p(X,y)$ but only to samples of it $X^{(i)}$, $y^{(i)} \sim p(X,y)$, we **empirically minimize the loss/risk** for a set of training examples $(X^{(i)}$, $y^{(i)})$:
+$\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(X^{(i)}), y^{(i)})$.
+
+This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
+
+The function $f$ is defined by writing a class inherited from the `nn.Module`
+The choice of $I$ is defined in the `torch.utils.data.DataLoader`.
+In `TorchLightning`, the loss, model and updates method are defined as follow:
+
+
+```python
+class AutoTaggingLigthing(pl.LightningModule):
+    def __init__(self, in_model):
+        super().__init__()
+        self.model = in_model
+        elf.loss = nn.CrossEntropyLoss() # --- multiclass
+    def training_step(self, batch, batch_idx):
+        hat_y = self.model(batch['X'])
+        loss = self.loss(hat_y, batch['y'])
+        return loss
+    def validation_step(self, batch, batch_idx):
+        hat_y = self.model(batch['X'])
+        loss = self.loss(hat_y, batch['y'])
+    def configure_optimizers(self):
+        optimizer = optim.Adam(self.parameters(), 0.001)
+        return optimizer
+```
 
 ### Self-supervised
 
+(lab_metric_learning)=
 ### Metric Learning
 
 Metric learning is a type of machine learning technique focused on learning a distance function or similarity measure between data points. The goal is to map input data into a space where similar examples are close together and dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).

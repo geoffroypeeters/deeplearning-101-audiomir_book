@@ -182,7 +182,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
@@ -412,25 +412,32 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-frontend">
-<h1>Auto-Tagging-FrontEnd<a class="headerlink" href="#auto-tagging-frontend" title="Permalink to this heading">#</a></h1>
+<span id="lab-auto-tagging"></span><h1>Auto-Tagging-FrontEnd<a class="headerlink" href="#auto-tagging-frontend" title="Permalink to this heading">#</a></h1>
 <section id="goal-of-the-task">
 <h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
 <p>Music auto-tagging is the task of assigning tags (such as genre , style, moods, instrumentation) to a music track.
-Tags can be mutually exclusive (<strong>multi-class</strong> problem) or not (<strong>multi-label</strong> problem) can be assigned over time (such as for segmentation into singing segments) or globally (for the whole time duration of the track).</p>
+Tags can be</p>
+<ul class="simple">
+<li><p>mutually exclusive (<strong>multi-class</strong> problem) or not (<strong>multi-label</strong> problem)</p></li>
+<li><p>can be assigned locally in time (such as for segmentation into singing segments, or labeling into chords) or globally in time (such as for music-genre).</p></li>
+</ul>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
 <p>The task is one of the first studied in MIR.
-Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id5" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio featrues (MFCC) and simple machine-learning models (GMM).
-Later on, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id4" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
-The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models Nowadays, attempted to do solve this task using MFCC/GMM-like systems) and still very active with the evaluation toward the use of Self-Supervised-Learning and Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id3" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
+Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id5" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
+Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id4" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
+The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id3" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">tutorial on “musical classification”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>We consider the classes <span class="math notranslate nohighlight">\(c \in \{1,\ldots,C\}\)</span>.</p>
+<p>We consider a set of classes <span class="math notranslate nohighlight">\(c \in \{1,\ldots,C\}\)</span>.</p>
 <section id="multi-class">
 <h3>Multi-class<a class="headerlink" href="#multi-class" title="Permalink to this heading">#</a></h3>
-<p>For the <strong>multi-class</strong> problem, the outputs of the model <span class="math notranslate nohighlight">\(o_c\)</span> go to a softmax function (mutually exclusive classes). The outputs <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>. The predicted class is then chosen as <span class="math notranslate nohighlight">\(\argmax_c p_c)\)</span>.</p>
-<p>We evaluate the performances by computing the standard  Accuracy, Recall, Precision, F-measure for each class <span class="math notranslate nohighlight">\(c\)</span> and then taking the average over classes <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<p>In a <strong>multi-class</strong> problem, the classes are mutually exclusive.
+The outputs of the (neural network) model <span class="math notranslate nohighlight">\(o_c\)</span> therefore go to a softmax function.
+The outputs of the softmax, <span class="math notranslate nohighlight">\(p_c\)</span>, then represent the probability <span class="math notranslate nohighlight">\(P(Y=c|X)\)</span>.
+The predicted class is then chosen as <span class="math notranslate nohighlight">\(\arg\max_c p_c)\)</span>.</p>
+<p>We evaluate the performances by computing the standard  Accuracy, Recall, Precision, F-measure for each class <span class="math notranslate nohighlight">\(c\)</span> and then take the average over classes <span class="math notranslate nohighlight">\(c\)</span>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
 <span class="n">classification_reports</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">labels_idx</span><span class="p">,</span> <span class="n">labels_pred_idx</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">labels_idx</span><span class="p">,</span> <span class="n">labels_pred_idx</span><span class="p">)</span>
@@ -439,15 +446,22 @@ The task is still active nowadays trying to solve it using Self-Supervised-Learn
 </section>
 <section id="multi-label">
 <h3>Multi-label<a class="headerlink" href="#multi-label" title="Permalink to this heading">#</a></h3>
-<p>For the <strong>multi-label</strong> problem, each <span class="math notranslate nohighlight">\(o_c\)</span> of the model goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems). The outputs <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>. We then need to set a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on each probability to make the decision wether class <span class="math notranslate nohighlight">\(c\)</span> exist or not.</p>
-<p>Using a default threshold (<span class="math notranslate nohighlight">\(\tau=0.5\)</span>) of course allows to use the afore-mentioned mertics (Accuracy, Recall, Precision, F-measure).
-However, in practice, we want to measure the performances independently of the choice of a threshold.
-This can be done either by</p>
+<p>In the <strong>multi-label</strong> problem, the classes are NOR mutually exclusive.
+Each <span class="math notranslate nohighlight">\(o_c\)</span> therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).
+The outputs of the sigmoids <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>.
+We then need to set a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on each <span class="math notranslate nohighlight">\(p_c\)</span> to decide wether class <span class="math notranslate nohighlight">\(c\)</span> exist or not.</p>
+<p>Using a default threshold (<span class="math notranslate nohighlight">\(\tau=0.5\)</span>) of course allows to use the afore-mentioned metrics (Accuracy, Recall, Precision, F-measure).
+However, in practice, we want to measure the performances independently of the choice of a given threshold.
+This can be using either</p>
 <ul class="simple">
-<li><p>measuring the <strong>AUC (Area Under the Curve) of the ROC</strong>. The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau)\)</span>. The larger the AUC is (maximum of 1) the more discrimination is between the Positive and Negative classes. A value of 0.5 indicates no discrimination (random system).</p></li>
-<li><p>computing the <strong>mean-Average-Precision (mAP)</strong>. The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau)\)</span>.</p></li>
+<li><p>the <strong>AUC (Area Under the Curve) of the ROC</strong>.
+The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau\)</span>.
+The larger the AUC-ROC is (maximum of 1) the more discrimination is between the Positive and Negative classes.
+A value of 0.5 indicates no discrimination (random system).</p></li>
+<li><p>the <strong>mean-Average-Precision (mAP)</strong>.
+The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau)\)</span>.</p></li>
 </ul>
-<p>The AUC of ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
+<p>The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
 In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefoe prefered.</p>
 <p><img alt="auc" src="_images/brick_auc.png" />
 <img alt="map" src="_images/brick_map.png" /></p>
@@ -471,11 +485,11 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <p>For our implementations, we will consider the two following datasets</p>
 <ul class="simple">
 <li><p><a class="reference external" href="http://marsyas.info/downloads/datasets.html">GTZAN</a>.
-It contains 1000 audio files of 30s duration, each with a single (multi-class) genre label among 10 classes (‘blues’,’classical’,’country’,’disco’,’hiphop’,’jazz’,’metal’,’pop’, ‘reggae’,’rock’).
+It contains 1000 audio files of 30s duration, each with a single (<strong>multi-class</strong>) genre label among 10 classes (‘blues’,’classical’,’country’,’disco’,’hiphop’,’jazz’,’metal’,’pop’, ‘reggae’,’rock’).
 Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.</p></li>
 <li><p><a class="reference external" href="https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset">MagneTagATune (MTT)</a>.
-We use a subset of this dataset by only selecting the most 50 used tags.
-It contains 21.108 files of 30s duration, each with multiple (multi-label) tag labels among 50 classes (‘guitar’, ‘classical’, ‘slow’, ‘techno’, ‘strings’, ‘drums’, ‘electronic’, ‘rock’, ‘fast’, ‘piano’, …)</p></li>
+We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
+It contains 21.108 files of 30s duration, each with multiple (<strong>multi-label</strong>) tag labels among 50 classes (‘guitar’, ‘classical’, ‘slow’, ‘techno’, ‘strings’, ‘drums’, ‘electronic’, ‘rock’, ‘fast’, ‘piano’, …)</p></li>
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
@@ -486,7 +500,8 @@ We therefore need to design a model that map a time-serie of observation to a si
 There have been many models proposed to do this.</p>
 <p>For this tutorial, we focus on the model used in the SincNet paper illustrated below.</p>
 <p><img alt="sincnet" src="_images/brick_sincnet.png" /></p>
-<p>Using this architecture as a baseline, we will vary in turn</p>
+<p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb">notebook</a> and study various <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml">configurations</a>.</p>
+<p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a> or <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a></p></li>
 <li><p>the <strong>front-end</strong>: <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a></p></li>

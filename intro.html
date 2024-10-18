@@ -180,7 +180,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
@@ -413,22 +413,23 @@ document.write(`
                   
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>In the following, to facilitate the reading, we follow the same structure for each of the task.
+<p>The first part of the book, <strong>Tasks</strong> describe a subset of typical audio-based MIR tasks.
+To facilitate the reading of the book, we follow a similar structure to describe each of the audio-based MIR task we consider.
 We describe in turn:</p>
 <ul class="simple">
 <li><p>What is the goal of the task</p></li>
 <li><p>How it is evaluated</p></li>
 <li><p>Some popular datasets (used to train system or evaluate the performances of)</p></li>
-<li><p>How we can solve it using deep learning</p></li>
+<li><p>How we can solve it using deep learning. This part refers to bricks that are described individually in the second part of the book.</p></li>
 </ul>
-<p>The last part (deep learning) refers to bricks that are described individually in the second part of the book.
-We have chosen to separate the bricks since most of them can be used for several tasks.
-We want also to emphasize the fact that those are just bricks.</p>
-<p>To make our life easier and facilitate the reading of the code of the notebooks we will rely on the following elements.</p>
+<p>The second pat of the book, <strong>Deep Learning Bricks</strong>, described each brick individually.
+We have chosen to separate the description of the bricks from the tasks in which they can be used to emphasise the fact that the same brick can be used for several tasks.
+We want also to emphasise the fact that those are just bricks.</p>
+<p>To make our life easier and <strong>facilitate the reading of the code of the notebooks</strong> we will rely on the following elements.</p>
 <ul class="simple">
 <li><p>for <strong>datasets</strong> (audio and annotations): .hdf5 (for audio) and .pyjama (for annotations), described below</p></li>
-<li><p>for deep learning <strong>models</strong>: pytorch, a python library for deep learning</p></li>
-<li><p>for <strong>training</strong> (optimisation): torchlighning stands on top of pytorch and facilitates training and deployment of models</p></li>
+<li><p>for deep learning <strong>models</strong>: pytorch (a python library for deep learning)</p></li>
+<li><p>for <strong>training</strong> (optimisation): torchlighning (a library which stands on top of pytorch and which facilitates training and deployment of models)</p></li>
 </ul>
 <p><img alt="concept1" src="_images/main_concept1.png" /></p>
 </section>
@@ -438,18 +439,20 @@ We want also to emphasize the fact that those are just bricks.</p>
 <section id="reading-the-hdf5-and-pyjama-file-of-a-dataset">
 <h2>Reading the .hdf5 and .pyjama file of a dataset<a class="headerlink" href="#reading-the-hdf5-and-pyjama-file-of-a-dataset" title="Permalink to this heading">#</a></h2>
 <p>All the audio data of a dataset are stored in a single <a class="reference external" href="https://docs.h5py.org/">.hdf5</a> file.
-Each <code class="docutils literal notranslate"><span class="pre">key</span></code> corresponds to an entry, a specific audiofile.
+Each <code class="docutils literal notranslate"><span class="pre">key</span></code> corresponds to an entry.
+An entry corresponds to a specific audiofile.
 Its array contains the audio waveform.
-Its attribute <code class="docutils literal notranslate"><span class="pre">sr_hz</span></code> contains the sampling rate of the audio waveform.</p>
+Its attribute <code class="docutils literal notranslate"><span class="pre">sr_hz</span></code> provides the sampling rate of the audio waveform.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_audio_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdf5_fid</span><span class="p">:</span>
     <span class="n">audiofile_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hdf5_fid</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio shape: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">audiofile_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio sample-rate: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">audiofile_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;sr_hz&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">audiofile_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio shape: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">key</span><span class="p">][:]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio sample-rate: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;sr_hz&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>All the annotations of a dataset are stored in a single *.pyjama file.
 As <a class="reference external" href="https://github.com/marl/jams">JAMS</a> files, .pyjama files are JSON files.
-Howeve, a single .pyjama file can contain the annotations of ALL entries of a dataset.
+However, a single .pyjama file can contain the annotations of ALL entries of a dataset.
 Its specifications are described here <a class="reference external" href="https://github.com/geoffroypeeters/pyjama">DOC</a>.
 The values of the <code class="docutils literal notranslate"><span class="pre">filepath</span></code> field of the .pyjama file correspond to the <code class="docutils literal notranslate"><span class="pre">key</span></code> values of the .hdf5 file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span>
@@ -499,13 +502,14 @@ The values of the <code class="docutils literal notranslate"><span class="pre">f
 </pre></div>
 </div>
 <p>Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.</p>
+<p>We provide here <a class="reference external" href="https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/">https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/</a> a set of datasets (each with its .hdf5 and .pyjama file).</p>
 </section>
 <section id="pytorch-dataset">
 <h2>Pytorch dataset<a class="headerlink" href="#pytorch-dataset" title="Permalink to this heading">#</a></h2>
 <p>Writing pytorch Dataset is probably the most complex part.</p>
 <p>For short, it involves defining what should the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> return (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for the model) and involves providing in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>  all the necessary information so that <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> can do its job.</p>
 <ul class="simple">
-<li><p>It therefore involves defining what is the <strong>input representation</strong> of the model (<code class="docutils literal notranslate"><span class="pre">X</span></code> can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), computing those (either one-the-fly in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, pre-computed those in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> or store those in the memory of the CPU, the GPU or read them on-the-fly from the hard drive).</p></li>
+<li><p>It therefore involves defining what is the <strong>input representation</strong> of the model (<code class="docutils literal notranslate"><span class="pre">X</span></code> can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), defining where to computing those (either one-the-fly in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, pre-computed those in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and read them on-the-fly from the hard drive in the <code class="docutils literal notranslate"><span class="pre">__getime__</span></code>, or store those in the memory of the CPU, the GPU).</p></li>
 </ul>
 <p>In the first notebooks, we define a set of features in the <code class="docutils literal notranslate"><span class="pre">feature.py</span></code> package (<code class="docutils literal notranslate"><span class="pre">feature.f_get_lms</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_hcqt</span></code>). We also define the output of <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>/<code class="docutils literal notranslate"><span class="pre">X</span></code> as a <strong>patch</strong> (a segment/chunk of a specific duration).
 The list of all possible patches for a given audio is given by <code class="docutils literal notranslate"><span class="pre">feature.f_get_patches</span></code>.</p>
@@ -521,24 +525,31 @@ Such a class should have a <code class="docutils literal notranslate"><span clas
 <p>It is common to specify the hyper-parameters of the model (number of layers, feature-maps, activation) in a dedicated <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>.
 We do a step forward here by defining all the model in a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.
 The model then becomes much more readable.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoTaggingModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NetModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic class for neural-network models based on the f_parse_component of .yaml file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">current_input_dim</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">AutoTaggingModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block_l</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_l</span> <span class="o">=</span> <span class="p">[]</span>        
         <span class="k">for</span> <span class="n">config_block</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">block_l</span><span class="p">:</span>
             <span class="n">sequential_l</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">config_sequential</span> <span class="ow">in</span> <span class="n">config_block</span><span class="o">.</span><span class="n">sequential_l</span><span class="p">:</span>
-                <span class="n">component_l</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">config_component</span> <span class="ow">in</span> <span class="n">config_sequential</span><span class="o">.</span><span class="n">component_l</span><span class="p">:</span>
-                    <span class="n">module</span><span class="p">,</span> <span class="n">current_input_dim</span> <span class="o">=</span> <span class="n">model_factory</span><span class="o">.</span><span class="n">f_parse_component</span><span class="p">(</span><span class="n">config_component</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">config_component</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">current_input_dim</span><span class="p">)</span>
-                    <span class="n">component_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">module</span> <span class="p">)</span>
-                <span class="n">sequential_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span> <span class="p">(</span><span class="o">*</span><span class="n">component_l</span><span class="p">)</span> <span class="p">)</span>
+                <span class="n">layer_l</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">config_layer</span> <span class="ow">in</span> <span class="n">config_sequential</span><span class="o">.</span><span class="n">layer_l</span><span class="p">:</span>
+                    <span class="n">module</span><span class="p">,</span> <span class="n">current_input_dim</span> <span class="o">=</span> <span class="n">f_parse_component</span><span class="p">(</span><span class="n">config_layer</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">config_layer</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">current_input_dim</span><span class="p">)</span>
+                    <span class="n">layer_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">module</span> <span class="p">)</span>
+                <span class="n">sequential_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span> <span class="p">(</span><span class="o">*</span><span class="n">layer_l</span><span class="p">)</span> <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">block_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="n">sequential_l</span><span class="p">)</span> <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_l</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_l</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">do_verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">store_d</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">idx_block</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">idx_sequential</span><span class="p">,</span> <span class="n">sequential</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
-                <span class="n">X</span> <span class="o">=</span> <span class="n">sequential</span><span class="p">(</span> <span class="n">X</span> <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sequential</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nnStoreAs</span><span class="p">):</span> <span class="n">store_d</span><span class="p">[</span><span class="n">sequential</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sequential</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nnCatWith</span><span class="p">):</span> <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span> <span class="p">(</span> <span class="n">X</span><span class="p">,</span> <span class="n">store_d</span><span class="p">[</span><span class="n">sequential</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">key</span><span class="p">]),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">sequential</span><span class="p">(</span> <span class="n">X</span> <span class="p">)</span>
         <span class="k">return</span> <span class="n">X</span>
 </pre></div>
 </div>
@@ -547,41 +558,42 @@ The model then becomes much more readable.</p>
     <span class="n">name</span><span class="p">:</span> <span class="n">AutoTagging</span>
     <span class="n">block_l</span><span class="p">:</span>
     <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">]}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Conv2d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Squeeze</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Conv1d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">MaxPool1d</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="s1">&#39;Permute&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}]</span>
     <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">LayerNorm</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;normalized_shape&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">BatchNorm1dT</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;num_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">BatchNorm1dT</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;num_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">LeakyReLU</span><span class="p">]</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Dropout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="s1">&#39;Permute&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}]</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Mean</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}]</span>
     <span class="o">-</span> <span class="n">sequential_l</span><span class="p">:</span>
-        <span class="o">-</span> <span class="n">component_l</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">layer_l</span><span class="p">:</span>
             <span class="o">-</span> <span class="p">[</span><span class="n">Linear</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;in_features&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;out_features&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}]</span>
-          <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">Softmax</span><span class="p">]</span>
+            <span class="o">-</span> <span class="p">[</span><span class="n">Activation</span><span class="p">,</span> <span class="n">Softmax</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
@@ -619,8 +631,11 @@ It involves indicating which model is used, what is a forward pass for training 
 </section>
 <section id="evaluation-metrics">
 <h2>Evaluation metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h2>
-<p>In the notebooks, we will rely most of the time on the <a class="reference external" href="https://github.com/craffel/mir_eval"><code class="docutils literal notranslate"><span class="pre">mir_eval</span></code></a> packages which collect most evaluation metrics for MIR tasks.
-We will complement it with the standard machine-learning evaluation metrics provided by <a class="reference external" href="https://scikit-learn.org/"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></a>.</p>
+<p>In the notebooks, we will rely most of the time on</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/craffel/mir_eval"><code class="docutils literal notranslate"><span class="pre">mir_eval</span></code></a> which provides most MIR specific evaluation metrics,</p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></a> which provides the standard machine-learning evaluation metrics.</p></li>
+</ul>
 </section>
 </section>
 

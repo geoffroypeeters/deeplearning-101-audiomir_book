@@ -182,7 +182,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="current nav bd-sidenav">
@@ -416,7 +416,7 @@ document.write(`
   <section id="architectures">
 <h1>Architectures<a class="headerlink" href="#architectures" title="Permalink to this heading">#</a></h1>
 <section id="u-net">
-<h2>U-Net<a class="headerlink" href="#u-net" title="Permalink to this heading">#</a></h2>
+<span id="lab-unet"></span><h2>U-Net<a class="headerlink" href="#u-net" title="Permalink to this heading">#</a></h2>
 <p>The U-Net was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id9" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span> in the framework of biomedical image segmentation and made popular in MIR by <span id="id2">[<a class="reference internal" href="bibiography.html#id8" title="Andreas Jansson, Eric J. Humphrey, Nicola Montecchio, Rachel M. Bittner, Aparna Kumar, and Tillman Weyde. Singing voice separation with deep u-net convolutional networks. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 745–751. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171\_Paper.pdf.">JHM+17</a>]</span> for singing voice separation.</p>
 <p>The U-Net is an auto-encoder with skip-connections.
 The encoder (left part) downsample the spatial dimensions and increase the depth, while the decoder (right part) upsample the spatial dimensions and decrease the depth.

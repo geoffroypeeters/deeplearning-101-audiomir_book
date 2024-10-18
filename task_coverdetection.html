@@ -182,7 +182,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Music Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Bricks</span></p>
 <ul class="nav bd-sidenav">
@@ -396,7 +396,12 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-hard-mining">Semi-hard mining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -409,29 +414,31 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="cover-detection">
-<h1>Cover Detection<a class="headerlink" href="#cover-detection" title="Permalink to this heading">#</a></h1>
+<span id="lab-cover-detection"></span><h1>Cover Detection<a class="headerlink" href="#cover-detection" title="Permalink to this heading">#</a></h1>
 <section id="goal-of-the-task">
 <h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
 <p>Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
 For example detecting that this track performed by <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of the work-id “Let It Be”, composed by the Beatles and also performed in <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beatles</a>.
-They are covers/versions of the same composition (also named work-id or ISWC).</p>
+They are covers/versions of the same composition.
+We said that they are performances of the same work-id (or ISWC).
+The group of songs that are identified as cover versions of each other is often denoted as a <em>“clique”</em>.</p>
 <p><img alt="flow_cover_identification" src="_images/flow_cover_identification.png" /></p>
 <p>Considering the very large number of possible work-id (there exist millions of compositions), it is not possible to solve this as a classification (multi-class) problem (too many classes).
 To solve this, the approach commonly used is to have a reference dataset <span class="math notranslate nohighlight">\(R\)</span>, containing tracks <span class="math notranslate nohighlight">\(\{r_i\}\)</span> with known work-id, and to compare the query track <span class="math notranslate nohighlight">\(q\)</span> to each track <span class="math notranslate nohighlight">\(r_i\)</span> of the reference dataset.
 If <span class="math notranslate nohighlight">\(q\)</span> is similar to one track of the dataset (i.e. the distance <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> is small), we decide that <span class="math notranslate nohighlight">\(q\)</span> is a cover of <span class="math notranslate nohighlight">\(r_i\)</span> and they share the same work-id.
 This involves setting a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on <span class="math notranslate nohighlight">\(d(q,r_i)\)</span>. If <span class="math notranslate nohighlight">\(d(q,r_i)&lt;\tau\)</span> we decide they are cover of each other.</p>
 <p>In practice to evaluate the task, another problem is considered.
-The distances between <span class="math notranslate nohighlight">\(q\)</span> and all <span class="math notranslate nohighlight">\(r_i\)</span> are computed and ranked.
-If we denote by <span class="math notranslate nohighlight">\(w(.)\)</span> the function that give the work-id of a track, we then check at which position in the ranked list <span class="math notranslate nohighlight">\(w(r_i)==w(q)\)</span>.
+The distances between <span class="math notranslate nohighlight">\(q\)</span> and all <span class="math notranslate nohighlight">\(r_i \in R\)</span> are computed and ranked.
+If we denote by <span class="math notranslate nohighlight">\(w(.)\)</span> the function that gives the work-id of a track, we then check at which position in the ranked list <span class="math notranslate nohighlight">\(w(r_i)==w(q)\)</span>.
 We can then use the ranking/recommendation performance metrics.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28">tutorial on “Version Identification in the 20s”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list of the version corresponding to <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list <span class="math notranslate nohighlight">\(A\)</span> of the first match with the query.</p>
 <p>If we denote by</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(A\)</span> the ranked list corresponding to query <span class="math notranslate nohighlight">\(q\)</span> of length <span class="math notranslate nohighlight">\(K\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> the ranked list (of length <span class="math notranslate nohighlight">\(K\)</span>) corresponding to a query <span class="math notranslate nohighlight">\(q\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(a_i\)</span> its <span class="math notranslate nohighlight">\(i^{th}\)</span> element,</p></li>
 <li><p><span class="math notranslate nohighlight">\(A^k=\{a_i\}_{i \; \in \; 1 \ldots k}\)</span> the <span class="math notranslate nohighlight">\(k\)</span> first ranked items,</p></li>
 <li><p><span class="math notranslate nohighlight">\(rel(q,a_i)\)</span> the relevance of items <span class="math notranslate nohighlight">\(a_i\)</span>, i.e. whether the item <span class="math notranslate nohighlight">\(a_i\)</span> has the same work-id than <span class="math notranslate nohighlight">\(q\)</span>: <span class="math notranslate nohighlight">\(w(a_i)==w(q)\)</span>.</p></li>
@@ -467,28 +474,33 @@ We can then use the ranking/recommendation performance metrics.</p>
 <section id="some-popular-datasets">
 <h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
-<p>The first dataset proposed for this task was the (<a class="reference external" href="http://labrosa.ee.columbia.edu/projects/coversongs/covers80/">cover80</a> containing 80 different work-id (or clique) with each 2 versions.</p>
+<p>The first dataset proposed for this task was the <a class="reference external" href="http://labrosa.ee.columbia.edu/projects/coversongs/covers80/">cover80</a> datasets containing 80 different work-id (or cliques) with 2 versions each.</p>
 <p>Since then, much larger datasets have been created mostly relying on the data provided by the collaborative website <a class="reference external" href="https://secondhandsongs.com/">SecondHandSongs</a>.
-For our implementations, we will consider the two following ones (notes that those do not provide access to the audio but t already extracted audio features):</p>
+For our implementations, we will consider the two following datasets (notes that those do not provide access to the audio but to the already extracted CREMA audio features (12-dimension)):</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.covers1000.net/dataset.html">Cover-1000</a></p></li>
-<li><p><a class="reference external" href="https://github.com/MTG/da-tacos">DA-TACOS</a></p></li>
+<li><p><a class="reference external" href="https://www.covers1000.net/dataset.html">Cover-1000</a>: 996 performances of 395 different works</p></li>
+<li><p><a class="reference external" href="https://github.com/MTG/da-tacos">DA-TACOS</a>: 15.000 performances of 3000 different works</p></li>
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
-<p>The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span> which is related to their coverness.</p>
-<p>Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of <span class="math notranslate nohighlight">\(q\)</span> and the one of <span class="math notranslate nohighlight">\(r_i\)</span>. This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
+<p>The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>, the distance should relates to their “coverness” (how much <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span> are two performances of the same work-id).</p>
+<p>Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of <span class="math notranslate nohighlight">\(q\)</span> and the one of <span class="math notranslate nohighlight">\(r_i\)</span>.
+This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
 <p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the <a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a>.</p>
 <p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id44" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /></p>
+<p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb">notebook</a> and using the <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml">configuration</a>.</p>
 </section>
 <section id="online-triplet-mining-explained">
 <h2>Online Triplet mining explained<a class="headerlink" href="#online-triplet-mining-explained" title="Permalink to this heading">#</a></h2>
 <p>The online mining of the triplets is actually not a mining of the best data to feed into the model since all data are fed into the model.
 In online mining, batch of data are selected blindly and all send to the model to obtain the embeddings <span class="math notranslate nohighlight">\(e_i=f_{\theta}(x_i), i \in \{1, \ldots, batch\_size\}\)</span>.
 The online mining then uses those embeddings to select the ones that will be used to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD) and only those selected will be used for the loss.</p>
+<section id="random-mining">
+<h3>Random mining<a class="headerlink" href="#random-mining" title="Permalink to this heading">#</a></h3>
+<p>For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg).</p>
 <p><img alt="brick_mining_random" src="_images/brick_mining_random.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_random</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -507,6 +519,10 @@ The online mining then uses those embeddings to select the ones that will be use
     <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
 </pre></div>
 </div>
+</section>
+<section id="semi-hard-mining">
+<h3>Semi-hard mining<a class="headerlink" href="#semi-hard-mining" title="Permalink to this heading">#</a></h3>
+<p>For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg that statisfy D_neg &lt; D_pos + margin).</p>
 <p><img alt="brick_mining_semi" src="_images/brick_mining_semi.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">triplet_mining_semihard</span><span class="p">(</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">mask_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">margin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -525,8 +541,9 @@ The online mining then uses those embeddings to select the ones that will be use
 
     <span class="c1"># selecting the negative elements of triplets</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">sel_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
-                            <span class="p">(</span><span class="n">mask_neg</span> <span class="o">+</span> <span class="n">mask_neg</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_all</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">dists_pos</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">dist_all</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">+</span><span class="n">margin</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-                           <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span>
+                            <span class="p">(</span><span class="n">mask_neg</span>
+                            <span class="o">+</span> <span class="n">mask_neg</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_all</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">dists_pos</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">dist_all</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">+</span><span class="n">margin</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                            <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">dist_all</span><span class="p">),</span>
                            <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">dists_neg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">dist_all</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sel_neg</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -534,6 +551,10 @@ The online mining then uses those embeddings to select the ones that will be use
     <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
 </pre></div>
 </div>
+</section>
+<section id="hard-mining">
+<h3>Hard mining<a class="headerlink" href="#hard-mining" title="Permalink to this heading">#</a></h3>
+<p>For each anchor A (row), we select (among the mask_pos) the positive with the largest distance and the negative (among the mask_neg) with the smallest distance.</p>
 <p><img alt="brick_mining_hard" src="_images/brick_mining_hard.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
     &quot;&quot;&quot;
@@ -565,6 +586,7 @@ The online mining then uses those embeddings to select the ones that will be use
 		```
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -635,7 +657,12 @@ The online mining then uses those embeddings to select the ones that will be use
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-hard-mining">Semi-hard mining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

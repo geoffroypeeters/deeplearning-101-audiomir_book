@@ -1,20 +1,21 @@
 ## Introduction
 
-In the following, to facilitate the reading, we follow the same structure for each of the task.
+The first part of the book, **Tasks** describe a subset of typical audio-based MIR tasks.
+To facilitate the reading of the book, we follow a similar structure to describe each of the audio-based MIR task we consider.
 We describe in turn:
 - What is the goal of the task
 - How it is evaluated
 - Some popular datasets (used to train system or evaluate the performances of)
-- How we can solve it using deep learning
+- How we can solve it using deep learning. This part refers to bricks that are described individually in the second part of the book.
 
-The last part (deep learning) refers to bricks that are described individually in the second part of the book.
-We have chosen to separate the bricks since most of them can be used for several tasks.
-We want also to emphasize the fact that those are just bricks.
+The second pat of the book, **Deep Learning Bricks**, described each brick individually.
+We have chosen to separate the description of the bricks from the tasks in which they can be used to emphasise the fact that the same brick can be used for several tasks.
+We want also to emphasise the fact that those are just bricks.
 
-To make our life easier and facilitate the reading of the code of the notebooks we will rely on the following elements.
+To make our life easier and **facilitate the reading of the code of the notebooks** we will rely on the following elements.
 - for **datasets** (audio and annotations): .hdf5 (for audio) and .pyjama (for annotations), described below
-- for deep learning **models**: pytorch, a python library for deep learning
-- for **training** (optimisation): torchlighning stands on top of pytorch and facilitates training and deployment of models
+- for deep learning **models**: pytorch (a python library for deep learning)
+- for **training** (optimisation): torchlighning (a library which stands on top of pytorch and which facilitates training and deployment of models)
 
 ![concept1](/images/main_concept1.png)
 
@@ -28,20 +29,22 @@ Using those, dealing with a task mainly involve writing the code for the followi
 ### Reading the .hdf5 and .pyjama file of a dataset
 
 All the audio data of a dataset are stored in a single [.hdf5](https://docs.h5py.org/) file.
-Each `key` corresponds to an entry, a specific audiofile.
+Each `key` corresponds to an entry.
+An entry corresponds to a specific audiofile.
 Its array contains the audio waveform.
-Its attribute `sr_hz` contains the sampling rate of the audio waveform.
+Its attribute `sr_hz` provides the sampling rate of the audio waveform.
 
 ```python
 with h5py.File(hdf5_audio_file, 'r') as hdf5_fid:
     audiofile_l = [key for key in hdf5_fid['/'].keys()]
-    pp.pprint(f"audio shape: {hdf5_fid[audiofile_l[0]][:].shape}")
-    pp.pprint(f"audio sample-rate: {hdf5_fid[audiofile_l[0]].attrs['sr_hz']}")
+    key = audiofile_l[0]
+    pp.pprint(f"audio shape: {hdf5_fid[key][:].shape}")
+    pp.pprint(f"audio sample-rate: {hdf5_fid[key].attrs['sr_hz']}")
 ```
 
 All the annotations of a dataset are stored in a single *.pyjama file.
 As [JAMS](https://github.com/marl/jams) files, .pyjama files are JSON files.
-Howeve, a single .pyjama file can contain the annotations of ALL entries of a dataset.
+However, a single .pyjama file can contain the annotations of ALL entries of a dataset.
 Its specifications are described here [DOC](https://github.com/geoffroypeeters/pyjama).
 The values of the `filepath` field of the .pyjama file correspond to the `key` values of the .hdf5 file.
 
@@ -95,12 +98,16 @@ pp.pprint(entry_l[0:2])
 
 Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.
 
+We provide here [https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/](https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/) a set of datasets (each with its .hdf5 and .pyjama file).
+
+
+
 ### Pytorch dataset
 
 Writing pytorch Dataset is probably the most complex part.
 
 For short, it involves defining what should the `__getitem__` return (the `X` and `y` for the model) and involves providing in the `__init__`  all the necessary information so that `__getitem__` can do its job.
-- It therefore involves defining what is the **input representation** of the model (`X` can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), computing those (either one-the-fly in the `__getitem__`, pre-computed those in the `__init__` or store those in the memory of the CPU, the GPU or read them on-the-fly from the hard drive).
+- It therefore involves defining what is the **input representation** of the model (`X` can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), defining where to computing those (either one-the-fly in the `__getitem__`, pre-computed those in the `__init__` and read them on-the-fly from the hard drive in the `__getime__`, or store those in the memory of the CPU, the GPU).
 
 In the first notebooks, we define a set of features in the `feature.py` package (`feature.f_get_lms`, `feature.f_get_hcqt`). We also define the output of `__getitem__`/`X` as a **patch** (a segment/chunk of a specific duration).
 The list of all possible patches for a given audio is given by `feature.f_get_patches`.
@@ -120,24 +127,31 @@ We do a step forward here by defining all the model in a `.yaml` file.
 The model then becomes much more readable.
 
 ```
-class AutoTaggingModel(nn.Module):
+class NetModel(nn.Module):
+    """
+    Generic class for neural-network models based on the f_parse_component of .yaml file
+    """
     def __init__(self, config, current_input_dim):
-        super(AutoTaggingModel, self).__init__()
-        self.block_l = []
+        super().__init__()
+        self.block_l = []        
         for config_block in config.model.block_l:
             sequential_l = []
             for config_sequential in config_block.sequential_l:
-                component_l = []
-                for config_component in config_sequential.component_l:
-                    module, current_input_dim = model_factory.f_parse_component(config_component[0], config_component[1], current_input_dim)
-                    component_l.append( module )
-                sequential_l.append( nn.Sequential (*component_l) )
+                layer_l = []
+                for config_layer in config_sequential.layer_l:
+                    module, current_input_dim = f_parse_component(config_layer[0], config_layer[1], current_input_dim)
+                    layer_l.append( module )
+                sequential_l.append( nn.Sequential (*layer_l) )
             self.block_l.append( nn.ModuleList(sequential_l) )
-            self.model = nn.ModuleList(self.block_l)
-    def forward(self, X,):
+        self.model = nn.ModuleList(self.block_l)
+
+    def forward(self, X, do_verbose=False):
+        store_d = {}
         for idx_block, block in enumerate(self.model):
             for idx_sequential, sequential in enumerate(block):
-                X = sequential( X )
+                if isinstance(sequential[0], nnStoreAs): store_d[sequential[0].key] = X
+                elif isinstance(sequential[0], nnCatWith): X = torch.cat( ( X, store_d[sequential[0].key]), dim=1)
+                else: X = sequential( X )
         return X
 ```
 
@@ -148,41 +162,42 @@ model:
     name: AutoTagging
     block_l:
     - sequential_l:
-        - component_l:
+        - layer_l:
             - [LayerNorm, {'normalized_shape': [128, 64]}]
             - [Conv2d, {'in_channels': 1, 'out_channels': 80, 'kernel_size': [128, 5], 'stride': [1,1]}]
             - [Squeeze, {'dim': 2}]
+        - layer_l:
             - [LayerNorm, {'normalized_shape': -1}]
             - [Activation, LeakyReLU]
             - [Dropout, {'p': 0}]
-        - component_l:
+        - layer_l:
             - [Conv1d, {'in_channels': -1, 'out_channels': 60, 'kernel_size': 5, 'stride': 1}]
             - [MaxPool1d, {'kernel_size': 3, 'stride': 3}]
             - [LayerNorm, {'normalized_shape': -1}]
             - [Activation, LeakyReLU]
             - [Dropout, {'p': 0}]
-        - component_l:
+        - layer_l:
             - ['Permute', {'shape': [0, 2, 1]}]
     - sequential_l:
-        - component_l:
+        - layer_l:
             - [LayerNorm, {'normalized_shape': -1}]
             - [Linear, {'in_features': -1, 'out_features': 128}]
             - [BatchNorm1dT, {'num_features': -1}]
             - [Activation, LeakyReLU]
             - [Dropout, {'p': 0}]
-        - component_l:
+        - layer_l:
             - [Linear, {'in_features': -1, 'out_features': 128}]
             - [BatchNorm1dT, {'num_features': -1}]
             - [Activation, LeakyReLU]
             - [Dropout, {'p': 0}]
-        - component_l:
+        - layer_l:
             - ['Permute', {'shape':[0, 2, 1]}]
-        - component_l:
+        - layer_l:
             - [Mean, {'dim': 2}]
     - sequential_l:
-        - component_l:
+        - layer_l:
             - [Linear, {'in_features': -1, 'out_features': 50}]
-          - [Activation, Softmax]
+            - [Activation, Softmax]
 ```
 
 
@@ -224,5 +239,6 @@ trainer.fit(model=my_lighting, train_dataloaders=train_dataloader, val_dataloade
 
 ### Evaluation metrics
 
-In the notebooks, we will rely most of the time on the [`mir_eval`](https://github.com/craffel/mir_eval) packages which collect most evaluation metrics for MIR tasks.
-We will complement it with the standard machine-learning evaluation metrics provided by [`scikit-learn`](https://scikit-learn.org/).
+In the notebooks, we will rely most of the time on
+- [`mir_eval`](https://github.com/craffel/mir_eval) which provides most MIR specific evaluation metrics,
+- [`scikit-learn`](https://scikit-learn.org/) which provides the standard machine-learning evaluation metrics.
