@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Auto-Tagging-FrontEnd &#8212; Deep Learning 101 for Audio-based MIR</title>
   
@@ -15,53 +14,49 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_autotagging_frontend';</script>
@@ -78,28 +73,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -121,12 +111,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -142,6 +140,8 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="front.html">
@@ -160,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -212,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -221,14 +232,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -353,10 +364,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -364,14 +375,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -409,12 +420,12 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-frontend">
-<span id="lab-auto-tagging"></span><h1>Auto-Tagging-FrontEnd<a class="headerlink" href="#auto-tagging-frontend" title="Permalink to this heading">#</a></h1>
+<span id="lab-auto-tagging"></span><h1>Auto-Tagging-FrontEnd<a class="headerlink" href="#auto-tagging-frontend" title="Link to this heading">#</a></h1>
 <section id="goal-of-the-task">
-<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Link to this heading">#</a></h2>
 <p>Music auto-tagging is the task of assigning tags (such as genre , style, moods, instrumentation) to a music track.
 Tags can be</p>
 <ul class="simple">
@@ -423,16 +434,16 @@ Tags can be</p>
 </ul>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
 <p>The task is one of the first studied in MIR.
-Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id5" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
-Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id4" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
-The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id3" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
+Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id16" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
+Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id15" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
+The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id14" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">tutorial on “musical classification”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
-<h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
+<h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Link to this heading">#</a></h2>
 <p>We consider a set of classes <span class="math notranslate nohighlight">\(c \in \{1,\ldots,C\}\)</span>.</p>
 <section id="multi-class">
-<h3>Multi-class<a class="headerlink" href="#multi-class" title="Permalink to this heading">#</a></h3>
+<h3>Multi-class<a class="headerlink" href="#multi-class" title="Link to this heading">#</a></h3>
 <p>In a <strong>multi-class</strong> problem, the classes are mutually exclusive.
 The outputs of the (neural network) model <span class="math notranslate nohighlight">\(o_c\)</span> therefore go to a softmax function.
 The outputs of the softmax, <span class="math notranslate nohighlight">\(p_c\)</span>, then represent the probability <span class="math notranslate nohighlight">\(P(Y=c|X)\)</span>.
@@ -445,7 +456,7 @@ The predicted class is then chosen as <span class="math notranslate nohighlight"
 </div>
 </section>
 <section id="multi-label">
-<h3>Multi-label<a class="headerlink" href="#multi-label" title="Permalink to this heading">#</a></h3>
+<h3>Multi-label<a class="headerlink" href="#multi-label" title="Link to this heading">#</a></h3>
 <p>In the <strong>multi-label</strong> problem, the classes are NOR mutually exclusive.
 Each <span class="math notranslate nohighlight">\(o_c\)</span> therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).
 The outputs of the sigmoids <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>.
@@ -478,7 +489,7 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 </section>
 </section>
 <section id="some-popular-datasets">
-<h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
+<h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Link to this heading">#</a></h2>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
 <p>Many datasets exist for music-auto-tagging such as AcousticBrainz-Genre, AudioSet (music part), CAL10K, CAL500, FMA-Full/Medium/Small, IRMAS (instruments), Jamendo (vocal activity), MTG-Jamendo (genre, instruments, mood), Seyerlehner/*, …</p>
 <p>We have chosen the two following ones since they are often used, they represent the multi-class and multi-label problem, their audio is easely accessible.</p>
@@ -493,7 +504,7 @@ It contains 21.108 files of 30s duration, each with multiple (<strong>multi-labe
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
-<h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
+<h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Link to this heading">#</a></h2>
 <p>Auto-tagging is a classification problem and can be considered either as a multi-class (mutually exclusive classes, such as for GTZAN) or a multi-label (non-mutually exclusive classes, such as MTT).
 Also, for the two considered datasets (GTZAN, MTT) the labels are assigned or the whole track duration.
 We therefore need to design a model that map a time-serie of observation to a single output.
@@ -546,7 +557,7 @@ There have been many models proposed to do this.</p>
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -575,6 +586,7 @@ There have been many models proposed to do this.</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -614,7 +626,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
@@ -638,8 +650,8 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

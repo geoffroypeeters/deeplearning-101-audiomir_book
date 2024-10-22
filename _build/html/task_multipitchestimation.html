@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Multi-Pitch-Estimation &#8212; Deep Learning 101 for Audio-based MIR</title>
   
@@ -15,53 +14,49 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_multipitchestimation';</script>
@@ -78,28 +73,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -121,12 +111,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -142,6 +140,8 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="front.html">
@@ -160,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -212,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -221,14 +232,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -353,10 +364,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -364,14 +375,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -405,12 +416,12 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multi-pitch-estimation">
-<span id="lab-multi-pitch"></span><h1>Multi-Pitch-Estimation<a class="headerlink" href="#multi-pitch-estimation" title="Permalink to this heading">#</a></h1>
+<span id="lab-multi-pitch"></span><h1>Multi-Pitch-Estimation<a class="headerlink" href="#multi-pitch-estimation" title="Link to this heading">#</a></h1>
 <section id="goal-of-the-task">
-<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Link to this heading">#</a></h2>
 <p>Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
 The task can either consists in:</p>
 <ul class="simple">
@@ -421,19 +432,19 @@ The task can either consists in:</p>
 <p><img alt="flow_autotagging" src="_images/flow_multipitch.png" /></p>
 <p>The task has a long history.
 First approches (signal-based) have focused on Single-Pitch-Estimation.
-But as far as 2003, Klapuri et al <span id="id1">[<a class="reference internal" href="bibiography.html#id38" title="Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. Speech and Audio Processing, IEEE Transactions on, 11(6):804–816, 2003.">Kla03</a>]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
+But as far as 2003, Klapuri et al <span id="id1">[]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
 MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.</p>
 <p>For this task, Deep Learning Approaches have become the standard, either based on</p>
 <ul class="simple">
-<li><p>Supervised Learning (for example <span id="id2">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>)</p></li>
-<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id2" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
+<li><p>Supervised Learning (for example <span id="id2">[<a class="reference internal" href="bibiography.html#id43" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>)</p></li>
+<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id13" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
 </ul>
-<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[<a class="reference internal" href="bibiography.html#id41" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id39" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>.</p>
+<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[<a class="reference internal" href="bibiography.html#id43" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://github.com/rabitt/ismir-2021-tutorial-case-studies">tutorial on “Programming MIR Baselines from Scratch: Three Case Studies”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
-<h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id6">[<a class="reference internal" href="bibiography.html#id40" title="Mert Bay, Andreas F. Ehmann, and J. Stephen Downie. Evaluation of multiple-f0 estimation and tracking systems. In Keiji Hirata, George Tzanetakis, and Kazuyoshi Yoshii, editors, Proceedings of the 10th International Society for Music Information Retrieval Conference, ISMIR 2009, Kobe International Conference Center, Kobe, Japan, October 26-30, 2009, 315–320. International Society for Music Information Retrieval, 2009. URL: http://ismir2009.ismir.net/proceedings/PS2-21.pdf.">BED09</a>]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/#module-mir_eval.multipitch">mir_eval</a> package.
+<h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Link to this heading">#</a></h2>
+<p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id6">[]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/#module-mir_eval.multipitch">mir_eval</a> package.
 By default, an estimated frequency is considered “correct” if it is within 0.5 semitones of a reference frequency.</p>
 <p>Using this, we compute at each time frame t:</p>
 <ul class="simple">
@@ -478,7 +489,7 @@ This leads to the Chroma Precision, Accuracy, Recall</p>
 </div>
 </section>
 <section id="some-popular-datasets">
-<h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
+<h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Link to this heading">#</a></h2>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
 <p>Many datasets exist for mutli-pitch-estimation.
 Those can be obtained by</p>
@@ -490,18 +501,18 @@ Those can be obtained by</p>
 </ul>
 <p>We have chosen the two following datasets since they represent two different types of annotations (continuous f0 annotations or segment-based midi-pitch annotations).</p>
 <ul class="simple">
-<li><p>Bach10 <span id="id7">[<a class="reference internal" href="bibiography.html#id42" title="Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. IEEE Trans. Speech Audio Process., 18(8):2121–2133, 2010. URL: https://doi.org/10.1109/TASL.2010.2042119, doi:10.1109/TASL.2010.2042119.">DPZ10</a>]</span>.
+<li><p>Bach10 <span id="id7">[]</span>.
 It is a multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.</p></li>
-<li><p>MAPS <span id="id8">[<a class="reference internal" href="bibiography.html#id43" title="Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. IEEE Trans. Speech Audio Process., 18(6):1643–1654, 2010. URL: https://doi.org/10.1109/TASL.2009.2038819, doi:10.1109/TASL.2009.2038819.">EBD10</a>]</span>.
+<li><p>MAPS <span id="id8">[]</span>.
 It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) over time</p></li>
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
-<h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
+<h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Link to this heading">#</a></h2>
 <p>We will implement two different models which both takes as input the <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a> features.</p>
-<p>The first is the traditional ConvNet proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>
+<p>The first is the traditional ConvNet proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id43" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>
 <img alt="model_MPE_deepsalience" src="_images/model_MPE_deepsalience.png" /></p>
-<p>The second is the U-Net proposed by U-Net <span id="id10">[<a class="reference internal" href="bibiography.html#id41" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id39" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>
+<p>The second is the U-Net proposed by U-Net <span id="id10">[]</span>
 <img alt="model_MPE_unet" src="_images/model_MPE_unet.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb">notebook</a> and study various configurations <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml">ConvNet</a> or <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml">U-Net</a>.</p>
 <p>We will vary in turn</p>
@@ -511,13 +522,13 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 </ul>
 <p><img alt="bricks" src="_images/main_bricks.png" /></p>
 <p>Experiments:</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
-<th class="text-left head"><p>Input</p></th>
-<th class="text-left head"><p>Model</p></th>
-<th class="text-left head"><p>Results</p></th>
-<th class="text-left head"><p>Code</p></th>
+<tr class="row-odd"><th class="head text-left"><p>Dataset</p></th>
+<th class="head text-left"><p>Input</p></th>
+<th class="head text-left"><p>Model</p></th>
+<th class="head text-left"><p>Results</p></th>
+<th class="head text-left"><p>Code</p></th>
 </tr>
 </thead>
 <tbody>
@@ -565,6 +576,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 </section>
 
@@ -595,7 +607,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -624,6 +636,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -659,7 +672,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
@@ -683,8 +696,8 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
