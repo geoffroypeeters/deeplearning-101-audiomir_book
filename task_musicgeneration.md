@@ -18,7 +18,62 @@ The most widely used models today are autoregressive (Transformer) architectures
 
 ### Previous Approaches
 
-Before the rise of Transformers and diffusion models, models like Recurrent Neural Networks (RNNs) and Generative Adversarial Networks (GANs) were commonly used for musical audio generation. RNNs could handle sequences but often struggled with long-term dependencies, leading to repetitive or incoherent results. GANs were used to generate audio but faced challenges with training instability and producing high-quality, diverse outputs. These limitations led to a shift towards more robust architectures like Transformers and diffusion models, which can better capture the complexity of musical content.
+Before the rise of Transformers and diffusion models, models like Causal Convolutional Networks (CCNs, WaveNet), Recurrent Neural Networks (RNNs) and Generative Adversarial Networks (GANs) were used for musical audio generation.
+At the time, it was common to generate in a low-level representation space, either directly in the signal domain (WaveNet, SampleRNN) or in the spectral domain (GANs).
+Not least due to the generation in such a high-dimensional space CNNs/RNNs struggled with long-term dependencies, leading to repetitive or incoherent results without higher-level structure.  
+GANs were used to generate audio in the signal or frequency domain but faced challenges with training instability and producing high-quality, diverse outputs.
+Through usage of neural audio codecs and the resulting reduction in dimensionality, the problem became simpler.
+Nowadays, through combination of more efficient/simpler to train generative models with generation in a compressed space, it is possible to generate high-quality full-length music tracks.
+
+#### WaveNet
+
+
+![wavenet_fig](./images/wavenet.png)
+
+**Figure 1:** WaveNet architecture showing causal, dilated convolutions.
+
+WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16` can be seen as the first successful attempt to directly generate audio using a Neural Network.
+Important components in WaveNet were dilated convolutions {cite}`DBLP:journals/corr/YuK15` that enabled an exponentially growing receptive field with linearly increasing numbers of layers.
+A big receptive field was critical in WaveNet, because it worked directly in the signal domain with 16k samples/second.
+In addition, causal convolutions were used in order to prevent the model from looking into the future during training resulting in a generative autoregressive sequence model.
+
+Autoregressive sequence models are typically trained with a cross entropy loss function that requires one-hot encoded sequences.
+As raw audio is usually 16 bit, a naive transformation into one-hot vectors would result in 65,536 dimensions per sample (i.e., time step).
+To keep the problem tractable, each sample is non-linearly scaled and quantized to obtain 256-dimensional vectors as
+
+$$
+f(x_t) = \text{sign}(x_t) \frac{\ln(1 + \mu |x_t|)}{\ln(1 + \mu)}
+$$
+
+![wavenet_scaling](./images/wavenet_non-linearity.png)
+
+**Figure 2:** Non-linear scaling of audio samples for $\mu = 255$ (in practice, $-1 < x_t < 1$).
+
+#### SampleRNN
+
+![sample_rnn](./images/sample_rnn.png)
+**Figure 3:** Snapshot of the unrolled model at timestep $i$ with 3 tiers. As a simplification only one RNN and up-sampling ratio $r = 4$ is used for all tiers.
+
+SampleRNN {cite}`DBLP:conf/iclr/MehriKGKJSCB17` was the first RNN-based neural audio synthesizer that had an impact in the community.
+It can effectively learn to generate long-form audio at a sample rate of 16kHz.
+While **WaveNet** builds hierarchical representations of audio by its built-in sub-sampling though dilated convolutional layers, 
+SampleRNN builds such a hierarchy through multiple tiers of RNNs that operate in different "clock rates".
+This approach enables representations at varying temporal resolutions, where lower tiers (faster rates) are conditioned on higher tiers. 
+This encourages higher tiers to generate higher-level signal representations that help predict lower-level details.
+
+#### Generative Adversarial Networks
+
+For nearly a decade, Generative Adversarial Networks (GANs) {cite}`DBLP:journals/corr/GoodfellowPMXWOCB14` dominated the field of generative models.
+Their ability to implicitly model multi-dimensional *continuous-valued* distributions made them a compelling tool for image and audio generation.
+In audio generation, this enabled the use of *spectrogram (or spectrogram-like) representations* of audio which is a natural modality for 2d convolutional networks.
+Also, the widespread use of image-like spectrogram representations with GANs is partly due to the ability to leverage insights from the broader image processing community. 
+
+While WaveGAN {cite}`wavegan` was an influental work on using GANs directly for raw musical audio waveform generation, most successive works focussed on spectrogram-like representations.
+For example, GANSynth, SpecGAN {cite}`Adversarial Audio Synthesis Donahue`, MelGAN, HiFi-GAN and DrumGAN used 2-dimensional fixed-size audio representations for 
+
+Adversarial Discriminators for refinement still relevant.
+
+#### 
 
 ### Autoregressive (Transformer) Architectures
 
