@@ -26,12 +26,11 @@ The objective is to provide a 101 lecture (introductory lecture) on deep learnin
 
 ```
 @book{deeplearning-101-audiomir:book,
-    Author = {Peeters, Geoffroy and Meseguer-Brocal, Gabriel and Riou, Alain and Lattner, Stefan},
-    Month = Nov.,
-    Publisher = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    Title = {Deep Learning 101 for Audio-based MIR},
-    Year = 2024,
-    Url = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
-    doi = {???}
-}
+	author = {Peeters, Geoffroy and Meseguer-Brocal, Gabriel and Riou, Alain and Lattner, Stefan},
+	title = {Deep Learning 101 for Audio-based MIR, ISMIR 2024 Tutorial},
+	url = {https://geoffroypeeters.github.io/deeplearning-101-audiomir_book},
+	address = {San Francisco, USA},
+	year = {2024},
+	month = November,
+	doi = {???},
 ```

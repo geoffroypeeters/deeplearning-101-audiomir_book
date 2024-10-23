@@ -396,6 +396,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 </ul>
             </nav>
         </div>
@@ -421,19 +422,19 @@ The task can either consists in:</p>
 <p><img alt="flow_autotagging" src="_images/flow_multipitch.png" /></p>
 <p>The task has a long history.
 First approches (signal-based) have focused on Single-Pitch-Estimation.
-But as far as 2003, Klapuri et al <span id="id1">[<a class="reference internal" href="bibiography.html#id38" title="Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. Speech and Audio Processing, IEEE Transactions on, 11(6):804–816, 2003.">Kla03</a>]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
+But as far as 2003, Klapuri et al <span id="id1">[]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
 MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.</p>
 <p>For this task, Deep Learning Approaches have become the standard, either based on</p>
 <ul class="simple">
-<li><p>Supervised Learning (for example <span id="id2">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>)</p></li>
-<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id2" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
+<li><p>Supervised Learning (for example <span id="id2">[<a class="reference internal" href="bibiography.html#id44" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>)</p></li>
+<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id14" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
 </ul>
-<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[<a class="reference internal" href="bibiography.html#id41" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id39" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>.</p>
+<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[<a class="reference internal" href="bibiography.html#id44" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://github.com/rabitt/ismir-2021-tutorial-case-studies">tutorial on “Programming MIR Baselines from Scratch: Three Case Studies”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the task evaluated ?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id6">[<a class="reference internal" href="bibiography.html#id40" title="Mert Bay, Andreas F. Ehmann, and J. Stephen Downie. Evaluation of multiple-f0 estimation and tracking systems. In Keiji Hirata, George Tzanetakis, and Kazuyoshi Yoshii, editors, Proceedings of the 10th International Society for Music Information Retrieval Conference, ISMIR 2009, Kobe International Conference Center, Kobe, Japan, October 26-30, 2009, 315–320. International Society for Music Information Retrieval, 2009. URL: http://ismir2009.ismir.net/proceedings/PS2-21.pdf.">BED09</a>]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/#module-mir_eval.multipitch">mir_eval</a> package.
+<p>To evaluate the performances of an MPE algorithm we rely on the metrics defined in <span id="id6">[]</span> and implemented in the <a class="reference external" href="https://craffel.github.io/mir_eval/#module-mir_eval.multipitch">mir_eval</a> package.
 By default, an estimated frequency is considered “correct” if it is within 0.5 semitones of a reference frequency.</p>
 <p>Using this, we compute at each time frame t:</p>
 <ul class="simple">
@@ -490,78 +491,88 @@ Those can be obtained by</p>
 </ul>
 <p>We have chosen the two following datasets since they represent two different types of annotations (continuous f0 annotations or segment-based midi-pitch annotations).</p>
 <ul class="simple">
-<li><p>Bach10 <span id="id7">[<a class="reference internal" href="bibiography.html#id42" title="Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. IEEE Trans. Speech Audio Process., 18(8):2121–2133, 2010. URL: https://doi.org/10.1109/TASL.2010.2042119, doi:10.1109/TASL.2010.2042119.">DPZ10</a>]</span>.
+<li><p>Bach10 <span id="id7">[]</span>.
 It is a multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.</p></li>
-<li><p>MAPS <span id="id8">[<a class="reference internal" href="bibiography.html#id43" title="Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. IEEE Trans. Speech Audio Process., 18(6):1643–1654, 2010. URL: https://doi.org/10.1109/TASL.2009.2038819, doi:10.1109/TASL.2009.2038819.">EBD10</a>]</span>.
+<li><p>MAPS <span id="id8">[]</span>.
 It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) over time</p></li>
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
 <p>We will implement two different models which both takes as input the <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a> features.</p>
-<p>The first is the traditional ConvNet proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id32" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>
+<p>The first is the traditional ConvNet proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id44" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>
 <img alt="model_MPE_deepsalience" src="_images/model_MPE_deepsalience.png" /></p>
-<p>The second is the U-Net proposed by U-Net <span id="id10">[<a class="reference internal" href="bibiography.html#id41" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>, <a class="reference internal" href="bibiography.html#id39" title="Christof Weiss and Geoffroy Peeters. Comparing deep models and evaluation strategies for multi-pitch estimation in music recordings. Speech and Audio Processing, IEEE Transactions on, 2022. URL: https://arxiv.org/pdf/2202.09198.">WP22</a>]</span>
+<p>The second is the U-Net proposed by U-Net <span id="id10">[]</span>
 <img alt="model_MPE_unet" src="_images/model_MPE_unet.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb">notebook</a> and study various configurations <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml">ConvNet</a> or <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml">U-Net</a>.</p>
+<p><img alt="bricks" src="_images/main_bricks.png" /></p>
+</section>
+<section id="experiments">
+<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h2>
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a> or <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a></p></li>
-<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_projection.html#lab-resnet"><span class="std std-ref">ResNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-convnext"><span class="std std-ref">ConvNext</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-unet"><span class="std std-ref">U-Net</span></a></p></li>
+<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_projection.html#lab-depthwise"><span class="std std-ref">Depthwise Separable Convolution</span></a>, <a class="reference internal" href="bricks_projection.html#lab-resnet"><span class="std std-ref">ResNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-convnext"><span class="std std-ref">ConvNext</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-unet"><span class="std std-ref">U-Net</span></a></p></li>
+<li><p>the <strong>datasets</strong>: a small one (Bach10 with continous f0 annotation) a large one (MAPS with segments annotated in MIDI-pitch)</p></li>
 </ul>
-<p><img alt="bricks" src="_images/main_bricks.png" /></p>
-<p>Experiments:</p>
+<p><img alt="expe" src="_images/expe_multipitch.png" /></p>
+<p>This can be done using the following files:</p>
+<ul class="simple">
+<li><p>(Main notebook)(<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb">geoffroypeeters/deeplearning-101-audiomir_notebook</a>)</p></li>
+<li><p>(Config Conv2D)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
+<li><p>(Config U-Net)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
+</ul>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
 <th class="text-left head"><p>Input</p></th>
-<th class="text-left head"><p>Model</p></th>
+<th class="text-left head"><p>Frontend</p></th>
 <th class="text-left head"><p>Results</p></th>
 <th class="text-left head"><p>Code</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p>1. Bach10</p></td>
-<td class="text-left"><p>CQT</p></td>
-<td class="text-left"><p>ConvNet</p></td>
-<td class="text-left"><p>P=0.85/R=0.45/A=0.42</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe01.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>2. Bach10</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>ConvNet</p></td>
-<td class="text-left"><p>P=0.91/R=0.81/A=0.75</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe02.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>3. Bach10</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>Conv2d + Conv2dDS</p></td>
-<td class="text-left"><p>P=0.91/R=0.77/A=0.73</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe03.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>4. Bach10</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>Conv2d + Conv2dRes</p></td>
-<td class="text-left"><p><strong>P=0.92/R=0.84/A=0.78</strong></p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe04.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>5. Bach10</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>Conv2d + Conv2dRes + Conv2dNext</p></td>
-<td class="text-left"><p>P=0.90/R=0.80/A=0.74</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe05.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>6. Bach10</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>U-Net</p></td>
-<td class="text-left"><p>P=0.87/R=0.82/A=0.74</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe06.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>7. MAPS</p></td>
-<td class="text-left"><p>Harmonic-CQT</p></td>
-<td class="text-left"><p>Conv2d + Conv2dRes</p></td>
+<tr class="row-even"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>CQT(H=1)</p></td>
+<td class="text-left"><p>Conv2D</p></td>
 <td class="text-left"><p></p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation_expe07.ipynb">LINK</a></p></td>
+<td class="text-left"><p><span class="xref myst">LINK</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>HCQT(H=6)</p></td>
+<td class="text-left"><p>Conv2D</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C1.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>HCQT(H=6)</p></td>
+<td class="text-left"><p>Conv2D/DepthSep</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>HCQT(H=6)</p></td>
+<td class="text-left"><p>Conv2D/ResNet</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>HCQT(H=6)</p></td>
+<td class="text-left"><p>Conv2D/ConvNext</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Bach10</p></td>
+<td class="text-left"><p>HCQT(H=6)</p></td>
+<td class="text-left"><p>U-Net</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>MAPS</p></td>
+<td class="text-left"><p>HCQT(H=1)</p></td>
+<td class="text-left"><p>Conv2D</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-C1.ipynb">LINK</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -635,6 +646,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 </ul>
   </nav></div>
 

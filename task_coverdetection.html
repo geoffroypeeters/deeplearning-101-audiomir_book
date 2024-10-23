@@ -402,6 +402,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 </ul>
             </nav>
         </div>
@@ -489,7 +490,7 @@ For our implementations, we will consider the two following datasets (notes that
 This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
 <p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the <a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a>.</p>
-<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id44" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
+<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb">notebook</a> and using the <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml">configuration</a>.</p>
 </section>
@@ -585,38 +586,44 @@ The online mining then uses those embeddings to select the ones that will be use
     <span class="k">return</span> <span class="n">dists_pos</span><span class="p">,</span> <span class="n">dists_neg</span>
 </pre></div>
 </div>
-<p>Experiments:</p>
+</section>
+</section>
+<section id="experiments">
+<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h2>
+<p>We will vary in turn</p>
 <ul class="simple">
-<li><p>run MOVE on Cover1000</p></li>
-<li><p>run MOVE on DataCOS</p></li>
-<li><p>run MOVE on Cover1000, replace AutoPoolWeightSplit by Mean, by SoftmaxWeight, by AutoPoolWeight</p></li>
+<li><p>the <strong>datasets</strong>: a small one (Cover1000) a large one (Datacos-benchmark)</p></li>
 </ul>
-<p>Experiments:</p>
+<p><img alt="expe" src="_images/expe_coverdetection.png" /></p>
+<p>This can be done using the following files:</p>
+<ul class="simple">
+<li><p>(Main notebook)(<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb">geoffroypeeters/deeplearning-101-audiomir_notebook</a>)</p></li>
+<li><p>(Config Cover)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
+</ul>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
 <th class="text-left head"><p>Input</p></th>
-<th class="text-left head"><p>Model</p></th>
+<th class="text-left head"><p>Frontend</p></th>
 <th class="text-left head"><p>Results</p></th>
 <th class="text-left head"><p>Code</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p>1. Cover1000</p></td>
+<tr class="row-even"><td class="text-left"><p>Cover1000</p></td>
 <td class="text-left"><p>CREMA</p></td>
-<td class="text-left"><p>MOVE</p></td>
-<td class="text-left"><p>meanRank=11.9, meanReciprocalRank=0.52, P&#64;1=0.38, mAP=0.1</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_01.ipynb">LINK</a></p></td>
+<td class="text-left"><p>Move</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb">LINK</a></p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p>2. Da-TACOS Benchmark</p></td>
+<tr class="row-odd"><td class="text-left"><p>Datacos-benchmark</p></td>
 <td class="text-left"><p>CREMA</p></td>
-<td class="text-left"><p>MOVE</p></td>
-<td class="text-left"><p>meanRank=466, meanReciprocalRank=0.18, P&#64;1=0.12, mAP=0.067</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb">LINK</a></p></td>
+<td class="text-left"><p>Move</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb">LINK</a></p></td>
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 </section>
 
@@ -693,6 +700,7 @@ The online mining then uses those embeddings to select the ones that will be use
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 </ul>
   </nav></div>
 
