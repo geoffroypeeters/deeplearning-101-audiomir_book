@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Musical Audio Generation &#8212; Deep Learning 101 for Audio-based MIR</title>
   
@@ -15,53 +14,51 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_musicgeneration';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -76,28 +73,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -119,12 +111,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -140,6 +140,8 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="front.html">
@@ -158,7 +160,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -210,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -219,14 +232,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -351,10 +364,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -362,14 +375,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -392,8 +405,13 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-musical-audio-generation-using-deep-learning">Solving Musical Audio Generation Using Deep Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#previous-approaches">Previous Approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-musical-audio-synthesis">Neural Musical Audio Synthesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#early-works">Early Works</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplernn">SampleRNN</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks">Generative Adversarial Networks</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
 </ul>
@@ -401,6 +419,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likert-scale">Likert Scale</a></li>
 </ul>
 </li>
 </ul>
@@ -412,50 +431,110 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="musical-audio-generation">
-<h1>Musical Audio Generation<a class="headerlink" href="#musical-audio-generation" title="Permalink to this heading">#</a></h1>
+<h1>Musical Audio Generation<a class="headerlink" href="#musical-audio-generation" title="Link to this heading">#</a></h1>
 <section id="goal-of-the-task">
-<h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Musical audio generation aims to create a wide range of musical content, from individual notes to full instrumental arrangements and complete songs. In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain. Recent approaches, however, work with compressed representations, often using neural audio codecs.</p>
+<h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Link to this heading">#</a></h2>
+<p>Musical audio generation aims to create various musical content, from individual notes to full instrumental arrangements and complete songs. In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain. Recent approaches, however, work with compressed representations, often using neural audio codecs.</p>
 <p>The most widely used models today are autoregressive (Transformer) architectures and diffusion models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.</p>
 </section>
 <section id="popular-datasets">
-<h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
+<h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation. It contains short, synthetic, single-note samples from different instrument families, along with detailed metadata, making it a valuable resource for early experiments.</p></li>
-<li><p><strong>GTZAN</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
-<li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing both MIDI and corresponding audio recordings. This makes it particularly useful for training models focused on high-quality piano music generation.</p></li>
+<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.</p></li>
+<li><p><strong>GTZAN (delete?)</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
+<li><p><strong>MusicNet</strong>: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.</p></li>
+<li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing MIDI and corresponding audio recordings. This makes it particularly useful for training models of high-quality piano music generation.</p></li>
+<li><p><strong>MagnaTagATune</strong>: Offers a large collection of music with tags, useful for genre classification and multi-label tasks.</p></li>
 </ul>
 </section>
-<section id="solving-musical-audio-generation-using-deep-learning">
-<h2>Solving Musical Audio Generation Using Deep Learning<a class="headerlink" href="#solving-musical-audio-generation-using-deep-learning" title="Permalink to this heading">#</a></h2>
-<section id="previous-approaches">
-<h3>Previous Approaches<a class="headerlink" href="#previous-approaches" title="Permalink to this heading">#</a></h3>
-<p>Before the rise of Transformers and diffusion models, models like Recurrent Neural Networks (RNNs) and Generative Adversarial Networks (GANs) were commonly used for musical audio generation. RNNs could handle sequences but often struggled with long-term dependencies, leading to repetitive or incoherent results. GANs were used to generate audio but faced challenges with training instability and producing high-quality, diverse outputs. These limitations led to a shift towards more robust architectures like Transformers and diffusion models, which can better capture the complexity of musical content.</p>
+<section id="neural-musical-audio-synthesis">
+<h2>Neural Musical Audio Synthesis<a class="headerlink" href="#neural-musical-audio-synthesis" title="Link to this heading">#</a></h2>
+<section id="early-works">
+<h3>Early Works<a class="headerlink" href="#early-works" title="Link to this heading">#</a></h3>
+<p>Before the rise of Transformers and diffusion models, models like Causal Convolutional Networks, Recurrent Neural Networks (RNNs), and Generative Adversarial Networks (GANs) were used for musical audio generation.
+At the time, it was common to generate in a low-level representation space, either directly in the signal domain (WaveNet, SampleRNN) or in the spectral domain (GANs).
+Not least, due to their generation in such a high-dimensional space, CNNs/RNNs struggled with long-term dependencies, leading to repetitive or incoherent results without higher-level structure.<br />
+GANs were used to generate audio in the signal or frequency domain but faced challenges with training instability and producing high-quality, diverse outputs.
+Through the usage of neural audio codecs and the resulting reduction in dimensionality, the problem became simpler.
+Nowadays, through a combination of more efficient/simpler to-train generative models with generation in a compressed space, it is possible to generate high-quality, full-length music tracks.</p>
+<section id="wavenet">
+<h4>WaveNet<a class="headerlink" href="#wavenet" title="Link to this heading">#</a></h4>
+<p><img alt="wavenet_fig" src="_images/wavenet.png" /></p>
+<p><strong>Figure 1:</strong> WaveNet architecture showing causal, dilated convolutions.</p>
+<p>WaveNet <span id="id1">[<a class="reference internal" href="bibiography.html#id13" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In Alan W. Black, editor, The 9th ISCA Speech Synthesis Workshop, SSW 2016, Sunnyvale, CA, USA, September 13-15, 2016, 125. ISCA, 2016. URL: https://www.isca-archive.org/ssw\_2016/vandenoord16\_ssw.html.">vdODZ+16</a>]</span> can be seen as the first successful attempt to directly generate audio using a Neural Network.
+Important components in WaveNet were dilated convolutions <span id="id2">[<a class="reference internal" href="bibiography.html#id12" title="Fisher Yu and Vladlen Koltun. Multi-scale context aggregation by dilated convolutions. In Yoshua Bengio and Yann LeCun, editors, 4th International Conference on Learning Representations, ICLR 2016, San Juan, Puerto Rico, May 2-4, 2016, Conference Track Proceedings. 2016. URL: http://arxiv.org/abs/1511.07122.">YK16</a>]</span> that enabled an exponentially growing receptive field with linearly increasing numbers of layers.
+A big receptive field was critical in WaveNet because it worked directly in the signal domain with 16k samples/second.
+In addition, causal convolutions were used to prevent the model from looking into the future during training, resulting in a generative autoregressive sequence model.</p>
+<p>Autoregressive sequence models are typically trained with cross-entropy loss that requires one-hot encoded sequences.
+As raw audio is usually 16-bit, a naive transformation into one-hot vectors would result in 65,536 dimensions per time step.
+To keep the problem tractable, in WaveNet, each sample is non-linearly scaled and quantized to obtain 256-dimensional vectors.
+The non-linear scaling function (ITU-T, 1988) is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_t) = \text{sign}(x_t) \frac{\ln(1 + \mu |x_t|)}{\ln(1 + \mu)}.
+\]</div>
+<p><img alt="wavenet_scaling" src="_images/wavenet_non-linearity.png" /></p>
+<p><strong>Figure 2:</strong> Non-linear scaling of audio samples in WaveNet for <span class="math notranslate nohighlight">\(\mu = 255\)</span> (in practice, <span class="math notranslate nohighlight">\(-1 &lt; x_t &lt; 1\)</span>).</p>
+<p><em>Usage Example</em>: WaveNet was used by Google for text-to-speech (TTS) applications.</p>
+</section>
+<section id="samplernn">
+<h4>SampleRNN<a class="headerlink" href="#samplernn" title="Link to this heading">#</a></h4>
+<p><img alt="sample_rnn" src="_images/sample_rnn.png" />
+<strong>Figure 3:</strong> Snapshot of the unrolled SampleRNN model at timestep <span class="math notranslate nohighlight">\(i\)</span> with 3 tiers. As a simplification, only one RNN and up-sampling ratio <span class="math notranslate nohighlight">\(r = 4\)</span> is used for all tiers.</p>
+<p>SampleRNN <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron C. Courville, and Yoshua Bengio. Samplernn: an unconditional end-to-end neural audio generation model. In 5th International Conference on Learning Representations, ICLR 2017, Toulon, France, April 24-26, 2017, Conference Track Proceedings. OpenReview.net, 2017. URL: https://openreview.net/forum?id=SkxKPDv5xl.">MKG+17</a>]</span> was the first RNN-based neural audio synthesizer that had an impact in the community.
+It can effectively learn to generate long-form audio at a sample rate of 16kHz.
+While <strong>WaveNet</strong> builds hierarchical representations of audio by its built-in sub-sampling through dilated convolutional layers,
+SampleRNN builds such a hierarchy through multiple tiers of RNNs that operate in different “clock rates”.
+This approach enables representations at varying temporal resolutions, where lower tiers (faster rates) are conditioned on higher tiers.
+This encourages higher tiers to generate higher-level signal representations that help predict lower-level details.</p>
+<p>Similarly to WaveNet, in order to keep the task tractable, the sample values are quantized to 256 bins—but without prior, non-linear scaling.
+As the memory of RNNs can be updated iteratively without the need to reconsider past inputs, they tend to need less compute at inference time than non-recurrent autoregressive models (like causal convolutions or transformers).</p>
+<p><em>Usage Example</em>: Different artists used SampleRNN for music generation. Notably, a <a class="reference external" href="https://www.youtube.com/watch?v=JF2p0Hlg_5U&amp;amp;ab_channel=DADABOTS">livestream</a> (by Dadabots) with Technical Death Metal music is ongoing with hardly any interruptions since March 2019.</p>
+</section>
+<section id="generative-adversarial-networks">
+<h4>Generative Adversarial Networks<a class="headerlink" href="#generative-adversarial-networks" title="Link to this heading">#</a></h4>
+<p>For several years, Generative Adversarial Networks (GANs) <span id="id4">[<a class="reference internal" href="bibiography.html#id10" title="Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron C. Courville, and Yoshua Bengio. Generative adversarial networks. CoRR, 2014. URL: http://arxiv.org/abs/1406.2661, arXiv:1406.2661.">GPougetAbadieM+14</a>]</span> were among the most influential generative models.
+Their ability to implicitly model multi-dimensional <em>continuous-valued</em> distributions made them a compelling tool for image and audio generation.
+This enabled the use of spectrogram (or spectrogram-like) representations in audio generation, which is a natural modality for 2D convolutional networks.
+Another motivation for using image-like spectrogram representations with GANs for audio generation was the ability to leverage insights from the broader image-processing community.</p>
+<p><img alt="sample_rnn" src="_images/gansynth.png" />
+<strong>Figure 4:</strong> GANSynth rainbowgrams to showcase the influence of different audio representations.</p>
+<p>While WaveGAN <span id="id5">[<a class="reference internal" href="bibiography.html#id8" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span> was an influential work on using GANs directly for raw musical audio waveform generation, most works focussed on spectrogram-like representations.
+Examples for that are GANSynth <span id="id6">[<a class="reference internal" href="bibiography.html#id9" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span>, SpecGAN <span id="id7">[<a class="reference internal" href="bibiography.html#id8" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span>, DrumGAN <span id="id8">[<a class="reference internal" href="bibiography.html#id6" title="Javier Nistal, Cyran Aouameur, Ithan Velarde, and Stefan Lattner. Drumgan VST: A plugin for drum sound analysis/synthesis with autoencoding generative adversarial networks. Proc. of International Conference on Machine Learning ICML, Workshop on Machine Learning for Audio Synthesis, MLAS, 2022, 2022.">NAVL22</a>, <a class="reference internal" href="bibiography.html#id7" title="Javier Nistal, Stefan Lattner, and Gaël Richard. DRUMGAN: synthesis of drum sounds with timbral feature conditioning using generative adversarial networks. In ISMIR, 590–597. 2020.">NLR20</a>]</span>, and DarkGAN <span id="id9">[<a class="reference internal" href="bibiography.html#id5" title="Javier Nistal, Stefan Lattner, and Gaël Richard. Darkgan: exploiting knowledge distillation for comprehensible audio synthesis with gans. In ISMIR, 484–492. 2021.">NLR21</a>]</span>, omitting those only applied to speech.
+For simplicity reasons, the listed works can generate fixed-size outputs only. Some (later) examples of variable-size musical audio generation using GANs are VQCPC-GAN <span id="id10">[<a class="reference internal" href="bibiography.html#id4" title="Javier Nistal, Cyran Aouameur, Stefan Lattner, and Gaël Richard. VQCPC-GAN: variable-length adversarial audio synthesis using vector-quantized contrastive predictive coding. In WASPAA, 116–120. IEEE, 2021.">NALR21</a>]</span> and Musica! <span id="id11">[<a class="reference internal" href="bibiography.html#id3" title="Marco Pasini and Jan Schlüter. Musika! fast infinite waveform music generation. In ISMIR, 543–550. 2022.">PSchluter22</a>]</span>.</p>
+<p>Presently, GANs are widely replaced by Diffusion Models, which are more stable in training, less prone to mode-collapse, and have a simpler architecture, resulting in higher-quality outputs.<br />
+A concept of GANs that could remain in the mid-term is the usage of adversarial losses from auxiliary networks, for example, for domain confusion or as additional loss in reconstruction-based training (e.g., in neural audio codecs, like DAC <span id="id12">[<a class="reference internal" href="bibiography.html#id2" title="Rithesh Kumar, Prem Seetharaman, Alejandro Luebs, Ishaan Kumar, and Kundan Kumar. High-fidelity audio compression with improved RVQGAN. In NeurIPS. 2023.">KSL+23</a>]</span>).</p>
+<p><em>Usage Example</em>: DrumGAN was the first commercially available neural audio synthesizer integrated into <a class="reference external" href="https://www.steinberg.net/vst-instruments/backbone/">Steinberg’s Backbone</a>. It is now available for free as an <a class="reference external" href="https://drumgan.csl.sony.fr/">online app</a>.</p>
+</section>
 </section>
 <section id="autoregressive-transformer-architectures">
-<h3>Autoregressive (Transformer) Architectures<a class="headerlink" href="#autoregressive-transformer-architectures" title="Permalink to this heading">#</a></h3>
-<p>Autoregressive models, especially those based on Transformers, are well-suited for generating sequences like musical audio. These models generate audio by predicting each subsequent token based on prior ones, capturing long-term relationships effectively, which helps in producing coherent compositions.</p>
+<h3>Autoregressive (Transformer) Architectures<a class="headerlink" href="#autoregressive-transformer-architectures" title="Link to this heading">#</a></h3>
+<p>Autoregressive models, especially those based on Transformers, are well-suited for generating sequences like musical audio. These models generate audio by predicting each subsequent token based on prior ones, effectively capturing long-term relationships, which helps produce coherent compositions.</p>
 </section>
 <section id="diffusion-models">
-<h3>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h3>
+<h3>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Link to this heading">#</a></h3>
 <p>Diffusion models offer another approach to musical audio generation. They transform random noise into meaningful continuous audio representations.</p>
 </section>
 </section>
 <section id="how-is-the-task-evaluated">
-<h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing for the estimation of precision for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set, without directly reproducing any training data.</p>
-<p>As a result, indirect, distribution-based evaluation metrics are commonly used, rather than relying on one-to-one comparisons like in autoencoders or classification tasks.</p>
+<h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Link to this heading">#</a></h2>
+<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set without directly reproducing any training data.</p>
+<p>As a result, indirect, distribution-based evaluation metrics are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.</p>
 <section id="frechet-audio-distance-fad">
-<h3>Frechet Audio Distance (FAD)<a class="headerlink" href="#frechet-audio-distance-fad" title="Permalink to this heading">#</a></h3>
-<p>Nowadays, the most commonly used metric in audio generation is the Frechet Audio Distance (FAD). FAD compares the statistics of generated audio to those of real audio using embeddings from a pre-trained model. This metric provides a measure of how close the generated audio is to the original data distribution, which helps in assessing the quality and diversity of generated samples.</p>
+<h3>Frechet Audio Distance (FAD)<a class="headerlink" href="#frechet-audio-distance-fad" title="Link to this heading">#</a></h3>
+<p>Nowadays, the most commonly used metric in audio generation is the Frechet Audio Distance (FAD). FAD compares the statistics of generated audio to those of real audio using embeddings from a pre-trained model. This metric measures how close the generated audio is to the original data distribution, which helps assess the quality and diversity of generated samples.</p>
 </section>
 <section id="subjective-evaluation">
-<h3>Subjective Evaluation<a class="headerlink" href="#subjective-evaluation" title="Permalink to this heading">#</a></h3>
-<p>Objective evaluation metrics cannot capture all details people care about when listening to audio. Therefore, it is very common (and important) in works on audio generation to perform user studies.</p>
-<p>Lickert Scale</p>
+<h3>Subjective Evaluation<a class="headerlink" href="#subjective-evaluation" title="Link to this heading">#</a></h3>
+<p>Objective evaluation metrics cannot capture all the details people care about when listening to audio. Therefore, it is very common (and important) in audio generation works to perform user studies.
+In user studies, participants might be asked to rate the quality of generated audio samples on a Likert Scale ranging from 1 (very poor) to 5 (excellent). This helps quantify subjective perceptions of audio quality, coherence, and musicality.</p>
+</section>
+<section id="likert-scale">
+<h3>Likert Scale<a class="headerlink" href="#likert-scale" title="Link to this heading">#</a></h3>
+<p>…</p>
 </section>
 </section>
 </section>
@@ -487,7 +566,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -517,6 +596,7 @@ document.write(`
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
@@ -525,8 +605,13 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-musical-audio-generation-using-deep-learning">Solving Musical Audio Generation Using Deep Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#previous-approaches">Previous Approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-musical-audio-synthesis">Neural Musical Audio Synthesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#early-works">Early Works</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplernn">SampleRNN</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks">Generative Adversarial Networks</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
 </ul>
@@ -534,6 +619,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likert-scale">Likert Scale</a></li>
 </ul>
 </li>
 </ul>
@@ -560,7 +646,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
@@ -584,8 +670,8 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
