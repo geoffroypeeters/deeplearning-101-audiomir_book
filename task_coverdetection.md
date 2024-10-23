@@ -195,13 +195,18 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
     return dists_pos, dists_neg
 ```
 
-Experiments:
-- run MOVE on Cover1000
-- run MOVE on DataCOS
-- run MOVE on Cover1000, replace AutoPoolWeightSplit by Mean, by SoftmaxWeight, by AutoPoolWeight
+## Experiments
 
-Experiments:
-| Dataset   | Input   | Model   | Results   | Code |
+We will vary in turn
+- the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
+
+![expe](/images/expe_coverdetection.png)
+
+This can be done using the following files:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
+- (Config Cover)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml]
+
+| Dataset   | Input   | Frontend   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |
-| 1. Cover1000          | CREMA          |  MOVE  | meanRank=11.9, meanReciprocalRank=0.52, P@1=0.38, mAP=0.1  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_01.ipynb) |
-| 2. Da-TACOS Benchmark | CREMA          |  MOVE  | meanRank=466, meanReciprocalRank=0.18, P@1=0.12, mAP=0.067   | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification_02.ipynb) |
+| Cover1000      | CREMA       |  Move   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
+| Datacos-benchmark      | CREMA  |  Move   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |

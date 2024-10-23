@@ -106,17 +106,29 @@ For this tutorial, we focus on the model used in the SincNet paper illustrated b
 
 We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb) and study various [configurations](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml).
 
-We will vary in turn
-- the **inputs**: [waveform](lab_waveform) or [Log-Mel-Spectrogram](lab_lms)
-- the **front-end**: [Conv-1D](lab_conv1D), [TCN](lab_tcn), [SincNet](lab_sincnet), [Conv-2D](lab_conv2D)
-- the model **blocks**: [Conv-2D](lab_conv2d), [ResNet](lab_resnet), [ConvNext](lab_convnext)
 
 ![bricks](/images/main_bricks.png)
 
 
-Experiments:
-- run ConvNet code with LMS on GTZAN
-- run ConvNet code with LMS on MTT
-- run ConvNet code with Waveform, Conv1D on GTZAN
-- run ConvNet code with Waveform, SincNet on GTZAN
-- run ConvNet code with Waveform, TCN on GTZAN
+## Experiments:
+
+![expe](/images/expe_autotagging.png)
+
+We will vary in turn
+- the **inputs**: [waveform](lab_waveform) or [Log-Mel-Spectrogram](lab_lms)
+- the **front-end**: [Conv-1D](lab_conv1D), [SincNet](lab_sincnet), [Conv-2D](lab_conv2D), [TCN](lab_tcn)
+- the model **blocks**: [Conv-2D](lab_conv2d), [AutoPoolWeightSplit](lab_AutoPoolWeightSplit), [LSTM](lab_lstm)
+
+This can be done using the following files:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb)
+- (Config Auto-Tagging)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml]
+- (Config Chord)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml]
+
+| Dataset   | Input   | Frontend   | Results   | Code |
+|:---------- |:----------|:----------|:---------- |:---------- |
+| GTZAN      | LMS       |  Conv2d(128)/Conv1d/Linear/AutoPoolWeightSplit   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I1-C1.ipynb) |
+| GTZAN      | Waveform  |  SincNet/Conv1d/Linear/AutoPoolWeightSplit   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb) |
+| GTZAN      | Waveform  |  Conv1D/Conv1d/Linear/AutoPoolWeightSplit   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C3.ipynb) |
+| GTZAN      | Waveform  |  TCN/Conv1d/Linear/AutoPoolWeightSplit    |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C4.ipynb) |
+| MTT      | LMS  |  Conv2D   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D2-I1-C1.ipynb) |
+| RWC-Pop_Chord   | CQT  |  Conv2D/Conv1D/LSTM   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D3-I3-Chord.ipynb) |

@@ -48,7 +48,7 @@ In {cite}`DBLP:conf/ismir/GururaniSL19`, it is proposed to compute these weights
 *image source: {cite}`DBLP:conf/ismir/GururaniSL19`*
 
 
-
+(lab_AutoPoolWeightSplit)=
 #### Auto-Pool
 The above attention mechanism can by combined with the auto-pool operators proposed by {cite}`DBLP:journals/taslp/McFeeSB18`.
 
@@ -77,8 +77,26 @@ $e(\tau) = \sum_t a(t,\tau) v(t)$.
 
 
 
-
+(lab_LSTM)=
 ### RNN/ LSTM
+
+**Recurrent Neural Networks (RNNs)** are a type of neural network designed to work with sequential data (e.g., time series, text, etc.).
+They "remember" information from previous inputs by using hidden states, which allows them to model dependencies across time steps.
+
+Their generic formulation for inputs $x^{<t>}$ over time is: $a^{<t>} = tanh (W_{aa} a^{<t-1>} + W_{ax} x^{<t>}+ b_a)$.
+where $a^{<t>}$ is the hidden state of the RNN at time $t$.
+
+RNN can be used to model the evaluation over time (to replace Kalman filters or HMM) and can be used to model Language model.
+A bi-directional-RNN, read the data in both directions (left-to-right and right-to-left) making $a^{<t>}$ also dependent on a^{<t+1>}$.
+
+One can also use the last hidden state of a RNN $a^{<T_x>}$ where $T_x$ is the length of the input sequence, to sum up the content of the input sequence (see above).
+
+![brick_rnn](/images/brick_rnn.png)
+
+*image source: [Link](https://www.researchgate.net/figure/The-four-types-of-recurrent-neural-network-architectures-a-univariate-many-to-one_fig3_317192370)*
+
+**Long Short-Term Memory (LSTM)**  are a specialized type of RNN designed to handle long-term dependencies more effectively.
+LSTM use a more complex architecture with gates (input gate, forget gate, and output gate) to control the flow of information. This allows them to retain relevant information over longer sequences while "forgetting" irrelevant information.
 
 ### Transformer/ Self-Attention
 

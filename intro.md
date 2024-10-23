@@ -106,6 +106,8 @@ We provide here [https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/](
 
 Writing pytorch Dataset is probably the most complex part.
 
+![expe](/images/expe_dataset.png)
+
 For short, it involves defining what should the `__getitem__` return (the `X` and `y` for the model) and involves providing in the `__init__`  all the necessary information so that `__getitem__` can do its job.
 - It therefore involves defining what is the **input representation** of the model (`X` can be waveform, Log-Mel-Spectrogram, Harmonic-CQT), defining where to computing those (either one-the-fly in the `__getitem__`, pre-computed those in the `__init__` and read them on-the-fly from the hard drive in the `__getime__`, or store those in the memory of the CPU, the GPU).
 

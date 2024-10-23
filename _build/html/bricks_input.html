@@ -1,12 +1,13 @@
 
+
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Inputs &#8212; Deep Learning 101 for Audio-based MIR</title>
   
@@ -14,49 +15,53 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=36754332"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_input';</script>
@@ -73,23 +78,28 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
+
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -111,20 +121,12 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
   
-
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
-      
-      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -140,8 +142,6 @@
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 
-  
-    
   
 
 <a class="navbar-brand logo" href="front.html">
@@ -160,18 +160,7 @@
   
   
 </a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -223,7 +212,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -232,14 +221,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -364,10 +353,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -375,14 +364,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -418,23 +407,23 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article">
+                <article class="bd-article" role="main">
                   
   <section id="inputs">
-<h1>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">#</a></h1>
+<h1>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">#</a></h1>
 <p>The following type of data are commonly used in MIR as input of deep learning models.</p>
 <section id="waveform">
-<span id="lab-waveform"></span><h2>Waveform<a class="headerlink" href="#waveform" title="Link to this heading">#</a></h2>
+<span id="lab-waveform"></span><h2>Waveform<a class="headerlink" href="#waveform" title="Permalink to this heading">#</a></h2>
 <p>It is possible to use directly the audio waveform <span class="math notranslate nohighlight">\(x(n)\)</span> as input to a model. In this case, the input is a 1-dimensional sequence over time.
 Such a system is often denoted by end-to-end (E2E).
 The first layer of the models then act as a learnable feature extractor.
-It is often either a 1D-convolution [], a <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a> or a parametric front-end such as <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a> or <a class="reference internal" href="#lab_leaf"><span class="xref myst">LEAF</span></a>.</p>
+It is often either a 1D-convolution [], a <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a> or a parametric front-end such as <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a> or <span class="xref myst">LEAF</span>.</p>
 <p>More details can be found in the following tutorial.
 Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, TasNet, ConvTasNet.</p>
 <p><img alt="waveform" src="_images/brick_waveform.png" /></p>
 </section>
 <section id="log-mel-spectrogram-lms">
-<span id="lab-lms"></span><h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Link to this heading">#</a></h2>
+<span id="lab-lms"></span><h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h2>
 <p>Spectrogram (the magnitude of the Short Time Fourier Transform, i.e. the Fourier Transform performed over frame-analysis) can be converted to the Mel [REF] perceptual scale. The goal of this is</p>
 <ul class="simple">
 <li><p>to reduce the dimensionality of the data</p></li>
@@ -453,7 +442,7 @@ This DCT was necessary to decorrelate the dimensions and then allows covariance 
 However, this decorrelation is not necessary for deep learning models.</p>
 <p><img alt="lms" src="_images/brick_lms.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_lms</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_lms</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    description:</span>
 <span class="sd">        compute Log-Mel-Sepctrogram audio features</span>
 <span class="sd">    inputs:</span>
@@ -479,8 +468,8 @@ However, this decorrelation is not necessary for deep learning models.</p>
 </div>
 </section>
 <section id="constant-q-transform-hcqt">
-<span id="lab-cqt"></span><h2>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Link to this heading">#</a></h2>
-<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id45" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.
+<span id="lab-cqt"></span><h2>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Permalink to this heading">#</a></h2>
+<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id46" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.
 As opposed to the Discrete Fourier Transform, which uses a fixed window length for all its frequencies <span class="math notranslate nohighlight">\(f_k\)</span> (hence with a fixed spectral resolution), the CQT adapts the length of the window in order to be able to separate adjacent frequencies.
 The CQT divides the frequency axis into bins where the ratio between adjacent frequencies <span class="math notranslate nohighlight">\(f_{k+1}/f_k = cst\)</span> and  is constant (i.e., logarithmically spaced). This is different from the Short-Time Fourier Transform (STFT), where frequency bins are linearly spaced <span class="math notranslate nohighlight">\(f_{k+1}-f_k = cst\)</span>.
 In music this ratio is <span class="math notranslate nohighlight">\(2^{1/12}\)</span> for adjacent musical pitches (semitones).
@@ -492,8 +481,8 @@ This property has been used in some works such as Shift-Invariant PLCA or in 2D-
 <p><img alt="cqt" src="_images/brick_cqt.png" /></p>
 </section>
 <section id="harmonic-cqt-hcqt">
-<span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Link to this heading">#</a></h2>
-<p>The Harmonic CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id43" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.
+<span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h2>
+<p>The Harmonic CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id44" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.
 While the harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> of a given sound with fundamental frequency <span class="math notranslate nohighlight">\(f0\)</span> are not close together in the spectrum.
 The usual “local correlation of the pixels” assumption underlying 2D-Conv therefore does not hold for musical sound.
 The idea of the HCQT is to represent this proximity through a new depth/channel dimension.
@@ -511,7 +500,7 @@ When used for Multi-Pitch-Estimation, the kernels should therefore learn the spe
 An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> is added to avoid octave errors.</p>
 <p><img alt="hcqt" src="_images/brick_hcqt2.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_hcqt</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_hcqt</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    description:</span>
 <span class="sd">        compute Harmonic CQT</span>
 <span class="sd">    inputs:</span>
@@ -545,8 +534,8 @@ An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> i
 </div>
 </section>
 <section id="chroma">
-<span id="lab-chroma"></span><h2>Chroma<a class="headerlink" href="#chroma" title="Link to this heading">#</a></h2>
-<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id31" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id32" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.
+<span id="lab-chroma"></span><h2>Chroma<a class="headerlink" href="#chroma" title="Permalink to this heading">#</a></h2>
+<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id32" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id33" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.
 Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, …
 Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to the pitch-classes (summing the content of all frequency bands corresponding to the C0, C1, C2, … to obtain the Chroma C, …).</p>
 <p><img alt="chroma" src="_images/brick_chroma.png" /></p>
@@ -555,12 +544,12 @@ Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to
 
 </pre></div>
 </div>
-<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id29" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id30" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id33" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
+<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id30" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id31" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id34" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
 <p>Chroma are often as input for applications such as Automatic-Chord-Recogniton (ACR), key-detection or Cover-Song-Identification (CSI).
-We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id30" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
+We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id31" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
 </section>
 <section id="audio-augmentations">
-<h2>Audio augmentations<a class="headerlink" href="#audio-augmentations" title="Link to this heading">#</a></h2>
+<h2>Audio augmentations<a class="headerlink" href="#audio-augmentations" title="Permalink to this heading">#</a></h2>
 <p>blablabla</p>
 </section>
 </section>
@@ -592,7 +581,7 @@ We use here for CSI the deep-chroma of <span id="id8">[<a class="reference inter
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -621,7 +610,6 @@ We use here for CSI the deep-chroma of <span id="id8">[<a class="reference inter
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -659,7 +647,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022.
       <br/>
     
   </p>
@@ -683,8 +671,8 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>
