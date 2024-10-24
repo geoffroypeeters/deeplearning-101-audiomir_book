@@ -191,7 +191,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
@@ -425,9 +424,9 @@ Tags can be</p>
 </ul>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
 <p>The task is one of the first studied in MIR.
-Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id18" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
-Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id17" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
-The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id16" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
+Already in 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id19" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
+Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task <span id="id2">[<a class="reference internal" href="bibiography.html#id18" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span>.
+The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models <span id="id3">[<a class="reference internal" href="bibiography.html#id17" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">tutorial on “musical classification”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
@@ -496,6 +495,9 @@ It contains 21.108 files of 30s duration, each with multiple (<strong>multi-labe
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
+<p>Talk about Dieleman approach</p>
+<p>Talk about Kenwoo Choi (VGG) approach approach</p>
+<p>Talk about Jordi Pons approach approach</p>
 <p>Auto-tagging is a classification problem and can be considered either as a multi-class (mutually exclusive classes, such as for GTZAN) or a multi-label (non-mutually exclusive classes, such as MTT).
 Also, for the two considered datasets (GTZAN, MTT) the labels are assigned or the whole track duration.
 We therefore need to design a model that map a time-serie of observation to a single output.
@@ -510,9 +512,9 @@ There have been many models proposed to do this.</p>
 <p><img alt="expe" src="_images/expe_autotagging.png" /></p>
 <p>We will vary in turn</p>
 <ul class="simple">
-<li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a> or <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a></p></li>
+<li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a>, <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a> or <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a></p></li>
 <li><p>the <strong>front-end</strong>: <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a></p></li>
-<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-autopoolweightsplit"><span class="std std-ref">AutoPoolWeightSplit</span></a>, <span class="xref myst">LSTM</span></p></li>
+<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-autopoolweightsplit"><span class="std std-ref">AutoPoolWeightSplit</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/LSTM</span></a></p></li>
 </ul>
 <p>This can be done using the following files:</p>
 <ul class="simple">
