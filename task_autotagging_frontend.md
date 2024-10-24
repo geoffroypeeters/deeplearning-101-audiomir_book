@@ -95,6 +95,12 @@ It contains 21.108 files of 30s duration, each with multiple (**multi-label**) t
 
 ## How we can solve it using deep learning
 
+Talk about Dieleman approach
+
+Talk about Kenwoo Choi (VGG) approach approach
+
+Talk about Jordi Pons approach approach
+
 Auto-tagging is a classification problem and can be considered either as a multi-class (mutually exclusive classes, such as for GTZAN) or a multi-label (non-mutually exclusive classes, such as MTT).
 Also, for the two considered datasets (GTZAN, MTT) the labels are assigned or the whole track duration.
 We therefore need to design a model that map a time-serie of observation to a single output.
@@ -115,9 +121,9 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 ![expe](/images/expe_autotagging.png)
 
 We will vary in turn
-- the **inputs**: [waveform](lab_waveform) or [Log-Mel-Spectrogram](lab_lms)
+- the **inputs**: [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms) or [CQT](lab_cqt)
 - the **front-end**: [Conv-1D](lab_conv1D), [SincNet](lab_sincnet), [Conv-2D](lab_conv2D), [TCN](lab_tcn)
-- the model **blocks**: [Conv-2D](lab_conv2d), [AutoPoolWeightSplit](lab_AutoPoolWeightSplit), [LSTM](lab_lstm)
+- the model **blocks**: [Conv-2D](lab_conv2d), [AutoPoolWeightSplit](lab_AutoPoolWeightSplit), [RNN/LSTM](lab_rnn)
 
 This can be done using the following files:
 - (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb)

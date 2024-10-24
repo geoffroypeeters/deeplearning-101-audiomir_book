@@ -1,7 +1,7 @@
-## Architectures
+# Architectures
 
 (lab_unet)=
-### U-Net
+## U-Net
 
 The U-Net was proposed in {cite}`DBLP:conf/miccai/RonnebergerFB15` in the framework of biomedical image segmentation and made popular in MIR by {cite}`DBLP:conf/ismir/JanssonHMBKW17` for singing voice separation.
 
@@ -22,7 +22,7 @@ The upsampling part can be done either
 - using Interpolation followed by Normal convolution
 
 
-### Many to One: reducing the time dimensions
+## Many to One: reducing the time dimensions
 
 They are many different ways to reduce map a temporel sequence of embeddings $\{X_1, \ldots X_{T_x}\}$(Many) to a single embedding $X$ (One).
 
@@ -33,7 +33,7 @@ Such a mechanism can be necessary in order to map the temporel embedding provide
 
 The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the $X_t$ over time (as done for example in {cite}`Dieleman2014Spotify`).
 
-#### Attention weighting
+### Attention weighting
 
 Another possibility is to compute a weighted sum of the values $X_t$ where the weights $a_t$ are attention parameters:
 $X = \sum_{t=0}^{T_x-1} a_t X_t$
@@ -49,7 +49,7 @@ In {cite}`DBLP:conf/ismir/GururaniSL19`, it is proposed to compute these weights
 
 
 (lab_AutoPoolWeightSplit)=
-#### Auto-Pool
+### Auto-Pool
 The above attention mechanism can by combined with the auto-pool operators proposed by {cite}`DBLP:journals/taslp/McFeeSB18`.
 
 The auto-pool operators is defined as $a_t = \frac{\exp(\alpha X_t)}{\sum_{\tau} \exp(\alpha X_{\tau})}$
@@ -62,7 +62,7 @@ The $\alpha$ parameters is a trainable parameters (optimized using SGD).
 *image source: {cite}`DBLP:journals/taslp/McFeeSB18`*
 
 
-#### Using models
+### Using models
 
 It is also possible to use a **RNN/LSTM in Many-to-One configuration** (only the last hidden state $X_{T_x}$ is mapped to an output $\hat{y}$).
 
@@ -76,26 +76,44 @@ In the **transformer architecture** {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it i
 $e(\tau) = \sum_t a(t,\tau) v(t)$.
 
 
-### Recurrent Architectures
+## Recurrent Architectures
 
-## RNN
+(lab_rnn)=
+### RNN
 
-**Recurrent Neural Networks (RNNs)** are a type of neural network designed to work with sequential data (e.g., time series, text, etc.).
+**Recurrent Neural Networks (RNNs)** are a type of neural network designed to work with <mark>sequential data</mark> (e.g., time series, text, etc.).
 They "remember" information from previous inputs by using hidden states, which allows them to model dependencies across time steps.
 
-Their generic formulation for inputs $x^{<t>}$ over time is: $a^{<t>} = tanh (W_{aa} a^{<t-1>} + W_{ax} x^{<t>}+ b_a)$.
+Their generic formulation for inputs $x^{<t>}$ over time is:
+
+$$a^{<t>} = tanh (W_{aa} a^{<t-1>} + W_{ax} x^{<t>}+ b_a)$$
+
 where $a^{<t>}$ is the hidden state of the RNN at time $t$.
 
-RNN can be used to model the evaluation over time (to replace Kalman filters or HMM) and can be used to model Language model.
-A bi-directional-RNN, read the data in both directions (left-to-right and right-to-left) making $a^{<t>}$ also dependent on a^{<t+1>}$.
+A <mark>bi-directional-RNN</mark>, read the data in both directions (left-to-right and right-to-left).
+The goal is to make $a^{<t>}$ both dependent on $a^{<t-1>}$ and $a^{<t+1>}$.
 
-One can also use the last hidden state of a RNN $a^{<T_x>}$ where $T_x$ is the length of the input sequence, to sum up the content of the input sequence (see above).
+Two configurations are often used with RNNs:
+- <mark>Many-to-many</mark>: RNN can be used to model the evaluation over time of features (such as done in the past with Kalman filters or HMM).
+They are often used to represent a Language model.
+- <mark>Many-to-one</mark>: One can also use the last hidden state of a RNN $a^{<T_x>}$ where $T_x$ is the length of the input sequence, to sum up the content of the input sequence (see picture below).
 
 ![brick_rnn](/images/brick_rnn.png)
 
 *image source: [Link](https://www.researchgate.net/figure/The-four-types-of-recurrent-neural-network-architectures-a-univariate-many-to-one_fig3_317192370)*
 
+### LSTM
 **Long Short-Term Memory (LSTM)**  are a specialized type of RNN designed to handle long-term dependencies more effectively.
-LSTM use a more complex architecture with gates (input gate, forget gate, and output gate) to control the flow of information. This allows them to retain relevant information over longer sequences while "forgetting" irrelevant information.
+LSTM use a more complex architecture with a memory $c_t$ over time $t$, a hidden value $h_t$ and a set of gates (input gate, forget gate, and output gate) to control the flow of information
+between the input $x_t$, the previous hidden state $h_{t-1}$ and memory $c_{t-1}$ and their new values.
+This allows them to retain relevant information over longer sequences while "forgetting" irrelevant information.
+
+As RNN, two configurations are often used with LSTMs:
+- <mark>Many-to-many</mark>
+- <mark>Many-to-one</mark>
+
+![brick_rnn](/images/brick_lstm.png)
+
+*image source: [Link](https://mlarchive.com/deep-learning/understanding-long-short-term-memory-networks/)*
 
 ### Transformer/ Self-Attention
