@@ -99,11 +99,3 @@ One can also use the last hidden state of a RNN $a^{<T_x>}$ where $T_x$ is the l
 LSTM use a more complex architecture with gates (input gate, forget gate, and output gate) to control the flow of information. This allows them to retain relevant information over longer sequences while "forgetting" irrelevant information.
 
 ### Transformer/ Self-Attention
-
-ViT
-
-AST
-
-HTS-AT
-
-### Conformer
