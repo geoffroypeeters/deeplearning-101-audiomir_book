@@ -89,6 +89,10 @@ Although GTZAN has been criticized for the quality of its label we only used to 
 We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
 It contains 21.108 files of 30s duration, each with multiple (**multi-label**) tag labels among 50 classes ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
 
+- [RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06`
+accessible online with the permission of Masataka Goto for the specific purpose of this tutorial. For any other use, please contact Mastaka Goto for auhtorization.
+
+
 
 
 
