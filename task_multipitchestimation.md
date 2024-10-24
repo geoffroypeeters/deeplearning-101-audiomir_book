@@ -122,10 +122,10 @@ This can be done using the following files:
 
 | Dataset   | Input   | Frontend   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |
-| Bach10     | CQT(H=1)       |  Conv2D   |            | [LINK]() |
+| Bach10     | CQT(H=1)       |  Conv2D   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I1-C1.ipynb) |
 | Bach10     | HCQT(H=6)       |  Conv2D   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C1.ipynb) |
-| Bach10     | HCQT(H=6)       |  Conv2D/DepthSep   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| Bach10     | HCQT(H=6)       |  Conv2D/ResNet   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| Bach10     | HCQT(H=6)       |  Conv2D/ConvNext   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| Bach10     | HCQT(H=6)       |  U-Net   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| MAPS     | HCQT(H=1)       |  Conv2D   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-C1.ipynb) |
+| Bach10     | HCQT(H=6)       |  Conv2D/DepthSep   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C2.ipynb) |
+| Bach10     | HCQT(H=6)       |  Conv2D/ResNet   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C3.ipynb) |
+| Bach10     | HCQT(H=6)       |  Conv2D/ConvNext   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C4.ipynb) |
+| Bach10     | HCQT(H=6)       |  U-Net   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-Unet.ipynb) |
+| MAPS     | HCQT(H=6)       |  Conv2D   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-C1.ipynb) |
