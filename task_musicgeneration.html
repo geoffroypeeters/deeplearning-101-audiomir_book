@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="bricks_projection.html">Projections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_bottleneck.html">Bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bricks_architecture.html">Architectures</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="bricks_paradigm.html">Paradigms</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
@@ -395,6 +396,16 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-musical-audio-synthesis">Neural Musical Audio Synthesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-generative-modeling">Basics of Generative Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#early-works">Early Works</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplernn">SampleRNN</a></li>
@@ -402,7 +413,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Diffusion Models</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
@@ -432,7 +443,7 @@ document.write(`
 <section id="popular-datasets">
 <h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.</p></li>
+<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation and can be regarded the “MNIST” in audio. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.</p></li>
 <li><p><strong>GTZAN (delete?)</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
 <li><p><strong>MusicNet</strong>: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.</p></li>
 <li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing MIDI and corresponding audio recordings. This makes it particularly useful for training models of high-quality piano music generation.</p></li>
@@ -441,6 +452,78 @@ document.write(`
 </section>
 <section id="neural-musical-audio-synthesis">
 <h2>Neural Musical Audio Synthesis<a class="headerlink" href="#neural-musical-audio-synthesis" title="Permalink to this heading">#</a></h2>
+<section id="basics-of-generative-modeling">
+<h3>Basics of Generative Modeling<a class="headerlink" href="#basics-of-generative-modeling" title="Permalink to this heading">#</a></h3>
+<p>In generative tasks, it is necessary to inject <em>some form of stochasticity</em> into the generation process. In this regard, two general approaches can be distinguished: generation of <strong>discrete sequences</strong> and generation of <strong>continuous-valued data</strong>.
+In this section, we will have a brief look into the two paradigms and give some examples of how they are modeled.</p>
+<section id="discrete-sequence-generation">
+<h4>Discrete Sequence Generation<a class="headerlink" href="#discrete-sequence-generation" title="Permalink to this heading">#</a></h4>
+<p>For <strong>discrete sequences</strong>, models such as Recurrent Neural Networks (RNNs), Causal Convolutional Networks, and Transformers are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then “injected” by sampling from that distribution.</p>
+<p>At each time step <span class="math notranslate nohighlight">\(t\)</span>, the model outputs a probability distribution <span class="math notranslate nohighlight">\(P(y_t \mid y_{&lt;t})\)</span> over the vocabulary <span class="math notranslate nohighlight">\(V\)</span>, conditioned on the previous tokens <span class="math notranslate nohighlight">\(y_{&lt;t}\)</span>. The cross-entropy loss used during training can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{\text{CE}} = -\sum_{t} \log P(y_t^* \mid y_{&lt;t})
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_t^*\)</span> is the true token at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p><strong>Note:</strong> In this case, we can primarily deal with <strong>one-hot encoded sequences</strong>, selecting one token per time step, as we don’t have a simple way to sample <strong>N-hot vectors</strong> (where <span class="math notranslate nohighlight">\(N &gt; 1\)</span> tokens are selected simultaneously) from the model’s output distribution. Sampling multiple tokens at once would require modeling the joint probability of combinations of tokens, which significantly increases complexity and is not commonly addressed in standard sequence generation models.</p>
+</section>
+<section id="continuous-valued-data-generation">
+<h4>Continuous-Valued Data Generation<a class="headerlink" href="#continuous-valued-data-generation" title="Permalink to this heading">#</a></h4>
+<p>For generating <strong>continuous-valued data</strong>, the stochasticity usually comes from some form of noise injection into the neural network.
+In the following, a brief (model-agnostic) introduction in the most common training paradigms is given.</p>
+<section id="generative-adversarial-networks-gans">
+<h5>Generative Adversarial Networks (GANs)<a class="headerlink" href="#generative-adversarial-networks-gans" title="Permalink to this heading">#</a></h5>
+<p>For example, Generative Adversarial Networks (GANs) in their basic form inject noise by inputting a high-dimensional noise vector
+<span class="math notranslate nohighlight">\(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span> (sampled from an independent Gaussian distribution) into the generator <span class="math notranslate nohighlight">\(G\)</span>.
+The generator transforms this noise vector into a data sample: <span class="math notranslate nohighlight">\(\mathbf{x} = G(\mathbf{z})\)</span>.
+Thus, the task can be described as learning to transform an independent Gaussian distribution into the data distribution.</p>
+<p>The generator is trained by playing an adversarial game with a discriminator <span class="math notranslate nohighlight">\(D\)</span>.
+The discriminator aims to distinguish between real samples from the dataset and fake samples generated by <span class="math notranslate nohighlight">\(G\)</span>.
+The generator is trained to produce samples that maximize the likelihood of fooling the discriminator.
+Formally, the objective for <span class="math notranslate nohighlight">\(G\)</span> is to minimize the following adversarial loss:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{G} = - \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})} [\log(D(G(\mathbf{z})))]
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(\mathbf{z})\)</span> represents the distribution of noise input.
+This adversarial setup ensures that as <span class="math notranslate nohighlight">\(D\)</span> improves in distinguishing real from fake data,
+<span class="math notranslate nohighlight">\(G\)</span> improves in generating more realistic samples, ultimately leading to convergence when the generated data becomes indistinguishable from the real data.</p>
+</section>
+<section id="variational-autoencoders-vaes">
+<h5>Variational Autoencoders (VAEs)<a class="headerlink" href="#variational-autoencoders-vaes" title="Permalink to this heading">#</a></h5>
+<p>Similarly, in Variational Autoencoders (VAEs, composed of encoder and decoder), the decoder receives as input a sample from an independent Gaussian prior distribution (a “standard normal distribution”).
+The model is trained so that the encoder learns to approximate the prior using a mixture of Gaussian posteriors, one for each data point:
+<span class="math notranslate nohighlight">\(\boldsymbol{\mu}, \boldsymbol{\sigma} = E(\mathbf{x})\)</span>, where <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span> are multi-dimensional mean and variance vectors.
+From this posterior, we sample a latent variable <span class="math notranslate nohighlight">\(\mathbf{z} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\sigma})\)</span>.
+The decoder then reconstructs the input by transforming <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> into a data point <span class="math notranslate nohighlight">\(\hat{\mathbf{x}} = D(\mathbf{z})\)</span>.</p>
+<p>Training involves minimizing two objectives: the reconstruction loss between <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(\hat{\mathbf{x}}\)</span>, and the Kullback-Leibler (KL) divergence
+between the learned posterior <span class="math notranslate nohighlight">\(q_{\phi}(\mathbf{z} \mid \mathbf{x})\)</span> and the prior distribution <span class="math notranslate nohighlight">\(p(\mathbf{z}) \sim \mathcal{N}(0, I)\)</span>.
+The two objectives are adversarial because the KL term pushes the posteriors towards a zero mean and unit variance, while the reconstruction term encourages the posteriors to adopt distinct means and reduced variances, allowing each data point to have its own distribution.
+Together, they make it possible to sample from the prior <span class="math notranslate nohighlight">\(p(\mathbf{z}) \sim \mathcal{N}(0, I)\)</span> at inference and decoding it into a plausible data sample: <span class="math notranslate nohighlight">\(\hat{\mathbf{x}} = D(\mathbf{z})\)</span>.</p>
+</section>
+<section id="diffusion-models">
+<h5>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h5>
+<p>In Diffusion Models, the noise input has the same dimensionality as the data point that should be generated.
+The model gradually transforms noise into data through a series of steps.
+Like before, the goal is to transform a Gaussian prior distribution into the data distribution through the learned denoising steps.</p>
+<ol class="arabic">
+<li><p><strong>Forward Diffusion (Noising) Process:</strong> Noise is added to the data over <span class="math notranslate nohighlight">\(T\)</span> time steps:</p>
+<div class="math notranslate nohighlight">
+\[
+   q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \beta_t \mathbf{I})
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_t\)</span> is a variance schedule controlling the amount of noise added at each step.</p>
+</li>
+<li><p><strong>Reverse Diffusion (Denoising) Process:</strong> The model learns to reverse the noising process by estimating <span class="math notranslate nohighlight">\(p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_{\theta}(\mathbf{x}_t, t), \sigma_t^2 \mathbf{I})
+   \]</div>
+</li>
+</ol>
+</section>
+</section>
+</section>
 <section id="early-works">
 <h3>Early Works<a class="headerlink" href="#early-works" title="Permalink to this heading">#</a></h3>
 <p>Before the rise of Transformers and diffusion models, models like Causal Convolutional Networks, Recurrent Neural Networks (RNNs), and Generative Adversarial Networks (GANs) were used for musical audio generation.
@@ -452,11 +535,11 @@ Nowadays, through a combination of more efficient/simpler to-train generative mo
 <section id="wavenet">
 <h4>WaveNet<a class="headerlink" href="#wavenet" title="Permalink to this heading">#</a></h4>
 <p><img alt="wavenet_fig" src="_images/wavenet.png" /></p>
-<p><strong>Figure 1:</strong> WaveNet architecture showing causal, dilated convolutions.</p>
-<p>WaveNet <span id="id1">[<a class="reference internal" href="bibiography.html#id13" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In Alan W. Black, editor, The 9th ISCA Speech Synthesis Workshop, SSW 2016, Sunnyvale, CA, USA, September 13-15, 2016, 125. ISCA, 2016. URL: https://www.isca-archive.org/ssw\_2016/vandenoord16\_ssw.html.">vdODZ+16</a>]</span> can be seen as the first successful attempt to directly generate audio using a Neural Network.
-Important components in WaveNet were dilated convolutions <span id="id2">[<a class="reference internal" href="bibiography.html#id12" title="Fisher Yu and Vladlen Koltun. Multi-scale context aggregation by dilated convolutions. In Yoshua Bengio and Yann LeCun, editors, 4th International Conference on Learning Representations, ICLR 2016, San Juan, Puerto Rico, May 2-4, 2016, Conference Track Proceedings. 2016. URL: http://arxiv.org/abs/1511.07122.">YK16</a>]</span> that enabled an exponentially growing receptive field with linearly increasing numbers of layers.
-A big receptive field was critical in WaveNet because it worked directly in the signal domain with 16k samples/second.
-In addition, causal convolutions were used to prevent the model from looking into the future during training, resulting in a generative autoregressive sequence model.</p>
+<p><strong>Figure 1:</strong> WaveNet architecture showing causal, dilated convolutions (image source: <span id="id1">[<a class="reference internal" href="bibiography.html#id14" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In Alan W. Black, editor, The 9th ISCA Speech Synthesis Workshop, SSW 2016, Sunnyvale, CA, USA, September 13-15, 2016, 125. ISCA, 2016. URL: https://www.isca-archive.org/ssw\_2016/vandenoord16\_ssw.html.">vdODZ+16</a>]</span>).</p>
+<p>WaveNet <span id="id2">[<a class="reference internal" href="bibiography.html#id14" title="Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. In Alan W. Black, editor, The 9th ISCA Speech Synthesis Workshop, SSW 2016, Sunnyvale, CA, USA, September 13-15, 2016, 125. ISCA, 2016. URL: https://www.isca-archive.org/ssw\_2016/vandenoord16\_ssw.html.">vdODZ+16</a>]</span> can be seen as the first successful attempt to directly generate audio using a Neural Network.
+Important components in WaveNet are dilated convolutions <span id="id3">[<a class="reference internal" href="bibiography.html#id13" title="Fisher Yu and Vladlen Koltun. Multi-scale context aggregation by dilated convolutions. In Yoshua Bengio and Yann LeCun, editors, 4th International Conference on Learning Representations, ICLR 2016, San Juan, Puerto Rico, May 2-4, 2016, Conference Track Proceedings. 2016. URL: http://arxiv.org/abs/1511.07122.">YK16</a>]</span> that enable an exponentially growing receptive field with linearly increasing numbers of layers.
+A big receptive field is critical in WaveNet because it operates directly in the signal domain with 16k samples/second.
+In addition, causal convolutions are used to prevent the model from looking into the future during training, resulting in a generative autoregressive sequence model.</p>
 <p>Autoregressive sequence models are typically trained with cross-entropy loss that requires one-hot encoded sequences.
 As raw audio is usually 16-bit, a naive transformation into one-hot vectors would result in 65,536 dimensions per time step.
 To keep the problem tractable, in WaveNet, each sample is non-linearly scaled and quantized to obtain 256-dimensional vectors.
@@ -472,8 +555,8 @@ f(x_t) = \text{sign}(x_t) \frac{\ln(1 + \mu |x_t|)}{\ln(1 + \mu)}.
 <section id="samplernn">
 <h4>SampleRNN<a class="headerlink" href="#samplernn" title="Permalink to this heading">#</a></h4>
 <p><img alt="sample_rnn" src="_images/sample_rnn.png" />
-<strong>Figure 3:</strong> Snapshot of the unrolled SampleRNN model at timestep <span class="math notranslate nohighlight">\(i\)</span> with 3 tiers. As a simplification, only one RNN and up-sampling ratio <span class="math notranslate nohighlight">\(r = 4\)</span> is used for all tiers.</p>
-<p>SampleRNN <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron C. Courville, and Yoshua Bengio. Samplernn: an unconditional end-to-end neural audio generation model. In 5th International Conference on Learning Representations, ICLR 2017, Toulon, France, April 24-26, 2017, Conference Track Proceedings. OpenReview.net, 2017. URL: https://openreview.net/forum?id=SkxKPDv5xl.">MKG+17</a>]</span> was the first RNN-based neural audio synthesizer that had an impact in the community.
+<strong>Figure 3:</strong> Snapshot of the unrolled SampleRNN model at timestep <span class="math notranslate nohighlight">\(i\)</span> with 3 tiers. As a simplification, only one RNN and up-sampling ratio <span class="math notranslate nohighlight">\(r = 4\)</span> is used for all tiers (image source: <span id="id4">[<a class="reference internal" href="bibiography.html#id12" title="Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron C. Courville, and Yoshua Bengio. Samplernn: an unconditional end-to-end neural audio generation model. In 5th International Conference on Learning Representations, ICLR 2017, Toulon, France, April 24-26, 2017, Conference Track Proceedings. OpenReview.net, 2017. URL: https://openreview.net/forum?id=SkxKPDv5xl.">MKG+17</a>]</span>).</p>
+<p>SampleRNN <span id="id5">[<a class="reference internal" href="bibiography.html#id12" title="Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron C. Courville, and Yoshua Bengio. Samplernn: an unconditional end-to-end neural audio generation model. In 5th International Conference on Learning Representations, ICLR 2017, Toulon, France, April 24-26, 2017, Conference Track Proceedings. OpenReview.net, 2017. URL: https://openreview.net/forum?id=SkxKPDv5xl.">MKG+17</a>]</span> was the first RNN-based neural audio synthesizer that had an impact in the community.
 It can effectively learn to generate long-form audio at a sample rate of 16kHz.
 While <strong>WaveNet</strong> builds hierarchical representations of audio by its built-in sub-sampling through dilated convolutional layers,
 SampleRNN builds such a hierarchy through multiple tiers of RNNs that operate in different “clock rates”.
@@ -481,30 +564,30 @@ This approach enables representations at varying temporal resolutions, where low
 This encourages higher tiers to generate higher-level signal representations that help predict lower-level details.</p>
 <p>Similarly to WaveNet, in order to keep the task tractable, the sample values are quantized to 256 bins—but without prior, non-linear scaling.
 As the memory of RNNs can be updated iteratively without the need to reconsider past inputs, they tend to need less compute at inference time than non-recurrent autoregressive models (like causal convolutions or transformers).</p>
-<p><em>Usage Example</em>: Different artists used SampleRNN for music generation. Notably, a <a class="reference external" href="https://www.youtube.com/watch?v=JF2p0Hlg_5U&amp;ab_channel=DADABOTS">livestream</a> (by Dadabots) with Technical Death Metal music is ongoing with hardly any interruptions since March 2019.</p>
+<p><em>Usage Example</em>: Different artists used SampleRNN for music generation. Notably, a <a class="reference external" href="https://www.youtube.com/watch?v=JF2p0Hlg_5U&amp;ab_channel=DADABOTS">livestream</a> (by Dadabots) with Technical Death Metal music is ongoing with hardly any interruptions since March 2019 <span id="id6">[<a class="reference internal" href="bibiography.html#id2" title="CJ Carr and Zack Zukowski. Generating albums with samplernn to imitate metal, rock, and punk bands. CoRR, 2018.">CZ18</a>]</span>.</p>
 </section>
 <section id="generative-adversarial-networks">
 <h4>Generative Adversarial Networks<a class="headerlink" href="#generative-adversarial-networks" title="Permalink to this heading">#</a></h4>
-<p>For several years, Generative Adversarial Networks (GANs) <span id="id4">[<a class="reference internal" href="bibiography.html#id10" title="Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron C. Courville, and Yoshua Bengio. Generative adversarial networks. CoRR, 2014. URL: http://arxiv.org/abs/1406.2661, arXiv:1406.2661.">GPougetAbadieM+14</a>]</span> were among the most influential generative models.
+<p>For several years, Generative Adversarial Networks (GANs) <span id="id7">[<a class="reference internal" href="bibiography.html#id11" title="Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron C. Courville, and Yoshua Bengio. Generative adversarial networks. CoRR, 2014. URL: http://arxiv.org/abs/1406.2661, arXiv:1406.2661.">GPougetAbadieM+14</a>]</span> were among the most influential generative models.
 Their ability to implicitly model multi-dimensional <em>continuous-valued</em> distributions made them a compelling tool for image and audio generation.
 This enabled the use of spectrogram (or spectrogram-like) representations in audio generation, which is a natural modality for 2D convolutional networks.
 Another motivation for using image-like spectrogram representations with GANs for audio generation was the ability to leverage insights from the broader image-processing community.</p>
-<p><img alt="sample_rnn" src="_images/gansynth.png" />
-<strong>Figure 4:</strong> GANSynth rainbowgrams to showcase the influence of different audio representations.</p>
-<p>While WaveGAN <span id="id5">[<a class="reference internal" href="bibiography.html#id8" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span> was an influential work on using GANs directly for raw musical audio waveform generation, most works focussed on spectrogram-like representations.
-Examples for that are GANSynth <span id="id6">[<a class="reference internal" href="bibiography.html#id9" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span>, SpecGAN <span id="id7">[<a class="reference internal" href="bibiography.html#id8" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span>, DrumGAN <span id="id8">[<a class="reference internal" href="bibiography.html#id6" title="Javier Nistal, Cyran Aouameur, Ithan Velarde, and Stefan Lattner. Drumgan VST: A plugin for drum sound analysis/synthesis with autoencoding generative adversarial networks. Proc. of International Conference on Machine Learning ICML, Workshop on Machine Learning for Audio Synthesis, MLAS, 2022, 2022.">NAVL22</a>, <a class="reference internal" href="bibiography.html#id7" title="Javier Nistal, Stefan Lattner, and Gaël Richard. DRUMGAN: synthesis of drum sounds with timbral feature conditioning using generative adversarial networks. In ISMIR, 590–597. 2020.">NLR20</a>]</span>, and DarkGAN <span id="id9">[<a class="reference internal" href="bibiography.html#id5" title="Javier Nistal, Stefan Lattner, and Gaël Richard. Darkgan: exploiting knowledge distillation for comprehensible audio synthesis with gans. In ISMIR, 484–492. 2021.">NLR21</a>]</span>, omitting those only applied to speech.
-For simplicity reasons, the listed works can generate fixed-size outputs only. Some (later) examples of variable-size musical audio generation using GANs are VQCPC-GAN <span id="id10">[<a class="reference internal" href="bibiography.html#id4" title="Javier Nistal, Cyran Aouameur, Stefan Lattner, and Gaël Richard. VQCPC-GAN: variable-length adversarial audio synthesis using vector-quantized contrastive predictive coding. In WASPAA, 116–120. IEEE, 2021.">NALR21</a>]</span> and Musica! <span id="id11">[<a class="reference internal" href="bibiography.html#id3" title="Marco Pasini and Jan Schlüter. Musika! fast infinite waveform music generation. In ISMIR, 543–550. 2022.">PSchluter22</a>]</span>.</p>
+<p><img alt="gan_synth" src="_images/gansynth.png" />
+<strong>Figure 4:</strong> GANSynth rainbowgrams to showcase the influence of different audio representations (image source: <span id="id8">[<a class="reference internal" href="bibiography.html#id10" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span>).</p>
+<p>While WaveGAN <span id="id9">[<a class="reference internal" href="bibiography.html#id9" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span> was an influential work on using GANs directly for raw musical audio waveform generation, most works focussed on spectrogram-like representations.
+Examples for that are GANSynth <span id="id10">[<a class="reference internal" href="bibiography.html#id10" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span>, SpecGAN <span id="id11">[<a class="reference internal" href="bibiography.html#id9" title="Chris Donahue, Julian J. McAuley, and Miller S. Puckette. Adversarial audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=ByMVTsR5KQ.">DMP19</a>]</span>, DrumGAN <span id="id12">[<a class="reference internal" href="bibiography.html#id7" title="Javier Nistal, Cyran Aouameur, Ithan Velarde, and Stefan Lattner. Drumgan VST: A plugin for drum sound analysis/synthesis with autoencoding generative adversarial networks. Proc. of International Conference on Machine Learning ICML, Workshop on Machine Learning for Audio Synthesis, MLAS, 2022, 2022.">NAVL22</a>, <a class="reference internal" href="bibiography.html#id8" title="Javier Nistal, Stefan Lattner, and Gaël Richard. DRUMGAN: synthesis of drum sounds with timbral feature conditioning using generative adversarial networks. In ISMIR, 590–597. 2020.">NLR20</a>]</span>, and DarkGAN <span id="id13">[<a class="reference internal" href="bibiography.html#id6" title="Javier Nistal, Stefan Lattner, and Gaël Richard. Darkgan: exploiting knowledge distillation for comprehensible audio synthesis with gans. In ISMIR, 484–492. 2021.">NLR21</a>]</span>, omitting those only applied to speech.
+For simplicity reasons, the listed works can generate fixed-size outputs only. Some (later) examples of variable-size musical audio generation using GANs are VQCPC-GAN <span id="id14">[<a class="reference internal" href="bibiography.html#id5" title="Javier Nistal, Cyran Aouameur, Stefan Lattner, and Gaël Richard. VQCPC-GAN: variable-length adversarial audio synthesis using vector-quantized contrastive predictive coding. In WASPAA, 116–120. IEEE, 2021.">NALR21</a>]</span> and Musica! <span id="id15">[<a class="reference internal" href="bibiography.html#id4" title="Marco Pasini and Jan Schlüter. Musika! fast infinite waveform music generation. In ISMIR, 543–550. 2022.">PSchluter22</a>]</span>.</p>
 <p>Presently, GANs are widely replaced by Diffusion Models, which are more stable in training, less prone to mode-collapse, and have a simpler architecture, resulting in higher-quality outputs.<br />
-A concept of GANs that could remain in the mid-term is the usage of adversarial losses from auxiliary networks, for example, for domain confusion or as additional loss in reconstruction-based training (e.g., in neural audio codecs, like DAC <span id="id12">[<a class="reference internal" href="bibiography.html#id2" title="Rithesh Kumar, Prem Seetharaman, Alejandro Luebs, Ishaan Kumar, and Kundan Kumar. High-fidelity audio compression with improved RVQGAN. In NeurIPS. 2023.">KSL+23</a>]</span>).</p>
-<p><em>Usage Example</em>: DrumGAN was the first commercially available neural audio synthesizer integrated into <a class="reference external" href="https://www.steinberg.net/vst-instruments/backbone/">Steinberg’s Backbone</a>. It is now available for free as an <a class="reference external" href="https://drumgan.csl.sony.fr/">online app</a>.</p>
+A concept of GANs that could remain in the mid-term is the usage of adversarial losses from auxiliary networks, for example, for domain confusion or as additional loss in reconstruction-based training (e.g., in neural audio codecs, like DAC <span id="id16">[<a class="reference internal" href="bibiography.html#id3" title="Rithesh Kumar, Prem Seetharaman, Alejandro Luebs, Ishaan Kumar, and Kundan Kumar. High-fidelity audio compression with improved RVQGAN. In NeurIPS. 2023.">KSL+23</a>]</span>).</p>
+<p><em>Usage Example</em>: DrumGAN was the first commercially available neural audio synthesizer for music integrated into <a class="reference external" href="https://www.steinberg.net/vst-instruments/backbone/">Steinberg’s Backbone</a>. It is now available for free as an <a class="reference external" href="https://drumgan.csl.sony.fr/">online app</a>.</p>
 </section>
 </section>
 <section id="autoregressive-transformer-architectures">
 <h3>Autoregressive (Transformer) Architectures<a class="headerlink" href="#autoregressive-transformer-architectures" title="Permalink to this heading">#</a></h3>
 <p>Autoregressive models, especially those based on Transformers, are well-suited for generating sequences like musical audio. These models generate audio by predicting each subsequent token based on prior ones, effectively capturing long-term relationships, which helps produce coherent compositions.</p>
 </section>
-<section id="diffusion-models">
-<h3>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h3>
+<section id="id17">
+<h3>Diffusion Models<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
 <p>Diffusion models offer another approach to musical audio generation. They transform random noise into meaningful continuous audio representations.</p>
 </section>
 </section>
@@ -594,6 +677,16 @@ In user studies, participants might be asked to rate the quality of generated au
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-musical-audio-synthesis">Neural Musical Audio Synthesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-generative-modeling">Basics of Generative Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#early-works">Early Works</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wavenet">WaveNet</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplernn">SampleRNN</a></li>
@@ -601,7 +694,7 @@ In user studies, participants might be asked to rate the quality of generated au
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-transformer-architectures">Autoregressive (Transformer) Architectures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Diffusion Models</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
