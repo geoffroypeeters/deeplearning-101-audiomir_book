@@ -125,7 +125,7 @@ This can be done using the following files:
 - (Config Chord)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml]
 
 | Dataset   | Input   | Frontend   | Model | Results   | Code |
-|:---------- |:----------|:----------|:---------- |:---------- |
+|:---------- |:----------|:----------|:----------|:---------- |:---------- |
 | GTZAN      | LMS       | Conv2d(128,5) | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I1-C1.ipynb) |
 | GTZAN      | Waveform  | SincNet/Abs   | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb) |
 | GTZAN      | Waveform  | Conv1D 			 | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.54           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C3.ipynb) |
