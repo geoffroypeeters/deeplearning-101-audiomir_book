@@ -88,6 +88,7 @@ def inference(rectified_flows, net, latents_shape, num_steps):
     # Initialize with pure noise
     current_sample = torch.randn(latents_shape)
     times = torch.ones(latents_shape[0])
+    step_size = 1 / num_steps
     # Integrate over time
     for i in range(num_steps):
         v = net(current_sample, times)

@@ -1,9 +1,9 @@
 # Basics of Generative Modeling
 
-In generative tasks, it is necessary to inject *some form of stochasticity* into the generation process. In this regard, two general approaches can be distinguished: generation of **discrete sequences** and generation of **continuous-valued data**.
+In generative tasks, it is necessary to inject *some form of stochasticity* into the generation process. In this regard, two general approaches can be distinguished: **Autoregressive** generation of *discrete sequences* and **Non-Autoregressive** (or parallel/latent variable) generation of *continuous-valued data*.
 In this section, we will have a brief look into the two paradigms and give some examples of how they are modeled.
 
-## Discrete Sequence Generation
+## Autoregressive Generation
 
 For **discrete sequences**, models such as Recurrent Neural Networks (RNNs), Causal Convolutional Networks, and Transformers are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then "injected" by sampling from that distribution.
 
@@ -17,9 +17,10 @@ where $y_t^*$ is the true token at time $t$.
 
 **Note:** In this case, we can primarily deal with **one-hot encoded sequences**, selecting one token per time step, as we don't have a simple way to sample **N-hot vectors** (where $N > 1$ tokens are selected simultaneously) from the model's output distribution. Sampling multiple tokens at once would require modeling the joint probability of combinations of tokens, which significantly increases complexity and is not commonly addressed in standard sequence generation models.
 
-## Continuous-Valued Data Generation
+## Non-Autoregressive/Latent Variable Generation
 
 For generating **continuous-valued data**, the stochasticity usually comes from some form of noise injection into the neural network.
+Mathematically, this is typically defined as transforming a simple (usually Gaussian) distribution into the data distribution.
 In the following, a brief (architecture-agnostic) introduction in the most common training paradigms is given.
 
 ### Generative Adversarial Networks (GANs)
