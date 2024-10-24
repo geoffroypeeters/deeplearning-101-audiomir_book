@@ -76,9 +76,9 @@ In the **transformer architecture** {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it i
 $e(\tau) = \sum_t a(t,\tau) v(t)$.
 
 
+### Recurrent Architectures
 
-(lab_LSTM)=
-### RNN/ LSTM
+## RNN
 
 **Recurrent Neural Networks (RNNs)** are a type of neural network designed to work with sequential data (e.g., time series, text, etc.).
 They "remember" information from previous inputs by using hidden states, which allows them to model dependencies across time steps.
