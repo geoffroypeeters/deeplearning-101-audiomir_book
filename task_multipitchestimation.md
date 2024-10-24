@@ -128,4 +128,6 @@ This can be done using the following files:
 | Bach10     | HCQT(H=6)      |  Conv2D/ResNet     | P=0.93, R=0.80, Acc=0.75  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C3.ipynb) |
 | Bach10     | HCQT(H=6)      |  Conv2D/ConvNext   | P=0.92, R=0.80, Acc=0.75  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-C4.ipynb) |
 | Bach10     | HCQT(H=6)      |  U-Net             | P=0.91, R=0.78, Acc=0.73  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D1-I2-Unet.ipynb) |
+| --  | -- | -- | -- | -- |
 | MAPS       | HCQT(H=6)      |  Conv2D            | P=0.86, R=0.75, Acc=0.67  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-C1.ipynb) |
+| MAPS       | HCQT(H=6)      |  U-Net             |                           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-Unet.ipynb) |

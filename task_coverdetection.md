@@ -208,5 +208,5 @@ This can be done using the following files:
 
 | Dataset   | Input   | Frontend   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |
-| Cover1000      | CREMA       |  Move   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| Datacos-benchmark      | CREMA  |  Move   |            | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |
+| Cover1000         | CREMA  |  Move   | meanRank=11.2, meanRecRank=0.551, P@1=0.44, mAP=0.11 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
+| Datacos-benchmark | CREMA  |  Move   | meanRank=465.3, meanRecRank=0.201, P@1=0.13, mAP=0.073 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |
