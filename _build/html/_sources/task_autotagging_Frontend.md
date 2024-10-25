@@ -57,8 +57,7 @@ The mAP measures the AUC of the Precision versus Recall curve for all possible c
 The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
 In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefoe prefered.
 
-![auc](/images/brick_auc.png)
-![map](/images/brick_map.png)
+![AUC-ROC-MAP](/images/brick_roc_map_P.png)
 
 ```python
 from sklearn.metrics import roc_auc_score, average_precision_score
@@ -121,17 +120,19 @@ For this tutorial, we focus on the model used in the SincNet paper illustrated b
 We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb) and study various [configurations](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml).
 
 
-![bricks](/images/main_bricks.png)
 
-
-## Experiments:
-
-![expe](/images/expe_autotagging_P.png)
+### Experiments:
 
 We will vary in turn
 - the **inputs**: [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms) or [CQT](lab_cqt)
-- the **front-end**: [Conv-1D](lab_conv1D), [SincNet](lab_sincnet), [Conv-2D](lab_conv2D), [TCN](lab_tcn)
-- the model **blocks**: [Conv-2D](lab_conv2d), [AutoPoolWeightSplit](lab_AutoPoolWeightSplit), [RNN/LSTM](lab_rnn)
+- the **front-end**:
+	- [Conv-2d](lab_conv2D) when the input is LMS or CQT
+	- [SincNet](lab_sincnet), [Conv-1D](lab_conv1D) or [TCN](lab_tcn) when the input is waveform
+- the model **blocks**:
+	- [Conv-1d](lab_conv1d), Linear and [AutoPoolWeightSplit](lab_AutoPoolWeightSplit) for multi-class, multi-label
+	- Conv-1d](lab_conv1d), Linear and [RNN/LSTM](lab_rnn) for segment (chord over time)
+
+![expe](/images/expe_autotagging_P.png)
 
 This can be done using the following files:
 - (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb)

@@ -173,7 +173,6 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
@@ -407,8 +406,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -472,8 +473,7 @@ The mAP measures the AUC of the Precision versus Recall curve for all possible c
 </ul>
 <p>The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
 In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefoe prefered.</p>
-<p><img alt="auc" src="_images/brick_auc.png" />
-<img alt="map" src="_images/brick_map.png" /></p>
+<p><img alt="AUC-ROC-MAP" src="_images/brick_roc_map_P.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">average_precision_score</span>
 <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
 <span class="n">average_precision_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
@@ -518,17 +518,25 @@ There have been many models proposed to do this.</p>
 <p>For this tutorial, we focus on the model used in the SincNet paper illustrated below.</p>
 <p><img alt="sincnet" src="_images/brick_sincnet.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb">notebook</a> and study various <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml">configurations</a>.</p>
-<p><img alt="bricks" src="_images/main_bricks.png" /></p>
-</section>
 <section id="experiments">
-<h2>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h2>
-<p><img alt="expe" src="_images/expe_autotagging_P.png" /></p>
+<h3>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a>, <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a> or <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a></p></li>
-<li><p>the <strong>front-end</strong>: <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>, <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a></p></li>
-<li><p>the model <strong>blocks</strong>: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2D</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-autopoolweightsplit"><span class="std std-ref">AutoPoolWeightSplit</span></a>, <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/LSTM</span></a></p></li>
+<li><p>the <strong>front-end</strong>:</p>
+<ul>
+<li><p><a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2d</span></a> when the input is LMS or CQT</p></li>
+<li><p><a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a> or <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a> when the input is waveform</p></li>
 </ul>
+</li>
+<li><p>the model <strong>blocks</strong>:</p>
+<ul>
+<li><p><a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1d</span></a>, Linear and <a class="reference internal" href="bricks_architecture.html#lab-autopoolweightsplit"><span class="std std-ref">AutoPoolWeightSplit</span></a> for multi-class, multi-label</p></li>
+<li><p>Conv-1d](lab_conv1d), Linear and <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/LSTM</span></a> for segment (chord over time)</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="expe" src="_images/expe_autotagging_P.png" /></p>
 <p>This can be done using the following files:</p>
 <ul class="simple">
 <li><p>(Main notebook)(<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb">geoffroypeeters/deeplearning-101-audiomir_notebook</a>)</p></li>
@@ -590,6 +598,7 @@ There have been many models proposed to do this.</p>
 </tr>
 </tbody>
 </table>
+</section>
 </section>
 </section>
 
@@ -664,8 +673,10 @@ There have been many models proposed to do this.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

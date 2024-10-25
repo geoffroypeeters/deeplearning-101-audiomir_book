@@ -28,9 +28,6 @@ They are many different ways to reduce map a temporel sequence of embeddings $\{
 
 Such a mechanism can be necessary in order to map the temporel embedding provided by the last layer of a network to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).
 
-![brick_pooling](/images/brick_pooling.png)
-
-
 The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the $X_t$ over time (as done for example in {cite}`Dieleman2014Spotify`).
 
 ### Attention weighting
@@ -47,6 +44,20 @@ In {cite}`DBLP:conf/ismir/GururaniSL19`, it is proposed to compute these weights
 
 *image source: {cite}`DBLP:conf/ismir/GururaniSL19`*
 
+```python
+class nnSoftmaxWeight(nn.Module):
+    """
+    Perform attention weighing based on softmax with channel splitting
+    Code from https://github.com/furkanyesiler/move
+    """
+    def __init__(self, nb_channel):
+        super().__init__()
+        self.nb_channel = nb_channel
+    def forward(self, X):
+        weights = torch.nn.functional.softmax(X[:, int(self.nb_channel/2):], dim=3)
+        X = torch.sum(X[:, :int(self.nb_channel/2)] * weights, dim=3, keepdim=True)
+        return X
+```
 
 (lab_AutoPoolWeightSplit)=
 ### Auto-Pool
@@ -61,6 +72,29 @@ The $\alpha$ parameters is a trainable parameters (optimized using SGD).
 
 *image source: {cite}`DBLP:journals/taslp/McFeeSB18`*
 
+```python
+# Code: https://github.com/furkanyesiler/move
+def f_autopool_weights(data, autopool_param):
+    """
+    Calculating the autopool weights for a given tensor
+    :param data: tensor for calculating the softmax weights with autopool
+    :return: softmax weights with autopool
+
+    see https://arxiv.org/pdf/1804.10070
+    alpha=0: unweighted mean
+    alpha=1: softmax
+    alpha=inf: max-pooling
+    """
+    # --- x: (batch, 256, 1, T)
+    x = data * autopool_param
+    # --- max_values: (batch, 256, 1, 1)
+    max_values = torch.max(x, dim=3, keepdim=True).values
+    # --- softmax (batch, 256, 1, T)
+    softmax = torch.exp(x - max_values)
+    # --- weights (batch, 256, 1, T)
+    weights = softmax / torch.sum(softmax, dim=3, keepdim=True)
+    return weights
+```
 
 ### Using models
 
@@ -68,11 +102,13 @@ It is also possible to use a **RNN/LSTM in Many-to-One configuration** (only the
 
 Finally it is possible to add an extra CLASS token to a Transformer architecture.
 
-It should be noted that the term "Attention" encapsultates a large set of different paradigms.
+![brick_pooling](/images/brick_pooling_P.png)
 
-In the **encode-decoder architecture** {cite}`DBLP:journals/corr/BahdanauCB14` it is used during decoding to define the correct context $c(\tau)$ to be used to generate the hidden state $s(\tau)$. For this it compares $s(\tau-1)$ to all the hidden state of the encoder $a(t)$.
 
-In the **transformer architecture** {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it is used to compute a self-attention. For this, the $x(t)$ are mapped (using matrix projections) to query $q(t)$, key $k(t)$ and values $v(t)$. A given $q(\tau)$ is then compared to all $k(t)$ to compute attention weights $a(t,\tau)$ which are used in the weighting sum of the $v(t)$:
+
+It should be noted that the term "Attention" encapsulates a large set of different paradigms.
+- In the **encode-decoder architecture** {cite}`DBLP:journals/corr/BahdanauCB14` it is used during decoding to define the correct context $c(\tau)$ to be used to generate the hidden state $s(\tau)$. For this it compares $s(\tau-1)$ to all the hidden state of the encoder $a(t)$.
+- In the **transformer architecture** {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` it is used to compute a self-attention. For this, the $x(t)$ are mapped (using matrix projections) to query $q(t)$, key $k(t)$ and values $v(t)$. A given $q(\tau)$ is then compared to all $k(t)$ to compute attention weights $a(t,\tau)$ which are used in the weighting sum of the $v(t)$:
 $e(\tau) = \sum_t a(t,\tau) v(t)$.
 
 
@@ -100,6 +136,10 @@ They are often used to represent a Language model.
 
 ![brick_rnn](/images/brick_rnn.png)
 
+```python
+torch.nn.RNN(input_size, hidden_size, num_layers=1, bidirectional=False)
+```
+
 *image source: [Link](https://www.researchgate.net/figure/The-four-types-of-recurrent-neural-network-architectures-a-univariate-many-to-one_fig3_317192370)*
 
 ### LSTM
@@ -115,5 +155,9 @@ As RNN, two configurations are often used with LSTMs:
 ![brick_rnn](/images/brick_lstm.png)
 
 *image source: [Link](https://mlarchive.com/deep-learning/understanding-long-short-term-memory-networks/)*
+
+```python
+torch.nn.LSTM(input_size, hidden_size, num_layers=1, bidirectional=False)
+```
 
 ### Transformer/ Self-Attention

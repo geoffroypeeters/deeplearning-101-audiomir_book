@@ -104,9 +104,7 @@ The second is the U-Net proposed by U-Net {cite}`Doras2009UNetMelody,Weiss2022TA
 
 We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb) and study various configurations [ConvNet](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml) or [U-Net](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml).
 
-![bricks](/images/main_bricks.png)
-
-## Experiments
+### Experiments
 
 We will vary in turn
 - the **inputs**: [CQT](lab_cqt) or [Harmonic-CQT](lab_hcqt)

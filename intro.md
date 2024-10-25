@@ -151,9 +151,7 @@ Such a class should have
 
 ```
 class NetModel(nn.Module):
-    """
-    Generic class for neural-network models based on the f_parse_component of .yaml file
-    """
+
     def __init__(self, config, current_input_dim):
         super().__init__()
           self.layer_l = []
@@ -229,18 +227,22 @@ It involves indicating
 
 ```python
 class AutoTaggingLigthing(pl.LightningModule):
+
     def __init__(self, in_model):
         super().__init__()
         self.model = in_model
+
     def training_step(self, batch, batch_idx):
         hat_y = self.model(batch['X'])
         loss = self.loss(hat_y, batch['y'])
         self.log("train_loss", loss, prog_bar=True)
         return loss
+
     def validation_step(self, batch, batch_idx):
         hat_y = self.model(batch['X'])
         loss = self.loss(hat_y, batch['y'])
         self.log('val_loss', loss, prog_bar=True)
+
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), 0.001)
         return optimizer

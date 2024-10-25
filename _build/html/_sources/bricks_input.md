@@ -11,10 +11,9 @@ The following type of data are commonly used in MIR as input of deep learning mo
 It is possible to use directly the audio waveform $x(n)$ as input to a model. In this case, the input is a 1-dimensional sequence over time.
 Such a system is often denoted by end-to-end (E2E).
 The first layer of the models then act as a learnable feature extractor.
-It is often either a 1D-convolution [], a [TCN](lab_tcn) or a parametric front-end such as [SincNet](lab_sincnet) or [LEAF](lab_leaf).
+It is often either a [1D-convolution](lab_conv1d), a [TCN](lab_tcn) or a parametric front-end such as [SincNet](lab_sincnet).
 
-More details can be found in the following tutorial.
-Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, TasNet, ConvTasNet.
+More details can be found in the following ["Waveform-based music processing with deep learning" by Jongpil Lee, Jordi Pons, Sander Dieleman](https://zenodo.org/records/3529714) ISMIR-2019 tutorial.
 
 
 ![waveform](/images/brick_waveform.png)
@@ -24,7 +23,7 @@ Example of systems than use waveform as input are [Dieleman], [Pons], WavUNet, T
 (lab_lms)=
 ### Log-Mel-Spectrogram (LMS)
 
-Spectrogram (the magnitude of the Short Time Fourier Transform, i.e. the Fourier Transform performed over frame-analysis) can be converted to the Mel [REF] perceptual scale. The goal of this is
+Spectrogram (the magnitude of the Short Time Fourier Transform, i.e. the Fourier Transform performed over frame-analysis) can be converted to the Mel perceptual scale. The goal of this is
 - to reduce the dimensionality of the data
 - to mimic the decomposition of the frequencies performed by the cochlea into critical-bands
 - to allows performing some invariance over small pitch modifications (hence LMS are invariant to the pitch and only represent the so-called timbre).
@@ -171,8 +170,3 @@ Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmoni
 
 Chroma are often as input for applications such as Automatic-Chord-Recogniton (ACR), key-detection or Cover-Song-Identification (CSI).
 We use here for CSI the deep-chroma of {cite}`DBLP:conf/ismir/McFeeB17` named *crema-PCP*.
-
-
-### Audio augmentations
-
-blablabla
