@@ -10,7 +10,7 @@ The most widely used models today are autoregressive (Transformer) architectures
 
 - **NSynth**: NSynth was once the go-to dataset for musical audio generation and can be regarded the "MNIST" in audio. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.
 
-- **GTZAN (delete?)**: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.
+- **GTZAN**: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.
 
 - **MusicNet**: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.
 
