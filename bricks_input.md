@@ -1,6 +1,9 @@
 ## Inputs
 
-The following type of data are commonly used in MIR as input of deep learning models.
+![top](/images/top.png)
+
+We denote by `input` the $\textbf{X}$ fed to a neural network.
+We describe in the following the usual type of inputs in the case of audio.
 
 
 

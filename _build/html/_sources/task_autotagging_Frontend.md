@@ -11,6 +11,7 @@ Tags can be
 
 ![flow_autotagging](/images/flow_autotagging.png)
 
+**A very short history.**
 The task has a long history in MIR.
 As soon as 2002 Tzanetakis et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
 The audio features considered improved over years {cite}`Peeters2004AudioFeatures`, from block-features {cite}`Seyerlehner2010PHD` to speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the machine-learning models (moving to Support-Vector-Machine).
@@ -21,11 +22,19 @@ However, it has been considered as a specific task since chord transition follow
 Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first {cite}`Sheh2003ISMIRchord` or {cite}`Papadopo2007CBMI` with an acoustic model representing $p(\text{chord}|\text{chroma})$ and a language model using HMM (Hidden Markov Model) representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
 
 One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman {cite}`Dieleman2014Spotify`.
-In this a Conv2d is applied to a Log-Mel-Specrogram using kernels which extend over the whole frequency range, therefore only a convolution over time is performed.
-The rational for this, is that as opposed to natural images, object in a T/F representation are not invariant by translation over frequencies.
-A very different approach is later proposed by Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` who blindly (but successfully) apply a VGG-like architecture to the problem of tagging.
-Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposes to design musically motivated kernels/
+In this a Conv2d is applied to a Log-Mel-Spectrogram using kernels which extend over the whole frequency range, therefore only a convolution over time is performed.
+The rational for this, is that as opposed to natural images, objects in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).
+Despite this, Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` proposed (with success) to apply Computer Vision VGG-like architecture to a time-frequency representation.
+Later on, Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposed to design kernel shapes using musical consideration (extending over fequencies to represent timbre, over time to represent rhythm).
+Using directly the audio waveform (End-to-end) system has also been proposed for this task, such as in Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` or Lee et al. {cite}`DBLP:journals/corr/LeePKN17`.
+The task of auto-tagging has also close relationship with their equivalent task in Speech.
 
+<mark>*We will develop here a model developed initially for speaker recognition by Ravanelli et al. {cite}`DBLP:conf/slt/RavanelliB18`.*</mark>
+
+In the case of chord estimation, deep learning is also now commonly used.
+One seminal paper proposed by McFee at al. {cite}`DBLP:conf/ismir/McFeeB17` relies on a RCNN (ConvNet followed by a bi-directional RNN, here GRU) to perform the task. Their model also forces an inner representation to relate to the `root`, `bass` and `pitches`. This is done using a multi-task approach (the model is trained to minimize several losses jointly). This favors the learning of representation which brings similar chords (but with different labels) closer.
+
+<mark>*We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.*</mark>
 
 The task is still very active today, even in the supervised case.
 For example,
@@ -89,7 +98,10 @@ Averages in scikitlearn:
 
 ### Chord segments
 
-
+Evaluating a chord estimation system can be done as a multi-class problem (for simplicity this what will be performed in the following).
+However, chord are not simple labels.
+Indeed, chord annotation is partly subjective, some chord are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).
+For this reason, `mir_eval` {cite}`DBLP:conf/ismir/RaffelMHSNLE14` or Pauwels et al. {cite}`DBLP:conf/icassp/PauwelsP13` proposed metrics that allows measuring the correctness of the `root`, the `major/minor` component, the `bass` or the constitution in terms of `chroma`.
 
 
 ## Some popular datasets
@@ -111,8 +123,9 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 It contains 21.108 files of 30s duration, each with multiple (**multi-label**) tag labels among 50 classes ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
 
 - [RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06`
-accessible online with the permission of Masataka Goto for the specific purpose of this tutorial. For any other use, please contact Mastaka Goto for auhtorization.
-
+This dataset was made accessible online with the permission of Masataka Goto for the specific purpose of this tutorial.
+For any other use, please contact Mastaka Goto for auhtorization.
+The RWC dataset is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches.
 
 
 

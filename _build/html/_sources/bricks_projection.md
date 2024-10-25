@@ -1,7 +1,26 @@
 ## Projections
 
+![top](/images/top.png)
+
+We denote by `projection` the type of operations performed within a neural network.
+Those sometimes overlap with the ones used in the front-end.
 
 
+
+### Fully-Connected
+
+The fully-connected (FC) projection is the core projection of MLP or feed-forward neural network; i.e. a sandwich of two FC with a non-linearity in the middle.
+It is also generally used as output of classification network, used within RNN/LSTM or Transformer.
+When applied to all spatial elements or all temporal elements, it can be replaced by a Convolution with a (1x1) kernel.
+
+```python
+torch.nn.Lineartorch.nn.Linear(in_features, out_features)
+```
+
+(lab_conv2d)=
+### Conv-1D
+
+see [link](lab_conv1d)
 
 
 

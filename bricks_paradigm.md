@@ -1,5 +1,11 @@
 ## Paradigms
 
+![top](/images/top.png)
+
+We denote by `paradigm` the overall problem that is used to train a neural network: *such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, ...*
+
+
+
 (lab_supervised)=
 ### Supervised
 

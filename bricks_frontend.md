@@ -1,5 +1,10 @@
 ## Front-ends
 
+![top](/images/top.png)
+
+We denote by `front-end` the first projections of a neural network directly applied to the input $\mathbf{X}$.
+Those therefore depends on the type of the input.
+
 
 (lab_conv1d)=
 ### Conv-1D
@@ -9,10 +14,7 @@ They replicated the spectrogram parameters (window length, hop size) in the 1D-c
 A major difference between the spectrogram (magnitude of the STFT) and learnable 1D-kernels, is the phase-shift invariance provided by the former (to perform this with the later will necessitates a kernel for all possible phase-shift of a given frequency).
 To facilitate the learning of such kernels, smaller kernel (hence with less possibilities for phase-shifts) has been proposed, such as in Sample-CNN (a cascade, as in VGG-net, or small 1D filters) {cite}`DBLP:journals/corr/LeePKN17`.
 
-1D-Convolution is very popular for source separation front-ends: as in ConvTasNet
-
-
-As in Wav-U-Net {cite}`DBLP:conf/ismir/StollerED18`, ConvTasNet {cite}`DBLP:journals/taslp/LuoM19` or Demucs {cite}`DBLP:journals/corr/abs-1909-01174`.
+1D-Convolution is very popular for source separation front-ends: as in Wav-U-Net {cite}`DBLP:conf/ismir/StollerED18`, ConvTasNet {cite}`DBLP:journals/taslp/LuoM19` or Demucs {cite}`DBLP:journals/corr/abs-1909-01174`.
 
 ![conv1d](/images/brick_conv1d.png)
 

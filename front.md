@@ -11,10 +11,9 @@ This is a web book written for a tutorial session of the [25th International Soc
 *The objective is to provide a 101 lecture (introductory lecture) on deep learning techniques for Audio-based MIR. It does not aim at being exhaustive in terms of Audio-based MIR tasks neither on deep learning techniques but to provide an overview for newcomers to Audio-Based MIR on how to solve the most common tasks using deep learning. It will provide a portfolio of codes (Colab notebooks and Jupyter book) to help newcomers achieve the various Audio-based MIR Tasks.*
 
 
+*This tutorial can be considered  as a follow-up of the tutorial ["Deep Learning for MIR" ](https://github.com/keunwoochoi/dl4mir) by Alexander Schindler, Thomas Lidy and Sebastian Böck, held at ISMIR-2018.*
 
-
-
-## Citing this book¶
+## Citing this book
 
 ```
 @book{deeplearning-101-audiomir:book,
