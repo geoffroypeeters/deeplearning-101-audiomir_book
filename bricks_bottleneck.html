@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'bricks_bottleneck';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -419,6 +421,8 @@ document.write(`
                   
   <section id="bottleneck">
 <h1>Bottleneck<a class="headerlink" href="#bottleneck" title="Permalink to this heading">#</a></h1>
+<p><img alt="top" src="_images/top.png" /></p>
+<p>We denote by <code class="docutils literal notranslate"><span class="pre">bottleneck</span></code> the type of representation <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> (and paradigm used) in an auto-encoder <span class="math notranslate nohighlight">\(\hat{\mathbf{x}}=g_{\phi}(\mathbf{z}), \mathbf{z}=f_{\theta}(\mathbf{x})\)</span>: <em>such as continuous deterministic, continuous probabilist, quantized, residual</em>.</p>
 <section id="auto-encoder">
 <h2>Auto-encoder<a class="headerlink" href="#auto-encoder" title="Permalink to this heading">#</a></h2>
 </section>

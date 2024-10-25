@@ -404,6 +404,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fully-connected">Fully-Connected</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-1d">Conv-1D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-2d">Conv-2D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">
@@ -425,15 +427,31 @@ document.write(`
                   
   <section id="projections">
 <h1>Projections<a class="headerlink" href="#projections" title="Permalink to this heading">#</a></h1>
+<p><img alt="top" src="_images/top.png" /></p>
+<p>We denote by <code class="docutils literal notranslate"><span class="pre">projection</span></code> the type of operations performed within a neural network.
+Those sometimes overlap with the ones used in the front-end.</p>
+<section id="fully-connected">
+<h2>Fully-Connected<a class="headerlink" href="#fully-connected" title="Permalink to this heading">#</a></h2>
+<p>The fully-connected (FC) projection is the core projection of MLP or feed-forward neural network; i.e. a sandwich of two FC with a non-linearity in the middle.
+It is also generally used as output of classification network, used within RNN/LSTM or Transformer.
+When applied to all spatial elements or all temporal elements, it can be replaced by a Convolution with a (1x1) kernel.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Lineartorch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="conv-1d">
+<span id="lab-conv2d"></span><h2>Conv-1D<a class="headerlink" href="#conv-1d" title="Permalink to this heading">#</a></h2>
+<p>see <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">link</span></a></p>
+</section>
 <section id="conv-2d">
-<span id="lab-conv2d"></span><h2>Conv-2D<a class="headerlink" href="#conv-2d" title="Permalink to this heading">#</a></h2>
+<span id="id1"></span><h2>Conv-2D<a class="headerlink" href="#conv-2d" title="Permalink to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="depthwise-separable-convolution">
 <span id="lab-depthwise"></span><h2>Depthwise Separable Convolution<a class="headerlink" href="#depthwise-separable-convolution" title="Permalink to this heading">#</a></h2>
-<p>Depthwise Separable Convolution was proposed in <span id="id1">[]</span> in the continuation of the Inception network.
+<p>Depthwise Separable Convolution was proposed in <span id="id2">[]</span> in the continuation of the Inception network.
 It is the concatenation of a Depthwise Convolution (channel-wise convolution) followed by a Pointwise (1x1) convolution.</p>
 <ul class="simple">
 <li><p>A normal convolution uses <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((3,3,C_{in})\)</span>.
@@ -442,7 +460,7 @@ It necessitates <span class="math notranslate nohighlight">\(C_{out} \times (3 \
 A DSC will only necessitates <span class="math notranslate nohighlight">\(C_{in} \times (3 \times 3 \times 1)\)</span> and <span class="math notranslate nohighlight">\(C_{in} \times C_{out}\)</span> weights.
 The number of multiplications is also largely reduced.</p></li>
 </ul>
-<p>Because of this, it is largely used in model for IoT such as MobileNet <span id="id2">[]</span>.</p>
+<p>Because of this, it is largely used in model for IoT such as MobileNet <span id="id3">[]</span>.</p>
 <p><img alt="dephtwise" src="_images/brick_dephtwise.png" /></p>
 <p><em>image source: <a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=9175497">https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=9175497</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code: https://github.com/seungjunlee96/Depthwise-Separable-Convolution_Pytorch/blob/master/DepthwiseSeparableConvolution/DepthwiseSeparableConvolution.py</span>
@@ -464,7 +482,7 @@ The number of multiplications is also largely reduced.</p></li>
 </section>
 <section id="resnet">
 <span id="lab-resnet"></span><h2>ResNet<a class="headerlink" href="#resnet" title="Permalink to this heading">#</a></h2>
-<p>ResNet has been proposed by <span id="id3">[]</span> in the framework of image recognition.
+<p>ResNet has been proposed by <span id="id4">[]</span> in the framework of image recognition.
 A ResNet is made of a large number of blocks each containing a residual connection (skip-connection).
 The later allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
 We are interested here in the two building blocks of ResNet:</p>
@@ -566,7 +584,7 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where the 1×1 layers ar
 </section>
 <section id="convnext">
 <span id="lab-convnext"></span><h2>ConvNeXt<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>
-<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id4">[]</span> with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
+<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id5">[]</span> with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
 It especially bases its design on the Swin Transformers:</p>
 <ul class="simple">
 <li><p>larger kernel size (kernels are <span class="math notranslate nohighlight">\((7 \times 7)\)</span>), as in Transfomer (Transfomer has a non-local self-attention, which enables each layer to have a global receptive field)</p></li>
@@ -575,7 +593,7 @@ It especially bases its design on the Swin Transformers:</p>
 <li><p>various layer-wise micro designs (use of layer normalization)</p></li>
 <li><p>Replacing ReLU with GELU (Gaussian Error Linear Unit)</p></li>
 <li><p>Transfomer has fewer activation functions (only one activation function present in the MLP block)
-In <span id="id5">[]</span>, it has been shown to achieve better performances than Transformer-based architecture.</p></li>
+In <span id="id6">[]</span>, it has been shown to achieve better performances than Transformer-based architecture.</p></li>
 </ul>
 <p><img alt="convnext" src="_images/brick_convnext.png" /></p>
 <p><em>image source: <a class="reference external" href="https://arxiv.org/pdf/2201.03545">https://arxiv.org/pdf/2201.03545</a></em></p>
@@ -691,6 +709,8 @@ In <span id="id5">[]</span>, it has been shown to achieve better performances th
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fully-connected">Fully-Connected</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-1d">Conv-1D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-2d">Conv-2D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">

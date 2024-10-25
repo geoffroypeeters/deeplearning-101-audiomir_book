@@ -427,6 +427,8 @@ document.write(`
                   
   <section id="paradigms">
 <h1>Paradigms<a class="headerlink" href="#paradigms" title="Permalink to this heading">#</a></h1>
+<p><img alt="top" src="_images/top.png" /></p>
+<p>We denote by <code class="docutils literal notranslate"><span class="pre">paradigm</span></code> the overall problem that is used to train a neural network: <em>such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, …</em></p>
 <section id="supervised">
 <span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
 <p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span>.
@@ -456,8 +458,8 @@ Such a loss can be</p>
 </ul>
 <p>There exist many algorithm to train such a model such as</p>
 <ul class="simple">
-<li><p>Contrastive Loss <span id="id1">[<a class="reference internal" href="bibiography.html#id38" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jontly) the model to minize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
-<li><p>Triplet Loss <span id="id2">[<a class="reference internal" href="bibiography.html#id37" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
+<li><p>Contrastive Loss <span id="id1">[<a class="reference internal" href="bibiography.html#id42" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jontly) the model to minize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
+<li><p>Triplet Loss <span id="id2">[<a class="reference internal" href="bibiography.html#id41" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
 </ul>
 <p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
 <section id="triplet-loss">

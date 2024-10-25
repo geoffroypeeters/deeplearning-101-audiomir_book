@@ -95,11 +95,35 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 
 
 
+
+
+### Experiments
+
+We will vary in turn
+- the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
+
+![expe](/images/expe_coverdetection_P.png)
+
+This can be done using the following files:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
+- (Config Cover)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml]
+
+| Dataset   | Input   | Frontend   | Results   | Code |
+|:---------- |:----------|:----------|:---------- |:---------- |
+| Cover1000         | CREMA  |  Move   | meanRank=11.2, meanRecRank=0.551, P@1=0.44, mAP=0.11 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
+| Datacos-benchmark | CREMA  |  Move   | meanRank=465.3, meanRecRank=0.201, P@1=0.13, mAP=0.073 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |
+
+
+
 ### Online Triplet mining explained
 
-The online mining of the triplets is actually not a mining of the best data to feed into the model since all data are fed into the model.
-In online mining, batch of data are selected blindly and all send to the model to obtain the embeddings $e_i=f_{\theta}(x_i), i \in \{1, \ldots, batch\_size\}$.
-The online mining then uses those embeddings to select the ones that will be used to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD) and only those selected will be used for the loss.
+The online mining of the triplets is actually not a mining of the best data to be fed to the model since all data are actually fed into the model to obtain the embeddings:
+
+$$\mathbf{e}_i=f_{\theta}(\mathbf{x}_i), i \in \{1, \ldots, \text{batch_size} \}$$
+
+Online mining is the mining of (the selection of the subset of) the $\mathbf{e}_i$ that will be used in the loss.
+Online mining select those to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD).
+Only those selected are used for the loss.
 
 #### Random mining
 
@@ -194,19 +218,3 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
 
     return dists_pos, dists_neg
 ```
-
-### Experiments
-
-We will vary in turn
-- the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
-
-![expe](/images/expe_coverdetection_P.png)
-
-This can be done using the following files:
-- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
-- (Config Cover)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml]
-
-| Dataset   | Input   | Frontend   | Results   | Code |
-|:---------- |:----------|:----------|:---------- |:---------- |
-| Cover1000         | CREMA  |  Move   | meanRank=11.2, meanRecRank=0.551, P@1=0.44, mAP=0.11 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_cover1000.ipynb) |
-| Datacos-benchmark | CREMA  |  Move   | meanRank=465.3, meanRecRank=0.201, P@1=0.13, mAP=0.073 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |

@@ -1,5 +1,10 @@
 # Architectures
 
+![top](/images/top.png)
+
+We denote by `architecture` the overall design of a neural network, i.e. the way front-end and projections are used together.
+
+
 (lab_unet)=
 ## U-Net
 
