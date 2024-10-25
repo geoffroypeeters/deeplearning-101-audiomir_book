@@ -113,7 +113,7 @@ We will vary in turn
 - the model **blocks**: [Conv-2D](lab_conv2d), [Depthwise Separable Convolution](lab_depthwise), [ResNet](lab_resnet), [ConvNext](lab_convnext), [U-Net](lab_unet)
 - the **datasets**: a small one (Bach10 with continous f0 annotation) a large one (MAPS with segments annotated in MIDI-pitch)
 
-![expe](/images/expe_multipitch.png)
+![expe](/images/expe_multipitch_P.png)
 
 This can be done using the following files:
 - (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb)

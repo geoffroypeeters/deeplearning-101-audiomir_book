@@ -70,6 +70,10 @@ Averages in scikitlearn:
 - **Macro average**: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).
 - **Micro average**: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples
 
+### Chord segments
+
+
+
 
 ## Some popular datasets
 
@@ -122,7 +126,7 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 
 ## Experiments:
 
-![expe](/images/expe_autotagging.png)
+![expe](/images/expe_autotagging_P.png)
 
 We will vary in turn
 - the **inputs**: [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms) or [CQT](lab_cqt)

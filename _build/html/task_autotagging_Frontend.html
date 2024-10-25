@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
-    <link rel="prev" title="Introduction" href="intro.html" />
+    <link rel="prev" title="Running codebooks in Google Colab" href="notebook.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,6 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
@@ -396,6 +397,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-class">Multi-class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-label">Multi-label</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-segments">Chord segments</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
@@ -477,6 +479,9 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <li><p><strong>Micro average</strong>: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples</p></li>
 </ul>
 </section>
+<section id="chord-segments">
+<h3>Chord segments<a class="headerlink" href="#chord-segments" title="Permalink to this heading">#</a></h3>
+</section>
 </section>
 <section id="some-popular-datasets">
 <h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
@@ -511,7 +516,7 @@ There have been many models proposed to do this.</p>
 </section>
 <section id="experiments">
 <h2>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h2>
-<p><img alt="expe" src="_images/expe_autotagging.png" /></p>
+<p><img alt="expe" src="_images/expe_autotagging_P.png" /></p>
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a>, <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a> or <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a></p></li>
@@ -613,12 +618,12 @@ There have been many models proposed to do this.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="notebook.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">Running codebooks in Google Colab</p>
       </div>
     </a>
     <a class="right-next"
@@ -649,6 +654,7 @@ There have been many models proposed to do this.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-class">Multi-class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-label">Multi-label</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-segments">Chord segments</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>

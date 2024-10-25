@@ -7,6 +7,7 @@ parts:
 - caption: Introduction
   chapters:
     - file: intro
+    - file: notebook
 - caption: Tasks
   chapters:
     - file: task_autotagging_frontend
