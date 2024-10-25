@@ -1,4 +1,4 @@
-## Paradigms
+# Paradigms
 
 ![top](/images/top.png)
 
@@ -7,7 +7,7 @@ We denote by `paradigm` the overall problem that is used to train a neural netwo
 
 
 (lab_supervised)=
-### Supervised
+## Supervised
 
 Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data $X$ and the corresponding ground-truth $y$.
 The goal is then to define a function $f$ (a specific neural network architecture) and optimize its parameters $\theta$ such that $\hat{y}=f_{\theta}(X)$ best approximates $y$.
@@ -23,10 +23,14 @@ $\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(X^{(i)}), 
 This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
 
 
-### Self-supervised
+## Self-supervised
+
+
+
+
 
 (lab_metric_learning)=
-### Metric Learning
+## Metric Learning
 
 Metric learning is a type of machine learning technique focused on learning a distance function or similarity measure between data points. The goal is to map input data into a space where similar examples are close together and dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).
 
@@ -44,7 +48,7 @@ The triplet loss can be extended to the multiple-loss with close relationship wi
 
 
 (lab_triplet)=
-#### Triplet Loss
+### Triplet Loss
 
 The goal is to train a network $f_{theta}$ such that the resulting projections satisfy the following triplet constraint:
 $d( f_{\theta}(A), f_{\theta}(P) ) + \alpha < d(f_{\theta}(A), f_{\theta}(N)) $
@@ -65,7 +69,7 @@ loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 ```
 
 
-#### Triplet Mining
+### Triplet Mining
 
 Triplet mining is the process of selecting triplets of examples (Anchor, Positive, Negative) for training in triplet loss.
 The goal is to ensure the model learns effectively by choosing the right combination of examples.
@@ -86,8 +90,8 @@ We also distinguish between
 
 
 
-### Adversarial
+## Adversarial
 
-### Encoder-Decoder
+## Encoder-Decoder
 
-### Diffusion
+## Diffusion

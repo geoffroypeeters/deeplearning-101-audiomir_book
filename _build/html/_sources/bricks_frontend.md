@@ -1,4 +1,4 @@
-## Front-ends
+# Front-ends
 
 ![top](/images/top.png)
 
@@ -7,7 +7,7 @@ Those therefore depends on the type of the input.
 
 
 (lab_conv1d)=
-### Conv-1D
+## Conv-1D
 
 Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` were probably the first to attempt replacing the spectrogram input by a learnable front-end, here 1D-convolution.
 They replicated the spectrogram parameters (window length, hop size) in the 1D-convolution parameters (kernel-length and stride).
@@ -27,7 +27,7 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 
 
 (lab_dilated)=
-### Dilated-Conv-1D
+## Dilated-Conv-1D
 
 The 1D-dilated convolution was proposed in the paper WaveNet was proposed in {cite}`DBLP:conf/ssw/OordDZSVGKSK16`.
 The goal of it is to increase the side of the receptive field.
@@ -54,7 +54,7 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 
 
 (lab_tcn)=
-### Temporal Convolution Network (TCN)
+## Temporal Convolution Network (TCN)
 
 Temporal Convolution Network was proposed in {cite}`DBLP:journals/corr/abs-1803-01271`.
 It is a simplification of the computational block underlying WaveNet.
@@ -134,7 +134,7 @@ class TemporalConvNet(nn.Module):
 
 
 (lab_sincnet)=
-### Parametric front-end: SincNet
+## Parametric front-end: SincNet
 
 SincNet was proposed in {cite}`DBLP:conf/slt/RavanelliB18`.
 It is one of the first **parametric front-end**.

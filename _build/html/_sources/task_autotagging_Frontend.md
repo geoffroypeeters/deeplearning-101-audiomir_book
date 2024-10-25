@@ -152,7 +152,7 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 We will vary in turn
 - the **inputs**: [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms) or [CQT](lab_cqt)
 - the **front-end**:
-	- [Conv-2d](lab_conv2D) when the input is LMS or CQT
+	- [Conv-2d](lab_conv2d) when the input is LMS or CQT
 	- [SincNet](lab_sincnet), [Conv-1D](lab_conv1D) or [TCN](lab_tcn) when the input is waveform
 - the model **blocks**:
 	- [Conv-1d](lab_conv1d), Linear and [AutoPoolWeightSplit](lab_AutoPoolWeightSplit) for multi-class, multi-label

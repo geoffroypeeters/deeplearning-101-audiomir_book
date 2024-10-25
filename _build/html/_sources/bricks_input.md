@@ -1,4 +1,4 @@
-## Inputs
+# Inputs
 
 ![top](/images/top.png)
 
@@ -9,7 +9,7 @@ We describe in the following the usual type of inputs in the case of audio.
 
 
 (lab_waveform)=
-### Waveform
+## Waveform
 
 It is possible to use directly the audio waveform $x(n)$ as input to a model. In this case, the input is a 1-dimensional sequence over time.
 Such a system is often denoted by end-to-end (E2E).
@@ -24,7 +24,7 @@ More details can be found in the following ["Waveform-based music processing wit
 
 
 (lab_lms)=
-### Log-Mel-Spectrogram (LMS)
+## Log-Mel-Spectrogram (LMS)
 
 Spectrogram (the magnitude of the Short Time Fourier Transform, i.e. the Fourier Transform performed over frame-analysis) can be converted to the Mel perceptual scale. The goal of this is
 - to reduce the dimensionality of the data
@@ -71,7 +71,7 @@ def f_get_lms(audio_v, sr_hz, param_lms):
 
 
 (lab_cqt)=
-### Constant-Q-Transform (HCQT)
+## Constant-Q-Transform (HCQT)
 
 Constant-Q-Transform was proposed in {cite}`Brown1991ConstantQ`.
 As opposed to the Discrete Fourier Transform, which uses a fixed window length for all its frequencies $f_k$ (hence with a fixed spectral resolution), the CQT adapts the length of the window in order to be able to separate adjacent frequencies.
@@ -92,7 +92,7 @@ This property has been used in some works such as Shift-Invariant PLCA or in 2D-
 
 
 (lab_hcqt)=
-### Harmonic-CQT (HCQT)
+## Harmonic-CQT (HCQT)
 
 The Harmonic CQT has been proposed in {cite}`DBLP:conf/ismir/BittnerMSLB17`.
 While the harmonics $h f_0$ of a given sound with fundamental frequency $f0$ are not close together in the spectrum.
@@ -154,7 +154,7 @@ def f_get_hcqt(audio_v, sr_hz, param_hcqt):
 
 
 (lab_chroma)=
-### Chroma
+## Chroma/ Pitch-Class-Profile
 
 Chroma (or Pitch-Class-Profile) {cite}`DBLP:conf/icmc/Fujishima99` {cite}`Wakefield1999Chroma` is a compact (12-dimensions) representation of the harmonic content over time of a music track.
 Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, ...
