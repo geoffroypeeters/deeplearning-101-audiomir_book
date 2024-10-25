@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Musical Audio Generation &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Basics of Generative Modeling &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -62,11 +62,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'task_musicgeneration';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'task_musicgeneration_basics';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Basics of Generative Modeling" href="task_musicgeneration_basics.html" />
-    <link rel="prev" title="Auto-Tagging-SSL" href="task_autotagging_ssl.html" />
+    <link rel="next" title="Early Works" href="task_musicgeneration_early.html" />
+    <link rel="prev" title="Musical Audio Generation" href="task_musicgeneration.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -181,8 +183,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Musical Audio Generation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Diffusion Models</a></li>
@@ -273,7 +275,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftask_musicgeneration.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftask_musicgeneration_basics.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -303,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/task_musicgeneration.md" target="_blank"
+      <li><a href="_sources/task_musicgeneration_basics.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -387,7 +389,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Musical Audio Generation</h1>
+    <h1>Basics of Generative Modeling</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -397,12 +399,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likert-scale">Likert Scale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
 </ul>
 </li>
 </ul>
@@ -416,43 +417,77 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="musical-audio-generation">
-<h1>Musical Audio Generation<a class="headerlink" href="#musical-audio-generation" title="Permalink to this heading">#</a></h1>
-<section id="goal-of-the-task">
-<h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Musical audio generation aims to create various musical content, from individual notes to full instrumental arrangements and complete songs. In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain. Recent approaches, however, work with compressed representations, often using neural audio codecs.</p>
-<p>The most widely used models today are autoregressive (Transformer) architectures and diffusion models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="basics-of-generative-modeling">
+<h1>Basics of Generative Modeling<a class="headerlink" href="#basics-of-generative-modeling" title="Permalink to this heading">#</a></h1>
+<p>In generative tasks, it is necessary to inject <em>some form of stochasticity</em> into the generation process. In this regard, two general approaches can be distinguished: generation of <strong>discrete sequences</strong> and generation of <strong>continuous-valued data</strong>.
+In this section, we will have a brief look into the two paradigms and give some examples of how they are modeled.</p>
+<section id="discrete-sequence-generation">
+<h2>Discrete Sequence Generation<a class="headerlink" href="#discrete-sequence-generation" title="Permalink to this heading">#</a></h2>
+<p>For <strong>discrete sequences</strong>, models such as Recurrent Neural Networks (RNNs), Causal Convolutional Networks, and Transformers are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then “injected” by sampling from that distribution.</p>
+<p>At each time step <span class="math notranslate nohighlight">\(t\)</span>, the model outputs a probability distribution <span class="math notranslate nohighlight">\(P(y_t \mid y_{&lt;t})\)</span> over the vocabulary <span class="math notranslate nohighlight">\(V\)</span>, conditioned on the previous tokens <span class="math notranslate nohighlight">\(y_{&lt;t}\)</span>. The cross-entropy loss used during training can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{\text{CE}} = -\sum_{t} \log P(y_t^* \mid y_{&lt;t})
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_t^*\)</span> is the true token at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p><strong>Note:</strong> In this case, we can primarily deal with <strong>one-hot encoded sequences</strong>, selecting one token per time step, as we don’t have a simple way to sample <strong>N-hot vectors</strong> (where <span class="math notranslate nohighlight">\(N &gt; 1\)</span> tokens are selected simultaneously) from the model’s output distribution. Sampling multiple tokens at once would require modeling the joint probability of combinations of tokens, which significantly increases complexity and is not commonly addressed in standard sequence generation models.</p>
 </section>
-<section id="popular-datasets">
-<h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation and can be regarded the “MNIST” in audio. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.</p></li>
-<li><p><strong>GTZAN (delete?)</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
-<li><p><strong>MusicNet</strong>: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.</p></li>
-<li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing MIDI and corresponding audio recordings. This makes it particularly useful for training models of high-quality piano music generation.</p></li>
-<li><p><strong>MagnaTagATune</strong>: Offers a large collection of music with tags, useful for genre classification and multi-label tasks.</p></li>
-</ul>
+<section id="continuous-valued-data-generation">
+<h2>Continuous-Valued Data Generation<a class="headerlink" href="#continuous-valued-data-generation" title="Permalink to this heading">#</a></h2>
+<p>For generating <strong>continuous-valued data</strong>, the stochasticity usually comes from some form of noise injection into the neural network.
+In the following, a brief (architecture-agnostic) introduction in the most common training paradigms is given.</p>
+<section id="generative-adversarial-networks-gans">
+<h3>Generative Adversarial Networks (GANs)<a class="headerlink" href="#generative-adversarial-networks-gans" title="Permalink to this heading">#</a></h3>
+<p>For example, Generative Adversarial Networks (GANs) in their basic form inject noise by inputting a high-dimensional noise vector
+<span class="math notranslate nohighlight">\(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span> (sampled from an independent Gaussian distribution) into the generator <span class="math notranslate nohighlight">\(G\)</span>.
+The generator transforms this noise vector into a data sample: <span class="math notranslate nohighlight">\(\mathbf{x} = G(\mathbf{z})\)</span>.
+Thus, the task can be described as learning to transform an independent Gaussian distribution into the data distribution.</p>
+<p>The generator is trained by playing an adversarial game with a discriminator <span class="math notranslate nohighlight">\(D\)</span>.
+The discriminator aims to distinguish between real samples from the dataset and fake samples generated by <span class="math notranslate nohighlight">\(G\)</span>.
+The generator is trained to produce samples that maximize the likelihood of fooling the discriminator.
+This can be formalized by the minimax game between <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(D\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} [\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})} [\log (1 - D(G(\mathbf{z})))]
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(\mathbf{z})\)</span> represents the distribution of noise input.
+This adversarial setup ensures that as <span class="math notranslate nohighlight">\(D\)</span> improves in distinguishing real from fake data,
+<span class="math notranslate nohighlight">\(G\)</span> improves in generating more realistic samples, ultimately leading to convergence when the generated data becomes indistinguishable from the real data.</p>
 </section>
-<section id="how-is-the-task-evaluated">
-<h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set without directly reproducing any training data.</p>
-<p>As a result, indirect, distribution-based evaluation metrics are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.</p>
-<section id="frechet-audio-distance-fad">
-<h3>Frechet Audio Distance (FAD)<a class="headerlink" href="#frechet-audio-distance-fad" title="Permalink to this heading">#</a></h3>
-<p>Nowadays, the most commonly used metric in audio generation is the Frechet Audio Distance (FAD). FAD compares the statistics of generated audio to those of real audio using embeddings from a pre-trained model. This metric measures how close the generated audio is to the original data distribution, which helps assess the quality and diversity of generated samples.</p>
+<section id="variational-autoencoders-vaes">
+<h3>Variational Autoencoders (VAEs)<a class="headerlink" href="#variational-autoencoders-vaes" title="Permalink to this heading">#</a></h3>
+<p>Similarly, in Variational Autoencoders (VAEs, composed of encoder and decoder), the decoder receives as input a sample from an independent Gaussian prior distribution (a “standard normal distribution”).
+The model is trained so that the encoder learns to approximate the prior using a mixture of Gaussian posteriors, one for each data point:
+<span class="math notranslate nohighlight">\(\boldsymbol{\mu}, \boldsymbol{\sigma} = E(\mathbf{x})\)</span>, where <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span> are multi-dimensional mean and variance vectors.
+From this posterior, we sample a latent variable <span class="math notranslate nohighlight">\(\mathbf{z} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\sigma})\)</span> during training.
+The decoder then reconstructs the input by transforming <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> into a data point <span class="math notranslate nohighlight">\(\hat{\mathbf{x}} = D(\mathbf{z})\)</span>.</p>
+<p>Training involves minimizing two objectives: the reconstruction loss between <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(\hat{\mathbf{x}}\)</span>, and the Kullback-Leibler (KL) divergence
+between the learned posterior <span class="math notranslate nohighlight">\(q_{\phi}(\mathbf{z} \mid \mathbf{x})\)</span> and the prior distribution <span class="math notranslate nohighlight">\(p(\mathbf{z}) \sim \mathcal{N}(0, I)\)</span>.
+The two objectives are adversarial because the KL term pushes the posteriors towards a zero mean and unit variance, while the reconstruction term encourages the posteriors to adopt distinct means and reduced variances, allowing each data point to have its own distribution.
+Together, they make it possible to sample from the prior <span class="math notranslate nohighlight">\(p(\mathbf{z}) \sim \mathcal{N}(0, I)\)</span> at inference and decoding it into a plausible data sample: <span class="math notranslate nohighlight">\(\hat{\mathbf{x}} = D(\mathbf{z})\)</span>.</p>
 </section>
-<section id="subjective-evaluation">
-<h3>Subjective Evaluation<a class="headerlink" href="#subjective-evaluation" title="Permalink to this heading">#</a></h3>
-<p>Objective evaluation metrics cannot capture all the details people care about when listening to audio. Therefore, it is very common (and important) in audio generation works to perform user studies.
-In user studies, participants might be asked to rate the quality of generated audio samples on a Likert Scale ranging from 1 (very poor) to 5 (excellent). This helps quantify subjective perceptions of audio quality, coherence, and musicality.</p>
+<section id="diffusion-models">
+<h3>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h3>
+<p>In Diffusion Models, the noise input has the same dimensionality as the data point that should be generated.
+The model gradually transforms noise into data through a series of steps.
+Like before, the goal is to transform a Gaussian prior distribution into the data distribution through the learned denoising steps.</p>
+<ol class="arabic">
+<li><p><strong>Forward Diffusion (Noising) Process:</strong> Noise is added to the data over <span class="math notranslate nohighlight">\(T\)</span> time steps:</p>
+<div class="math notranslate nohighlight">
+\[
+   q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \beta_t \mathbf{I})
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_t\)</span> is a variance schedule controlling the amount of noise added at each step.</p>
+</li>
+<li><p><strong>Reverse Diffusion (Denoising) Process:</strong> The model learns to reverse the noising process by estimating <span class="math notranslate nohighlight">\(p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_{\theta}(\mathbf{x}_t, t), \sigma_t^2 \mathbf{I})
+   \]</div>
+</li>
+</ol>
 </section>
-<section id="likert-scale">
-<h3>Likert Scale<a class="headerlink" href="#likert-scale" title="Permalink to this heading">#</a></h3>
-<p>…</p>
 </section>
-</section>
-<div class="toctree-wrapper compound">
-</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -486,20 +521,20 @@ In user studies, participants might be asked to rate the quality of generated au
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="task_autotagging_ssl.html"
+       href="task_musicgeneration.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Auto-Tagging-SSL</p>
+        <p class="prev-next-title">Musical Audio Generation</p>
       </div>
     </a>
     <a class="right-next"
-       href="task_musicgeneration_basics.html"
+       href="task_musicgeneration_early.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Basics of Generative Modeling</p>
+        <p class="prev-next-title">Early Works</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -518,12 +553,11 @@ In user studies, participants might be asked to rate the quality of generated au
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frechet-audio-distance-fad">Frechet Audio Distance (FAD)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subjective-evaluation">Subjective Evaluation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likert-scale">Likert Scale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
 </ul>
 </li>
 </ul>
