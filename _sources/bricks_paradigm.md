@@ -16,28 +16,6 @@ $\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(X^{(i)}), 
 
 This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
 
-The function $f$ is defined by writing a class inherited from the `nn.Module`
-The choice of $I$ is defined in the `torch.utils.data.DataLoader`.
-In `TorchLightning`, the loss, model and updates method are defined as follow:
-
-
-```python
-class AutoTaggingLigthing(pl.LightningModule):
-    def __init__(self, in_model):
-        super().__init__()
-        self.model = in_model
-        elf.loss = nn.CrossEntropyLoss() # --- multiclass
-    def training_step(self, batch, batch_idx):
-        hat_y = self.model(batch['X'])
-        loss = self.loss(hat_y, batch['y'])
-        return loss
-    def validation_step(self, batch, batch_idx):
-        hat_y = self.model(batch['X'])
-        loss = self.loss(hat_y, batch['y'])
-    def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), 0.001)
-        return optimizer
-```
 
 ### Self-supervised
 

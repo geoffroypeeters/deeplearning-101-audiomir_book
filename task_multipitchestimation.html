@@ -173,7 +173,6 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
@@ -402,8 +401,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -512,10 +513,8 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 <p>The second is the U-Net proposed by U-Net <span id="id10">[<a class="reference internal" href="bibiography.html#id4" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>]</span>
 <img alt="model_MPE_unet" src="_images/model_MPE_unet.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb">notebook</a> and study various configurations <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml">ConvNet</a> or <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml">U-Net</a>.</p>
-<p><img alt="bricks" src="_images/main_bricks.png" /></p>
-</section>
 <section id="experiments">
-<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h2>
+<h3>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a> or <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a></p></li>
@@ -603,6 +602,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 </table>
 </section>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -670,8 +670,10 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

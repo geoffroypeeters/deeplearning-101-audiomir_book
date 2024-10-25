@@ -95,7 +95,7 @@ We illustrate a deep learning solution to this problem in the following [noteboo
 
 
 
-## Online Triplet mining explained
+### Online Triplet mining explained
 
 The online mining of the triplets is actually not a mining of the best data to feed into the model since all data are fed into the model.
 In online mining, batch of data are selected blindly and all send to the model to obtain the embeddings $e_i=f_{\theta}(x_i), i \in \{1, \ldots, batch\_size\}$.
@@ -195,7 +195,7 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
     return dists_pos, dists_neg
 ```
 
-## Experiments
+### Experiments
 
 We will vary in turn
 - the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
