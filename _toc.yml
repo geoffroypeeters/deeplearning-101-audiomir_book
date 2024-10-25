@@ -16,6 +16,11 @@ parts:
     - file: task_sourceseparation
     - file: task_autotagging_ssl
     - file: task_musicgeneration
+      sections:
+        - file: task_musicgeneration_basics
+        - file: task_musicgeneration_early
+        - file: task_musicgeneration_auto
+        - file: task_musicgeneration_diff
 - caption: Deep Learning Bricks
   chapters:
     - file: bricks_input
