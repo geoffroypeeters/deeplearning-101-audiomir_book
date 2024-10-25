@@ -1,9 +1,9 @@
 (lab_cover_detection)=
-# Cover Detection
+# Cover Song Identification
 
 ## Goal of the task ?
 
-Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
+Cover(Version) Song Identification(Detection) is the task aiming at detecting if a given music track is a cover/version of another track.
 For example detecting that this track performed by [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE) is a cover/version of the work-id "Let It Be", composed by the Beatles and also performed in [Beatles](https://www.youtube.com/watch?v=QDYfEBY9NM4).
 They are covers/versions of the same composition.
 We said that they are performances of the same work-id (or ISWC).

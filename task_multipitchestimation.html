@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_multipitchestimation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Cover Detection" href="task_coverdetection.html" />
+    <link rel="next" title="Cover Song Identification" href="task_coverdetection.html" />
     <link rel="prev" title="Auto-Tagging-FrontEnd" href="task_autotagging_frontend.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,7 +180,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
 </ul>
 </li>
@@ -436,14 +436,14 @@ The task can either consists in:</p>
 <p><img alt="flow_autotagging" src="_images/flow_multipitch.png" /></p>
 <p>The task has a long history.
 First approches (signal-based) have focused on Single-Pitch-Estimation.
-But as far as 2003, Klapuri et al <span id="id1">[<a class="reference internal" href="bibiography.html#id8" title="Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. Speech and Audio Processing, IEEE Transactions on, 11(6):804–816, 2003.">Kla03</a>]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
+But as far as 2003, Klapuri et al <span id="id1">[<a class="reference internal" href="bibiography.html#id19" title="Anssi Klapuri. Multiple fundamental frequency estimation based on harmonicity and spectral smoothness. Speech and Audio Processing, IEEE Transactions on, 11(6):804–816, 2003.">Kla03</a>]</span> already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
 MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.</p>
 <p>For this task, Deep Learning Approaches have become the standard, either based on</p>
 <ul class="simple">
-<li><p>Supervised Learning (for example <span id="id2">[<a class="reference internal" href="bibiography.html#id52" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>)</p></li>
-<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id22" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
+<li><p>Supervised Learning (for example <span id="id2">[]</span>)</p></li>
+<li><p>Unsupervised learning (for example <span id="id3">[<a class="reference internal" href="bibiography.html#id33" title="Alain Riou, Stefan Lattner, Gaëtan Hadjeres, and Geoffroy Peeters. PESTO: pitch estimation with self-supervised transposition-equivariant objective. In Augusto Sarti, Fabio Antonacci, Mark Sandler, Paolo Bestagini, Simon Dixon, Beici Liang, Gaël Richard, and Johan Pauwels, editors, Proceedings of the 24th International Society for Music Information Retrieval Conference, ISMIR 2023, Milan, Italy, November 5-9, 2023, 535–544. 2023. URL: https://doi.org/10.5281/zenodo.10265343, doi:10.5281/ZENODO.10265343.">RLHP23</a>]</span>)</p></li>
 </ul>
-<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[<a class="reference internal" href="bibiography.html#id52" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[<a class="reference internal" href="bibiography.html#id4" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>]</span>.</p>
+<p>We review here one of the most famous approaches proposed by Bittner et al <span id="id4">[]</span> and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net <span id="id5">[<a class="reference internal" href="bibiography.html#id15" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>]</span>.</p>
 <p>Fore more details, see the very good <a class="reference external" href="https://github.com/rabitt/ismir-2021-tutorial-case-studies">tutorial on “Programming MIR Baselines from Scratch: Three Case Studies”</a></p>
 </section>
 <section id="how-is-the-task-evaluated">
@@ -505,18 +505,18 @@ Those can be obtained by</p>
 </ul>
 <p>We have chosen the two following datasets since they represent two different types of annotations (continuous f0 annotations or segment-based midi-pitch annotations).</p>
 <ul class="simple">
-<li><p>Bach10 <span id="id7">[<a class="reference internal" href="bibiography.html#id5" title="Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. IEEE Trans. Speech Audio Process., 18(8):2121–2133, 2010. URL: https://doi.org/10.1109/TASL.2010.2042119, doi:10.1109/TASL.2010.2042119.">DPZ10</a>]</span>.
+<li><p>Bach10 <span id="id7">[<a class="reference internal" href="bibiography.html#id16" title="Zhiyao Duan, Bryan Pardo, and Changshui Zhang. Multiple fundamental frequency estimation by modeling spectral peaks and non-peak regions. IEEE Trans. Speech Audio Process., 18(8):2121–2133, 2010. URL: https://doi.org/10.1109/TASL.2010.2042119, doi:10.1109/TASL.2010.2042119.">DPZ10</a>]</span>.
 It is a multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.</p></li>
-<li><p>MAPS <span id="id8">[<a class="reference internal" href="bibiography.html#id6" title="Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. IEEE Trans. Speech Audio Process., 18(6):1643–1654, 2010. URL: https://doi.org/10.1109/TASL.2009.2038819, doi:10.1109/TASL.2009.2038819.">EBD10</a>]</span>.
+<li><p>MAPS <span id="id8">[<a class="reference internal" href="bibiography.html#id17" title="Valentin Emiya, Roland Badeau, and Bertrand David. Multipitch estimation of piano sounds using a new probabilistic spectral smoothness principle. IEEE Trans. Speech Audio Process., 18(6):1643–1654, 2010. URL: https://doi.org/10.1109/TASL.2009.2038819, doi:10.1109/TASL.2009.2038819.">EBD10</a>]</span>.
 It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) over time</p></li>
 </ul>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
 <p>We will implement two different models which both takes as input the <a class="reference internal" href="bricks_input.html#lab-hcqt"><span class="std std-ref">Harmonic-CQT</span></a> features.</p>
-<p>The first is the traditional ConvNet proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id52" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>
+<p>The first is the traditional ConvNet proposed by <span id="id9">[]</span>
 <img alt="model_MPE_deepsalience" src="_images/model_MPE_deepsalience.png" /></p>
-<p>The second is the U-Net proposed by U-Net <span id="id10">[<a class="reference internal" href="bibiography.html#id4" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>]</span>
+<p>The second is the U-Net proposed by U-Net <span id="id10">[<a class="reference internal" href="bibiography.html#id15" title="Guillaume Doras, Philippe Esling, and Geoffroy Peeters. On the use of u-net for dominant melody estimation in polyphonic music. In Proc. of First International Workshop on Multilayer Music Representation and Processing (MMRP19). Milan, Italy, January , 24-25 2019. URL: https://hal.science/hal-02457728/document.">DEP19</a>]</span>
 <img alt="model_MPE_unet" src="_images/model_MPE_unet.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb">notebook</a> and study various configurations <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml">ConvNet</a> or <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml">U-Net</a>.</p>
 <section id="experiments">
@@ -654,7 +654,7 @@ It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) o
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Cover Detection</p>
+        <p class="prev-next-title">Cover Song Identification</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -704,7 +704,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2024.
       <br/>
     
   </p>
