@@ -1,4 +1,4 @@
-## Projections
+# Projections
 
 ![top](/images/top.png)
 
@@ -7,7 +7,7 @@ Those sometimes overlap with the ones used in the front-end.
 
 
 
-### Fully-Connected
+## Fully-Connected
 
 The fully-connected (FC) projection is the core projection of MLP or feed-forward neural network; i.e. a sandwich of two FC with a non-linearity in the middle.
 It is also generally used as output of classification network, used within RNN/LSTM or Transformer.
@@ -17,15 +17,14 @@ When applied to all spatial elements or all temporal elements, it can be replace
 torch.nn.Lineartorch.nn.Linear(in_features, out_features)
 ```
 
-(lab_conv2d)=
-### Conv-1D
+## Conv-1D
 
 see [link](lab_conv1d)
 
 
 
 (lab_conv2d)=
-### Conv-2D
+## Conv-2D
 
 
 ```python
@@ -40,7 +39,7 @@ torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 
 
 (lab_depthwise)=
-### Depthwise Separable Convolution
+## Depthwise Separable Convolution
 
 Depthwise Separable Convolution was proposed in {cite}`DBLP:conf/cvpr/Chollet17` in the continuation of the Inception network.
 It is the concatenation of a Depthwise Convolution (channel-wise convolution) followed by a Pointwise (1x1) convolution.
@@ -78,14 +77,14 @@ model(X).size()
 
 
 (lab_resnet)=
-### ResNet
+## ResNet
 
 ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of image recognition.
 A ResNet is made of a large number of blocks each containing a residual connection (skip-connection).
 The later allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
 We are interested here in the two building blocks of ResNet:
 
-#### The **building block**
+### The **building block**
 - a first 2D-Convolution
 - a ReLU
 - a second 2D-Convolution
@@ -129,7 +128,7 @@ class ResidualBlock(nn.Module):
 ```
 
 
-#### The **“bottleneck” building block**
+### The **“bottleneck” building block**
 
 ![resnet_bottleneck](/images/brick_resnet_bottleneck.png)
 
@@ -195,7 +194,7 @@ class Bottleneck(nn.Module):
 
 
 (lab_convnext)=
-### ConvNeXt
+## ConvNeXt
 
 ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22` with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
 It especially bases its design on the Swin Transformers:
