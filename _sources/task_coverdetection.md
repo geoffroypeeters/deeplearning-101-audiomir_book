@@ -105,7 +105,7 @@ The online mining then uses those embeddings to select the ones that will be use
 
 For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg).
 
-![brick_mining_random](/images/brick_mining_random.png)
+![brick_mining_random](/images/brick_mining_random_P.png)
 
 ```python
 def triplet_mining_random(dist_all, mask_pos, mask_neg):
@@ -129,7 +129,7 @@ def triplet_mining_random(dist_all, mask_pos, mask_neg):
 
 For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg that statisfy D_neg < D_pos + margin).
 
-![brick_mining_semi](/images/brick_mining_semi.png)
+![brick_mining_semi](/images/brick_mining_semi_P.png)
 
 ```python
 def triplet_mining_semihard(dist_all, mask_pos, mask_neg, margin):
@@ -163,7 +163,7 @@ def triplet_mining_semihard(dist_all, mask_pos, mask_neg, margin):
 
 For each anchor A (row), we select (among the mask_pos) the positive with the largest distance and the negative (among the mask_neg) with the smallest distance.
 
-![brick_mining_hard](/images/brick_mining_hard.png)
+![brick_mining_hard](/images/brick_mining_hard_P.png)
 
 ```python
 def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
@@ -200,7 +200,7 @@ def triplet_mining_hard(dist_all, mask_pos, mask_neg, device):
 We will vary in turn
 - the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
 
-![expe](/images/expe_coverdetection.png)
+![expe](/images/expe_coverdetection_P.png)
 
 This can be done using the following files:
 - (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
