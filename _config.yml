@@ -3,6 +3,7 @@
 
 title: Deep Learning 101 for Audio-based MIR
 author: Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
+copyright: "2024"  # Copyright year to be placed in the footer
 logo: wave.png
 
 # Force re-execution of notebooks on each build.

@@ -4,17 +4,35 @@
 
 ## Goal of the task ?
 
-Music auto-tagging is the task of assigning tags (such as genre , style, moods, instrumentation) to a music track.
+Music auto-tagging is the task of assigning tags (such as genre, style, moods, instrumentation, chords) to a music track.
 Tags can be
-- mutually exclusive (**multi-class** problem) or not (**multi-label** problem)
-- can be assigned locally in time (such as for segmentation into singing segments, or labeling into chords) or globally in time (such as for music-genre).
+- mutually exclusive (**multi-class** problem, such as genre) or not (**multi-label** problem, such as instrumentation)
+- can be assigned **locally** in time (such as instrumentation-segments, or chord-label segments) or **globally** in time (such as for music-genre).
 
 ![flow_autotagging](/images/flow_autotagging.png)
 
-The task is one of the first studied in MIR.
-Already in 2002 Tzanetakis et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the genre using audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
-Later on, inspired by COmputer Vision, VGG-like architecture has been proposed to solve the task {cite}`DBLP:conf/ismir/ChoiFS16`.
-The task is still active nowadays trying to solve it using Self-Supervised-Learning or Foundation models {cite}`DBLP:conf/nips/YuanMLZCYZLHTDW23`.
+The task has a long history in MIR.
+As soon as 2002 Tzanetakis et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
+The audio features considered improved over years {cite}`Peeters2004AudioFeatures`, from block-features {cite}`Seyerlehner2010PHD` to speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the machine-learning models (moving to Support-Vector-Machine).
+It also quickly appeared that the same feature/ML system could be trained to solve many tasks of tagging or segmentation (genre, mood, speech/music) {cite}`Peeters2007DAFXGenericClassification`, {cite}`Burred2009LSASMultiLabel`.
+
+Chord estimation can be considered as a specific tagging application: it involves applying chord-label-tags (mutually exclusive) over segments of time.
+However, it has been considered as a specific task since chord transition follow musical rules which can be represented by a language model.
+Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first {cite}`Sheh2003ISMIRchord` or {cite}`Papadopo2007CBMI` with an acoustic model representing $p(\text{chord}|\text{chroma})$ and a language model using HMM (Hidden Markov Model) representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
+
+One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman {cite}`Dieleman2014Spotify`.
+In this a Conv2d is applied to a Log-Mel-Specrogram using kernels which extend over the whole frequency range, therefore only a convolution over time is performed.
+The rational for this, is that as opposed to natural images, object in a T/F representation are not invariant by translation over frequencies.
+A very different approach is later proposed by Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` who blindly (but successfully) apply a VGG-like architecture to the problem of tagging.
+Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposes to design musically motivated kernels/
+
+
+The task is still very active today, even in the supervised case.
+For example,
+- MULE {cite}`DBLP:conf/ismir/McCallumKOGE22` use a more sophisticated ConvNet architecture (Short-Fast-Normalizer-Free Net F0) and training paradigm (contrastive learning based on artist, album or tags) and is trained on a very large music collection (Pandora), or
+- PaSST {cite}`DBLP:conf/hear/KoutiniMSESW21` is based on the Vit, and use tokenized (set of patches) spectrograms fed to a Transformer
+
+The task is still active nowadays especially using Self-Supervised-Learning {cite}`DBLP:conf/nips/YuanMLZCYZLHTDW23` (see second part).
 
 Fore more details, see the very good [tutorial on "musical classification"](https://music-classification.github.io/tutorial/landing-page.html)
 
@@ -102,11 +120,6 @@ accessible online with the permission of Masataka Goto for the specific purpose 
 
 ## How we can solve it using deep learning
 
-Talk about Dieleman approach
-
-Talk about Kenwoo Choi (VGG) approach approach
-
-Talk about Jordi Pons approach approach
 
 Auto-tagging is a classification problem and can be considered either as a multi-class (mutually exclusive classes, such as for GTZAN) or a multi-label (non-mutually exclusive classes, such as MTT).
 Also, for the two considered datasets (GTZAN, MTT) the labels are assigned or the whole track duration.

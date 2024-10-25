@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Cover Detection &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Cover Song Identification &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -180,7 +180,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Cover Detection</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Cover Song Identification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
 </ul>
 </li>
@@ -394,7 +394,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Cover Detection</h1>
+    <h1>Cover Song Identification</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -428,11 +428,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="cover-detection">
-<span id="lab-cover-detection"></span><h1>Cover Detection<a class="headerlink" href="#cover-detection" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="cover-song-identification">
+<span id="lab-cover-detection"></span><h1>Cover Song Identification<a class="headerlink" href="#cover-song-identification" title="Permalink to this heading">#</a></h1>
 <section id="goal-of-the-task">
 <h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Cover(Version) Detection(Identification) is the task aiming at detecting if a given music track is a cover/version of another track.
+<p>Cover(Version) Song Identification(Detection) is the task aiming at detecting if a given music track is a cover/version of another track.
 For example detecting that this track performed by <a class="reference external" href="https://www.youtube.com/watch?v=LsU_HDS4cGE">Aretha Franklin</a> is a cover/version of the work-id “Let It Be”, composed by the Beatles and also performed in <a class="reference external" href="https://www.youtube.com/watch?v=QDYfEBY9NM4">Beatles</a>.
 They are covers/versions of the same composition.
 We said that they are performances of the same work-id (or ISWC).
@@ -504,7 +504,7 @@ For our implementations, we will consider the two following datasets (notes that
 This was however very costly in terms of computation time and prevented the algorithm to scale.</p>
 <p>Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>. In this case, only the projections (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the <a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a>.</p>
-<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id7" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
+<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id18" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /></p>
 <p>We illustrate a deep learning solution to this problem in the following <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb">notebook</a> and using the <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml">configuration</a>.</p>
 <section id="online-triplet-mining-explained">
@@ -741,7 +741,7 @@ By Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2024.
       <br/>
     
   </p>
