@@ -10,11 +10,15 @@ parts:
     - file: notebook
 - caption: Tasks
   chapters:
-    - file: task_autotagging_frontend
-    - file: task_multipitchestimation
-    - file: task_coverdetection
-    - file: task_sourceseparation
-    - file: task_autotagging_ssl
+    - file: task_musiccontent
+      sections:
+        - file: task_autotagging_frontend
+        - file: task_multipitchestimation
+        - file: task_coverdetection
+        - file: task_autotagging_ssl
+    - file: task_musicprocessing
+      sections:
+        - file: task_sourceseparation
     - file: task_musicgeneration
       sections:
         - file: task_musicgeneration_basics
