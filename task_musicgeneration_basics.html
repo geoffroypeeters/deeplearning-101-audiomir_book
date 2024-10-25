@@ -404,8 +404,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-generation">Autoregressive Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-autoregressive-latent-variable-generation">Non-Autoregressive/Latent Variable Generation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
@@ -424,10 +424,10 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basics-of-generative-modeling">
 <h1>Basics of Generative Modeling<a class="headerlink" href="#basics-of-generative-modeling" title="Permalink to this heading">#</a></h1>
-<p>In generative tasks, it is necessary to inject <em>some form of stochasticity</em> into the generation process. In this regard, two general approaches can be distinguished: generation of <strong>discrete sequences</strong> and generation of <strong>continuous-valued data</strong>.
+<p>In generative tasks, it is necessary to inject <em>some form of stochasticity</em> into the generation process. In this regard, two general approaches can be distinguished: <strong>Autoregressive</strong> generation of <em>discrete sequences</em> and <strong>Non-Autoregressive</strong> (or parallel/latent variable) generation of <em>continuous-valued data</em>.
 In this section, we will have a brief look into the two paradigms and give some examples of how they are modeled.</p>
-<section id="discrete-sequence-generation">
-<h2>Discrete Sequence Generation<a class="headerlink" href="#discrete-sequence-generation" title="Permalink to this heading">#</a></h2>
+<section id="autoregressive-generation">
+<h2>Autoregressive Generation<a class="headerlink" href="#autoregressive-generation" title="Permalink to this heading">#</a></h2>
 <p>For <strong>discrete sequences</strong>, models such as Recurrent Neural Networks (RNNs), Causal Convolutional Networks, and Transformers are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then “injected” by sampling from that distribution.</p>
 <p>At each time step <span class="math notranslate nohighlight">\(t\)</span>, the model outputs a probability distribution <span class="math notranslate nohighlight">\(P(y_t \mid y_{&lt;t})\)</span> over the vocabulary <span class="math notranslate nohighlight">\(V\)</span>, conditioned on the previous tokens <span class="math notranslate nohighlight">\(y_{&lt;t}\)</span>. The cross-entropy loss used during training can be expressed as:</p>
 <div class="math notranslate nohighlight">
@@ -437,9 +437,10 @@ In this section, we will have a brief look into the two paradigms and give some 
 <p>where <span class="math notranslate nohighlight">\(y_t^*\)</span> is the true token at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
 <p><strong>Note:</strong> In this case, we can primarily deal with <strong>one-hot encoded sequences</strong>, selecting one token per time step, as we don’t have a simple way to sample <strong>N-hot vectors</strong> (where <span class="math notranslate nohighlight">\(N &gt; 1\)</span> tokens are selected simultaneously) from the model’s output distribution. Sampling multiple tokens at once would require modeling the joint probability of combinations of tokens, which significantly increases complexity and is not commonly addressed in standard sequence generation models.</p>
 </section>
-<section id="continuous-valued-data-generation">
-<h2>Continuous-Valued Data Generation<a class="headerlink" href="#continuous-valued-data-generation" title="Permalink to this heading">#</a></h2>
+<section id="non-autoregressive-latent-variable-generation">
+<h2>Non-Autoregressive/Latent Variable Generation<a class="headerlink" href="#non-autoregressive-latent-variable-generation" title="Permalink to this heading">#</a></h2>
 <p>For generating <strong>continuous-valued data</strong>, the stochasticity usually comes from some form of noise injection into the neural network.
+Mathematically, this is typically defined as transforming a simple (usually Gaussian) distribution into the data distribution.
 In the following, a brief (architecture-agnostic) introduction in the most common training paradigms is given.</p>
 <section id="generative-adversarial-networks-gans">
 <h3>Generative Adversarial Networks (GANs)<a class="headerlink" href="#generative-adversarial-networks-gans" title="Permalink to this heading">#</a></h3>
@@ -558,8 +559,8 @@ Like before, the goal is to transform a Gaussian prior distribution into the dat
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-sequence-generation">Discrete Sequence Generation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-valued-data-generation">Continuous-Valued Data Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoregressive-generation">Autoregressive Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-autoregressive-latent-variable-generation">Non-Autoregressive/Latent Variable Generation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders-vaes">Variational Autoencoders (VAEs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
