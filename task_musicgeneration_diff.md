@@ -12,6 +12,8 @@ This approach combines elements from both **denoising diffusion probabilistic mo
 ## Music2Latent Codec
 Music2Latent (M2L) {cite}`DBLP:journals/corr/abs-2408-06500` provides highly compressed, continuous audio representations with ~$11 \times 64$-dimensional vectors per second (for 44.1kHz sample rate).
 A consistency autoencoder facilitates a *generative decoder* that makes up for potentially lost information, enabling high-quality reconstructions.
+The M2L representations serve as the data space in which the diffusion process operates. 
+The diffusion model learns to generate M2L latent vectors, which are then decoded back into audio signals.
 
 ![music2latent](./images/expe_generation_m2l.png)
 
@@ -133,7 +135,7 @@ The `RectifiedFlows` class handles the noise addition and defines the training l
 
   ```python
   times = torch.nn.functional.sigmoid(
-      torch.randn(y.shape[0]) * self.P_std + self.P_mean
+      torch.randn(x.shape[0]) * self.P_std + self.P_mean
   )
   ```
 
@@ -144,9 +146,9 @@ The `RectifiedFlows` class handles the noise addition and defines the training l
   ```python
   def forward(self, model, x, sigma=None, return_loss=True, **model_kwargs):
       # ...
-      noises = torch.randn_like(y)
+      noises = torch.randn_like(x)
       v = x - noises
-      noisy_samples = self.add_noise(y, noises, times)
+      noisy_samples = self.add_noise(x, noises, times)
       fv = model(noisy_samples, times, **model_kwargs)
       loss = mse(v, fv)
       # ...
