@@ -1,6 +1,6 @@
 # Running codebooks in Google Colab
 
-We describe here how you can run in [Google Colab](https://colab.research.google.com/) the notebooks we provided and reproduce our experiments.
+We describe here how you can run in [Google Colab](https://colab.research.google.com/) the notebooks we provide for this tutorial and therefore reproduce the  experiments we present.
 
 *Google Colab, short for Collaboratory, is a free, cloud-based platform by Google that allows users to write and execute Python code in a Jupyter Notebook environment. It’s especially popular for machine learning and data science tasks because it provides access to powerful hardware like GPUs and TPUs at no cost.*
 

@@ -2,28 +2,32 @@
 
 ## Organisation of the book
 
-The first part of the book, **Tasks** describe a subset of typical audio-based MIR tasks.
-To facilitate the reading of the book, we follow a similar structure to describe each of the audio-based MIR task we consider.
+The first part of the book, **"Tasks"**, describes a subset of typical audio-based MIR tasks.
+To facilitate the reading of the book, we follow a similar structure to describe each of the audio-based MIR tasks we consider.
 We describe in turn:
-- What is the **goal** of the task ?
-- What are the perfomrance measures for the task, how is the task **evaluated** ?
-- What are the popular **datasets** for the taslk (used to train system or evaluate the performances of)
-- How we can solve it using **deep learning**. This part refers to bricks that are described individually in the second part of the book.
+- the **goal** of the task
+- the performance measures used to **evaluate** the task
+- the popular **datasets** used for the task \
+*(Datasets can be used to train system or evaluate the performances of a system.)*
+- how we can solve the task using **deep learning**. \
+*(This part refers to bricks that are described individually in the second part of the book.*)
 
-The second pat of the book, **Deep Learning Bricks**, described each brick individually.
-We have chosen to separate the description of the bricks from the tasks in which they can be used to emphasise the fact that the same brick can be used for several tasks.
-We want also to emphasise the fact that those are just bricks.
+The second pat of the book, **"Deep Learning Bricks"**, describes each brick individually.
+We have chosen to separate the description of the bricks from the tasks in which they can be used in order to emphasise the fact that the same brick can be used for several tasks.
+
 
 ![concept1](/images/main_concept1.png)
+
+**Figure** Overall description of task in terms of goal/evaluation/datasets/model
 
 ## Simplifying the development
 
 To make our life easier and **facilitate the reading of the code of the notebooks** we will rely on the following elements.
 - for **datasets** (audio and annotations): .hdf5 (for audio) and .pyjama (for annotations), described below
-- for **deep learning**: pytorch (a python library for deep learning)
+- for **deep learning**: [pytorch](https://pytorch.org/) (a python library for deep learning)
   - for the dataset/dataloader
   - for the models, the losses, the optimizers
-- for **training**: torchlighning (a library which stands on top of pytorch and which facilitates training and deployment of models)
+- for **training**: [pytorch-lighning](https://lightning.ai/docs/pytorch/stable/) (a library added to pytorch that makes it easier/faster to train and deploy models)
 
 
 
@@ -31,13 +35,15 @@ To make our life easier and **facilitate the reading of the code of the notebook
 
 ### Datasets using  .hdf5 and .pyjama file
 
-In the first part of this tutorial, each dataset will be saved as a pair of files: one in .hdf5 format for the audio and the other in .pyjama format for the annotations.
+In the first part of this tutorial, each dataset will be saved as a pair of files:
+- one in .hdf5 format for the audio and
+- one in .pyjama format for the annotations.
 
 A single [.hdf5](https://docs.h5py.org/) file contains all the audio data of a dataset.
 Each `key` corresponds to an entry.
 An entry corresponds to a specific audiofile.
-Its array contains the audio waveform.
-Its attribute `sr_hz` provides the sampling rate of the audio waveform.
+- Its array contains the audio waveform.
+- Its attribute `sr_hz` provides the sampling rate of the audio waveform.
 
 ```python
 with h5py.File(hdf5_audio_file, 'r') as hdf5_fid:
@@ -100,13 +106,15 @@ pp.pprint(entry_l[0:2])
 
 Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.
 
-We provide a set of datasets (each with its .hdf5 and .pyjama file) for this tutorial [here](https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/].
+We provide a set of datasets (each with its .hdf5 and .pyjama file) for this tutorial [here](https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/).
 
 
 
 ### Pytorch dataset/dataloader
 
-From a top-down approach, the central part of the training will consist on a loop over epochs and iteration over batches of data:
+To help understanding what a dataloader should provide, we use a top-down approach.
+We start from the central part of the training of a DL-model.
+It consists in a loop over `epochs` and for each an iteration over `batches` of data:
 ```
 for n_epoch in range(epochs):
   for batch in train_dataloader:
@@ -115,9 +123,11 @@ for n_epoch in range(epochs):
     loss.backward()
     ...
 ```
-In this, `train_dataloader` is an instance of the pytorch-class `Dataloader` which goal is to encapsulate `batch_size` times the outputs (the `X` and `y`) of `train_dataset`.
+In this, `train_dataloader` is an instance of the pytorch-class `Dataloader` which goal is to encapsulate a set of `batch_size` input/output pairs (the `X` and `y`) provided by `train_dataset`.
 ```
-train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+train_dataloader = torch.utils.data.DataLoader(dataset=train_dataset,
+                                                batch_size=batch_size,
+                                                shuffle=True)
 ```
 `train_dataset` is the one responsible for providing the `X`and the `y`.
 It is an instance of a class written by the user (which inherits from the pytorch-class `Dataset`).
@@ -130,16 +140,18 @@ The design of this class involves defining what should the `__getitem__` return 
   - defining what is the **input representation** of the model (`X` can be waveform, Log-Mel-Spectrogram, Harmonic-CQT),
   - defining **where to compute** those
     - compute those one-the-fly in the `__getitem__` ?
-    - pre-computed those in the `__init__` and read them on-the-fly from drive/memory in the `__getime__` ?
+    - pre-computed those in the `__init__` and read them on-the-fly from drive/memory in the `__getitem__` ?
 
 In the first notebooks, we define a set of features in the `feature.py` package (`feature.f_get_waveform`, `feature.f_get_lms`, `feature.f_get_hcqt`).
-We also define the output of `__getitem__`/`X` as a **patch** (a segment/chunk of a specific ime duration extracted from a tensor (Channel, Dimension/Frequency, Time)).
+We also define the output of `__getitem__`/`X` as a **patch** (a segment/chunk) of a specific time duration.
+The patch is extracted from the feature represented as a tensor (Channel, Dimension/Frequency, Time).
+In the case of `waveform` the tensor is (1,Time), of the LMS it is (1,128,Time), or the H-CQT it is (6,92,Time).
 To define the patch, we do a frame analysis (with a specific window lenght and hope size) over the tensor.
 We pre-compute the list of all possible patches for a given audio in the `feature.f_get_patches`.
 
-- (2) It involves **mapping the annotations** contained in the .pyjama file (such as pitch, genre or work-id annotations) to the format of `hat_y` (scalar, matrix or one-hot-encoding) and to map it to the time position and extend of the patches `X`.
+- (2) It involves **mapping the annotations** contained in the .pyjama file (such as pitch, genre or work-id annotations) to the format of `hat_y` (scalar, matrix or one-hot-encoding) and to map it to the time position and extent of the patches `X`.
 
-- (3) It involves **defining what is the unit of `idx`** in the `__getitem__(idx)`. It can refer to the patch number, the file number (in this case `X` can be all the patches a given file) or the work-id (in this case `X` provides the features of all the files with the same work-id).
+- (3) It involves **defining what is the unit of `idx`** in the `__getitem__(idx)`. It can refer to a patch number, a file number (in this case `X` represents all the patches a given file) or a work-id (in this case `X` provides the features of all the files with the same work-id).
 
 
 ### Pytorch models
@@ -147,7 +159,7 @@ We pre-compute the list of all possible patches for a given audio in the `featur
 Models in pytorch are usually written as classes which inherits from the pytorch-class `nn.Module`.
 Such a class should have
 - a `__init__` method defining the parameters (layers) to be trained and
-- a `__forward__` method describing how to do the forward with the layers defined before (for example how to go from `X` to `hat_y`).
+- a `__forward__` method describing how to do the forward with the layers defined in `__init__` (for example how to go from `X` to `hat_y`).
 
 ```
 class NetModel(nn.Module):
@@ -166,7 +178,7 @@ class NetModel(nn.Module):
 
 In practice, it is common to specify the hyper-parameters of the model (such as number of layers, feature-maps, activations) in a dedicated `.yaml`.
 
-In the first notebooks, we do a step forward here by defining the whole model in a `.yaml` file.
+In the first notebooks, we go one step further and define the entire model in a `.yaml` file.
 The model then becomes much more readable.
 `model_factory.NetModel` is a generic class that allows dynamically creating model classes based on this `.yaml`  file (such as exemplified below).
 
@@ -231,6 +243,7 @@ class AutoTaggingLigthing(pl.LightningModule):
     def __init__(self, in_model):
         super().__init__()
         self.model = in_model
+        self.loss= nn.BCELoss()
 
     def training_step(self, batch, batch_idx):
         hat_y = self.model(batch['X'])
@@ -249,16 +262,27 @@ class AutoTaggingLigthing(pl.LightningModule):
 ```
 
 The training code is then extremely simple: `trainer.fit`.
-It also allows to define **CallBack** using predefined methods such as for `EarlyStopping` or for saving `ModelCheckpoint`.
+Pytorch Lightning also allows to define **CallBack** using predefined methods such as for `EarlyStopping` or for saving `ModelCheckpoint`.
 
 ```python
 my_lighting = AutoTaggingLigthing( model )
 
-early_stop_callback = EarlyStopping(monitor="val_loss", patience=10, verbose=True, mode="min")
-checkpoint_callback = ModelCheckpoint(monitor='val_loss', dirpath=param_lightning.dirpath, filename=param_lightning.filename, save_top_k=1, mode='min')
+early_stop_callback = EarlyStopping(monitor="val_loss",
+                                    patience=10,
+                                    verbose=True,
+                                    mode="min")
+checkpoint_callback = ModelCheckpoint(monitor='val_loss',
+                                      dirpath=param_lightning.dirpath,
+                                      filename=param_lightning.filename,
+                                      save_top_k=1,
+                                      mode='min')
 
-trainer = pl.Trainer(accelerator="gpu",  max_epochs = param_lightning.max_epochs, callbacks = [early_stop_callback, checkpoint_callback])
-trainer.fit(model=my_lighting, train_dataloaders=train_dataloader, val_dataloaders=valid_dataloader)
+trainer = pl.Trainer(accelerator="gpu",  
+                    max_epochs = param_lightning.max_epochs,
+                    callbacks = [early_stop_callback, checkpoint_callback])
+trainer.fit(model=my_lighting,
+            train_dataloaders=train_dataloader,
+            val_dataloaders=valid_dataloader)
 ```
 
 ### Evaluation metrics
@@ -269,5 +293,7 @@ In the notebooks, we will rely most of the time on
 
 
 ### In summary
+
+We summarize the various elements of code to be written below.
 
 ![concept2](/images/main_concept2.png)
