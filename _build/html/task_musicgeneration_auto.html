@@ -62,10 +62,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_musicgeneration_auto';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Generation with Diffusion Models" href="task_musicgeneration_diff.html" />
+    <link rel="next" title="Generation with Latent Diffusion" href="task_musicgeneration_diff.html" />
     <link rel="prev" title="Early Works" href="task_musicgeneration_early.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -190,7 +192,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Autoregressive Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Latent Diffusion</a></li>
 </ul>
 </li>
 </ul>
@@ -379,7 +381,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -395,6 +399,23 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encodec-neural-audio-codec">EnCodec Neural Audio Codec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-model-architecture">Transformer Model Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference">Training and Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-objective">Training Objective</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-loop">Training Loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-generation">Inference and Generation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -406,7 +427,154 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="autoregressive-generation">
 <h1>Autoregressive Generation<a class="headerlink" href="#autoregressive-generation" title="Permalink to this heading">#</a></h1>
-<!-- Autoregressive models, especially those based on Transformers, are well-suited for generating sequences like musical audio. These models generate audio by predicting each subsequent token based on prior ones, effectively capturing long-term relationships, which helps produce coherent compositions. -->
+<p>In this tutorial, we demonstrate a practical implementation of musical audio generation using an autoregressive Transformer model and discrete audio representations obtained from a neural audio codec. We focus on the guitar subset of the NSynth dataset and use EnCodec representations to train our model.</p>
+<section id="encodec-neural-audio-codec">
+<h2>EnCodec Neural Audio Codec<a class="headerlink" href="#encodec-neural-audio-codec" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/facebookresearch/encodec">EnCodec</a> <span id="id1">[]</span> is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.</p>
+<p><img alt="encodec_overview" src="images/expe_encodec.png" /></p>
+<p><strong>Figure 1</strong>: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization.</p>
+<p>To use EnCodec for our task, we first encode our dataset into discrete token sequences.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install encodec
+
+from encodec import EncodecModel
+from encodec.utils import convert_audio
+
+# Load the EnCodec model
+codec = EncodecModel.encodec_model_24khz()
+codec.set_target_bandwidth(1.5)  # Set target bandwidth in kbps
+LEVELS = 2 # 2 for bandwidth 1.5
+
+# Function to encode audio into discrete tokens (schematic from DiscreteAudioRepDataset)
+def encode_audio(waveform, sample_rate):
+    # Add batch dimension
+    waveform = torch.tensor(waveform, dtype=torch.float32).unsqueeze(0)
+    waveform = convert_audio(waveform, sample_rate, codec.sample_rate, codec.channels)
+    with torch.no_grad():
+        encoded_frames = codec.encode(waveform)
+    
+    # we linearize the codebook
+    codes = encoded_frames[0][0].contiguous().permute(0, 2, 1).reshape(-1)
+    return codes.flatten()
+</pre></div>
+</div>
+</section>
+<section id="preparing-the-dataset">
+<h2>Preparing the Dataset<a class="headerlink" href="#preparing-the-dataset" title="Permalink to this heading">#</a></h2>
+<p>We use the guitar subset of the NSynth dataset, encoding each audio file into discrete token sequences by initializing the <code class="docutils literal notranslate"><span class="pre">DiscreteAudioRepDataset</span></code> and the <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span># Download the NSynth guitar dataset
+!git clone https://github.com/SonyCSLParis/test-lfs.git
+!bash ./test-lfs/download.sh NSYNTH_GUITAR_MP3
+
+# Load the NSYNTH dataset and prepare DataLoader for training and validation.
+audio_folder_train = &quot;./NSYNTH_GUITAR_MP3/nsynth-guitar-train&quot;
+audio_folder_val = &quot;./NSYNTH_GUITAR_MP3/nsynth-guitar-valid&quot;
+
+dataset = DiscreteAudioRepDataset(root_dir=audio_folder_train, encoder=codec,
+                                  lazy_encode=False, max_samples=-1)
+
+dataset_val = DiscreteAudioRepDataset(root_dir=audio_folder_val, encoder=codec,
+                                      lazy_encode=False, max_samples=-1)
+
+# Create Dataloaders for training and validation.
+dataloader = DataLoader(dataset, batch_size=125, shuffle=True)
+dataloader_val = DataLoader(dataset_val, batch_size=125, shuffle=True)
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="transformer-model-architecture">
+<h2>Transformer Model Architecture<a class="headerlink" href="#transformer-model-architecture" title="Permalink to this heading">#</a></h2>
+<p>We use a classic Transformer decoder with <em>rotary positional embeddings</em> from x_transformers to model the sequence of discrete tokens autoregressively.</p>
+<p>The model predicts the next token given the previous tokens.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">x_transformers</span> <span class="kn">import</span> <span class="n">TransformerWrapper</span><span class="p">,</span> <span class="n">Decoder</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">TransformerWrapper</span><span class="p">(</span>
+    <span class="n">num_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>  <span class="c1"># Vocabulary size from EnCodec</span>
+    <span class="n">max_seq_len</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>  <span class="c1"># Maximum sequence length</span>
+    <span class="n">attn_layers</span><span class="o">=</span><span class="n">Decoder</span><span class="p">(</span>
+        <span class="n">dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+        <span class="n">depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">heads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">rotary_pos_emb</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="training-and-inference">
+<h2>Training and Inference<a class="headerlink" href="#training-and-inference" title="Permalink to this heading">#</a></h2>
+<section id="training-objective">
+<h3>Training Objective<a class="headerlink" href="#training-objective" title="Permalink to this heading">#</a></h3>
+<p>The model is trained to minimize the <strong>cross-entropy loss</strong> between the predicted token distribution and the true next token in the sequence:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = -\sum_{t} \log P(y_t^* \mid y_{&lt;t})
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_t^*\)</span> is the true token at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(y_{&lt;t}\)</span> are the previous tokens.</p>
+</section>
+<section id="training-loop">
+<h3>Training Loop<a class="headerlink" href="#training-loop" title="Permalink to this heading">#</a></h3>
+<p>We train the model using teacher forcing, where the true previous tokens are provided as input during training.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+        <span class="n">start_tokens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">start_tokens</span><span class="p">,</span> <span class="n">batch</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">logits</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># All tokens except the last</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="c1"># All tokens except the first</span>
+        
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="inference-and-generation">
+<h3>Inference and Generation<a class="headerlink" href="#inference-and-generation" title="Permalink to this heading">#</a></h3>
+<p>During inference, we generate new sequences by sampling tokens one at a time from the model’s output distribution.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">LEVELS</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># 2 for bandwidth 1.5</span>
+    <span class="n">generated</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_token</span><span class="p">]</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_length</span><span class="p">):</span>
+        <span class="n">input_seq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">generated</span><span class="p">])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">next_token</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">generated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_token</span><span class="p">)</span>
+    
+    <span class="n">generated_sequence</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">generated</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="c1"># Remove start_token</span>
+    <span class="n">codes</span> <span class="o">=</span> <span class="n">generated_sequence</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">LEVELS</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># reshape to de-linearlize (into sequences of 2 Levels)</span>
+
+    <span class="c1"># Decode into waveform</span>
+    <span class="n">decoded_audio</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">([(</span><span class="n">codes</span><span class="p">,</span> <span class="kc">None</span><span class="p">)])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>In this tutorial, we demonstrated a simple implementation of musical audio generation using an autoregressive Transformer model and EnCodec representations.
+By encoding audio data into discrete token sequences, we transformed the audio generation problem into a sequence modeling task suitable for training with cross-entropy loss and sampling from a multinomial distribution.</p>
+<p><strong>Key Points</strong>:</p>
+<ul class="simple">
+<li><p><strong>Neural Audio Codec (EnCodec)</strong>: Compresses audio into discrete tokens, enabling training using cross-entropy loss and sampling from a discrete distribution.</p></li>
+<li><p><strong>Autoregressive Transformer</strong>: Models the probability distribution of the next token given previous tokens.</p></li>
+<li><p><strong>Training with Cross-Entropy Loss</strong>: Trains the model to predict the next token in the sequence.</p></li>
+<li><p><strong>Sequence Generation</strong>: Generates new audio samples by sampling tokens from the model.</p></li>
+</ul>
+<p>This approach leverages the strengths of both neural audio codecs and autoregressive sequence models, enabling efficient audio generation in a compressed latent space.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -453,7 +621,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Generation with Diffusion Models</p>
+        <p class="prev-next-title">Generation with Latent Diffusion</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -463,6 +631,29 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encodec-neural-audio-codec">EnCodec Neural Audio Codec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-model-architecture">Transformer Model Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference">Training and Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-objective">Training Objective</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-loop">Training Loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-generation">Inference and Generation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

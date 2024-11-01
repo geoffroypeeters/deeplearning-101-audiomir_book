@@ -5,7 +5,7 @@ In this section, we will have a brief look into the two paradigms and give some 
 
 ## Autoregressive Generation
 
-For **discrete sequences**, models such as Recurrent Neural Networks (RNNs), Causal Convolutional Networks, and Transformers are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then "injected" by sampling from that distribution.
+For **discrete sequences**, models such as Recurrent Neural Networks (RNNs) {cite}`DBLP:journals/cogsci/Elman90`, Causal Convolutional Networks {cite}`DBLP:conf/ssw/OordDZSVGKSK16`, and Transformers {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` are typically trained with cross-entropy loss to output a probability distribution over discrete random variables in a deterministic manner. The stochasticity is then "injected" by sampling from that distribution.
 
 At each time step $t$, the model outputs a probability distribution $P(y_t \mid y_{<t})$ over the vocabulary $V$, conditioned on the previous tokens $y_{<t}$. The cross-entropy loss used during training can be expressed as:
 
@@ -25,7 +25,7 @@ In the following, a brief (architecture-agnostic) introduction in the most commo
 
 ### Generative Adversarial Networks (GANs)
 
-For example, Generative Adversarial Networks (GANs) in their basic form inject noise by inputting a high-dimensional noise vector
+For example, Generative Adversarial Networks (GANs) {cite}`DBLP:journals/corr/GoodfellowPMXWOCB14` in their basic form inject noise by inputting a high-dimensional noise vector
 $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ (sampled from an independent Gaussian distribution) into the generator $G$.
 The generator transforms this noise vector into a data sample: $\mathbf{x} = G(\mathbf{z})$.
 Thus, the task can be described as learning to transform an independent Gaussian distribution into the data distribution.
@@ -45,7 +45,7 @@ $G$ improves in generating more realistic samples, ultimately leading to converg
 
 ### Variational Autoencoders (VAEs)
 
-Similarly, in Variational Autoencoders (VAEs, composed of encoder and decoder), the decoder receives as input a sample from an independent Gaussian prior distribution (a "standard normal distribution"). 
+Similarly, in Variational Autoencoders (VAEs, composed of encoder and decoder) {cite}`DBLP:journals/corr/KingmaW13`, the decoder receives as input a sample from an independent Gaussian prior distribution (a "standard normal distribution"). 
 The model is trained so that the encoder learns to approximate the prior using a mixture of Gaussian posteriors, one for each data point: 
 $\boldsymbol{\mu}, \boldsymbol{\sigma} = E(\mathbf{x})$, where $\boldsymbol{\mu}$ and $\boldsymbol{\sigma}$ are multi-dimensional mean and variance vectors.
 From this posterior, we sample a latent variable $\mathbf{z} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\sigma})$ during training. 
@@ -59,20 +59,12 @@ Together, they make it possible to sample from the prior $p(\mathbf{z}) \sim \ma
 
 ### Diffusion Models
 
-In Diffusion Models, the noise input has the same dimensionality as the data point that should be generated. 
+In Diffusion Models {cite}`DBLP:conf/nips/HoJA20`, the noise input has the same dimensionality as the data point that should be generated. 
 The model gradually transforms noise into data through a series of steps.
 Like before, the goal is to transform a Gaussian prior distribution into the data distribution through the learned denoising steps.
-
-1. **Forward Diffusion (Noising) Process:** Noise is added to the data over $T$ time steps:
-
-   $$
-   q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \beta_t \mathbf{I})
-   $$
-
-   where $\beta_t$ is a variance schedule controlling the amount of noise added at each step.
-
-2. **Reverse Diffusion (Denoising) Process:** The model learns to reverse the noising process by estimating $p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$:
+In its initial form it is defined as a Markov chain with learned Gaussian transitions starting at $p(\mathbf{x}_T) = \mathcal{N}(\mathbf{x}_T; \mathbf{0}, \mathbf{I})$.
+The model learns to reverse the noising process by estimating $p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$:
 
    $$
-   p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_{\theta}(\mathbf{x}_t, t), \sigma_t^2 \mathbf{I})
+   p_{\theta}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_{\theta}(\mathbf{x}_t, t), \sigma_t^2 \mathbf{I}).
    $$
