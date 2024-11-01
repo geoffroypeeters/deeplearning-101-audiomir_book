@@ -12,18 +12,22 @@ The task can either consists in:
 
 ![flow_autotagging](/images/flow_multipitch.png)
 
+### A very short history of multi-pitch-estimation.
 The task has a long history.
 First approches (signal-based) have focused on Single-Pitch-Estimation.
 But as far as 2003, Klapuri et al {cite}`Klapuri2003IEEEMultipleF0` already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
 MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.
 
+**Deep learning era.**
 For this task, Deep Learning Approaches have become the standard, either based on
 - Supervised Learning (for example {cite}`DBLP:conf/ismir/BittnerMSLB17`)
 - Unsupervised learning (for example {cite}`DBLP:conf/ismir/RiouLHP23`)
 
 We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17` and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`.
 
-Fore more details, see the very good [tutorial on "Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies)
+Fore more details, see
+- the very good [tutorial on "Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies)
+- the very good [tutorial on "Fundamental Frequency Estimation in Music"](https://ismir2018.ismir.net/pages/events-tutorial-06.html)
 
 ## How is the task evaluated ?
 
@@ -102,9 +106,13 @@ The first is the traditional ConvNet proposed by {cite}`DBLP:conf/ismir/BittnerM
 The second is the U-Net proposed by U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`
 ![model_MPE_unet](/images/model_MPE_unet.png)
 
-We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb) and study various configurations [ConvNet](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml) or [U-Net](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml).
 
 ### Experiments
+
+We illustrate a deep learning solution to this problem using the following files:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb)
+- (Config Conv2D)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml]
+- (Config U-Net)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml]
 
 We will vary in turn
 - the **inputs**: [CQT](lab_cqt) or [Harmonic-CQT](lab_hcqt)
@@ -113,10 +121,6 @@ We will vary in turn
 
 ![expe](/images/expe_multipitch_P.png)
 
-This can be done using the following files:
-- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb)
-- (Config Conv2D)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_bittner.yaml]
-- (Config U-Net)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_doras.yaml]
 
 | Dataset   | Input   | Frontend   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |

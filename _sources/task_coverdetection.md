@@ -4,30 +4,46 @@
 ## Goal of the task ?
 
 Cover(Version) Song Identification(Detection) is the task aiming at detecting if a given music track is a cover/version of another track.
-For example detecting that this track performed by [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE) is a cover/version of the work-id "Let It Be", composed by the Beatles and also performed in [Beatles](https://www.youtube.com/watch?v=QDYfEBY9NM4).
+For example detecting that
+- this track performed by [Aretha Franklin](https://www.youtube.com/watch?v=LsU_HDS4cGE)
+- is a cover/version of the work-id "Let It Be", composed by the Beatles and also performed in [Beatles](https://www.youtube.com/watch?v=QDYfEBY9NM4).
+
 They are covers/versions of the same composition.
 We said that they are performances of the same work-id (or ISWC).
 The group of songs that are identified as cover versions of each other is often denoted as a *"clique"*.
 
 ![flow_cover_identification](/images/flow_cover_identification.png)
 
-
 Considering the very large number of possible work-id (there exist millions of compositions), it is not possible to solve this as a classification (multi-class) problem (too many classes).
 To solve this, the approach commonly used is to have a reference dataset $R$, containing tracks $\{r_i\}$ with known work-id, and to compare the query track $q$ to each track $r_i$ of the reference dataset.
 If $q$ is similar to one track of the dataset (i.e. the distance $d(q,r_i)$ is small), we decide that $q$ is a cover of $r_i$ and they share the same work-id.
 This involves setting a threshold $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ we decide they are cover of each other.
 
-In practice to evaluate the task, another problem is considered.
-The distances between $q$ and all $r_i \in R$ are computed and ranked.
-If we denote by $w(.)$ the function that gives the work-id of a track, we then check at which position in the ranked list $w(r_i)==w(q)$.
-We can then use the ranking/recommendation performance metrics.
+### A very short history of cover-song-identification.
+
+- The story starts with {cite}`DBLP:conf/icassp/EllisP07` who proposed to compute $d(q,r_i)$ as the Cross-correlation between processed Chroma/PCP features of $q$ and $r_i$.
+- Later on, {cite}`DBLP:conf/icassp/SerraG08` proposed to improve the features (Harmonic-PCP) and the comparison algorithm (DTW, Dynamic Time Warping).
+This has lead to the standard Serra-approach for years.
+However, calculating the DTW between all the pairs of tracks remains extremely prohibitive.
+- To reduce the cost, $d$ should simplified to a simple Euclidean distance between trained features/embedding extracted from $q$ and $r_i$.
+Such an approach have been tested in the linear case (using 2D-DFT, PCA, ..) by {cite}`DBLP:conf/ismir/HumphreyNB13`.
+However, the results were largely below those Serra.
+
+**Deep learning era.**
+
+The solution will come from Computer Vision and the face recognition problem in which deep learning is used to perform metric learning {cite}`DBLP:conf/cvpr/SchroffKP15`.
+This method will be transferred to do the cover-song-identification case by {cite}`DBLP:conf/ismir/DorasP19` and {cite}`DBLP:conf/icassp/YesilerSG20`.
 
 Fore more details, see the very good [tutorial on "Version Identification in the 20s"](https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28)
 
 
 ## How is the task evaluated ?
 
-We rank the distances (from the smallest to the largest) and evaluate what is the position in this ranked-list $A$ of the first match with the query.
+In practice to evaluate the task, another problem is considered.
+
+The distances between $q$ and all $r_i \in R$ are computed and ranked (from the smallest to the largest) .
+If we denote by $w(.)$ the function that gives the work-id of a track, we then check at which position in the ranked list $A$ we have $w(r_i \in A)==w(q)$.
+We can then use the ranking/recommendation performance metrics.
 
 If we denote by
 - $A$ the ranked list (of length $K$) corresponding to a query $q$
@@ -81,32 +97,27 @@ For our implementations, we will consider the two following datasets (notes that
 
 The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks $q$ and $r_i$, the distance should relates to their "coverness" (how much $q$ and $r_i$ are two performances of the same work-id).
 
-Before the rise of deep learning, the usual way to compute this distance was to compute the cost of a DTW alignement between the sequence of chroma of $q$ and the one of $r_i$.
-This was however very costly in terms of computation time and prevented the algorithm to scale.
-
-Today, the common deep learning technique used is based on metric learning, i.e. we train a neural network $f_{\theta}$ such that the resulting projections of $q$, $f_{\theta}(q)$ can be directly compared (using Euclidean distance) to the projections of $r_i$, $f_{\theta}(r_i)$. In this case, only the projections (named embedding) of the elements of the reference-set $R$ are stored and the comparison simply reduce to the computation of Euclidean distances.
+The common deep learning technique used is based on metric learning, i.e. we train a neural network $f_{\theta}$ such that the resulting projections of $q$, $f_{\theta}(q)$ can be directly compared (using Euclidean distance) to the projections of $r_i$, $f_{\theta}(r_i)$. In this case, only the projections (named embedding) of the elements of the reference-set $R$ are stored and the comparison simply reduce to the computation of Euclidean distances.
 Various approaches can be used for metric learning, but the most common is the [triplet loss](lab_triplet).
 
 For the proposal code we will used the [MOVE model](https://arxiv.org/pdf/1910.12551) {cite}`DBLP:conf/icassp/YesilerSG20` and follow its [implementation](https://github.com/furkanyesiler/move).
 
 ![task_cover_move](/images/task_cover_move.png)
 
-We illustrate a deep learning solution to this problem in the following [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb) and using the [configuration](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml).
-
-
 
 
 
 ### Experiments
+
+We illustrate a deep learning solution to this problem using the following files:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
+- (Config Cover)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml]
 
 We will vary in turn
 - the **datasets**: a small one (Cover1000) a large one (Datacos-benchmark)
 
 ![expe](/images/expe_coverdetection_P.png)
 
-This can be done using the following files:
-- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb)
-- (Config Cover)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_cover.yaml]
 
 | Dataset   | Input   | Frontend   | Results   | Code |
 |:---------- |:----------|:----------|:---------- |:---------- |

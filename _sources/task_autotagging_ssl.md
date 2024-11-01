@@ -1,3 +1,3 @@
-# Auto-Tagging-SSL
+# Auto-Tagging (study of SSL approaches)
 
 - author: Gabriel, Alain
