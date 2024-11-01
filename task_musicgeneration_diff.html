@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Generation with Diffusion Models &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Generation with Latent Diffusion &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -192,7 +192,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Generation with Diffusion Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Generation with Latent Diffusion</a></li>
 </ul>
 </li>
 </ul>
@@ -394,7 +394,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Generation with Diffusion Models</h1>
+    <h1>Generation with Latent Diffusion</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -404,12 +404,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-method"><strong>Overview of the Method</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-breakdown"><strong>Detailed Breakdown</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>1. Diffusion Model Architecture</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-addition-and-training-objective"><strong>2. Noise Addition and Training Objective</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#music2latent-codec">Music2Latent Codec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>Diffusion Model Architecture</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference"><strong>Training and Inference</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-addition-and-training-objective"><strong>Noise Addition and Training Objective</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-sampling-process-inference-function"><strong>3. Inference and Sampling Process (<code class="docutils literal notranslate"><span class="pre">inference</span></code> function)</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-rectified-flow-with-ode-based-sampling"><strong>4. Method: Rectified Flow with ODE-Based Sampling</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a></li>
@@ -424,25 +424,65 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="generation-with-diffusion-models">
-<h1>Generation with Diffusion Models<a class="headerlink" href="#generation-with-diffusion-models" title="Permalink to this heading">#</a></h1>
-<!-- Diffusion models offer another approach to musical audio generation. They transform random noise into meaningful continuous audio representations. -->
-<p>In the <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb">notebook</a> we implement a diffusion model that adopts a <strong>Rectified Flow</strong> method with <strong>ODE-based sampling</strong>.
+  <section class="tex2jax_ignore mathjax_ignore" id="generation-with-latent-diffusion">
+<h1>Generation with Latent Diffusion<a class="headerlink" href="#generation-with-latent-diffusion" title="Permalink to this heading">#</a></h1>
+<p>For non-autoregressive generation, Latent Diffusion is currently one of the most effective and popular approaches.
+It focuses on creating high-quality samples by modeling data in a compressed, latent space rather than the spectrogram or waveform level.
+This approach reduces computational cost and time by generating compact latent representations that, compared to raw data, are already simplified and organized.</p>
+<p>Here, we provide a simple example of musical audio generation using the guitar subset of the NSynth dataset, Music2Latent representations, and a classic U-Net architecture.
+In the corresponding <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb">notebook</a> we implement a diffusion model that adopts a <strong>Rectified Flow</strong> method with <strong>ODE-based sampling</strong>.
 This approach combines elements from both <strong>denoising diffusion probabilistic models (DDPMs)</strong> and <strong>normalizing flows</strong>, resulting in a continuous-time framework for generative modeling.</p>
-<hr class="docutils" />
-<section id="overview-of-the-method">
-<h2><strong>Overview of the Method</strong><a class="headerlink" href="#overview-of-the-method" title="Permalink to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Noise Addition via Linear Interpolation</strong>: The model adds noise to the data by linearly interpolating between the clean data and pure noise, controlled by a time variable <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
-<li><p><strong>Training Objective</strong>: The model is trained to predict the residual <span class="math notranslate nohighlight">\(v = y - \text{noise}\)</span> from the noisy samples and the time <span class="math notranslate nohighlight">\(t\)</span>. This residual guides the denoising process.</p></li>
-<li><p><strong>ODE-Based Sampling</strong>: During inference, the model uses an ODE solver to integrate over time from <span class="math notranslate nohighlight">\(t = 1\)</span> (pure noise) to <span class="math notranslate nohighlight">\(t = 0\)</span> (clean data), effectively reversing the noise addition.</p></li>
-</ol>
+<section id="music2latent-codec">
+<h2>Music2Latent Codec<a class="headerlink" href="#music2latent-codec" title="Permalink to this heading">#</a></h2>
+<p>Music2Latent (M2L) <span id="id1">[<a class="reference internal" href="bibiography.html#id19" title="Marco Pasini, Stefan Lattner, and George Fazekas. Music2latent: consistency autoencoders for latent audio compression. CoRR, 2024. URL: https://doi.org/10.48550/arXiv.2408.06500, arXiv:2408.06500, doi:10.48550/ARXIV.2408.06500.">PLF24</a>]</span> provides highly compressed, continuous audio representations with ~<span class="math notranslate nohighlight">\(11 \times 64\)</span>-dimensional vectors per second (for 44.1kHz sample rate).
+A consistency autoencoder facilitates a <em>generative decoder</em> that makes up for potentially lost information, enabling high-quality reconstructions.
+The M2L representations serve as the data space in which the diffusion process operates.
+The diffusion model learns to generate M2L latent vectors, which are then decoded back into audio signals.</p>
+<p><img alt="music2latent" src="_images/expe_generation_m2l.png" /></p>
+<p><strong>Figure 1</strong>: Training process of Music2Latent. The input sample is first encoded into a sequence of latent vectors.
+The latents are then upsampled with a decoder model.
+The consistency model is trained via consistency training, conditioned on the information coming from the cross connections.</p>
+<p>In our example, we first transform the dataset into M2L representations on which we then train our diffusion model.
+This involves the following steps:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install music2latent
+
+import soundfile as sf
+from music2latent import EncoderDecoder
+
+# Initialize the encoder/decoder
+encdec = EncoderDecoder()
+
+# Load the audio file using soundfile
+waveform, _ = sf.read(&quot;sample.wav&quot;)
+
+# Encode using music2latent
+latent = EncoderDecoder().encode(waveform)
+</pre></div>
+</div>
+</section>
+<section id="preparing-the-dataset">
+<h2>Preparing the dataset<a class="headerlink" href="#preparing-the-dataset" title="Permalink to this heading">#</a></h2>
+<p>In the following code, we download the dataset, intitialize the <code class="docutils literal notranslate"><span class="pre">MusicLatentDataset</span></code> and the <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span># Download the dataset using git-lfs
+!git clone https://github.com/SonyCSLParis/test-lfs.git
+!bash ./test-lfs/download.sh NSYNTH_GUITAR_MP3
+
+# Initialize the dataset and dataloader
+audio_folder_train = &quot;./NSYNTH_GUITAR_MP3/nsynth-guitar-train&quot;
+audio_folder_val = &quot;./NSYNTH_GUITAR_MP3/nsynth-guitar-valid&quot;
+
+# When initializing the dataset, the data gets compressed using the M2L encoder
+dataset = MusicLatentDataset(root_dir=audio_folder_train, encoder=encdec)
+dataset_val = MusicLatentDataset(root_dir=audio_folder_val, encoder=encdec)
+
+dataloader = DataLoader(dataset, batch_size=500, shuffle=True)
+dataloader_val = DataLoader(dataset_val, batch_size=500, shuffle=False)
+</pre></div>
+</div>
 </section>
 <hr class="docutils" />
-<section id="detailed-breakdown">
-<h2><strong>Detailed Breakdown</strong><a class="headerlink" href="#detailed-breakdown" title="Permalink to this heading">#</a></h2>
 <section id="diffusion-model-architecture">
-<h3><strong>1. Diffusion Model Architecture</strong><a class="headerlink" href="#diffusion-model-architecture" title="Permalink to this heading">#</a></h3>
+<h2><strong>Diffusion Model Architecture</strong><a class="headerlink" href="#diffusion-model-architecture" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">DiffusionUnet</span></code> class defines a <a class="reference internal" href="bricks_architecture.html#lab-unet"><span class="std std-ref">classic U-Net architecture</span></a> with time conditioning.
 The time embedding (<code class="docutils literal notranslate"><span class="pre">self.time_mlp</span></code>) is a multi-layer perceptron (MLP) that embeds the time variable <span class="math notranslate nohighlight">\(t\)</span> into a higher-dimensional space to condition the model on the diffusion time step.
 It is added to the deepest layer, allowing the model to adjust its predictions based on the amount of noise present.</p>
@@ -460,8 +500,39 @@ It is added to the deepest layer, allowing the model to adjust its predictions b
 </pre></div>
 </div>
 </section>
+<hr class="docutils" />
+<section id="training-and-inference">
+<h2><strong>Training and Inference</strong><a class="headerlink" href="#training-and-inference" title="Permalink to this heading">#</a></h2>
+<p>In this section, we show the</p>
+<ol class="arabic">
+<li><p><strong>Noise Addition via Linear Interpolation</strong>: The model adds noise to the data by linearly interpolating between the clean data <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> and pure noise <span class="math notranslate nohighlight">\(\mathbf{z}\)</span>, controlled by a time variable <span class="math notranslate nohighlight">\(t\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathbf{x}_t = (1 - t) \mathbf{x}_0 + t \cdot \mathbf{z}, \quad t \in [0, 1],
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(t\)</span> is the time step indicating the level of noise added, with <span class="math notranslate nohighlight">\(t = 0\)</span> being no noise and <span class="math notranslate nohighlight">\(t = 1\)</span> being full noise.
+This formulation is commonly used in Rectified Flow models and allows a simple, linear interpolation between the data and pure noise.</p>
+</li>
+<li><p><strong>Training Objective</strong>: The model is trained to predict the residual <span class="math notranslate nohighlight">\(\mathbf{v} = \mathbf{x}_t - \mathbf{z}\)</span> from the noisy samples and the time <span class="math notranslate nohighlight">\(t\)</span>. This residual guides the denoising process.
+In the case of Rectified Flow with ODE-based sampling, the reverse process can be formulated as:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{d\mathbf{x}}{dt} = f(\mathbf{x}_t, t),
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\mathbf{x}_t, t)\)</span> is the learned denoising function that predicts the residual (difference between noisy data and clean data):</p>
+<div class="math notranslate nohighlight">
+\[
+   f(\mathbf{x}_t, t) \approx \mathbf{x}_t - \mathbf{z}.
+   \]</div>
+<p>As the model is trained to learn the difference between the data and the <em>unscaled</em> noise, it effectively learns a vector field with vectors pointing towards positions of high density (high probability).</p>
+</li>
+<li><p><strong>ODE-Based Sampling</strong>: During inference, the model uses an Ordinary Differential Equation (ODE) solver (the trained U-Net) to integrate over time from <span class="math notranslate nohighlight">\(t = 1\)</span> (pure noise) to <span class="math notranslate nohighlight">\(t = 0\)</span> (clean data).
+As the model outputs unscaled direction vectors, at inference they are scaled by <span class="math notranslate nohighlight">\(\Delta t = \frac{1}{\text{num_steps}}\)</span> (the <code class="docutils literal notranslate"><span class="pre">step_size</span></code>).
+Note that, given the initial noise <span class="math notranslate nohighlight">\(\mathbf{z}\)</span>, this process is deterministic.
+This is in contrast to Denoising Diffusion Probabilistic Models (DDPMs) based on Stochastic Differential Equations (SDEs), where the noise is sampled at every step of the reverse diffusion process.</p></li>
+</ol>
 <section id="noise-addition-and-training-objective">
-<h3><strong>2. Noise Addition and Training Objective</strong><a class="headerlink" href="#noise-addition-and-training-objective" title="Permalink to this heading">#</a></h3>
+<h3><strong>Noise Addition and Training Objective</strong><a class="headerlink" href="#noise-addition-and-training-objective" title="Permalink to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">RectifiedFlows</span></code> class handles the noise addition and defines the training loss:</p>
 <ul>
 <li><p><strong>Noise Addition (<code class="docutils literal notranslate"><span class="pre">add_noise</span></code> method)</strong>:</p>
@@ -473,18 +544,18 @@ It is added to the deepest layer, allowing the model to adjust its predictions b
 </li>
 <li><p><strong>Time Variable Sampling</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">times</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">P_std</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">P_mean</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">P_std</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">P_mean</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>The sigmoid non-linearity ensures <code class="docutils literal notranslate"><span class="pre">times</span></code> lies between 0 and 1.</p>
 </li>
 <li><p><strong>Training Objective (<code class="docutils literal notranslate"><span class="pre">forward</span></code> method)</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">model_kwargs</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">model_kwargs</span><span class="p">):</span>
     <span class="c1"># ...</span>
-    <span class="n">noises</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">noises</span>
-    <span class="n">noisy_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">noises</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
+    <span class="n">noises</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">noises</span>
+    <span class="n">noisy_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">noises</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
     <span class="n">fv</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">noisy_samples</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="o">**</span><span class="n">model_kwargs</span><span class="p">)</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">fv</span><span class="p">)</span>
     <span class="c1"># ...</span>
@@ -492,7 +563,7 @@ It is added to the deepest layer, allowing the model to adjust its predictions b
 </div>
 </li>
 </ul>
-<p>The model calculates the residual by subtracting the noise from the data, expressed as <span class="math notranslate nohighlight">\(v = y - \text{noise}\)</span>.
+<p>The model calculates the residual by subtracting the noise from the data, expressed as <span class="math notranslate nohighlight">\(v = x - \text{noise}\)</span>.
 It then predicts <span class="math notranslate nohighlight">\(fv\)</span>, an approximation of the residual <span class="math notranslate nohighlight">\(v\)</span>, based on the noisy samples and the corresponding time step.
 The loss function used is the Mean Squared Error (MSE) between the true residual <span class="math notranslate nohighlight">\(v\)</span> and the predicted residual <span class="math notranslate nohighlight">\(fv\)</span>, which is given by <span class="math notranslate nohighlight">\(\text{Loss} = \| v - \text{fv} \|^2\)</span>.
 Predicting the residual instead of the noise or the data directly is a characteristic of the <strong>Rectified Flow</strong> method, while in <strong>Denoising Diffusion Probabilistic Models (DDPMs)</strong>, the model typically predicts the noise.</p>
@@ -522,54 +593,31 @@ Predicting the residual instead of the noise or the data directly is a character
 </li>
 <li><p><strong>Integration Loop</strong>:</p>
 <ul>
-<li><p><strong>Time Step (<code class="docutils literal notranslate"><span class="pre">step_size</span></code>)</strong>: Calculated as <span class="math notranslate nohighlight">\(\Delta t = \frac{1}{\text{num\_steps}}\)</span>.</p></li>
+<li><p><strong>Time Step (<code class="docutils literal notranslate"><span class="pre">step_size</span></code>)</strong>: Calculated as <span class="math notranslate nohighlight">\(\Delta t = \frac{1}{\text{num_steps}}\)</span>.</p></li>
 <li><p><strong>Euler’s Method</strong>: Updates the sample by moving in the direction of <code class="docutils literal notranslate"><span class="pre">v</span></code> predicted by the model:</p>
 <p><span class="math notranslate nohighlight">\(
-\text{current\_sample} = \text{current\_sample} + \Delta t \cdot v
+\text{current_sample} = \text{current_sample} + \Delta t \cdot v
 \)</span></p>
 </li>
-<li><p><strong>Time Update</strong>:</p>
-<p><span class="math notranslate nohighlight">\(
-t = t - \Delta t
-\)</span></p>
-</li>
+<li><p><strong>Time Update</strong>: <span class="math notranslate nohighlight">\(t = t - \Delta t\)</span></p></li>
 </ul>
 </li>
 <li><p><strong>Result</strong>: After integrating from <span class="math notranslate nohighlight">\(t = 1\)</span> to <span class="math notranslate nohighlight">\(t = 0\)</span>, the <code class="docutils literal notranslate"><span class="pre">current_sample</span></code> approximates a sample from the data distribution.</p></li>
-</ul>
-</section>
-<section id="method-rectified-flow-with-ode-based-sampling">
-<h3><strong>4. Method: Rectified Flow with ODE-Based Sampling</strong><a class="headerlink" href="#method-rectified-flow-with-ode-based-sampling" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Continuous-Time Framework</strong>: The model operates in continuous time, treating the diffusion process as an ODE.</p></li>
-<li><p><strong>Rectified Flow Concept</strong>:</p>
-<ul>
-<li><p><strong>Unification</strong>: Bridges the gap between normalizing flows (which transform data through invertible mappings) and diffusion models (which add and remove noise).</p></li>
-<li><p><strong>Deterministic Sampling</strong>: Unlike stochastic diffusion processes, this method uses deterministic integration, which can be more efficient and stable.</p></li>
-</ul>
-</li>
-<li><p><strong>Model Training</strong>:</p>
-<ul>
-<li><p><strong>Predicting Residuals</strong>: Instead of predicting the noise or the data directly, the model predicts the residual <span class="math notranslate nohighlight">\(v = y - \text{noise}\)</span>, guiding the denoising process.</p></li>
-</ul>
-</li>
-<li><p><strong>Advantages</strong>:</p>
-<ul>
-<li><p><strong>Efficiency</strong>: ODE-based sampling can require fewer steps compared to traditional diffusion models.</p></li>
-<li><p><strong>Stability</strong>: Deterministic sampling paths reduce variance in the generated samples.</p></li>
-</ul>
-</li>
 </ul>
 </section>
 </section>
 <hr class="docutils" />
 <section id="conclusion">
 <h2><strong>Conclusion</strong><a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
-<p>The code adopts a <strong>Rectified Flow</strong> method that:</p>
+<p>In this tutorial, we demonstrated a practical implementation of musical audio generation using Latent Diffusion with the guitar subset of the NSynth dataset and Music2Latent (M2L) representations.
+By encoding audio data into compressed latent vectors through M2L, we significantly reduced computational complexity.</p>
+<p>We employed a diffusion model that adopts the <strong>Rectified Flow</strong> method with <strong>ODE-based deterministic sampling</strong>.
+This approach merges concepts from both denoising diffusion probabilistic models (DDPMs) and normalizing flows into a continuous-time generative modeling framework.</p>
+<p>Specifically, the model:</p>
 <ul class="simple">
-<li><p><strong>Trains the model to predict residuals</strong> between the data and noise.</p></li>
-<li><p><strong>Uses ODE-based deterministic sampling</strong> to generate new data samples.</p></li>
-<li><p><strong>Incorporates a time-conditioned U-Net architecture</strong> to handle varying noise levels.</p></li>
+<li><p><strong>Trains to predict residuals</strong> between the data and noise, effectively learning a vector field pointing toward regions of high data density. This residual prediction guides the denoising process during generation.</p></li>
+<li><p><strong>Utilizes ODE-based deterministic sampling</strong> during inference, integrating over time from pure noise (<span class="math notranslate nohighlight">\(t = 1\)</span>) to clean data (<span class="math notranslate nohighlight">\(t = 0\)</span>) without introducing additional randomness at each step. This results in a more efficient and stable generation process compared to stochastic methods.</p></li>
+<li><p><strong>Incorporates a time-conditioned U-Net architecture</strong> that adapts its predictions based on the noise level at each time step. The time embedding allows the model to handle varying noise levels.</p></li>
 </ul>
 </section>
 </section>
@@ -637,12 +685,12 @@ t = t - \Delta t
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-method"><strong>Overview of the Method</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-breakdown"><strong>Detailed Breakdown</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>1. Diffusion Model Architecture</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-addition-and-training-objective"><strong>2. Noise Addition and Training Objective</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#music2latent-codec">Music2Latent Codec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>Diffusion Model Architecture</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference"><strong>Training and Inference</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-addition-and-training-objective"><strong>Noise Addition and Training Objective</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-sampling-process-inference-function"><strong>3. Inference and Sampling Process (<code class="docutils literal notranslate"><span class="pre">inference</span></code> function)</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-rectified-flow-with-ode-based-sampling"><strong>4. Method: Rectified Flow with ODE-Based Sampling</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a></li>
