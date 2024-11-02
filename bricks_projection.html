@@ -172,27 +172,33 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Latent Diffusion</a></li>
 </ul>
 </li>
 </ul>
@@ -410,7 +416,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-building-block">The <strong>building block</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-building-block">The <strong>“bottleneck” building block</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-block">The <strong>“bottleneck” block</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXt</a></li>
@@ -432,9 +438,12 @@ document.write(`
 Those sometimes overlap with the ones used in the front-end.</p>
 <section id="fully-connected">
 <h2>Fully-Connected<a class="headerlink" href="#fully-connected" title="Permalink to this heading">#</a></h2>
-<p>The fully-connected (FC) projection is the core projection of MLP or feed-forward neural network; i.e. a sandwich of two FC with a non-linearity in the middle.
-It is also generally used as output of classification network, used within RNN/LSTM or Transformer.
-When applied to all spatial elements or all temporal elements, it can be replaced by a Convolution with a (1x1) kernel.</p>
+<p>The Fully-Connected (FC) projection is the core projection of Multi-Layer-Perceptron (MLP) or Feed-Forward (FF) neural network.</p>
+<ul class="simple">
+<li><p>MLP or FF is a sandwich of two FC with a non-linearity in between</p></li>
+<li><p>FC are generally used as output of classification network, used within RNN/LSTM or Transformer.</p></li>
+<li><p>When applied to all spatial (temporal) elements, it can be replaced by a Convolution with a (1x1) kernel.</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Lineartorch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -451,18 +460,33 @@ When applied to all spatial elements or all temporal elements, it can be replace
 </section>
 <section id="depthwise-separable-convolution">
 <span id="lab-depthwise"></span><h2>Depthwise Separable Convolution<a class="headerlink" href="#depthwise-separable-convolution" title="Permalink to this heading">#</a></h2>
-<p>Depthwise Separable Convolution was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id63" title="François Chollet. Xception: deep learning with depthwise separable convolutions. In 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu, HI, USA, July 21-26, 2017, 1800–1807. IEEE Computer Society, 2017. URL: https://doi.org/10.1109/CVPR.2017.195, doi:10.1109/CVPR.2017.195.">Cho17</a>]</span> in the continuation of the Inception network.
-It is the concatenation of a Depthwise Convolution (channel-wise convolution) followed by a Pointwise (1x1) convolution.</p>
+<p>Depthwise Separable Convolution (DSC) was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id75" title="François Chollet. Xception: deep learning with depthwise separable convolutions. In 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu, HI, USA, July 21-26, 2017, 1800–1807. IEEE Computer Society, 2017. URL: https://doi.org/10.1109/CVPR.2017.195, doi:10.1109/CVPR.2017.195.">Cho17</a>]</span> in the continuation of the Inception network.</p>
 <ul class="simple">
-<li><p>A normal convolution uses <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((3,3,C_{in})\)</span>.
-It necessitates <span class="math notranslate nohighlight">\(C_{out} \times (3 \times 3 \times C_{in})\)</span> weights.</p></li>
-<li><p>A DSC uses <span class="math notranslate nohighlight">\(C_{in}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((3,3,1)\)</span>, then <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels of shape <span class="math notranslate nohighlight">\((1,1,C_{in})\)</span>
-A DSC will only necessitates <span class="math notranslate nohighlight">\(C_{in} \times (3 \times 3 \times 1)\)</span> and <span class="math notranslate nohighlight">\(C_{in} \times C_{out}\)</span> weights.
+<li><p>It is the concatenation of</p>
+<ul>
+<li><p>a Depthwise Convolution (channel-wise convolution)</p></li>
+<li><p>a Pointwise (1x1) convolution.</p></li>
+</ul>
+</li>
+</ul>
+<p>Rationale behind this approach</p>
+<ul class="simple">
+<li><p>A normal convolution uses <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((C_{in},3,3)\)</span>.</p>
+<ul>
+<li><p>It necessitates <span class="math notranslate nohighlight">\(C_{out} \times (C_{in} \times 3 \times 3)\)</span> weights.</p></li>
+</ul>
+</li>
+<li><p>A DSC uses <span class="math notranslate nohighlight">\(C_{in}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((3,3)\)</span>, then <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels of shape <span class="math notranslate nohighlight">\((C_{in},1,1)\)</span></p>
+<ul>
+<li><p>A DSC will only necessitates <span class="math notranslate nohighlight">\(C_{in} \times (3 \times 3)\)</span> and <span class="math notranslate nohighlight">\(C_{in} \times C_{out}\)</span> weights.
 The number of multiplications is also largely reduced.</p></li>
 </ul>
-<p>Because of this, it is largely used in model for IoT such as MobileNet <span id="id2">[<a class="reference internal" href="bibiography.html#id62" title="Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko, Weijun Wang, Tobias Weyand, Marco Andreetto, and Hartwig Adam. Mobilenets: efficient convolutional neural networks for mobile vision applications. CoRR, 2017. URL: http://arxiv.org/abs/1704.04861, arXiv:1704.04861.">HZC+17</a>]</span>.</p>
-<p><img alt="dephtwise" src="_images/brick_dephtwise.png" /></p>
-<p><em>image source: <a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=9175497">https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=9175497</a></em></p>
+</li>
+</ul>
+<p>Because of this, it is largely used in model for IoT such as MobileNet <span id="id2">[<a class="reference internal" href="bibiography.html#id74" title="Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko, Weijun Wang, Tobias Weyand, Marco Andreetto, and Hartwig Adam. Mobilenets: efficient convolutional neural networks for mobile vision applications. CoRR, 2017. URL: http://arxiv.org/abs/1704.04861, arXiv:1704.04861.">HZC+17</a>]</span>.</p>
+<p><img alt="dephtwise" src="_images/brick_dephtwise.png" /><br />
+<strong>Figure</strong>
+<em>Depthwise Separable Convolution; image source: <a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=9175497">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code: https://github.com/seungjunlee96/Depthwise-Separable-Convolution_Pytorch/blob/master/DepthwiseSeparableConvolution/DepthwiseSeparableConvolution.py</span>
 <span class="k">class</span> <span class="nc">depthwise_separable_conv</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nin</span><span class="p">,</span> <span class="n">kernels_per_layer</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -482,21 +506,18 @@ The number of multiplications is also largely reduced.</p></li>
 </section>
 <section id="resnet">
 <span id="lab-resnet"></span><h2>ResNet<a class="headerlink" href="#resnet" title="Permalink to this heading">#</a></h2>
-<p>ResNet has been proposed by <span id="id3">[<a class="reference internal" href="bibiography.html#id61" title="Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In 2016 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2016, Las Vegas, NV, USA, June 27-30, 2016, 770–778. IEEE Computer Society, 2016. URL: https://doi.org/10.1109/CVPR.2016.90, doi:10.1109/CVPR.2016.90.">HZRS16</a>]</span> in the framework of image recognition.
-A ResNet is made of a large number of blocks each containing a residual connection (skip-connection).
-The later allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
-We are interested here in the two building blocks of ResNet:</p>
+<p>ResNet has been proposed by <span id="id3">[<a class="reference internal" href="bibiography.html#id73" title="Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In 2016 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2016, Las Vegas, NV, USA, June 27-30, 2016, 770–778. IEEE Computer Society, 2016. URL: https://doi.org/10.1109/CVPR.2016.90, doi:10.1109/CVPR.2016.90.">HZRS16</a>]</span> in the framework of image recognition.
+A ResNet is made of a</p>
+<ul class="simple">
+<li><p>large number of blocks each containing a residual connection (skip-connection).</p></li>
+<li><p>the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).</p></li>
+</ul>
+<p>We are interested here in the two building blocks of ResNet:</p>
 <section id="the-building-block">
 <h3>The <strong>building block</strong><a class="headerlink" href="#the-building-block" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>a first 2D-Convolution</p></li>
-<li><p>a ReLU</p></li>
-<li><p>a second 2D-Convolution</p></li>
-<li><p>the residual connection <span class="math notranslate nohighlight">\(\mathcal{F}(x)+x\)</span></p></li>
-<li><p>a ReLU</p></li>
-</ul>
-<p><img alt="resnet" src="_images/brick_resnet.png" /></p>
-<p><em>image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385</a></em></p>
+<p>It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection <span class="math notranslate nohighlight">\(\mathcal{F}(x)+x\)</span>, - a ReLU</p>
+<p><img alt="resnet-block1" src="_images/brick_resnet.png" /><br />
+<strong>Figure</strong> <em>ResNet “building block”; image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://www.digitalocean.com/community/tutorials/writing-resnet-from-scratch-in-pytorch</span>
 <span class="k">class</span> <span class="nc">ResidualBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
@@ -527,11 +548,16 @@ We are interested here in the two building blocks of ResNet:</p>
 </pre></div>
 </div>
 </section>
-<section id="the-bottleneck-building-block">
-<h3>The <strong>“bottleneck” building block</strong><a class="headerlink" href="#the-bottleneck-building-block" title="Permalink to this heading">#</a></h3>
-<p><img alt="resnet_bottleneck" src="_images/brick_resnet_bottleneck.png" /></p>
+<section id="the-bottleneck-block">
+<h3>The <strong>“bottleneck” block</strong><a class="headerlink" href="#the-bottleneck-block" title="Permalink to this heading">#</a></h3>
 <p>It is a stack of 3 layers instead of 2
-The three layers are 1×1, 3×3, and 1×1 convolutions, where the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions, leaving the 3×3 layer a bottleneck with smaller input/output dimensions.</p>
+The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
+<ul class="simple">
+<li><p>the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,</p></li>
+<li><p>the 3×3 layer is a bottleneck with smaller input/output dimensions.</p></li>
+</ul>
+<p><img alt="resnet_bottleneck" src="_images/brick_resnet_bottleneck.png" /><br />
+<strong>Figure</strong> <em>ResNet ““bottleneck” block”; image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py</span>
 <span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -584,19 +610,40 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where the 1×1 layers ar
 </section>
 <section id="convnext">
 <span id="lab-convnext"></span><h2>ConvNeXt<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>
-<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id4">[<a class="reference internal" href="bibiography.html#id60" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span> with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
-It especially bases its design on the Swin Transformers:</p>
+<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id4">[<a class="reference internal" href="bibiography.html#id72" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span></p>
 <ul class="simple">
-<li><p>larger kernel size (kernels are <span class="math notranslate nohighlight">\((7 \times 7)\)</span>), as in Transfomer (Transfomer has a non-local self-attention, which enables each layer to have a global receptive field)</p></li>
-<li><p>ResNeXt-ify: instead of grouped convolution use dephtwise convolution</p></li>
-<li><p>inverted bottleneck (from 96 channels to 384 then back to 96), as in Transformer (the hidden dimension of the MLP block is four times wider than the input dimension)</p></li>
-<li><p>various layer-wise micro designs (use of layer normalization)</p></li>
-<li><p>Replacing ReLU with GELU (Gaussian Error Linear Unit)</p></li>
-<li><p>Transfomer has fewer activation functions (only one activation function present in the MLP block)
-In <span id="id5">[<a class="reference internal" href="bibiography.html#id60" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span>, it has been shown to achieve better performances than Transformer-based architecture.</p></li>
+<li><p>with the goal of <mark>modernizing ResNet</mark> architecture</p></li>
+<li><p>to remains competitive with Vision Transformers (ViTs).</p></li>
 </ul>
-<p><img alt="convnext" src="_images/brick_convnext.png" /></p>
-<p><em>image source: <a class="reference external" href="https://arxiv.org/pdf/2201.03545">https://arxiv.org/pdf/2201.03545</a></em></p>
+<p>It especially bases its design on the Swin Transformers:</p>
+<ul class="simple">
+<li><p><mark>larger kernel</mark> size (kernels are <span class="math notranslate nohighlight">\((7 \times 7)\)</span>),</p>
+<ul>
+<li><p>as in Transfomer (Transfomer has a non-local self-attention, which enables each layer to have a global receptive field)</p></li>
+</ul>
+</li>
+<li><p>ResNeXt-ify</p>
+<ul>
+<li><p>instead of grouped convolution use dephtwise convolution</p></li>
+</ul>
+</li>
+<li><p><mark>inverted bottleneck</mark> (from 96 channels to 384 then back to 96),</p>
+<ul>
+<li><p>as in Transformer (the hidden dimension of the MLP block is four times wider than the input dimension)</p></li>
+</ul>
+</li>
+<li><p>various layer-wise micro designs (use of layer normalization)</p></li>
+<li><p><mark>Fewer activation functions</mark></p>
+<ul>
+<li><p><mark>Replacing ReLU with GELU</mark> (Gaussian Error Linear Unit)</p></li>
+<li><p>as in Transformer which has fewer activation functions (only one activation function present in the MLP block)</p></li>
+</ul>
+</li>
+</ul>
+<p>In <span id="id5">[<a class="reference internal" href="bibiography.html#id72" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span>, it has been shown to achieve better performances than Transformer-based architecture.</p>
+<p><img alt="convnext" src="_images/brick_convnext.png" />
+<strong>Figure</strong>
+<em>ConvNeXt block; image source: <a class="reference external" href="https://arxiv.org/pdf/2201.03545">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ConvNeXt CODE: https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext.py</span>
 <span class="k">class</span> <span class="nc">ConvNeXtBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">drop_path</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
@@ -715,7 +762,7 @@ In <span id="id5">[<a class="reference internal" href="bibiography.html#id60" ti
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-building-block">The <strong>building block</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-building-block">The <strong>“bottleneck” building block</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-block">The <strong>“bottleneck” block</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXt</a></li>

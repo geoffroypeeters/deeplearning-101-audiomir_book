@@ -9,9 +9,10 @@ Those sometimes overlap with the ones used in the front-end.
 
 ## Fully-Connected
 
-The fully-connected (FC) projection is the core projection of MLP or feed-forward neural network; i.e. a sandwich of two FC with a non-linearity in the middle.
-It is also generally used as output of classification network, used within RNN/LSTM or Transformer.
-When applied to all spatial elements or all temporal elements, it can be replaced by a Convolution with a (1x1) kernel.
+The Fully-Connected (FC) projection is the core projection of Multi-Layer-Perceptron (MLP) or Feed-Forward (FF) neural network.
+- MLP or FF is a sandwich of two FC with a non-linearity in between
+- FC are generally used as output of classification network, used within RNN/LSTM or Transformer.
+- When applied to all spatial (temporal) elements, it can be replaced by a Convolution with a (1x1) kernel.
 
 ```python
 torch.nn.Lineartorch.nn.Linear(in_features, out_features)
@@ -41,19 +42,23 @@ torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 (lab_depthwise)=
 ## Depthwise Separable Convolution
 
-Depthwise Separable Convolution was proposed in {cite}`DBLP:conf/cvpr/Chollet17` in the continuation of the Inception network.
-It is the concatenation of a Depthwise Convolution (channel-wise convolution) followed by a Pointwise (1x1) convolution.
-- A normal convolution uses $C_{out}$ kernels each of shape $(3,3,C_{in})$.
-It necessitates $C_{out} \times (3 \times 3 \times C_{in})$ weights.
-- A DSC uses $C_{in}$ kernels each of shape $(3,3,1)$, then $C_{out}$ kernels of shape $(1,1,C_{in})$
-A DSC will only necessitates $C_{in} \times (3 \times 3 \times 1)$ and $C_{in} \times C_{out}$ weights.
+Depthwise Separable Convolution (DSC) was proposed in {cite}`DBLP:conf/cvpr/Chollet17` in the continuation of the Inception network.
+- It is the concatenation of
+  - a Depthwise Convolution (channel-wise convolution)
+  - a Pointwise (1x1) convolution.
+
+Rationale behind this approach
+- A normal convolution uses $C_{out}$ kernels each of shape $(C_{in},3,3)$.
+  - It necessitates $C_{out} \times (C_{in} \times 3 \times 3)$ weights.
+- A DSC uses $C_{in}$ kernels each of shape $(3,3)$, then $C_{out}$ kernels of shape $(C_{in},1,1)$
+  - A DSC will only necessitates $C_{in} \times (3 \times 3)$ and $C_{in} \times C_{out}$ weights.
 The number of multiplications is also largely reduced.
 
 Because of this, it is largely used in model for IoT such as MobileNet {cite}`DBLP:journals/corr/HowardZCKWWAA17`.
 
-![dephtwise](/images/brick_dephtwise.png)
-
-*image source: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9175497*
+![dephtwise](/images/brick_dephtwise.png)\
+**Figure**
+*Depthwise Separable Convolution; image source: [Link](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9175497)*
 
 ```python
 # Code: https://github.com/seungjunlee96/Depthwise-Separable-Convolution_Pytorch/blob/master/DepthwiseSeparableConvolution/DepthwiseSeparableConvolution.py
@@ -80,20 +85,18 @@ model(X).size()
 ## ResNet
 
 ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of image recognition.
-A ResNet is made of a large number of blocks each containing a residual connection (skip-connection).
-The later allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
+A ResNet is made of a
+- large number of blocks each containing a residual connection (skip-connection).
+- the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
+
 We are interested here in the two building blocks of ResNet:
 
-### The **building block**
-- a first 2D-Convolution
-- a ReLU
-- a second 2D-Convolution
-- the residual connection $\mathcal{F}(x)+x$
-- a ReLU
+#### The **building block**
 
-![resnet](/images/brick_resnet.png)
+It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection $\mathcal{F}(x)+x$, - a ReLU
 
-*image source: https://arxiv.org/pdf/1512.03385*
+![resnet-block1](/images/brick_resnet.png)\
+**Figure** *ResNet "building block"; image source: [Link](https://arxiv.org/pdf/1512.03385)*
 
 
 
@@ -128,12 +131,17 @@ class ResidualBlock(nn.Module):
 ```
 
 
-### The **“bottleneck” building block**
-
-![resnet_bottleneck](/images/brick_resnet_bottleneck.png)
+#### The **“bottleneck” block**
 
 It is a stack of 3 layers instead of 2
-The three layers are 1×1, 3×3, and 1×1 convolutions, where the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions, leaving the 3×3 layer a bottleneck with smaller input/output dimensions.
+The three layers are 1×1, 3×3, and 1×1 convolutions, where
+- the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,
+- the 3×3 layer is a bottleneck with smaller input/output dimensions.
+
+![resnet_bottleneck](/images/brick_resnet_bottleneck.png)\
+**Figure** *ResNet "“bottleneck” block"; image source: [Link](https://arxiv.org/pdf/1512.03385)*
+
+
 
 ```python
 # https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py
@@ -196,19 +204,27 @@ class Bottleneck(nn.Module):
 (lab_convnext)=
 ## ConvNeXt
 
-ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22` with the goal of modernizing ResNet architecture to remains competitive with Vision Transformers (ViTs).
+ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22`
+- with the goal of <mark>modernizing ResNet</mark> architecture
+- to remains competitive with Vision Transformers (ViTs).
+
 It especially bases its design on the Swin Transformers:
-- larger kernel size (kernels are $(7 \times 7)$), as in Transfomer (Transfomer has a non-local self-attention, which enables each layer to have a global receptive field)
--  ResNeXt-ify: instead of grouped convolution use dephtwise convolution
-- inverted bottleneck (from 96 channels to 384 then back to 96), as in Transformer (the hidden dimension of the MLP block is four times wider than the input dimension)
+- <mark>larger kernel</mark> size (kernels are $(7 \times 7)$),
+  - as in Transfomer (Transfomer has a non-local self-attention, which enables each layer to have a global receptive field)
+- ResNeXt-ify
+  - instead of grouped convolution use dephtwise convolution
+- <mark>inverted bottleneck</mark> (from 96 channels to 384 then back to 96),
+  - as in Transformer (the hidden dimension of the MLP block is four times wider than the input dimension)
 - various layer-wise micro designs (use of layer normalization)
-- Replacing ReLU with GELU (Gaussian Error Linear Unit)
-- Transfomer has fewer activation functions (only one activation function present in the MLP block)
+- <mark>Fewer activation functions</mark>
+  - <mark>Replacing ReLU with GELU</mark> (Gaussian Error Linear Unit)
+  - as in Transformer which has fewer activation functions (only one activation function present in the MLP block)
+
 In {cite}`DBLP:conf/cvpr/0003MWFDX22`, it has been shown to achieve better performances than Transformer-based architecture.
 
 ![convnext](/images/brick_convnext.png)
-
-*image source: https://arxiv.org/pdf/2201.03545*
+**Figure**
+*ConvNeXt block; image source: [Link](https://arxiv.org/pdf/2201.03545)*
 
 ```python
 # ConvNeXt CODE: https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext.py
