@@ -1,7 +1,7 @@
 (lab_cover_detection)=
-# Cover Song Identification
+# Cover Song Identification (CSI)
 
-## Goal of the task ?
+## Goal of CSI ?
 
 Cover(Version) Song Identification(Detection) is the task aiming at detecting if a given music track is a cover/version of another track.
 For example detecting that
@@ -19,7 +19,7 @@ To solve this, the approach commonly used is to have a reference dataset $R$, co
 If $q$ is similar to one track of the dataset (i.e. the distance $d(q,r_i)$ is small), we decide that $q$ is a cover of $r_i$ and they share the same work-id.
 This involves setting a threshold $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ we decide they are cover of each other.
 
-### A very short history of cover-song-identification.
+### A very short history of CSI
 
 - The story starts with {cite}`DBLP:conf/icassp/EllisP07` who proposed to compute $d(q,r_i)$ as the Cross-correlation between processed Chroma/PCP features of $q$ and $r_i$.
 - Later on, {cite}`DBLP:conf/icassp/SerraG08` proposed to improve the features (Harmonic-PCP) and the comparison algorithm (DTW, Dynamic Time Warping).
@@ -34,10 +34,11 @@ However, the results were largely below those Serra.
 The solution will come from Computer Vision and the face recognition problem in which deep learning is used to perform metric learning {cite}`DBLP:conf/cvpr/SchroffKP15`.
 This method will be transferred to do the cover-song-identification case by {cite}`DBLP:conf/ismir/DorasP19` and {cite}`DBLP:conf/icassp/YesilerSG20`.
 
-Fore more details, see the very good [tutorial on "Version Identification in the 20s"](https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28)
+Fore more details, see the very good tutorial
+- ["Version Identification in the 20s"](https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28)
 
 
-## How is the task evaluated ?
+## How is CSI evaluated ?
 
 In practice to evaluate the task, another problem is considered.
 
@@ -81,7 +82,7 @@ def F_average_precision(relevance):
 
 Other metrics are also commonly used such as the Cumulative Gain, (CG) Discounted Cumulative Gain (DCG), Normalised DCG.
 
-## Some popular datasets
+## Some popular datasets for CSI
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
@@ -93,7 +94,7 @@ For our implementations, we will consider the two following datasets (notes that
 - [DA-TACOS](https://github.com/MTG/da-tacos): 15.000 performances of 3000 different works
 
 
-## How we can solve it using deep learning
+## How can we solve CSI using deep learning ?
 
 The usual way to solve the cover version problem is to develop an algorithm that allows to compute a distance between two tracks $q$ and $r_i$, the distance should relates to their "coverness" (how much $q$ and $r_i$ are two performances of the same work-id).
 

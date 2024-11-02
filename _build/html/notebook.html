@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Running codebooks in Google Colab &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Nodebooks in Colab &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Music Content Analysis" href="task_musiccontent.html" />
-    <link rel="prev" title="Introduction" href="intro.html" />
+    <link rel="prev" title="TorchLightning training" href="intro_lightining.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -170,23 +170,29 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Running codebooks in Google Colab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Nodebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
@@ -390,7 +396,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Running codebooks in Google Colab</h1>
+    <h1>Nodebooks in Colab</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -404,8 +410,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="running-codebooks-in-google-colab">
-<h1>Running codebooks in Google Colab<a class="headerlink" href="#running-codebooks-in-google-colab" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="nodebooks-in-colab">
+<h1>Nodebooks in Colab<a class="headerlink" href="#nodebooks-in-colab" title="Permalink to this heading">#</a></h1>
 <p>We describe here how you can run in <a class="reference external" href="https://colab.research.google.com/">Google Colab</a> the notebooks we provide for this tutorial and therefore reproduce the  experiments we present.</p>
 <p><em>Google Colab, short for Collaboratory, is a free, cloud-based platform by Google that allows users to write and execute Python code in a Jupyter Notebook environment. It’s especially popular for machine learning and data science tasks because it provides access to powerful hardware like GPUs and TPUs at no cost.</em></p>
 <p>From Colab, choose <code class="docutils literal notranslate"><span class="pre">Import</span></code>, <code class="docutils literal notranslate"><span class="pre">Github</span></code>, and indicate the following repository <code class="docutils literal notranslate"><span class="pre">https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook.git</span></code>.</p>
@@ -451,12 +457,12 @@ If you then run the notebook, it will automatically</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="intro_lightining.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">TorchLightning training</p>
       </div>
     </a>
     <a class="right-next"

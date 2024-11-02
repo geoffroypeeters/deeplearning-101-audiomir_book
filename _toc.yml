@@ -7,6 +7,10 @@ parts:
 - caption: Introduction
   chapters:
     - file: intro
+      sections:
+        - file: intro_dataset
+        - file: intro_pytorch
+        - file: intro_lightining
     - file: notebook
 - caption: Tasks
   chapters:

@@ -172,27 +172,33 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Latent Diffusion</a></li>
 </ul>
 </li>
 </ul>
@@ -432,16 +438,17 @@ document.write(`
 <section id="supervised">
 <span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
 <p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span>.
-The goal is then to define a function <span class="math notranslate nohighlight">\(f\)</span> (a specific neural network architecture) and optimize its parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that <span class="math notranslate nohighlight">\(\hat{y}=f_{\theta}(X)\)</span> best approximates <span class="math notranslate nohighlight">\(y\)</span>.
-This is done by defining a loss <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> associated to the approximation of <span class="math notranslate nohighlight">\(y\)</span> by <span class="math notranslate nohighlight">\(\hat{y}\)</span>.
+The goal is then to define a function <span class="math notranslate nohighlight">\(f\)</span> (a specific neural network architecture) and optimize its parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}=f_{\theta}(\mathbf{x})\)</span> best approximates <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>.
+This is done by defining a loss <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> associated to the approximation of <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> by <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}\)</span>.
 Such a loss can be</p>
 <ul class="simple">
-<li><p>binary cross entropy (for binary classification problems, i.e. <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>, or multi-label problems i.e. <span class="math notranslate nohighlight">\(y \in \{0,1\}^C\)</span>,</p></li>
+<li><p>binary cross entropy (for binary classification problems, i.e. <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>, or multi-label problems i.e. <span class="math notranslate nohighlight">\(\mathbf{y} \in \{0,1\}^C\)</span>,</p></li>
 <li><p>categorical cross entropy (for multi-class problem, i.e. <span class="math notranslate nohighlight">\(y \in \{0,\ldots, C-1\}\)</span>)</p></li>
 <li><p>mean square error (for regression problems, i.e. <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span>)</p></li>
 </ul>
-<p>Since we do not have access to the distribution <span class="math notranslate nohighlight">\(p(X,y)\)</span> but only to samples of it <span class="math notranslate nohighlight">\(X^{(i)}\)</span>, <span class="math notranslate nohighlight">\(y^{(i)} \sim p(X,y)\)</span>, we <strong>empirically minimize the loss/risk</strong> for a set of training examples <span class="math notranslate nohighlight">\((X^{(i)}\)</span>, <span class="math notranslate nohighlight">\(y^{(i)})\)</span>:
-<span class="math notranslate nohighlight">\(\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(X^{(i)}), y^{(i)})\)</span>.</p>
+<p>Since we do not have access to the distribution <span class="math notranslate nohighlight">\(p(\mathbf{x},\mathbf{y})\)</span> but only to samples of it <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{y}^{(i)} \sim p(\mathbf{x},\mathbf{y})\)</span>, we <strong>empirically minimize the loss/risk</strong> for a set of training examples <span class="math notranslate nohighlight">\((\mathbf{x}^{(i)}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{y}^{(i)})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)})\]</div>
 <p>This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
 </section>
 <section id="self-supervised">
@@ -449,50 +456,88 @@ Such a loss can be</p>
 </section>
 <section id="metric-learning">
 <span id="lab-metric-learning"></span><h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
-<p>Metric learning is a type of machine learning technique focused on learning a distance function or similarity measure between data points. The goal is to map input data into a space where similar examples are close together and dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).</p>
+<p>Metric learning is a type of machine learning technique focused on <mark>learning a distance function or similarity measure between data points</mark>.
+The goal is to <mark>map input data into a space where</mark></p>
+<ul class="simple">
+<li><p>similar examples are close together and</p></li>
+<li><p>dissimilar examples are far apart, based on a certain metric (e.g., Euclidean distance).</p></li>
+</ul>
 <p>There exist several type of supervision to achieve this</p>
 <ul class="simple">
-<li><p>Class labels: <span class="math notranslate nohighlight">\((x,y)\)</span></p></li>
-<li><p>Pairwise similarity/dissimilarity: <span class="math notranslate nohighlight">\((x^{(1)},x^{(2)},\pm)\)</span></p></li>
-<li><p>Relative comparisons (triplet): <span class="math notranslate nohighlight">\((x^{(1)}, x^{(2)},x^{(3)}) \Rightarrow d(x^{(1)},x^{(2)}) &lt; d(x^{(1)},x^{(3)})\)</span></p></li>
+<li><p><strong>Class</strong> labels: <span class="math notranslate nohighlight">\((\mathbf{x},\mathbf{y})\)</span></p></li>
+<li><p><strong>Pairwise</strong> similarity/dissimilarity: <span class="math notranslate nohighlight">\((\mathbf{x}^{(1)},\mathbf{x}^{(2)},\pm)\)</span></p></li>
+<li><p><strong>Relative</strong> comparisons (triplet): <span class="math notranslate nohighlight">\((\mathbf{x}^{(1)}, \mathbf{x}^{(2)},\mathbf{x}^{(3)}) \Rightarrow d(\mathbf{x}^{(1)},\mathbf{x}^{(2)}) &lt; d(\mathbf{x}^{(1)},\mathbf{x}^{(3)})\)</span></p></li>
 </ul>
 <p>There exist many algorithm to train such a model such as</p>
 <ul class="simple">
-<li><p>Contrastive Loss <span id="id1">[<a class="reference internal" href="bibiography.html#id41" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jontly) the model to minize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
-<li><p>Triplet Loss <span id="id2">[<a class="reference internal" href="bibiography.html#id40" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
+<li><p><mark>Contrastive Loss</mark> <span id="id1">[<a class="reference internal" href="bibiography.html#id53" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jointly) the model to minimize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
+<li><p><mark>Triplet Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id52" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
 </ul>
 <p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
+<p>Fore more details, see the very good tutorial</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p></li>
+</ul>
 <section id="triplet-loss">
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
-<p>The goal is to train a network <span class="math notranslate nohighlight">\(f_{theta}\)</span> such that the resulting projections satisfy the following triplet constraint:
-<span class="math notranslate nohighlight">\(d( f_{\theta}(A), f_{\theta}(P) ) + \alpha &lt; d(f_{\theta}(A), f_{\theta}(N)) \)</span>
-where <span class="math notranslate nohighlight">\(A\)</span> is an anchor, <span class="math notranslate nohighlight">\(P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(N\)</span> a negative we consider distance from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> a margin.
-In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span></p>
-<p>We solve this by minimizing the following loss
-<span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span> where <span class="math notranslate nohighlight">\(\alpha\)</span> is a margin parameters.
-It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilite the setting the <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
-<p><img alt="triplet-loss" src="_images/brick_triplet.png" /></p>
-<p><em>image source: <a class="reference external" href="https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905">https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905</a></em></p>
+<p>The goal is to train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections satisfy the following triplet constraint:</p>
+<div class="math notranslate nohighlight">
+\[d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &lt; d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N)) \]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> is an anchor,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> a negative we consider distant from <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> a margin.</p></li>
+</ul>
+<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span></p>
+<p>We solve this by minimizing the following loss <span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span>.
+It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilitate the setting of the <span class="math notranslate nohighlight">\(\alpha\)</span> value.</p>
+<p><img alt="triplet-loss" src="_images/brick_triplet.png" /><br />
+<strong>Figure</strong>
+<em>Triplet Loss, bringing A and P closer and A and N further appart; image source: <a class="reference external" href="https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 <section id="triplet-mining">
 <h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
-<p>Triplet mining is the process of selecting triplets of examples (Anchor, Positive, Negative) for training in triplet loss.
+<p>Triplet mining is the process of <mark>selecting the triplets</mark> for training using the triplet loss.
 The goal is to ensure the model learns effectively by choosing the right combination of examples.</p>
 <p>Given the choice of an Anchor and a Positive, we denotes by</p>
 <ul class="simple">
-<li><p><strong>Easy negatives</strong>: Negatives (different class) that are already far from the anchor. These don’t provide much useful information since the model already distinguishes them well.</p></li>
-<li><p><strong>Semi-hard negatives</strong>: Negatives that are farther from the anchor than the positive but still relatively close. These provide valuable learning opportunities because they are challenging without being as problematic as hard negatives.</p></li>
-<li><p><strong>Hard negatives</strong>: Negatives that are very close to the anchor in the feature space (even closer than the positive). These are difficult for the model to separate and can help the model learn but might also lead to instability or overfitting.</p></li>
+<li><p><strong>Easy negatives</strong>: N that are already far from A.</p>
+<ul>
+<li><p>do not provide much useful information (since the model already distinguishes them well).</p></li>
 </ul>
-<p><img alt="tripletmining" src="_images/brick_tripletmining.png" /></p>
-<p><em>image source: <a class="reference external" href="https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028">https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028</a></em></p>
+</li>
+<li><p><strong>Hard negatives</strong>: N that are very close to A  (even closer than the P).</p>
+<ul>
+<li><p>these are difficult for the model to separate</p></li>
+<li><p>might lead to instability or overfitting.</p></li>
+</ul>
+</li>
+<li><p><strong>Semi-hard negatives</strong>: N that are farther from A than the P but still relatively close.</p>
+<ul>
+<li><p>provides valuable information  (because they are challenging without being as problematic as hard negatives).</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="triplet-mining" src="_images/brick_tripletmining.png" /><br />
+<strong>Figure</strong>
+<em>Triplet mining: easy, hard, semi-hard; image source: <a class="reference external" href="https://www.researchgate.net/figure/Online-Triplet-Mining-strategies-For-an-anchor-blue-A-and-a-positive-green-P-sample_fig6_364057028">Link</a></em></p>
 <p>We also distinguish between</p>
 <ul class="simple">
-<li><p><strong>Offline mining</strong>: triplets are chosen prior to training and may not adapt to the evolving model during training.</p></li>
-<li><p><strong>Online mining</strong>: triplets are selected from the current mini-batch using the already learned projection <span class="math notranslate nohighlight">\(f_{\theta}\)</span>, this allows selecting the most informative triplets</p></li>
+<li><p><strong>Offline mining</strong>: triplets are <mark>selected prior to training</mark></p>
+<ul>
+<li><p>may not adapt to the evolving model during training.</p></li>
+</ul>
+</li>
+<li><p><strong>Online mining</strong>: triplets are <mark>selected during training (from the current mini-batch)</mark> using the already learned projection <span class="math notranslate nohighlight">\(f_{\theta}\)</span></p>
+<ul>
+<li><p>allows selecting the most informative triplets</p></li>
+</ul>
+</li>
 </ul>
 </section>
 </section>

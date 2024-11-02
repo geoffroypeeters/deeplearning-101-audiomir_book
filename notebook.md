@@ -1,4 +1,4 @@
-# Running codebooks in Google Colab
+# Nodebooks in Colab
 
 We describe here how you can run in [Google Colab](https://colab.research.google.com/) the notebooks we provide for this tutorial and therefore reproduce the  experiments we present.
 

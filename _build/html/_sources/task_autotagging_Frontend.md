@@ -1,8 +1,8 @@
 (lab_auto_tagging)=
-# Auto-Tagging (study of front-ends)
+# Auto-Tagging (front-ends)
 
 
-## Goal of the task ?
+## Goal of Auto-Tagging ?
 
 Music auto-tagging is the task of assigning tags (such as genre, style, moods, instrumentation, chords) to a music track.
 Tags can be
@@ -11,7 +11,7 @@ Tags can be
 
 ![flow_autotagging](/images/flow_autotagging.png)
 
-### A very short history of auto-tagging.
+### A very short history of Auto-Tagging
 The task has a long history in MIR.
 - As soon as 2002 Tzanetakis et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
 - Over years, the considered audio features improved  {cite}`Peeters2004AudioFeatures`, including block-features {cite}`Seyerlehner2010PHD` or speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the machine-learning models (moving to Support-Vector-Machine).
@@ -35,9 +35,10 @@ For example,
 
 The task is still active nowadays especially using Self-Supervised-Learning {cite}`DBLP:conf/nips/YuanMLZCYZLHTDW23` (see second part).
 
-Fore more details, see the very good [tutorial on "musical classification"](https://music-classification.github.io/tutorial/landing-page.html)
+Fore more details, see the very good tutorial
+- ["musical classification"](https://music-classification.github.io/tutorial/landing-page.html)
 
-### A very short history of chord estimation.
+### A very short history of Chord Estimation.
 
 Chord estimation can be considered as a specific tagging application: it involves applying chord-label-tags (mutually exclusive) over segments of time.
 However, it has been considered as a specific task since chord transition follow musical rules which can be represented by a language model.
@@ -103,7 +104,7 @@ Averages in scikitlearn:
 - **Macro average**: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).
 - **Micro average**: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples
 
-### Chord segments
+### Chord Estimation
 
 Evaluating a chord estimation system can be done as a multi-class problem (for the sake of simplicity, this is what will be done in what follows).
 However, chord are not simple labels.
@@ -121,19 +122,93 @@ We have chosen the two following ones since they are often used, they represent 
 
 For our implementations, we will consider the two following datasets
 
-- [GTZAN](http://marsyas.info/downloads/datasets.html).
-It contains 1000 audio files of 30s duration, each with a single (**multi-class**) genre label among 10 classes ('blues','classical','country','disco','hiphop','jazz','metal','pop', 'reggae','rock').
+### GTZAN
+
+[GTZAN](http://marsyas.info/downloads/datasets.html) contains 1000 audio files of 30s duration, each with a single (**multi-class**) genre label among 10 classes ('blues','classical','country','disco','hiphop','jazz','metal','pop', 'reggae','rock').
 Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.
+```python
+"entry": [
+            {
+                "filepath": [
+                    {"value": "blues+++blues.00000.wav"}
+                ],
+                "genre": [
+                    {"value": "blues"}
+                ]
+            },
+            {
+                "filepath": [
+                    {"value": "blues+++blues.00001.wav"}
+                ],
+                "genre": [
+                    {"value": "blues"}
+                ]
+            }
+          ]
+```
+### Magna-Tag-A-Tune
 
-- [MagneTagATune (MTT)](https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset).
+[Magna-Tag-A-Tune (MTT)](https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset) is a **multi-label** large-scale dataset of 25,000 30-second music clips from various genres, each annotated with multiple tags describing genre, mood, instrumentation, and other musical attributes such as ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
 We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
-The original dataset contains 21.108 files of 30s duration, each with multiple (**multi-label**) tag labels among 50 classes ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
+```python
+"entry": [
+            {
+                "filepath": [
+                    {"value": "0+++american_bach_soloists-j_s__bach__cantatas_volume_v-01-gleichwie_der_regen_und_schnee_vom_himmel_fallt_bwv_18_i_sinfonia-117-146.mp3"}
+                ],
+                "tag": [
+                    {"value": "classical"},
+                    {"value": "violin"}
+                ],
+                "artist": [
+                    {"value": "American Bach Soloists"}
+                ],
+                "album": [
+                    {"value": "J.S. Bach - Cantatas Volume V"}
+                ],
+                "track_number": [
+                    {"value": 1}
+                ],
+                "title": [
+                    {"value": "Gleichwie der Regen und Schnee vom Himmel fallt BWV 18_ I Sinfonia"}
+                ],
+                "clip_id": [
+                    {"value": 29}
+                ],
+                "original_url": [
+                    {"value": "http://he3.magnatune.com/all/01--Gleichwie%20der%20Regen%20und%20Schnee%20vom%20Himmel%20fallt%20BWV%2018_%20I%20Sinfonia--ABS.mp3"}
+                ],
+                "segmentEnd": [
+                    {"value": 146}
+                ],
+                "segmentStart": [
+                    {"value": 117}
+                ]
+            },
+          ]
+```
 
-- [RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06`
-The RWC dataset is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named `Popular-Music-Dataset`. \
-*This dataset was made accessible online with the permission of Masataka Goto for the specific purpose of this tutorial. For any other use, please contact Masataka Goto for authorization.*
+### RWC-Popular-Chord (AIST-Annotations)
 
+[RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06` is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named `Popular-Music-Dataset`. \
+*This dataset has been made available online with Masataka Goto's permission specifically for this tutorial. For any other use, please contact Masataka Goto to obtain authorization.*
 
+```python
+"entry": [
+            {
+                "filepath": [
+                    {"value": "001"}
+                ],
+                "chord": [
+                    {"value": "N:-", "time": 0.0, "duration": 0.104},
+                    {"value": "G#:min", "time": 0.104, "duration": 1.754},
+                    {"value": "F#:maj", "time": 1.858,"duration": 1.7879999999999998},
+                    {"value": "E:maj","time": 3.646,"duration": 1.7409999999999997},
+                    {"value": "F#:maj", "time": 5.387, "duration": 3.6800000000000006},
+                ]
+            }
+          ]
+```
 
 
 
@@ -183,3 +258,12 @@ We will vary in turn
 | GTZAN      | Waveform  | TCN					 | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.46           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C4.ipynb) |
 | MTT        | LMS       | Conv2d(128,5) | Conv1d/Linear/AutoPoolWeightSplit   | AUC: 0.81, avgPrec: 0.29    | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D2-I1-C1.ipynb) |
 | RWC-Pop-Chord | CQT    | Conv2D(1,5)(5,1)* |	Conv1D/LSTM/Linear             | macroRecall: 0.54           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D3-I3-Chord.ipynb) |
+
+
+### Illustrations:
+
+- learned filters Conv1d
+- learned filters SincNet
+- Tag-O-Gram: multi-class
+- Tag-O-Gram: multi-label
+- Tag-O-Gram: chords

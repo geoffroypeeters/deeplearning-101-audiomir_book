@@ -9,16 +9,16 @@ Those therefore depends on the type of the input.
 (lab_conv1d)=
 ## Conv-1D
 
-Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` were probably the first to attempt replacing the spectrogram input by a learnable front-end, here 1D-convolution.
-They replicated the spectrogram parameters (window length, hop size) in the 1D-convolution parameters (kernel-length and stride).
-A major difference between the spectrogram (magnitude of the STFT) and learnable 1D-kernels, is the phase-shift invariance provided by the former (to perform this with the later will necessitates a kernel for all possible phase-shift of a given frequency).
-To facilitate the learning of such kernels, smaller kernel (hence with less possibilities for phase-shifts) has been proposed, such as in Sample-CNN (a cascade, as in VGG-net, or small 1D filters) {cite}`DBLP:journals/corr/LeePKN17`.
+- Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` were probably among the first to attempt <mark>replacing the spectrogram input by a learnable front-end, here 1D-convolution</mark>.
+  - They replicated the spectrogram parameters (window length, hop size) in the 1D-convolution parameters (kernel-length and stride).
+- A major difference between the spectrogram (magnitude of the STFT) and learnable 1D-kernels, is the <mark>phase-shift invariance</mark> provided by the former (to perform this with the later will necessitates a kernel for all possible phase-shift of a given frequency).
+  - To facilitate the learning of such kernels, <mark>smaller kernel</mark> (hence with less possibilities for phase-shifts) has been proposed, such as in Sample-CNN (a cascade, as in VGG-net, or small 1D filters) {cite}`DBLP:journals/corr/LeePKN17`.
 
 1D-Convolution is very popular for source separation front-ends: as in Wav-U-Net {cite}`DBLP:conf/ismir/StollerED18`, ConvTasNet {cite}`DBLP:journals/taslp/LuoM19` or Demucs {cite}`DBLP:journals/corr/abs-1909-01174`.
 
-![conv1d](/images/brick_conv1d.png)
-
-*image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
+![conv1d](/images/brick_conv1d.png)\
+**Figure**
+*1D-Convolution; image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
 
 
 ```python
@@ -30,22 +30,19 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 ## Dilated-Conv-1D
 
 The 1D-dilated convolution was proposed in the paper WaveNet was proposed in {cite}`DBLP:conf/ssw/OordDZSVGKSK16`.
-The goal of it is to increase the side of the receptive field.
-Indeed, since audio signals has a large dimensionality (16.000 values for 1 second of audio at a sampling rate of 16Khz), one would need a very large kernel, or a very large number of layers in order the receptive field to capture the whole signal.
-Dilated convolution consists in skipping 1 sample over 2 (over 4, over 8, ...) when computing convolution (or equivalently adding holes in the kernel).
+The goal of it is to <mark>increase the side of the receptive field</mark>.
+- Indeed, since audio signals has a large dimensionality (16.000 values for 1 second of audio at a sampling rate of 16Khz), one would need a very large kernel, or a very large number of layers in order the receptive field to capture the whole signal.
+- Dilated convolution consists in skipping 1 sample over 2 (over 4, over 8, ...) when computing convolution (or equivalently adding holes in the kernel).
 
-For a 1D-filter $w$ of size $l$ and a sequence $x(n)$,
-- the usual convolution is written $(x \circledast w)(n) = \sum_{i=0}^{l-1} w(i) x(n-i)$;
-- he dilated convolution with a dilatation factor $d$ is written $(x \circledast_d w)(n) = \sum_{i=0}^{l-1} w(i) x(n - (d \cdot i))$,
+For a 1D-filter $w$ of size $l$ and a sequence $x_n$,
+- the usual convolution is written $(x \circledast w)_n = \sum_{i=0}^{l-1} w_i x_{n-i}$
+- the dilated convolution with a dilatation factor $d$ is written $(x \circledast_d w)_n = \sum_{i=0}^{l-1} w_i x_{n - (d \times i)}$,
   - the filter is convolved with the signal only considering one over $d$ values.
 
-![tcn](/images/brick_dilated.png)
+![dilated-conv](/images/brick_dilated.png)\
+**Figure**
+*Dilated 1D-Convolution; image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
 
-*image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
-
-%![tcn](/images/brick_wavenet.png)
-%*image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
-%https://github.com/facebookresearch/music-translation/blob/main/src/wavenet.py
 
 ```python
 torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=2, groups=1, bias=True, padding_mode='zeros')
@@ -66,7 +63,8 @@ It is made of
   - Dropout
 - A residual/skip connnection
 
-![tcn](/images/brick_tcn.png)
+![tcn](/images/brick_tcn.png)\
+**Figure** *Temporal Convolution Network Block; image source: {cite}`DBLP:journals/corr/abs-1803-01271`*
 
 ```python
 # TCN code: https://github.com/locuslab/TCN
@@ -138,24 +136,35 @@ class TemporalConvNet(nn.Module):
 
 SincNet was proposed in {cite}`DBLP:conf/slt/RavanelliB18`.
 It is one of the first **parametric front-end**.
-More precisely SincNet defines a 1D-kernel (to be used for 1D-convolution) as the results of a parametric function.
 
-**Parametric kernel:** If we define a 1D-convolution filter of length N as $w(n), n \in \{0,\ldots,N-1\}$.
-When training a normal convolution kernel, one has to learn each of the $N$ filter values.
-In parametric kernel, $w(n)$ is the results of a parametric function $w_{\theta}(n)$ ($\theta$ is the parameter) which is evaluated at the points $n \in \{0,\ldots,N-1\}$ to get the values of $w(n)$
+**Parametric kernel:**
+- SincNet defines a 1D-kernel (to be used for 1D-convolution) as the results of a <mark>parametric function</mark>.
+- In parametric kernel, $w_n$ is the results of a parametric function evaluated at the points $n \in \{0,\ldots,N-1\}$: $w_n = f_{\theta}(n)$
+  - where $\theta$ are the parameters of the function
 
-**SincNet** aims at designing kernels which frequency response is a band-pass filter $[f_1,f_2]$.
-Since band-pass filters can be obtained by subtracting a low-pass filters at frequency $f_1$ from one at frequency $f_1$, and since low-pass filters are expressed as SinC function in time ($sinc(x)=\frac{\sin(x)}{x}$), the kernel is expressed as
-$w_{f_1,f_2}(n)=2 f_2 sinc(2 \pi f_2n) - 2 f_1 sinc(2 \pi f_1 n)$.
-To train a SincNet filter of length $N$, we only need to learn two parameters ($f_1$ and $f_2$) and not $N$.
-Because we can compute the derivative of the Loss w.r.t. $f_1$ and $f_2$, we can then optimize $f_1$ and $f_2$ using standard gradient descent algorithm.
+**Training:**
+- Training a normal 1D-convolution kernel of length $N$ $\Rightarrow$ one has to learn each of the $N$ filter values.
+- Training a parametric kernel of length $N$ $\Rightarrow$ one has only to learn the $\theta$.
 
-SincNet is the first of a series of front-ends which rely on differentiable implementation of signal processing: analytic filters {cite}`DBLP:conf/icassp/ParienteCDV20`, complex Gabor (CG-CNN) {cite}`DBLP:conf/icassp/NoePM20`, or LEAF (Learnable Audio Front-End) {cite}`DBLP:conf/iclr/ZeghidourTQT21`.
-It can be considered as the early stages of what would lead to the well-known DDSP {cite}`DBLP:conf/iclr/EngelHGR20`.
+**SincNet**
+- aims at designing kernels which frequency response is a band-pass filter $[f_1,f_2]$.
+- <mask>band-pass filters $[f_1,f_2]$</mask> = subtracting a low-pass filters at frequency $f_1$ from one at frequency $f_1$,
+- low-pass filters are expressed as SinC function in time: $SinC(x)=\frac{\sin(x)}{x}$
 
-![sincnet](/images/brick_sincnet.png)
+  $$w_n^{f_1,f_2}=2 f_2 sinc(2 \pi f_2 n) - 2 f_1 sinc(2 \pi f_1 n)$$
 
-*image source: SincNet {cite}`DBLP:conf/slt/RavanelliB18`*
+Only two parameters to be trained: $\theta = \{f_1, f_2\}$.
+How to train ? we can compute the derivative of the Loss w.r.t. $f_1$ and $f_2$, we can then optimize ...
+
+SincNet is the first of a series of front-ends which rely on <mark>differentiable implementation of signal processing</mark>:
+- Analytic filters {cite}`DBLP:conf/icassp/ParienteCDV20`,
+- Complex Gabor (CG-CNN) {cite}`DBLP:conf/icassp/NoePM20`, or
+- LEAF (Learnable Audio Front-End) {cite}`DBLP:conf/iclr/ZeghidourTQT21`.
+- It can be considered as the early stages of what would lead to the well-known DDSP {cite}`DBLP:conf/iclr/EngelHGR20`.
+
+![sincnet](/images/brick_sincnet.png)\
+**Figure**
+*SincNet architcture; image source: {cite}`DBLP:conf/slt/RavanelliB18`*
 
 
 ```python

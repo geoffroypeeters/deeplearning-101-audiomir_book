@@ -3,7 +3,7 @@
 This is a web book written for a tutorial session of the [25th International Society for Music Information Retrieval Conference](https://ismir2024.ismir.net/), Nov 10-14, 2024 in San Francisco, CA, USA. The [ISMIR conference](https://ismir.net/) is the world’s leading research forum on processing, searching, organising and accessing music-related data.
 
 **Context.** Audio-based MIR (MIR based on the processing of audio signals) covers a broad range of tasks, including
-- music content analysis (pitch, chord, beats, tagging), similarity/cover identification,
+- music content analysis (pitch, chord, beats, tagging), similarity (acoustic or cover identification), fingerprint,
 - music audio processing (source separation, music translation)
 - music audio generation (of samples or whole tracks).
 

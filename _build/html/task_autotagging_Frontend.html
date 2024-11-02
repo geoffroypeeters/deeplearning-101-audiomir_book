@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Auto-Tagging (study of front-ends) &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Auto-Tagging (front-ends) &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_autotagging_frontend';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Multi-Pitch-Estimation" href="task_multipitchestimation.html" />
+    <link rel="next" title="Multi-Pitch-Estimation (MPE)" href="task_multipitchestimation.html" />
     <link rel="prev" title="Music Content Analysis" href="task_musiccontent.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -172,23 +172,29 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Auto-Tagging (study of front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (study of SSL approaches)</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
@@ -394,7 +400,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Auto-Tagging (study of front-ends)</h1>
+    <h1>Auto-Tagging (front-ends)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -404,20 +410,26 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-auto-tagging">A very short history of auto-tagging.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-chord-estimation">A very short history of chord estimation.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-auto-tagging">Goal of Auto-Tagging ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-auto-tagging">A very short history of Auto-Tagging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-chord-estimation">A very short history of Chord Estimation.</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-class">Multi-class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-label">Multi-label</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-segments">Chord segments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-estimation">Chord Estimation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gtzan">GTZAN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#magna-tag-a-tune">Magna-Tag-A-Tune</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rwc-popular-chord-aist-annotations">RWC-Popular-Chord (AIST-Annotations)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrations">Illustrations:</a></li>
 </ul>
 </li>
 </ul>
@@ -431,10 +443,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-study-of-front-ends">
-<span id="lab-auto-tagging"></span><h1>Auto-Tagging (study of front-ends)<a class="headerlink" href="#auto-tagging-study-of-front-ends" title="Permalink to this heading">#</a></h1>
-<section id="goal-of-the-task">
-<h2>Goal of the task ?<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-front-ends">
+<span id="lab-auto-tagging"></span><h1>Auto-Tagging (front-ends)<a class="headerlink" href="#auto-tagging-front-ends" title="Permalink to this heading">#</a></h1>
+<section id="goal-of-auto-tagging">
+<h2>Goal of Auto-Tagging ?<a class="headerlink" href="#goal-of-auto-tagging" title="Permalink to this heading">#</a></h2>
 <p>Music auto-tagging is the task of assigning tags (such as genre, style, moods, instrumentation, chords) to a music track.
 Tags can be</p>
 <ul class="simple">
@@ -443,44 +455,47 @@ Tags can be</p>
 </ul>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
 <section id="a-very-short-history-of-auto-tagging">
-<h3>A very short history of auto-tagging.<a class="headerlink" href="#a-very-short-history-of-auto-tagging" title="Permalink to this heading">#</a></h3>
+<h3>A very short history of Auto-Tagging<a class="headerlink" href="#a-very-short-history-of-auto-tagging" title="Permalink to this heading">#</a></h3>
 <p>The task has a long history in MIR.</p>
 <ul class="simple">
-<li><p>As soon as 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id48" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the <code class="docutils literal notranslate"><span class="pre">genre</span></code> using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).</p></li>
-<li><p>Over years, the considered audio features improved  <span id="id2">[<a class="reference internal" href="bibiography.html#id20" title="Geoffroy Peeters. A large set of audio features for sound description (similarity and classification) in the cuidado project. Cuidado Project Report, Ircam, 2004.">Pee04</a>]</span>, including block-features <span id="id3">[<a class="reference internal" href="bibiography.html#id19" title="Klaus Seyerlehner. Content-Based Music Recommender Systems: Beyond simple Frame-Level Audio Similarity. PhD thesis, Johannes Kepler Universität, Linz, Austria, December 2010.">Sey10</a>]</span> or speech-inspired features (Universal-Background-Models and Super-Vector <span id="id4">[<a class="reference internal" href="bibiography.html#id18" title="Christophe Charbuillet, Damien Tardieu, and Geoffroy Peeters. Gmm supervector for content based music similarity. In Proc. of DAFx (International Conference on Digital Audio Effects), 425-428. Paris, France, September 2011.">CTP11</a>]</span>), as well as the machine-learning models (moving to Support-Vector-Machine).</p></li>
-<li><p>It also quickly appeared that the same feature/ML system could be trained to solve many tasks of tagging or segmentation (genre, mood, speech/music) <span id="id5">[<a class="reference internal" href="bibiography.html#id17" title="Geoffroy Peeters. A generic system for audio indexing: application to speech/ music segmentation and music genre. In In Proc. of DAFx (International Conference on Digital Audio Effects). Bordeaux, France, 2007.">Pee07</a>]</span>, <span id="id6">[<a class="reference internal" href="bibiography.html#id16" title="Juan-Jo Burred and Geoffroy Peeters. An adaptive system for music classification and tagging. In Proc. of LSAS (International Workshop on Learning the Semantics of Audio Signals). Graz, Austria, 2009.">BP09</a>]</span>.</p></li>
+<li><p>As soon as 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id51" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the <code class="docutils literal notranslate"><span class="pre">genre</span></code> using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).</p></li>
+<li><p>Over years, the considered audio features improved  <span id="id2">[<a class="reference internal" href="bibiography.html#id23" title="Geoffroy Peeters. A large set of audio features for sound description (similarity and classification) in the cuidado project. Cuidado Project Report, Ircam, 2004.">Pee04</a>]</span>, including block-features <span id="id3">[<a class="reference internal" href="bibiography.html#id22" title="Klaus Seyerlehner. Content-Based Music Recommender Systems: Beyond simple Frame-Level Audio Similarity. PhD thesis, Johannes Kepler Universität, Linz, Austria, December 2010.">Sey10</a>]</span> or speech-inspired features (Universal-Background-Models and Super-Vector <span id="id4">[<a class="reference internal" href="bibiography.html#id21" title="Christophe Charbuillet, Damien Tardieu, and Geoffroy Peeters. Gmm supervector for content based music similarity. In Proc. of DAFx (International Conference on Digital Audio Effects), 425-428. Paris, France, September 2011.">CTP11</a>]</span>), as well as the machine-learning models (moving to Support-Vector-Machine).</p></li>
+<li><p>It also quickly appeared that the same feature/ML system could be trained to solve many tasks of tagging or segmentation (genre, mood, speech/music) <span id="id5">[<a class="reference internal" href="bibiography.html#id20" title="Geoffroy Peeters. A generic system for audio indexing: application to speech/ music segmentation and music genre. In In Proc. of DAFx (International Conference on Digital Audio Effects). Bordeaux, France, 2007.">Pee07</a>]</span>, <span id="id6">[<a class="reference internal" href="bibiography.html#id19" title="Juan-Jo Burred and Geoffroy Peeters. An adaptive system for music classification and tagging. In Proc. of LSAS (International Workshop on Learning the Semantics of Audio Signals). Graz, Austria, 2009.">BP09</a>]</span>.</p></li>
 </ul>
 <p><strong>Deep learning era.</strong></p>
 <ul class="simple">
-<li><p>One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman <span id="id7">[<a class="reference internal" href="bibiography.html#id57">Die14</a>]</span>.
+<li><p>One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman <span id="id7">[<a class="reference internal" href="bibiography.html#id60">Die14</a>]</span>.
 In this a Conv2d is applied to a Log-Mel-Spectrogram using kernels that extend over the whole frequency range, therefore performing only convolution over time.
 The rational for this, is that as opposed to natural images, sources in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).</p></li>
-<li><p>Despite this, Choi et al. <span id="id8">[<a class="reference internal" href="bibiography.html#id47" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span> proposed (with success) to apply Computer Vision VGG-like architecture to a time-frequency representation.</p></li>
-<li><p>Later on, Pons et al. <span id="id9">[<a class="reference internal" href="bibiography.html#id11" title="Jordi Pons, Thomas Lidy, and Xavier Serra. Experimenting with musically motivated convolutional neural networks. In 14th International Workshop on Content-Based Multimedia Indexing, CBMI 2016, Bucharest, Romania, June 15-17, 2016, 1–6. IEEE, 2016. URL: https://doi.org/10.1109/CBMI.2016.7500246, doi:10.1109/CBMI.2016.7500246.">PLS16</a>]</span> proposed to design kernel shapes using musical consideration (with kernel extending over fequencies to represent timbre, over time to represent rhythm).</p></li>
-<li><p>Using directly the audio waveform (End-to-end) system has also been proposed for this task, such as in Dieleman et al. <span id="id10">[<a class="reference internal" href="bibiography.html#id9" title="Sander Dieleman and Benjamin Schrauwen. End-to-end learning for music audio. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2014, Florence, Italy, May 4-9, 2014, 6964–6968. IEEE, 2014. URL: https://doi.org/10.1109/ICASSP.2014.6854950, doi:10.1109/ICASSP.2014.6854950.">DS14</a>]</span> or Lee et al. <span id="id11">[<a class="reference internal" href="bibiography.html#id8" title="Jongpil Lee, Jiyoung Park, Keunhyoung Luke Kim, and Juhan Nam. Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms. CoRR, 2017. URL: http://arxiv.org/abs/1703.01789, arXiv:1703.01789.">LPKN17</a>]</span>.</p></li>
+<li><p>Despite this, Choi et al. <span id="id8">[<a class="reference internal" href="bibiography.html#id50" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span> proposed (with success) to apply Computer Vision VGG-like architecture to a time-frequency representation.</p></li>
+<li><p>Later on, Pons et al. <span id="id9">[<a class="reference internal" href="bibiography.html#id14" title="Jordi Pons, Thomas Lidy, and Xavier Serra. Experimenting with musically motivated convolutional neural networks. In 14th International Workshop on Content-Based Multimedia Indexing, CBMI 2016, Bucharest, Romania, June 15-17, 2016, 1–6. IEEE, 2016. URL: https://doi.org/10.1109/CBMI.2016.7500246, doi:10.1109/CBMI.2016.7500246.">PLS16</a>]</span> proposed to design kernel shapes using musical consideration (with kernel extending over fequencies to represent timbre, over time to represent rhythm).</p></li>
+<li><p>Using directly the audio waveform (End-to-end) system has also been proposed for this task, such as in Dieleman et al. <span id="id10">[<a class="reference internal" href="bibiography.html#id12" title="Sander Dieleman and Benjamin Schrauwen. End-to-end learning for music audio. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2014, Florence, Italy, May 4-9, 2014, 6964–6968. IEEE, 2014. URL: https://doi.org/10.1109/ICASSP.2014.6854950, doi:10.1109/ICASSP.2014.6854950.">DS14</a>]</span> or Lee et al. <span id="id11">[<a class="reference internal" href="bibiography.html#id11" title="Jongpil Lee, Jiyoung Park, Keunhyoung Luke Kim, and Juhan Nam. Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms. CoRR, 2017. URL: http://arxiv.org/abs/1703.01789, arXiv:1703.01789.">LPKN17</a>]</span>.</p></li>
 <li><p>The task of auto-tagging has also close relationship with their equivalent task in Speech.</p></li>
 </ul>
-<p><mark><em>We will develop here a model developed initially for speaker recognition by Ravanelli et al. <span id="id12">[<a class="reference internal" href="bibiography.html#id74" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span>.</em></mark></p>
+<p><mark><em>We will develop here a model developed initially for speaker recognition by Ravanelli et al. <span id="id12">[<a class="reference internal" href="bibiography.html#id77" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span>.</em></mark></p>
 <p>The task is still very active today, even in the supervised case.
 For example,</p>
 <ul class="simple">
-<li><p>MULE <span id="id13">[<a class="reference internal" href="bibiography.html#id13" title="Matthew C. McCallum, Filip Korzeniowski, Sergio Oramas, Fabien Gouyon, and Andreas F. Ehmann. Supervised and unsupervised learning of audio representations for music understanding. In Preeti Rao, Hema A. Murthy, Ajay Srinivasamurthy, Rachel M. Bittner, Rafael Caro Repetto, Masataka Goto, Xavier Serra, and Marius Miron, editors, Proceedings of the 23rd International Society for Music Information Retrieval Conference, ISMIR 2022, Bengaluru, India, December 4-8, 2022, 256–263. 2022. URL: https://archives.ismir.net/ismir2022/paper/000030.pdf.">MKO+22</a>]</span> use a more sophisticated ConvNet architecture (Short-Fast-Normalizer-Free Net F0) and training paradigm (contrastive learning based on artist, album or tags) and is trained on a very large music collection (Pandora), or</p></li>
-<li><p>PaSST <span id="id14">[<a class="reference internal" href="bibiography.html#id12" title="Khaled Koutini, Shahed Masoudian, Florian Schmid, Hamid Eghbal-zadeh, Jan Schlüter, and Gerhard Widmer. Learning general audio representations with large-scale training of patchout audio transformers. In Joseph Turian, Björn W. Schuller, Dorien Herremans, Katrin Kirchhoff, L. Paola Garc\'ıa-Perera, and Philippe Esling, editors, HEAR: Holistic Evaluation of Audio Representations, Virtual Event, December 13-14, 2021, volume 166 of Proceedings of Machine Learning Research, 65–89. PMLR, 2021. URL: https://proceedings.mlr.press/v166/koutini22a.html.">KMS+21</a>]</span> is based on the Vit, and use tokenized (set of patches) spectrograms fed to a Transformer</p></li>
+<li><p>MULE <span id="id13">[<a class="reference internal" href="bibiography.html#id16" title="Matthew C. McCallum, Filip Korzeniowski, Sergio Oramas, Fabien Gouyon, and Andreas F. Ehmann. Supervised and unsupervised learning of audio representations for music understanding. In Preeti Rao, Hema A. Murthy, Ajay Srinivasamurthy, Rachel M. Bittner, Rafael Caro Repetto, Masataka Goto, Xavier Serra, and Marius Miron, editors, Proceedings of the 23rd International Society for Music Information Retrieval Conference, ISMIR 2022, Bengaluru, India, December 4-8, 2022, 256–263. 2022. URL: https://archives.ismir.net/ismir2022/paper/000030.pdf.">MKO+22</a>]</span> use a more sophisticated ConvNet architecture (Short-Fast-Normalizer-Free Net F0) and training paradigm (contrastive learning based on artist, album or tags) and is trained on a very large music collection (Pandora), or</p></li>
+<li><p>PaSST <span id="id14">[<a class="reference internal" href="bibiography.html#id15" title="Khaled Koutini, Shahed Masoudian, Florian Schmid, Hamid Eghbal-zadeh, Jan Schlüter, and Gerhard Widmer. Learning general audio representations with large-scale training of patchout audio transformers. In Joseph Turian, Björn W. Schuller, Dorien Herremans, Katrin Kirchhoff, L. Paola Garc\'ıa-Perera, and Philippe Esling, editors, HEAR: Holistic Evaluation of Audio Representations, Virtual Event, December 13-14, 2021, volume 166 of Proceedings of Machine Learning Research, 65–89. PMLR, 2021. URL: https://proceedings.mlr.press/v166/koutini22a.html.">KMS+21</a>]</span> is based on the Vit, and use tokenized (set of patches) spectrograms fed to a Transformer</p></li>
 </ul>
-<p>The task is still active nowadays especially using Self-Supervised-Learning <span id="id15">[<a class="reference internal" href="bibiography.html#id46" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span> (see second part).</p>
-<p>Fore more details, see the very good <a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">tutorial on “musical classification”</a></p>
+<p>The task is still active nowadays especially using Self-Supervised-Learning <span id="id15">[<a class="reference internal" href="bibiography.html#id49" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span> (see second part).</p>
+<p>Fore more details, see the very good tutorial</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">“musical classification”</a></p></li>
+</ul>
 </section>
 <section id="a-very-short-history-of-chord-estimation">
-<h3>A very short history of chord estimation.<a class="headerlink" href="#a-very-short-history-of-chord-estimation" title="Permalink to this heading">#</a></h3>
+<h3>A very short history of Chord Estimation.<a class="headerlink" href="#a-very-short-history-of-chord-estimation" title="Permalink to this heading">#</a></h3>
 <p>Chord estimation can be considered as a specific tagging application: it involves applying chord-label-tags (mutually exclusive) over segments of time.
 However, it has been considered as a specific task since chord transition follow musical rules which can be represented by a language model.</p>
 <ul class="simple">
-<li><p>Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first <span id="id16">[<a class="reference internal" href="bibiography.html#id15" title="A. Sheh and Daniel P. W. Ellis. Chord segmentation and recognition using em-trained hidden markov models. In Proc. of ISMIR (International Society for Music Information Retrieval), 183-189. Baltimore, Maryland, USA, 2003.">SE03</a>]</span> or <span id="id17">[<a class="reference internal" href="bibiography.html#id14" title="Hélène Papadopoulos and Geoffroy Peeters. Large-scale study of chord estimation algorithms based on chroma representation. In Proc. of IEEE CBMI (International Workshop on Content-Based Multimedia Indexing). Bordeaux, France, 2007.">PP07</a>]</span> with an acoustic model representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and a language model using HMM (Hidden Markov Model) representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
+<li><p>Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first <span id="id16">[<a class="reference internal" href="bibiography.html#id18" title="A. Sheh and Daniel P. W. Ellis. Chord segmentation and recognition using em-trained hidden markov models. In Proc. of ISMIR (International Society for Music Information Retrieval), 183-189. Baltimore, Maryland, USA, 2003.">SE03</a>]</span> or <span id="id17">[<a class="reference internal" href="bibiography.html#id17" title="Hélène Papadopoulos and Geoffroy Peeters. Large-scale study of chord estimation algorithms based on chroma representation. In Proc. of IEEE CBMI (International Workshop on Content-Based Multimedia Indexing). Bordeaux, France, 2007.">PP07</a>]</span> with an acoustic model representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and a language model using HMM (Hidden Markov Model) representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
 </ul>
 <p><strong>Deep learning era.</strong>
 In the case of chord estimation, deep learning is also now commonly used.</p>
 <ul class="simple">
-<li><p>One seminal paper proposed by McFee at al. <span id="id18">[<a class="reference internal" href="bibiography.html#id62" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> relies on a RCNN (ConvNet followed by a bi-directional RNN, here GRU) to perform the task. Their model also forces an inner representation to relate to the <code class="docutils literal notranslate"><span class="pre">root</span></code>, <code class="docutils literal notranslate"><span class="pre">bass</span></code> and <code class="docutils literal notranslate"><span class="pre">pitches</span></code>. This is done using a multi-task approach (the model is trained to minimize several losses jointly). This favors the learning of representation which brings similar chords (but with different labels) closer.</p></li>
+<li><p>One seminal paper proposed by McFee at al. <span id="id18">[<a class="reference internal" href="bibiography.html#id65" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> relies on a RCNN (ConvNet followed by a bi-directional RNN, here GRU) to perform the task. Their model also forces an inner representation to relate to the <code class="docutils literal notranslate"><span class="pre">root</span></code>, <code class="docutils literal notranslate"><span class="pre">bass</span></code> and <code class="docutils literal notranslate"><span class="pre">pitches</span></code>. This is done using a multi-task approach (the model is trained to minimize several losses jointly). This favors the learning of representation which brings similar chords (but with different labels) closer.</p></li>
 </ul>
 <p><mark><em>We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.</em></mark></p>
 </section>
@@ -534,12 +549,12 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <li><p><strong>Micro average</strong>: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples</p></li>
 </ul>
 </section>
-<section id="chord-segments">
-<h3>Chord segments<a class="headerlink" href="#chord-segments" title="Permalink to this heading">#</a></h3>
+<section id="chord-estimation">
+<h3>Chord Estimation<a class="headerlink" href="#chord-estimation" title="Permalink to this heading">#</a></h3>
 <p>Evaluating a chord estimation system can be done as a multi-class problem (for the sake of simplicity, this is what will be done in what follows).
 However, chord are not simple labels.
 Indeed, chord annotation is partly subjective, some chord are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).
-For this reason, <code class="docutils literal notranslate"><span class="pre">mir_eval</span></code> <span id="id19">[<a class="reference internal" href="bibiography.html#id7" title="Colin Raffel, Brian McFee, Eric J. Humphrey, Justin Salamon, Oriol Nieto, Dawen Liang, and Daniel P. W. Ellis. Mir_eval: A transparent implementation of common MIR metrics. In Hsin-Min Wang, Yi-Hsuan Yang, and Jin Ha Lee, editors, Proceedings of the 15th International Society for Music Information Retrieval Conference, ISMIR 2014, Taipei, Taiwan, October 27-31, 2014, 367–372. 2014. URL: http://www.terasoft.com.tw/conf/ismir2014/proceedings/T066\_320\_Paper.pdf.">RMH+14</a>]</span> or Pauwels et al. <span id="id20">[<a class="reference internal" href="bibiography.html#id10" title="Johan Pauwels and Geoffroy Peeters. Evaluating automatically estimated chord sequences. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2013, Vancouver, BC, Canada, May 26-31, 2013, 749–753. IEEE, 2013. URL: https://doi.org/10.1109/ICASSP.2013.6637748, doi:10.1109/ICASSP.2013.6637748.">PP13</a>]</span> proposed metrics that allows measuring the correctness of the <code class="docutils literal notranslate"><span class="pre">root</span></code>, the <code class="docutils literal notranslate"><span class="pre">major/minor</span></code> component, the <code class="docutils literal notranslate"><span class="pre">bass</span></code> or the constitution in terms of <code class="docutils literal notranslate"><span class="pre">chroma</span></code>.</p>
+For this reason, <code class="docutils literal notranslate"><span class="pre">mir_eval</span></code> <span id="id19">[<a class="reference internal" href="bibiography.html#id10" title="Colin Raffel, Brian McFee, Eric J. Humphrey, Justin Salamon, Oriol Nieto, Dawen Liang, and Daniel P. W. Ellis. Mir_eval: A transparent implementation of common MIR metrics. In Hsin-Min Wang, Yi-Hsuan Yang, and Jin Ha Lee, editors, Proceedings of the 15th International Society for Music Information Retrieval Conference, ISMIR 2014, Taipei, Taiwan, October 27-31, 2014, 367–372. 2014. URL: http://www.terasoft.com.tw/conf/ismir2014/proceedings/T066\_320\_Paper.pdf.">RMH+14</a>]</span> or Pauwels et al. <span id="id20">[<a class="reference internal" href="bibiography.html#id13" title="Johan Pauwels and Geoffroy Peeters. Evaluating automatically estimated chord sequences. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2013, Vancouver, BC, Canada, May 26-31, 2013, 749–753. IEEE, 2013. URL: https://doi.org/10.1109/ICASSP.2013.6637748, doi:10.1109/ICASSP.2013.6637748.">PP13</a>]</span> proposed metrics that allows measuring the correctness of the <code class="docutils literal notranslate"><span class="pre">root</span></code>, the <code class="docutils literal notranslate"><span class="pre">major/minor</span></code> component, the <code class="docutils literal notranslate"><span class="pre">bass</span></code> or the constitution in terms of <code class="docutils literal notranslate"><span class="pre">chroma</span></code>.</p>
 </section>
 </section>
 <section id="some-popular-datasets">
@@ -548,17 +563,94 @@ For this reason, <code class="docutils literal notranslate"><span class="pre">mi
 <p>Many datasets exist for music-auto-tagging such as AcousticBrainz-Genre, AudioSet (music part), CAL10K, CAL500, FMA-Full/Medium/Small, IRMAS (instruments), Jamendo (vocal activity), MTG-Jamendo (genre, instruments, mood), Seyerlehner/*, …</p>
 <p>We have chosen the two following ones since they are often used, they represent the multi-class and multi-label problem, their audio is easely accessible.</p>
 <p>For our implementations, we will consider the two following datasets</p>
-<ul class="simple">
-<li><p><a class="reference external" href="http://marsyas.info/downloads/datasets.html">GTZAN</a>.
-It contains 1000 audio files of 30s duration, each with a single (<strong>multi-class</strong>) genre label among 10 classes (‘blues’,’classical’,’country’,’disco’,’hiphop’,’jazz’,’metal’,’pop’, ‘reggae’,’rock’).
-Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.</p></li>
-<li><p><a class="reference external" href="https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset">MagneTagATune (MTT)</a>.
-We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
-The original dataset contains 21.108 files of 30s duration, each with multiple (<strong>multi-label</strong>) tag labels among 50 classes (‘guitar’, ‘classical’, ‘slow’, ‘techno’, ‘strings’, ‘drums’, ‘electronic’, ‘rock’, ‘fast’, ‘piano’, …)</p></li>
-<li><p><a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/">RWC-Popular-Chord (AIST-Annotations)</a><span id="id21">[<a class="reference internal" href="bibiography.html#id25" title="Masataka Goto, Hiroki Hashiguchi, Takuichi Nishimura, and Ryuichi Oka. RWC music database: popular, classical and jazz music databases. In ISMIR 2002, 3rd International Conference on Music Information Retrieval, Paris, France, October 13-17, 2002, Proceedings. 2002. URL: http://ismir2002.ismir.net/proceedings/03-SP04-1.pdf.">GHNO02</a>]</span>, <span id="id22">[<a class="reference internal" href="bibiography.html#id26" title="Masataka Goto. AIST annotation for the RWC music database. In ISMIR 2006, 7th International Conference on Music Information Retrieval, Victoria, Canada, 8-12 October 2006, Proceedings, 359–360. 2006.">Got06</a>]</span>
-The RWC dataset is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named <code class="docutils literal notranslate"><span class="pre">Popular-Music-Dataset</span></code>. <br />
-<em>This dataset was made accessible online with the permission of Masataka Goto for the specific purpose of this tutorial. For any other use, please contact Masataka Goto for authorization.</em></p></li>
-</ul>
+<section id="gtzan">
+<h3>GTZAN<a class="headerlink" href="#gtzan" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="http://marsyas.info/downloads/datasets.html">GTZAN</a> contains 1000 audio files of 30s duration, each with a single (<strong>multi-class</strong>) genre label among 10 classes (‘blues’,’classical’,’country’,’disco’,’hiphop’,’jazz’,’metal’,’pop’, ‘reggae’,’rock’).
+Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blues+++blues.00000.wav&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;genre&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blues&quot;</span><span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blues+++blues.00001.wav&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;genre&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blues&quot;</span><span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="magna-tag-a-tune">
+<h3>Magna-Tag-A-Tune<a class="headerlink" href="#magna-tag-a-tune" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset">Magna-Tag-A-Tune (MTT)</a> is a <strong>multi-label</strong> large-scale dataset of 25,000 30-second music clips from various genres, each annotated with multiple tags describing genre, mood, instrumentation, and other musical attributes such as (‘guitar’, ‘classical’, ‘slow’, ‘techno’, ‘strings’, ‘drums’, ‘electronic’, ‘rock’, ‘fast’, ‘piano’, …)
+We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;0+++american_bach_soloists-j_s__bach__cantatas_volume_v-01-gleichwie_der_regen_und_schnee_vom_himmel_fallt_bwv_18_i_sinfonia-117-146.mp3&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;classical&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;violin&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;American Bach Soloists&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;album&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;J.S. Bach - Cantatas Volume V&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;track_number&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Gleichwie der Regen und Schnee vom Himmel fallt BWV 18_ I Sinfonia&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;clip_id&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">29</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;original_url&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://he3.magnatune.com/all/01--Gleichwie</span><span class="si">%20d</span><span class="s2">er%20Regen</span><span class="si">%20u</span><span class="s2">nd%20Schnee%20vom%20Himmel</span><span class="si">%20f</span><span class="s2">allt%20BWV%2018_%20I%20Sinfonia--ABS.mp3&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;segmentEnd&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">146</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;segmentStart&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">117</span><span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+          <span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="rwc-popular-chord-aist-annotations">
+<h3>RWC-Popular-Chord (AIST-Annotations)<a class="headerlink" href="#rwc-popular-chord-aist-annotations" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/">RWC-Popular-Chord (AIST-Annotations)</a><span id="id21">[<a class="reference internal" href="bibiography.html#id28" title="Masataka Goto, Hiroki Hashiguchi, Takuichi Nishimura, and Ryuichi Oka. RWC music database: popular, classical and jazz music databases. In ISMIR 2002, 3rd International Conference on Music Information Retrieval, Paris, France, October 13-17, 2002, Proceedings. 2002. URL: http://ismir2002.ismir.net/proceedings/03-SP04-1.pdf.">GHNO02</a>]</span>, <span id="id22">[<a class="reference internal" href="bibiography.html#id29" title="Masataka Goto. AIST annotation for the RWC music database. In ISMIR 2006, 7th International Conference on Music Information Retrieval, Victoria, Canada, 8-12 October 2006, Proceedings, 359–360. 2006.">Got06</a>]</span> is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named <code class="docutils literal notranslate"><span class="pre">Popular-Music-Dataset</span></code>. <br />
+<em>This dataset has been made available online with Masataka Goto’s permission specifically for this tutorial. For any other use, please contact Masataka Goto to obtain authorization.</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;001&quot;</span><span class="p">}</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;chord&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;N:-&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">0.104</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;G#:min&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">0.104</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.754</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;F#:maj&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">1.858</span><span class="p">,</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.7879999999999998</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;E:maj&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">3.646</span><span class="p">,</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.7409999999999997</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;F#:maj&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">5.387</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">3.6800000000000006</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
@@ -574,7 +666,7 @@ The RWC dataset is one of the earliest and remains one of the most comprehensive
 </ul>
 <p>For this tutorial, we focus on the model used in the SincNet paper illustrated below.</p>
 <p><img alt="sincnet" src="_images/brick_sincnet.png" /></p>
-<p><strong>Figure</strong>. SincNet model. <em>image source: SincNet <span id="id23">[<a class="reference internal" href="bibiography.html#id74" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
+<p><strong>Figure</strong>. SincNet model. <em>image source: SincNet <span id="id23">[<a class="reference internal" href="bibiography.html#id77" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
 <section id="experiments">
 <h3>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
 <p>We illustrate a deep learning solution to this problem using the following files:</p>
@@ -656,6 +748,16 @@ The RWC dataset is one of the earliest and remains one of the most comprehensive
 </tbody>
 </table>
 </section>
+<section id="illustrations">
+<h3>Illustrations:<a class="headerlink" href="#illustrations" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>learned filters Conv1d</p></li>
+<li><p>learned filters SincNet</p></li>
+<li><p>Tag-O-Gram: multi-class</p></li>
+<li><p>Tag-O-Gram: multi-label</p></li>
+<li><p>Tag-O-Gram: chords</p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -703,7 +805,7 @@ The RWC dataset is one of the earliest and remains one of the most comprehensive
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Multi-Pitch-Estimation</p>
+        <p class="prev-next-title">Multi-Pitch-Estimation (MPE)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -722,20 +824,26 @@ The RWC dataset is one of the earliest and remains one of the most comprehensive
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the task ?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-auto-tagging">A very short history of auto-tagging.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-chord-estimation">A very short history of chord estimation.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-auto-tagging">Goal of Auto-Tagging ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-auto-tagging">A very short history of Auto-Tagging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-short-history-of-chord-estimation">A very short history of Chord Estimation.</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the task evaluated ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-class">Multi-class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-label">Multi-label</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-segments">Chord segments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chord-estimation">Chord Estimation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets">Some popular datasets</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gtzan">GTZAN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#magna-tag-a-tune">Magna-Tag-A-Tune</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rwc-popular-chord-aist-annotations">RWC-Popular-Chord (AIST-Annotations)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrations">Illustrations:</a></li>
 </ul>
 </li>
 </ul>

@@ -1,50 +1,50 @@
 (lab_multi_pitch)=
-# Multi-Pitch-Estimation
+# Multi-Pitch-Estimation (MPE)
 
-## Goal of the task ?
+## Goal of MPE ?
 
 Multi-Pitch-Estimation aims at extracting information related to the simultaneously occuring pitches over time within an audio file.
 The task can either consists in:
 
-- estimating at each time frame the existing fundamental frequencies (in Hz): $f_0(t)$
-- estimating the start time and end time of each musical note (expressed as MIDI note): a list of [start_time, end_time, pitch]
-- assigning an instrument-name (source) to each note: same as above with the instrument name assigned (see illustration below)
+1. estimating at each time frame the existing <mark>continuous fundamental frequencies</mark> (in Hz): $f_0(t)$
+2. estimating the <mark>[start_time, end_time, pitch]</mark> of each musical note (expressed as MIDI note)
+3. assigning an <mark>instrument-name</mark> (source) to the above(see illustration)
 
 ![flow_autotagging](/images/flow_multipitch.png)
 
-### A very short history of multi-pitch-estimation.
+### A very short history of MPE
 The task has a long history.
-First approches (signal-based) have focused on Single-Pitch-Estimation.
-But as far as 2003, Klapuri et al {cite}`Klapuri2003IEEEMultipleF0` already proposed a signal-based method to iteratively estimate the Multiple-Pitches.
-MPE then became a major research field, with method based on NMF or PLCA, SI-PLCA.
+- Early approaches focused on single pitch estimation using a <mark>signal-based method</mark>, such as the YIN {cite}`CheveigneJASA2002Pitch` algorithm.
+- Next, the difficult case of multiple pitch estimation (MPE) (overlapping harmonics, ambiguous number of simultaneous pitches) was addressed using <mark>iterative</mark> estimation, as in Klapuri et al {cite}`Klapuri2003IEEEMultipleF0`.
+- Subsequently, <mark>unsupervised methods</mark> aimed at reconstructing the signal using a mixture of models (with non-negative matrix factorisation NMF, probabilistic latent component analysis PLCA or invariant latent component analysis SI-PLCA) have been the main trend {cite}`DBLP:journals/taslp/FuentesBR13`.
 
 **Deep learning era.**
-For this task, Deep Learning Approaches have become the standard, either based on
-- Supervised Learning (for example {cite}`DBLP:conf/ismir/BittnerMSLB17`)
-- Unsupervised learning (for example {cite}`DBLP:conf/ismir/RiouLHP23`)
+- We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17` and
+- show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`.
 
-We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17` and show how we can extend it with the same front-end (Harmonic-CQT) using a U-Net {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`.
+The task is still very active today, especially using unsupervised learning approaches, more specifically the <mark>"equivariance"</mark> property, such as in SPICE {cite}`DBLP:journals/taslp/GfellerFRSTV20` or PESTO {cite}`DBLP:conf/ismir/RiouLHP23`
 
-Fore more details, see
-- the very good [tutorial on "Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies)
-- the very good [tutorial on "Fundamental Frequency Estimation in Music"](https://ismir2018.ismir.net/pages/events-tutorial-06.html)
 
-## How is the task evaluated ?
+Fore more details, seethe very good tutorials
+- ["Fundamental Frequency Estimation in Music"](https://ismir2018.ismir.net/pages/events-tutorial-06.html)
+- ["Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies)
+
+## How is MPE evaluated ?
 
 To evaluate the performances of an MPE algorithm we rely on the metrics defined in {cite}`DBLP:conf/ismir/BayED09` and implemented in the [mir\_eval](https://craffel.github.io/mir_eval/#module-mir_eval.multipitch) package.
-By default, an estimated frequency is considered "correct" if it is within 0.5 semitones of a reference frequency.
+By default, an estimated frequency is considered <mark>"correct"</mark> if it is within 0.5 semitones of a reference frequency.
 
 Using this, we compute at each time frame t:
-- "True Positives" TP(t):  the number of F0s detected that correctly correspond to the ground-truth F0s
-- "False Positives" FP(t): the number of F0s detected that do not exist in the ground-truth set
-- "False Negatives" FN(t): represent the number of active sources in the groundtruth that are not reported
+- <mark>"True Positives"</mark> TP(t):  the number of F0s detected that correctly correspond to the ground-truth F0s
+- <mark>"False Positives"</mark> FP(t): the number of F0s detected that do not exist in the ground-truth set
+- <mark>"False Negatives"</mark> FN(t): represent the number of active sources in the groundtruth that are not reported
 
 From this, one can compute
 - Precision= $\frac{TP}{TP+FN}$
 - Recall= $\frac{TP}{TP+FP}$
 - Accuracy= $\frac{TP}{TP+FP+FN}$
 
-We can also compute the same metrics but considering only the chroma estimation (independently of the octave estimated).
+We can also compute the same metrics but considering only the <mark>chroma</mark> associated to the estimated pitch (independently of the octave estimated).
 This leads to the Chroma Precision, Accuracy, Recall
 
 Example:
@@ -76,27 +76,77 @@ OrderedDict([('Precision', 0.6666666666666666),
 ```
 
 
-## Some popular datasets
+## Some popular datasets for MPE
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
-Many datasets exist for mutli-pitch-estimation.
-Those can be obtained by
-- manually annotated full-tracks,
-- annotating (or using mono-pitch estimation algorithm) the individual stems of a full-track (MedleyDB)
-- using a MIDI-fied piano: SMD, MAPS, MAESTRO
-- using audio to score synchronization: MusicNet, Winterreise
+MPE datasets can be obtained in several ways:
+1. <mark>manually</mark> annotated full-tracks,
+2. annotating (or using mono-pitch estimation algorithm) the individual <mark>stems</mark> of a full-track (MedleyDB)
+3. using a <mark>MIDI-fied</mark> piano: SMD, MAPS, MAESTRO
+4. using audio to score <mark>synchronization</mark>: MusicNet, Winterreise
 
-We have chosen the two following datasets since they represent two different types of annotations (continuous f0 annotations or segment-based midi-pitch annotations).
+We have chosen the two following datasets since they represent two different types of annotations:
 
-- Bach10 {cite}`DBLP:journals/taslp/DuanPZ10`.
-It is a multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.
-- MAPS {cite}`DBLP:journals/taslp/EmiyaBD10`.
-It is a piano dataset annotated as a sequence of notes (start,stop,midi-value) over time
+### Bach10
+Bach10 {cite}`DBLP:journals/taslp/DuanPZ10` is a small (ten tracks) but multi-track datasets in which each track is annotated in pitch (time, continuous f0-value) over for each time-frame.
+
+```python
+"entry": [
+            {
+                "filepath": [
+                    {"value": "01-AchGottundHerr-violin.wav"}
+                ],
+                "f0": [
+                    {"value": [
+                            [
+                                72.00969707905834,
+                                72.00969707905834,
+                                72.00763743216136,
+                                72.00763743216136,
+                                72.00763743216136,
+                                72.03300373636725,
+                                72.04641885597061,
+                                ...
+                              ]
+                            ]}
+                    {"time": [
+                     0.023,
+                     0.033,
+                     0.043,
+                     0.053,
+                     0.063,
+                     0.073,
+                     0.083,
+                     ...
+                     ]}
+
+```
+
+### ENST MAPS
+ENST MAPS (MIDI Aligned Piano Sounds) {cite}`DBLP:journals/taslp/EmiyaBD10` is a large (31 Go) piano dataset.
+Four categories of sounds are provided: isolated notes, random chords, usual chords, pieces of music.
+We only use the later for our experiment.
+It is annotated as a sequence of notes (start,stop,midi-value) over time.
 
 
+```python
+"entry": [
+            {
+                "filepath": [
+                    {"value": "MAPS_MUS-alb_se3_AkPnBcht.wav"}
+                ],
+                "pitchmidi": [
+                    {"value": 67, "time": 0.500004, "duration": 0.26785899999999996},
+                    {"value": 71, "time": 0.500004, "duration": 0.26785899999999996},
+                    {"value": 43, "time": 0.500004, "duration": 1.0524360000000001},
+                    ...
+                ]
+              }
 
-## How we can solve it using deep learning
+```
+
+## How can we solve MPE using deep learning ?
 
 We will implement two different models which both takes as input the [Harmonic-CQT](lab_hcqt) features.
 

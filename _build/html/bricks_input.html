@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Front-ends" href="bricks_frontend.html" />
-    <link rel="prev" title="Generation with Diffusion Models" href="task_musicgeneration_diff.html" />
+    <link rel="prev" title="Generation with Latent Diffusion" href="task_musicgeneration_diff.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -172,27 +172,33 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Running codebooks in Google Colab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging-FrontEnd</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging-SSL</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_sourceseparation.html">Source Separation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musicgeneration.html">Musical Audio Generation</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_basics.html">Basics of Generative Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_early.html">Early Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_auto.html">Autoregressive Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_musicgeneration_diff.html">Generation with Latent Diffusion</a></li>
 </ul>
 </li>
 </ul>
@@ -427,32 +433,45 @@ document.write(`
 We describe in the following the usual type of inputs in the case of audio.</p>
 <section id="waveform">
 <span id="lab-waveform"></span><h2>Waveform<a class="headerlink" href="#waveform" title="Permalink to this heading">#</a></h2>
-<p>It is possible to use directly the audio waveform <span class="math notranslate nohighlight">\(x(n)\)</span> as input to a model. In this case, the input is a 1-dimensional sequence over time.
+<p>It is possible to use directly the audio waveform <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> as input to a model.
+In this case, the input is a 1-dimensional sequence over time.
 Such a system is often denoted by end-to-end (E2E).
 The first layer of the models then act as a learnable feature extractor.
 It is often either a <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">1D-convolution</span></a>, a <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a> or a parametric front-end such as <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>.</p>
 <p>More details can be found in the following <a class="reference external" href="https://zenodo.org/records/3529714">“Waveform-based music processing with deep learning” by Jongpil Lee, Jordi Pons, Sander Dieleman</a> ISMIR-2019 tutorial.</p>
-<p><img alt="waveform" src="_images/brick_waveform.png" /></p>
+<p><img alt="waveform" src="_images/brick_waveform.png" /><br />
+<strong>Figure</strong> <em>Waveform of an audio signal with sample values.</em></p>
 </section>
 <section id="log-mel-spectrogram-lms">
 <span id="lab-lms"></span><h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h2>
-<p>Spectrogram (the magnitude of the Short Time Fourier Transform, i.e. the Fourier Transform performed over frame-analysis) can be converted to the Mel perceptual scale. The goal of this is</p>
+<p>The spectrogram <span class="math notranslate nohighlight">\(|\mathbf{X}_{k,m}|\)</span> is the magnitude of the Short Time Fourier Transform of the signal <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> with</p>
+<ul class="simple">
+<li><p>discrete frequencies <span class="math notranslate nohighlight">\(k\)</span> and</p></li>
+<li><p>time frames <span class="math notranslate nohighlight">\(m\)</span></p></li>
+</ul>
+<p>Its frequencies can be converted to the <mark>Mel perceptual scale</mark>.
+This allows</p>
 <ul class="simple">
 <li><p>to reduce the dimensionality of the data</p></li>
 <li><p>to mimic the decomposition of the frequencies performed by the cochlea into critical-bands</p></li>
-<li><p>to allows performing some invariance over small pitch modifications (hence LMS are invariant to the pitch and only represent the so-called timbre).</p></li>
+<li><p>to allows performing (some) invariance over small pitch modifications (</p>
+<ul>
+<li><p>hence LMS are invariant to the pitch and only represent the so-called timbre.</p></li>
 </ul>
-<p>The conversion of amplitude  from linear to the log-scale allows</p>
+</li>
+</ul>
+<p>Its amplitude can be concerted to the <mark>Log-scale</mark>.
+This allows</p>
 <ul class="simple">
-<li><p>to map the recording level of the audio to a constant: <span class="math notranslate nohighlight">\(\alpha x(n) \rightarrow \log(\alpha) + \log(X(\omega))\)</span></p></li>
+<li><p>to map the recording level of the audio to a constant: <span class="math notranslate nohighlight">\(\alpha \mathbf{x}_n \rightarrow \log(\alpha) + \log(\mathbf{X}_{k,m})\)</span></p></li>
 <li><p>to mimic the compression of the amplitude performed by the inner-cell of the cochlea</p></li>
-<li><p>to change the distribution of the input
-Usually, a <span class="math notranslate nohighlight">\(\log(1+C x)\)</span> (with <span class="math notranslate nohighlight">\(C=10.000\)</span>) is used instead of a <span class="math notranslate nohighlight">\(\log(x)\)</span> to avoid singularity in <span class="math notranslate nohighlight">\(x=0\)</span>.</p></li>
+<li><p>to change the distribution of the input</p></li>
 </ul>
-<p>Another view of the LMS, is to consider that those are equivalent to the MFCC but without the last DCT.
-This DCT was necessary to decorrelate the dimensions and then allows covariance matrix in GMM-based system.
-However, this decorrelation is not necessary for deep learning models.</p>
-<p><img alt="lms" src="_images/brick_lms.png" /></p>
+<p>Usually, a <span class="math notranslate nohighlight">\(\log(1+C x)\)</span> (with <span class="math notranslate nohighlight">\(C=10.000\)</span>) is used instead of a <span class="math notranslate nohighlight">\(\log(x)\)</span> to avoid singularity in <span class="math notranslate nohighlight">\(x=0\)</span>.</p>
+<p>Another explanation of the LMS, is to consider that those are equivalent to the MFCC but without the last DCT performed for the MFCC.
+Indeed this DCT was necessary to decorrelate the dimensions and then allows covariance matrix in GMM-based systems but is not necessary for deep learning models.</p>
+<p><img alt="lms" src="_images/brick_lms.png" /><br />
+<strong>Figure</strong> <em>Log-Mel-Spectrogram of an audio signal with 128 Mel bands.</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_lms</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_lms</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    description:</span>
@@ -481,36 +500,60 @@ However, this decorrelation is not necessary for deep learning models.</p>
 </section>
 <section id="constant-q-transform-hcqt">
 <span id="lab-cqt"></span><h2>Constant-Q-Transform (HCQT)<a class="headerlink" href="#constant-q-transform-hcqt" title="Permalink to this heading">#</a></h2>
-<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id66" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.
-As opposed to the Discrete Fourier Transform, which uses a fixed window length for all its frequencies <span class="math notranslate nohighlight">\(f_k\)</span> (hence with a fixed spectral resolution), the CQT adapts the length of the window in order to be able to separate adjacent frequencies.
-The CQT divides the frequency axis into bins where the ratio between adjacent frequencies <span class="math notranslate nohighlight">\(f_{k+1}/f_k = cst\)</span> and  is constant (i.e., logarithmically spaced). This is different from the Short-Time Fourier Transform (STFT), where frequency bins are linearly spaced <span class="math notranslate nohighlight">\(f_{k+1}-f_k = cst\)</span>.
-In music this ratio is <span class="math notranslate nohighlight">\(2^{1/12}\)</span> for adjacent musical pitches (semitones).
-The CQT allows decreasing this ratio by increasing the number of bins for each semitone (if 3 bins per semitone the ratio is <span class="math notranslate nohighlight">\(2^{1/(3*12)}\)</span>).
-The window length is then chosen to guarantee a good spectral resolution between adjacent bins, hence adjacent musical pitches.
-This makes the CQT representation adequates to represent musical signals.</p>
-<p>Because of the log-frequency axis, another property arises. The change of pitch of a given musical instrument correspond to a vertical translation of the corresponding CQT (<span class="math notranslate nohighlight">\(\alpha f \rightarrow \log(\alpha) + \log(f)\)</span>.
+<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id78" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.</p>
+<ul class="simple">
+<li><p>The CQT divides the frequency axis into bins where the <strong>ratio between adjacent frequencies</strong> is constant (i.e., logarithmically spaced): <span class="math notranslate nohighlight">\(r=f_{k+1}/f_k=cst\)</span></p>
+<ul>
+<li><p>This is different from the Discrete Fourier Transform (DFT), where frequency bins are linearly spaced <span class="math notranslate nohighlight">\(f_{k+1}-f_k = cst\)</span>.</p></li>
+<li><p>In music <span class="math notranslate nohighlight">\(r=2^{1/12}\)</span> for adjacent musical pitches (semitones).</p></li>
+<li><p>It is possible to increase the number of bins for each semitone (if 5 bins per semitone the ratio is <span class="math notranslate nohighlight">\(r=2^{1/(5 \cdot 12)}\)</span>)</p></li>
+</ul>
+</li>
+<li><p>The CQT adapts the duration of the analysis window <span class="math notranslate nohighlight">\(\mathbf{w}_k\)</span> for each frequency <span class="math notranslate nohighlight">\(f_k\)</span>, in order to be able to spectrally separate adjacent frequencies <span class="math notranslate nohighlight">\(f_k, f_{k+1}\)</span>.</p>
+<ul>
+<li><p>This is different from the DFT, which uses a single analysis window <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> (hence a single duration) for all its frequencies <span class="math notranslate nohighlight">\(f_k\)</span> (hence with a fixed spectral resolution),</p></li>
+</ul>
+</li>
+</ul>
+<p>Because of the frequencies are expressed in log-scale in the CQT, pitch-shifting of a musical instrument correspond to a vertical translation of the corresponding CQT (<span class="math notranslate nohighlight">\(\alpha f \rightarrow \log(\alpha) + \log(f)\)</span>.
 This property has been used in some works such as Shift-Invariant PLCA or in 2D-Convolution.</p>
-<p><img alt="cqt" src="_images/brick_cqt.png" /></p>
+<p><img alt="cqt" src="_images/brick_cqt.png" /><br />
+<strong>Figure</strong> <em>Constant-Q-Transform of an audio signal with 6 octaves and 5 bins per semi-tone (<span class="math notranslate nohighlight">\(6 \times 12 \times 5\)</span> frequencies).</em></p>
 </section>
 <section id="harmonic-cqt-hcqt">
 <span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h2>
-<p>The Harmonic CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id64" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.
-While the harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> of a given sound with fundamental frequency <span class="math notranslate nohighlight">\(f0\)</span> are not close together in the spectrum.
-The usual “local correlation of the pixels” assumption underlying 2D-Conv therefore does not hold for musical sound.
-The idea of the HCQT is to represent this proximity through a new depth/channel dimension.
-The resulting HCQT is therefore a 3D-tensor where the depth represent different downsampled CQTs (in practice they are all CQT but computed starting from a different <span class="math notranslate nohighlight">\(f_{min}\)</span>) and the other dimensons the time and the CQT frequencies.</p>
-<p>In the figure below, the default CQT is referred as “h=1”.
+<p>The Harmonic-CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id76" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.</p>
+<ul class="simple">
+<li><p>The usual “local correlation of the pixels” assumption underlying 2D-Convolution does not hold for musical sound.
+This is because the harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> of a given sound are spread over the whole spectrum, hence the content at frequencies <span class="math notranslate nohighlight">\(f_k\)</span> are not correlated.</p></li>
+<li><p>To allow highlighing this correlation at harmonics, the Harmonic-CQT represent the harmonics of a frequency <span class="math notranslate nohighlight">\(f_k\)</span> in a new depth/channel dimension</p>
+<ul>
+<li><p>In this, a channel <span class="math notranslate nohighlight">\(h\)</span> represent the frequencies <span class="math notranslate nohighlight">\(f^{(h)}_k = h f_k\)</span></p>
+<ul>
+<li><p>Using channels <span class="math notranslate nohighlight">\(h \in \{1,2,3,4,5\}\)</span> allows to represent in the depth the first five harmonics of a potentially pitched sound at <span class="math notranslate nohighlight">\(f_0=f_k\)</span>: <span class="math notranslate nohighlight">\(f^{(1)}_k = f_k, f^{(2)}_k = 2 f_k, f^{(3)}_k = 3 f_k, \ldots \)</span></p></li>
+</ul>
+</li>
+<li><p>To compute it, we use CQTs with different starting frequencies <span class="math notranslate nohighlight">\(h f_{min}\)</span></p></li>
+<li><p>The HCQT is obtained by stacking the various downsampled CQTs in depth/channel dimension</p></li>
+<li><p>The resulting Harmonic-CQT is a 3D-tensor of dimensions (harmonic, time, frequencies).</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="hcqt" src="_images/brick_hcqt.png" />
+<strong>Figure</strong>
+<em>Set of CQT of the same audio signal with various starting frequencies <span class="math notranslate nohighlight">\(f_{min}\)</span>.
+The default CQT is referred as “h=1”.
 The red vertical stripe highlight the fundamental frequency  of a sound.
 In <span class="math notranslate nohighlight">\(h=1\)</span>, the stripe highlights <span class="math notranslate nohighlight">\(f_0\)</span>.
 If we downsample the CQT by a factor 2 (indicated in “h=2”), the stripe now highlight <span class="math notranslate nohighlight">\(2 f_0\)</span>.
 If we downsample the CQT by a factor 3 (indicated in “h=3”), the stripe now highlight <span class="math notranslate nohighlight">\(3 f_0\)</span>.
-The various harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> are now aligned vertically across downsampled versions.</p>
-<p><img alt="hcqt" src="_images/brick_hcqt.png" /></p>
-<p>The HCQT is obtained by stacking the various downsampled CQTs in depth/channel dimension (see figure below).
-The HCQT is usually used as input to a 2D-Convolution layer with small kernels <span class="math notranslate nohighlight">\((5 \times 5\)</span> which extend over the whole depth of the HCQT.
+The various harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> are now aligned vertically across downsampled versions.</em></p>
+<p>The HCQT is often used as input to a 2D-Convolution layer with small kernels <span class="math notranslate nohighlight">\((5 \times 5)\)</span> which extend over the whole depth of the HCQT.
 When used for Multi-Pitch-Estimation, the kernels should therefore learn the specific relationship among harmonics specific to harmonics versus non-harmonics.
 An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> is added to avoid octave errors.</p>
-<p><img alt="hcqt" src="_images/brick_hcqt2.png" /></p>
+<p><img alt="hcqt" src="_images/brick_hcqt2.png" /><br />
+<strong>Figure</strong>
+<em>2D-Convolution (over time and frequencies) of the HCQT with <span class="math notranslate nohighlight">\((5 \times 5)\)</span> kernels which extend over the whole depth.</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f_get_hcqt</span><span class="p">(</span><span class="n">audio_v</span><span class="p">,</span> <span class="n">sr_hz</span><span class="p">,</span> <span class="n">param_hcqt</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    description:</span>
@@ -547,18 +590,21 @@ An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> i
 </section>
 <section id="chroma-pitch-class-profile">
 <span id="lab-chroma"></span><h2>Chroma/ Pitch-Class-Profile<a class="headerlink" href="#chroma-pitch-class-profile" title="Permalink to this heading">#</a></h2>
-<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id54" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id55" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.
-Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, …
-Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to the pitch-classes (summing the content of all frequency bands corresponding to the C0, C1, C2, … to obtain the Chroma C, …).</p>
-<p><img alt="chroma" src="_images/brick_chroma.png" /></p>
+<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id66" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id67" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.</p>
+<ul class="simple">
+<li><p>Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, …</p></li>
+<li><p>Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to the pitch-classes (summing the content of all frequency bands corresponding to the C0, C1, C2, … to obtain the Chroma C, …).</p></li>
+</ul>
+<p><img alt="chroma" src="_images/brick_chroma.png" /><br />
+<strong>Figure</strong> <em>Chroma map the content of the DFT frequencies to the 12 semi-tones pitch-classes</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_stft</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">inf</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">inf</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_octaves</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
 
 </pre></div>
 </div>
-<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id52" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id53" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id56" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
+<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id64" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id65" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id68" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
 <p>Chroma are often as input for applications such as Automatic-Chord-Recogniton (ACR), key-detection or Cover-Song-Identification (CSI).
-We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id53" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
+We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id65" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
 </section>
 </section>
 
@@ -598,7 +644,7 @@ We use here for CSI the deep-chroma of <span id="id8">[<a class="reference inter
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Generation with Diffusion Models</p>
+        <p class="prev-next-title">Generation with Latent Diffusion</p>
       </div>
     </a>
     <a class="right-next"
