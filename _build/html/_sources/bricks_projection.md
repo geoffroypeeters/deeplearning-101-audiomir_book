@@ -90,13 +90,26 @@ A ResNet is made of a
 - the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
 
 We are interested here in the two building blocks of ResNet:
+- the **building block**:\
+It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection ($\mathcal{F}(x)+x$), - a ReLU
+- the **“bottleneck” block**:\
+It is a stack of 3 layers instead of 2.\
+The three layers are 1×1, 3×3, and 1×1 convolutions, where
+  - the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,
+  - the 3×3 layer is a bottleneck with smaller input/output dimensions.
 
-#### The **building block**
 
-It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection $\mathcal{F}(x)+x$, - a ReLU
+| ResNet "building" block                | ResNet "bottleneck" block                |
+|------------------------|------------------------|
+| ![resnet-block1](/images/brick_resnet.png)    | ![resnet_bottleneck](/images/brick_resnet_bottleneck.png)\    |
+| **Figure** *image source: [Link](https://arxiv.org/pdf/1512.03385)* | **Figure** *image source: [Link](https://arxiv.org/pdf/1512.03385)* |
 
-![resnet-block1](/images/brick_resnet.png)\
-**Figure** *ResNet "building block"; image source: [Link](https://arxiv.org/pdf/1512.03385)*
+
+
+
+
+
+
 
 
 
@@ -131,15 +144,7 @@ class ResidualBlock(nn.Module):
 ```
 
 
-#### The **“bottleneck” block**
 
-It is a stack of 3 layers instead of 2
-The three layers are 1×1, 3×3, and 1×1 convolutions, where
-- the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,
-- the 3×3 layer is a bottleneck with smaller input/output dimensions.
-
-![resnet_bottleneck](/images/brick_resnet_bottleneck.png)\
-**Figure** *ResNet "“bottleneck” block"; image source: [Link](https://arxiv.org/pdf/1512.03385)*
 
 
 

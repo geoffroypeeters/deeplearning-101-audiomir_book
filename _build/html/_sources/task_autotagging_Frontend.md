@@ -11,19 +11,23 @@ Tags can be
 
 ![flow_autotagging](/images/flow_autotagging.png)
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ### A very short history of Auto-Tagging
 The task has a long history in MIR.
-- As soon as 2002 Tzanetakis et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
-- Over years, the considered audio features improved  {cite}`Peeters2004AudioFeatures`, including block-features {cite}`Seyerlehner2010PHD` or speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the machine-learning models (moving to Support-Vector-Machine).
-- It also quickly appeared that the same feature/ML system could be trained to solve many tasks of tagging or segmentation (genre, mood, speech/music) {cite}`Peeters2007DAFXGenericClassification`, {cite}`Burred2009LSASMultiLabel`.
+- As soon as <mark>2002 Tzanetakis</mark> et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
+- Over years, the considered <mark>audio features</mark> improved  {cite}`Peeters2004AudioFeatures`, including block-features {cite}`Seyerlehner2010PHD` or speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the <mark>machine-learning</mark> models (moving to Support-Vector-Machine).
+- It also quickly appeared that the <mark>same feature/ML system could be trained to solve many tasks</mark> of tagging or segmentation (genre, mood, speech/music) {cite}`Peeters2007DAFXGenericClassification`, {cite}`Burred2009LSASMultiLabel`.
 
 **Deep learning era.**
-- One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman {cite}`Dieleman2014Spotify`.
-In this a Conv2d is applied to a Log-Mel-Spectrogram using kernels that extend over the whole frequency range, therefore performing only convolution over time.
+- One of the first successful application of deep learning for the auto-tagging task is the work of <mark>Dieleman</mark> {cite}`Dieleman2014Spotify`.
+In this a <mark>Conv2d</mark> is applied to a <mark>Log-Mel-Spectrogram</mark> using kernels that extend over the whole frequency range, therefore performing only convolution over time.
 The rational for this, is that as opposed to natural images, sources in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).
-- Despite this, Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` proposed (with success) to apply Computer Vision VGG-like architecture to a time-frequency representation.
-- Later on, Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposed to design kernel shapes using musical consideration (with kernel extending over fequencies to represent timbre, over time to represent rhythm).
-- Using directly the audio waveform (End-to-end) system has also been proposed for this task, such as in Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` or Lee et al. {cite}`DBLP:journals/corr/LeePKN17`.
+- Despite this, Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` proposed (with success) to apply Computer Vision <mark>VGG-like architecture</mark> to a time-frequency representation.
+- Later on, Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposed to <mark>design kernel shapes using musical consideration</mark> (with kernel extending over frequencies to represent timbre, over time to represent rhythm).
+- Using directly the <mark>audio waveform (End-to-end)</mark> system has also been proposed for this task, such as in Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` or Lee et al. {cite}`DBLP:journals/corr/LeePKN17`.
 - The task of auto-tagging has also close relationship with their equivalent task in Speech.
 
 <mark>*We will develop here a model developed initially for speaker recognition by Ravanelli et al. {cite}`DBLP:conf/slt/RavanelliB18`.*</mark>
@@ -36,20 +40,33 @@ For example,
 The task is still active nowadays especially using Self-Supervised-Learning {cite}`DBLP:conf/nips/YuanMLZCYZLHTDW23` (see second part).
 
 Fore more details, see the very good tutorial
-- ["musical classification"](https://music-classification.github.io/tutorial/landing-page.html)
+["musical classification"](https://music-classification.github.io/tutorial/landing-page.html).
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 ### A very short history of Chord Estimation.
 
-Chord estimation can be considered as a specific tagging application: it involves applying chord-label-tags (mutually exclusive) over segments of time.
-However, it has been considered as a specific task since chord transition follow musical rules which can be represented by a language model.
-- Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first {cite}`Sheh2003ISMIRchord` or {cite}`Papadopo2007CBMI` with an acoustic model representing $p(\text{chord}|\text{chroma})$ and a language model using HMM (Hidden Markov Model) representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
+Chord estimation can be considered as a specific tagging application: it involves applying mutually exclusive labels (of chords) over segments of time.\
+However, it has (at least) two specificities:
+- chord transition follow <mark>musical rules</mark> which can be represented by a <mark>language model</mark>.
+- some chord are equivalent, their spelling depends on the choice of the level of detail, and their choice on the
+
+Therefore, <mark>ASR (Automatic Speech Recognition)</mark> inspired techniques has been developed at first {cite}`Sheh2003ISMIRchord` or {cite}`Papadopo2007CBMI` with
+- an **acoustic model** representing $p(\text{chord}|\text{chroma})$ and
+- a **language model**, often a Hidden Markov Model, representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
 
 **Deep learning era.**
 In the case of chord estimation, deep learning is also now commonly used.
-- One seminal paper proposed by McFee at al. {cite}`DBLP:conf/ismir/McFeeB17` relies on a RCNN (ConvNet followed by a bi-directional RNN, here GRU) to perform the task. Their model also forces an inner representation to relate to the `root`, `bass` and `pitches`. This is done using a multi-task approach (the model is trained to minimize several losses jointly). This favors the learning of representation which brings similar chords (but with different labels) closer.
+One seminal paper proposed by McFee at al. {cite}`DBLP:conf/ismir/McFeeB17` relies
+- on a RCNN (a ConvNet followed by a <mark>bi-directional RNN</mark>, here GRU) to perform the task.
+- an <mark>inner representation</mark> which relates to the `root`, `bass` and `pitches` (the <mark>CREMA</mark>) which allows the learning of representation which brings similar chords (but with different labels) closer.
 
 <mark>*We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.*</mark>
 
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How is the task evaluated ?
@@ -58,12 +75,14 @@ We consider a set of classes $c \in \{1,\ldots,C\}$.
 
 ### Multi-class
 
-In a **multi-class** problem, the classes are mutually exclusive.
-The outputs of the (neural network) model $o_c$ therefore go to a softmax function.
-The outputs of the softmax, $p_c$, then represent the probability $P(Y=c|X)$.
-The predicted class is then chosen as $\arg\max_c p_c$.
+In a **multi-class** problem, the classes are **mutually exclusive**.
+- The outputs of the (neural network) model $o_c$ therefore go to a softmax function.
+- The outputs of the softmax, $p_c$, then represent the probability $P(Y=c|X)$.
+- The predicted class is then chosen as $\arg\max_c p_c$.
 
-We evaluate the performances by computing the standard  Accuracy, Recall, Precision, F-measure for each class $c$ and then take the average over classes $c$.
+We evaluate the performances by computing the standard  
+- <mark>Accuracy, Recall, Precision, F-measure</mark> for each class $c$ and then take the average over classes $c$.
+
 ```python
 from sklearn.metrics import classification_report, confusion_matrix
 classification_reports = classification_report(labels_idx,
@@ -74,19 +93,20 @@ cm = confusion_matrix(labels_idx, labels_pred_idx)
 
 ### Multi-label
 
-In the **multi-label** problem, the classes are NOR mutually exclusive.
-Each $o_c$ therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).
-The outputs of the sigmoids $p_c$ then represent $P(Y_c=1|X)$.
-We then need to set a threshold $\tau$ on each $p_c$ to decide wether class $c$ exist or not.
+In the **multi-label** problem, the classes are **NOT mutually exclusive**.
+- Each $o_c$ therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).
+- The outputs of the sigmoids $p_c$ then represent $P(Y_c=1|X)$.
+- We then need to set a threshold $\tau$ on each $p_c$ to decide wether class $c$ exist or not.
 
-Using a default threshold ($\tau=0.5$) of course allows to use the afore-mentioned metrics (Accuracy, Recall, Precision, F-measure).
-However, in practice, we want to measure the performances independently of the choice of a given threshold.
+Using a default threshold ($\tau=0.5$) of course allows to use the afore-mentioned metrics (Accuracy, Recall, Precision, F-measure).\
+However, in practice, <mark>we want to measure the performances independently of the choice of a given threshold</mark>.
+
 This can be using either
-- the **AUC (Area Under the Curve) of the ROC**.
+- the <mark>**AUC (Area Under the Curve) of the ROC**</mark>.
 The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold $\tau$.
 The larger the AUC-ROC is (maximum of 1) the more discrimination is between the Positive and Negative classes.
 A value of 0.5 indicates no discrimination (random system).
-- the **mean-Average-Precision (mAP)**.
+- the <mark>**mean-Average-Precision (mAP)**</mark>.
 The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold $\tau)$.
 
 The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
@@ -100,29 +120,34 @@ roc_auc_score(labels_idx, labels_pred_prob, average="macro")
 average_precision_score(labels_idx, labels_pred_prob, average="macro")
 ```
 
-Averages in scikitlearn:
-- **Macro average**: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).
-- **Micro average**: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples
+About the averages in `scikit-learn`:
+- `macro` **average**: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).
+- `micro` **average**: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 ### Chord Estimation
 
-Evaluating a chord estimation system can be done as a multi-class problem (for the sake of simplicity, this is what will be done in what follows).
+In the following (for the sake of simplicity) we will evaluate our chord estimation system <mark>as a multi-class problem</mark>.
+
 However, chord are not simple labels.
-Indeed, chord annotation is partly subjective, some chord are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).
+Indeed, chord annotation is partly subjective, some chords are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).\
 For this reason, `mir_eval` {cite}`DBLP:conf/ismir/RaffelMHSNLE14` or Pauwels et al. {cite}`DBLP:conf/icassp/PauwelsP13` proposed metrics that allows measuring the correctness of the `root`, the `major/minor` component, the `bass` or the constitution in terms of `chroma`.
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Some popular datasets
 
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
-Many datasets exist for music-auto-tagging such as AcousticBrainz-Genre, AudioSet (music part), CAL10K, CAL500, FMA-Full/Medium/Small, IRMAS (instruments), Jamendo (vocal activity), MTG-Jamendo (genre, instruments, mood), Seyerlehner/*, ...
+We have chosen the following ones since they are often used, they represent the multi-class, multi-label and chord estimation problems, and their audio is easely accessible.
 
-We have chosen the two following ones since they are often used, they represent the multi-class and multi-label problem, their audio is easely accessible.
 
-For our implementations, we will consider the two following datasets
-
-### GTZAN
+#### GTZAN
 
 [GTZAN](http://marsyas.info/downloads/datasets.html) contains 1000 audio files of 30s duration, each with a single (**multi-class**) genre label among 10 classes ('blues','classical','country','disco','hiphop','jazz','metal','pop', 'reggae','rock').
 Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.
@@ -146,7 +171,7 @@ Although GTZAN has been criticized for the quality of its label we only used to 
             }
           ]
 ```
-### Magna-Tag-A-Tune
+#### Magna-Tag-A-Tune
 
 [Magna-Tag-A-Tune (MTT)](https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset) is a **multi-label** large-scale dataset of 25,000 30-second music clips from various genres, each annotated with multiple tags describing genre, mood, instrumentation, and other musical attributes such as ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
 We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
@@ -188,7 +213,7 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
           ]
 ```
 
-### RWC-Popular-Chord (AIST-Annotations)
+#### RWC-Popular-Chord (AIST-Annotations)
 
 [RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06` is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named `Popular-Music-Dataset`. \
 *This dataset has been made available online with Masataka Goto's permission specifically for this tutorial. For any other use, please contact Masataka Goto to obtain authorization.*
@@ -212,30 +237,21 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ## How we can solve it using deep learning
 
+Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord estimation RWC-Pop) with a <mark>single code</mark>.
+We of course adapt the model (defined in the `.yaml` file) depending on the task.
 
-Auto-tagging is a classification problem and can be considered either as
-- a multi-class (mutually exclusive classes, such as for GTZAN or RWC-Popular-Chord) or
-- a multi-label (non-mutually exclusive classes, such as MTT).
+- GTZAN and RWC-Pop-Chord are **multi-class** problems (hence with softmax and categorial-CE), while MTT is **multi-label** (hence with sigmoids and BCEs).
+- GTZAN and MTT are **global** annotations (we therefore need to reduce the time axis), while RWC-Pop-Chord are **temporal** annotations with a language model (we therefore use a bi-LSTM).
 
-Also,
-- for GTZAN and MTT, the labels are assigned or the whole track duration. We therefore need to design a model that map a time-series of observation to a single output.
-- for RWC-Popular-Chord, the labels are assigned over time.
+For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated below.
 
-For this tutorial, we focus on the model used in the SincNet paper illustrated below.
-
-![sincnet](/images/brick_sincnet.png)
-
-**Figure**. SincNet model. *image source: SincNet {cite}`DBLP:conf/slt/RavanelliB18`*
-
-
-### Experiments:
-
-We illustrate a deep learning solution to this problem using the following files:
-- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb)
-- (Config Auto-Tagging)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml]
-- (Config Chord)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml]
+![sincnet](/images/brick_sincnet.png)\
+**Figure**. *SincNet model. *image source: SincNet {cite}`DBLP:conf/slt/RavanelliB18`*
 
 
 We will vary in turn
@@ -250,6 +266,18 @@ We will vary in turn
 ![expe](/images/expe_autotagging_P.png)
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
+
+### Experiments:
+
+The code is available here:
+- (Main notebook)(https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb)
+- (Config Auto-Tagging)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml]
+- (Config Chord)[https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml]
+
+
 | Dataset   | Input   | Frontend   | Model | Results   | Code |
 |:---------- |:----------|:----------|:----------|:---------- |:---------- |
 | GTZAN      | LMS       | Conv2d(128,5) | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I1-C1.ipynb) |
@@ -260,10 +288,14 @@ We will vary in turn
 | RWC-Pop-Chord | CQT    | Conv2D(1,5)(5,1)* |	Conv1D/LSTM/Linear             | macroRecall: 0.54           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D3-I3-Chord.ipynb) |
 
 
-### Illustrations:
+### Actions:
 
-- learned filters Conv1d
-- learned filters SincNet
-- Tag-O-Gram: multi-class
-- Tag-O-Gram: multi-label
-- Tag-O-Gram: chords
+We show that
+- autotagging config file
+- multi-class: results, CM and Tag-O-Gram
+- multi-class:: learned filters SincNet, code SincNet
+- multi-class: learned filters Conv1d
+- multi-label: results, tag-o-gram:
+- chord config file
+- chord: training patches
+- chord: resutls, tag-o-gram

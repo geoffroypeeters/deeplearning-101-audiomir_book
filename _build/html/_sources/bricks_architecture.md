@@ -37,6 +37,7 @@ Such a mechanism can be necessary in order to map the temporal embedding provide
 
 The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the $\mathbf{x}_t$ over time $t$ (as done for example in {cite}`Dieleman2014Spotify`).
 
+(lab_AttentionWeighting)=
 ### Attention weighting
 
 Another possibility is to compute a weighted sum of the values $\mathbf{x}_t$ where the weights $a_t$ are denoted by **attention** parameters:

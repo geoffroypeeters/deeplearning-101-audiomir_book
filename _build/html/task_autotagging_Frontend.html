@@ -429,7 +429,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrations">Illustrations:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
 </ul>
 </li>
 </ul>
@@ -454,22 +454,23 @@ Tags can be</p>
 <li><p>can be assigned <strong>locally</strong> in time (such as instrumentation-segments, or chord-label segments) or <strong>globally</strong> in time (such as for music-genre).</p></li>
 </ul>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="a-very-short-history-of-auto-tagging">
 <h3>A very short history of Auto-Tagging<a class="headerlink" href="#a-very-short-history-of-auto-tagging" title="Permalink to this heading">#</a></h3>
 <p>The task has a long history in MIR.</p>
 <ul class="simple">
-<li><p>As soon as 2002 Tzanetakis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id51" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the <code class="docutils literal notranslate"><span class="pre">genre</span></code> using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).</p></li>
-<li><p>Over years, the considered audio features improved  <span id="id2">[<a class="reference internal" href="bibiography.html#id23" title="Geoffroy Peeters. A large set of audio features for sound description (similarity and classification) in the cuidado project. Cuidado Project Report, Ircam, 2004.">Pee04</a>]</span>, including block-features <span id="id3">[<a class="reference internal" href="bibiography.html#id22" title="Klaus Seyerlehner. Content-Based Music Recommender Systems: Beyond simple Frame-Level Audio Similarity. PhD thesis, Johannes Kepler Universität, Linz, Austria, December 2010.">Sey10</a>]</span> or speech-inspired features (Universal-Background-Models and Super-Vector <span id="id4">[<a class="reference internal" href="bibiography.html#id21" title="Christophe Charbuillet, Damien Tardieu, and Geoffroy Peeters. Gmm supervector for content based music similarity. In Proc. of DAFx (International Conference on Digital Audio Effects), 425-428. Paris, France, September 2011.">CTP11</a>]</span>), as well as the machine-learning models (moving to Support-Vector-Machine).</p></li>
-<li><p>It also quickly appeared that the same feature/ML system could be trained to solve many tasks of tagging or segmentation (genre, mood, speech/music) <span id="id5">[<a class="reference internal" href="bibiography.html#id20" title="Geoffroy Peeters. A generic system for audio indexing: application to speech/ music segmentation and music genre. In In Proc. of DAFx (International Conference on Digital Audio Effects). Bordeaux, France, 2007.">Pee07</a>]</span>, <span id="id6">[<a class="reference internal" href="bibiography.html#id19" title="Juan-Jo Burred and Geoffroy Peeters. An adaptive system for music classification and tagging. In Proc. of LSAS (International Workshop on Learning the Semantics of Audio Signals). Graz, Austria, 2009.">BP09</a>]</span>.</p></li>
+<li><p>As soon as <mark>2002 Tzanetakis</mark> et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id51" title="George Tzanetakis and Perry R. Cook. Musical genre classification of audio signals. IEEE Trans. Speech Audio Process., 10(5):293–302, 2002. URL: https://doi.org/10.1109/TSA.2002.800560, doi:10.1109/TSA.2002.800560.">TC02</a>]</span> demonstrated that it is possible to estimate the <code class="docutils literal notranslate"><span class="pre">genre</span></code> using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).</p></li>
+<li><p>Over years, the considered <mark>audio features</mark> improved  <span id="id2">[<a class="reference internal" href="bibiography.html#id23" title="Geoffroy Peeters. A large set of audio features for sound description (similarity and classification) in the cuidado project. Cuidado Project Report, Ircam, 2004.">Pee04</a>]</span>, including block-features <span id="id3">[<a class="reference internal" href="bibiography.html#id22" title="Klaus Seyerlehner. Content-Based Music Recommender Systems: Beyond simple Frame-Level Audio Similarity. PhD thesis, Johannes Kepler Universität, Linz, Austria, December 2010.">Sey10</a>]</span> or speech-inspired features (Universal-Background-Models and Super-Vector <span id="id4">[<a class="reference internal" href="bibiography.html#id21" title="Christophe Charbuillet, Damien Tardieu, and Geoffroy Peeters. Gmm supervector for content based music similarity. In Proc. of DAFx (International Conference on Digital Audio Effects), 425-428. Paris, France, September 2011.">CTP11</a>]</span>), as well as the <mark>machine-learning</mark> models (moving to Support-Vector-Machine).</p></li>
+<li><p>It also quickly appeared that the <mark>same feature/ML system could be trained to solve many tasks</mark> of tagging or segmentation (genre, mood, speech/music) <span id="id5">[<a class="reference internal" href="bibiography.html#id20" title="Geoffroy Peeters. A generic system for audio indexing: application to speech/ music segmentation and music genre. In In Proc. of DAFx (International Conference on Digital Audio Effects). Bordeaux, France, 2007.">Pee07</a>]</span>, <span id="id6">[<a class="reference internal" href="bibiography.html#id19" title="Juan-Jo Burred and Geoffroy Peeters. An adaptive system for music classification and tagging. In Proc. of LSAS (International Workshop on Learning the Semantics of Audio Signals). Graz, Austria, 2009.">BP09</a>]</span>.</p></li>
 </ul>
 <p><strong>Deep learning era.</strong></p>
 <ul class="simple">
-<li><p>One of the first successful application of deep learning for the auto-tagging task is the work of Dieleman <span id="id7">[<a class="reference internal" href="bibiography.html#id60">Die14</a>]</span>.
-In this a Conv2d is applied to a Log-Mel-Spectrogram using kernels that extend over the whole frequency range, therefore performing only convolution over time.
+<li><p>One of the first successful application of deep learning for the auto-tagging task is the work of <mark>Dieleman</mark> <span id="id7">[<a class="reference internal" href="bibiography.html#id60">Die14</a>]</span>.
+In this a <mark>Conv2d</mark> is applied to a <mark>Log-Mel-Spectrogram</mark> using kernels that extend over the whole frequency range, therefore performing only convolution over time.
 The rational for this, is that as opposed to natural images, sources in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).</p></li>
-<li><p>Despite this, Choi et al. <span id="id8">[<a class="reference internal" href="bibiography.html#id50" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span> proposed (with success) to apply Computer Vision VGG-like architecture to a time-frequency representation.</p></li>
-<li><p>Later on, Pons et al. <span id="id9">[<a class="reference internal" href="bibiography.html#id14" title="Jordi Pons, Thomas Lidy, and Xavier Serra. Experimenting with musically motivated convolutional neural networks. In 14th International Workshop on Content-Based Multimedia Indexing, CBMI 2016, Bucharest, Romania, June 15-17, 2016, 1–6. IEEE, 2016. URL: https://doi.org/10.1109/CBMI.2016.7500246, doi:10.1109/CBMI.2016.7500246.">PLS16</a>]</span> proposed to design kernel shapes using musical consideration (with kernel extending over fequencies to represent timbre, over time to represent rhythm).</p></li>
-<li><p>Using directly the audio waveform (End-to-end) system has also been proposed for this task, such as in Dieleman et al. <span id="id10">[<a class="reference internal" href="bibiography.html#id12" title="Sander Dieleman and Benjamin Schrauwen. End-to-end learning for music audio. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2014, Florence, Italy, May 4-9, 2014, 6964–6968. IEEE, 2014. URL: https://doi.org/10.1109/ICASSP.2014.6854950, doi:10.1109/ICASSP.2014.6854950.">DS14</a>]</span> or Lee et al. <span id="id11">[<a class="reference internal" href="bibiography.html#id11" title="Jongpil Lee, Jiyoung Park, Keunhyoung Luke Kim, and Juhan Nam. Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms. CoRR, 2017. URL: http://arxiv.org/abs/1703.01789, arXiv:1703.01789.">LPKN17</a>]</span>.</p></li>
+<li><p>Despite this, Choi et al. <span id="id8">[<a class="reference internal" href="bibiography.html#id50" title="Keunwoo Choi, György Fazekas, and Mark B. Sandler. Automatic tagging using deep convolutional neural networks. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 805–811. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/009\_Paper.pdf.">CFS16</a>]</span> proposed (with success) to apply Computer Vision <mark>VGG-like architecture</mark> to a time-frequency representation.</p></li>
+<li><p>Later on, Pons et al. <span id="id9">[<a class="reference internal" href="bibiography.html#id14" title="Jordi Pons, Thomas Lidy, and Xavier Serra. Experimenting with musically motivated convolutional neural networks. In 14th International Workshop on Content-Based Multimedia Indexing, CBMI 2016, Bucharest, Romania, June 15-17, 2016, 1–6. IEEE, 2016. URL: https://doi.org/10.1109/CBMI.2016.7500246, doi:10.1109/CBMI.2016.7500246.">PLS16</a>]</span> proposed to <mark>design kernel shapes using musical consideration</mark> (with kernel extending over frequencies to represent timbre, over time to represent rhythm).</p></li>
+<li><p>Using directly the <mark>audio waveform (End-to-end)</mark> system has also been proposed for this task, such as in Dieleman et al. <span id="id10">[<a class="reference internal" href="bibiography.html#id12" title="Sander Dieleman and Benjamin Schrauwen. End-to-end learning for music audio. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2014, Florence, Italy, May 4-9, 2014, 6964–6968. IEEE, 2014. URL: https://doi.org/10.1109/ICASSP.2014.6854950, doi:10.1109/ICASSP.2014.6854950.">DS14</a>]</span> or Lee et al. <span id="id11">[<a class="reference internal" href="bibiography.html#id11" title="Jongpil Lee, Jiyoung Park, Keunhyoung Luke Kim, and Juhan Nam. Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms. CoRR, 2017. URL: http://arxiv.org/abs/1703.01789, arXiv:1703.01789.">LPKN17</a>]</span>.</p></li>
 <li><p>The task of auto-tagging has also close relationship with their equivalent task in Speech.</p></li>
 </ul>
 <p><mark><em>We will develop here a model developed initially for speaker recognition by Ravanelli et al. <span id="id12">[<a class="reference internal" href="bibiography.html#id77" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span>.</em></mark></p>
@@ -480,24 +481,32 @@ For example,</p>
 <li><p>PaSST <span id="id14">[<a class="reference internal" href="bibiography.html#id15" title="Khaled Koutini, Shahed Masoudian, Florian Schmid, Hamid Eghbal-zadeh, Jan Schlüter, and Gerhard Widmer. Learning general audio representations with large-scale training of patchout audio transformers. In Joseph Turian, Björn W. Schuller, Dorien Herremans, Katrin Kirchhoff, L. Paola Garc\'ıa-Perera, and Philippe Esling, editors, HEAR: Holistic Evaluation of Audio Representations, Virtual Event, December 13-14, 2021, volume 166 of Proceedings of Machine Learning Research, 65–89. PMLR, 2021. URL: https://proceedings.mlr.press/v166/koutini22a.html.">KMS+21</a>]</span> is based on the Vit, and use tokenized (set of patches) spectrograms fed to a Transformer</p></li>
 </ul>
 <p>The task is still active nowadays especially using Self-Supervised-Learning <span id="id15">[<a class="reference internal" href="bibiography.html#id49" title="Ruibin Yuan, Yinghao Ma, Yizhi Li, Ge Zhang, Xingran Chen, Hanzhi Yin, Le Zhuo, Yiqi Liu, Jiawen Huang, Zeyue Tian, Binyue Deng, Ningzhi Wang, Chenghua Lin, Emmanouil Benetos, Anton Ragni, Norbert Gyenge, Roger B. Dannenberg, Wenhu Chen, Gus Xia, Wei Xue, Si Liu, Shi Wang, Ruibo Liu, Yike Guo, and Jie Fu. MARBLE: music audio representation benchmark for universal evaluation. In Alice Oh, Tristan Naumann, Amir Globerson, Kate Saenko, Moritz Hardt, and Sergey Levine, editors, Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023. 2023. URL: http://papers.nips.cc/paper\_files/paper/2023/hash/7cbeec46f979618beafb4f46d8f39f36-Abstract-Datasets\_and\_Benchmarks.html.">YML+23</a>]</span> (see second part).</p>
-<p>Fore more details, see the very good tutorial</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">“musical classification”</a></p></li>
-</ul>
+<p>Fore more details, see the very good tutorial
+<a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">“musical classification”</a>.</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="a-very-short-history-of-chord-estimation">
 <h3>A very short history of Chord Estimation.<a class="headerlink" href="#a-very-short-history-of-chord-estimation" title="Permalink to this heading">#</a></h3>
-<p>Chord estimation can be considered as a specific tagging application: it involves applying chord-label-tags (mutually exclusive) over segments of time.
-However, it has been considered as a specific task since chord transition follow musical rules which can be represented by a language model.</p>
+<p>Chord estimation can be considered as a specific tagging application: it involves applying mutually exclusive labels (of chords) over segments of time.<br />
+However, it has (at least) two specificities:</p>
 <ul class="simple">
-<li><p>Therefore, ASR (Automatic Speech Recognition) inspired techniques has been developed at first <span id="id16">[<a class="reference internal" href="bibiography.html#id18" title="A. Sheh and Daniel P. W. Ellis. Chord segmentation and recognition using em-trained hidden markov models. In Proc. of ISMIR (International Society for Music Information Retrieval), 183-189. Baltimore, Maryland, USA, 2003.">SE03</a>]</span> or <span id="id17">[<a class="reference internal" href="bibiography.html#id17" title="Hélène Papadopoulos and Geoffroy Peeters. Large-scale study of chord estimation algorithms based on chroma representation. In Proc. of IEEE CBMI (International Workshop on Content-Based Multimedia Indexing). Bordeaux, France, 2007.">PP07</a>]</span> with an acoustic model representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and a language model using HMM (Hidden Markov Model) representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
+<li><p>chord transition follow <mark>musical rules</mark> which can be represented by a <mark>language model</mark>.</p></li>
+<li><p>some chord are equivalent, their spelling depends on the choice of the level of detail, and their choice on the</p></li>
+</ul>
+<p>Therefore, <mark>ASR (Automatic Speech Recognition)</mark> inspired techniques has been developed at first <span id="id16">[<a class="reference internal" href="bibiography.html#id18" title="A. Sheh and Daniel P. W. Ellis. Chord segmentation and recognition using em-trained hidden markov models. In Proc. of ISMIR (International Society for Music Information Retrieval), 183-189. Baltimore, Maryland, USA, 2003.">SE03</a>]</span> or <span id="id17">[<a class="reference internal" href="bibiography.html#id17" title="Hélène Papadopoulos and Geoffroy Peeters. Large-scale study of chord estimation algorithms based on chroma representation. In Proc. of IEEE CBMI (International Workshop on Content-Based Multimedia Indexing). Bordeaux, France, 2007.">PP07</a>]</span> with</p>
+<ul class="simple">
+<li><p>an <strong>acoustic model</strong> representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and</p></li>
+<li><p>a <strong>language model</strong>, often a Hidden Markov Model, representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
 </ul>
 <p><strong>Deep learning era.</strong>
-In the case of chord estimation, deep learning is also now commonly used.</p>
+In the case of chord estimation, deep learning is also now commonly used.
+One seminal paper proposed by McFee at al. <span id="id18">[<a class="reference internal" href="bibiography.html#id65" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> relies</p>
 <ul class="simple">
-<li><p>One seminal paper proposed by McFee at al. <span id="id18">[<a class="reference internal" href="bibiography.html#id65" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> relies on a RCNN (ConvNet followed by a bi-directional RNN, here GRU) to perform the task. Their model also forces an inner representation to relate to the <code class="docutils literal notranslate"><span class="pre">root</span></code>, <code class="docutils literal notranslate"><span class="pre">bass</span></code> and <code class="docutils literal notranslate"><span class="pre">pitches</span></code>. This is done using a multi-task approach (the model is trained to minimize several losses jointly). This favors the learning of representation which brings similar chords (but with different labels) closer.</p></li>
+<li><p>on a RCNN (a ConvNet followed by a <mark>bi-directional RNN</mark>, here GRU) to perform the task.</p></li>
+<li><p>an <mark>inner representation</mark> which relates to the <code class="docutils literal notranslate"><span class="pre">root</span></code>, <code class="docutils literal notranslate"><span class="pre">bass</span></code> and <code class="docutils literal notranslate"><span class="pre">pitches</span></code> (the <mark>CREMA</mark>) which allows the learning of representation which brings similar chords (but with different labels) closer.</p></li>
 </ul>
 <p><mark><em>We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.</em></mark></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="how-is-the-task-evaluated">
@@ -505,11 +514,16 @@ In the case of chord estimation, deep learning is also now commonly used.</p>
 <p>We consider a set of classes <span class="math notranslate nohighlight">\(c \in \{1,\ldots,C\}\)</span>.</p>
 <section id="multi-class">
 <h3>Multi-class<a class="headerlink" href="#multi-class" title="Permalink to this heading">#</a></h3>
-<p>In a <strong>multi-class</strong> problem, the classes are mutually exclusive.
-The outputs of the (neural network) model <span class="math notranslate nohighlight">\(o_c\)</span> therefore go to a softmax function.
-The outputs of the softmax, <span class="math notranslate nohighlight">\(p_c\)</span>, then represent the probability <span class="math notranslate nohighlight">\(P(Y=c|X)\)</span>.
-The predicted class is then chosen as <span class="math notranslate nohighlight">\(\arg\max_c p_c\)</span>.</p>
-<p>We evaluate the performances by computing the standard  Accuracy, Recall, Precision, F-measure for each class <span class="math notranslate nohighlight">\(c\)</span> and then take the average over classes <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<p>In a <strong>multi-class</strong> problem, the classes are <strong>mutually exclusive</strong>.</p>
+<ul class="simple">
+<li><p>The outputs of the (neural network) model <span class="math notranslate nohighlight">\(o_c\)</span> therefore go to a softmax function.</p></li>
+<li><p>The outputs of the softmax, <span class="math notranslate nohighlight">\(p_c\)</span>, then represent the probability <span class="math notranslate nohighlight">\(P(Y=c|X)\)</span>.</p></li>
+<li><p>The predicted class is then chosen as <span class="math notranslate nohighlight">\(\arg\max_c p_c\)</span>.</p></li>
+</ul>
+<p>We evaluate the performances by computing the standard</p>
+<ul class="simple">
+<li><p><mark>Accuracy, Recall, Precision, F-measure</mark> for each class <span class="math notranslate nohighlight">\(c\)</span> and then take the average over classes <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
 <span class="n">classification_reports</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">labels_idx</span><span class="p">,</span>
 																								<span class="n">labels_pred_idx</span><span class="p">,</span>
@@ -520,19 +534,21 @@ The predicted class is then chosen as <span class="math notranslate nohighlight"
 </section>
 <section id="multi-label">
 <h3>Multi-label<a class="headerlink" href="#multi-label" title="Permalink to this heading">#</a></h3>
-<p>In the <strong>multi-label</strong> problem, the classes are NOR mutually exclusive.
-Each <span class="math notranslate nohighlight">\(o_c\)</span> therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).
-The outputs of the sigmoids <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>.
-We then need to set a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on each <span class="math notranslate nohighlight">\(p_c\)</span> to decide wether class <span class="math notranslate nohighlight">\(c\)</span> exist or not.</p>
-<p>Using a default threshold (<span class="math notranslate nohighlight">\(\tau=0.5\)</span>) of course allows to use the afore-mentioned metrics (Accuracy, Recall, Precision, F-measure).
-However, in practice, we want to measure the performances independently of the choice of a given threshold.
-This can be using either</p>
+<p>In the <strong>multi-label</strong> problem, the classes are <strong>NOT mutually exclusive</strong>.</p>
 <ul class="simple">
-<li><p>the <strong>AUC (Area Under the Curve) of the ROC</strong>.
+<li><p>Each <span class="math notranslate nohighlight">\(o_c\)</span> therefore goes individually to a sigmoid function (multi-label is processed as a set of parallel independent binary classification problems).</p></li>
+<li><p>The outputs of the sigmoids <span class="math notranslate nohighlight">\(p_c\)</span> then represent <span class="math notranslate nohighlight">\(P(Y_c=1|X)\)</span>.</p></li>
+<li><p>We then need to set a threshold <span class="math notranslate nohighlight">\(\tau\)</span> on each <span class="math notranslate nohighlight">\(p_c\)</span> to decide wether class <span class="math notranslate nohighlight">\(c\)</span> exist or not.</p></li>
+</ul>
+<p>Using a default threshold (<span class="math notranslate nohighlight">\(\tau=0.5\)</span>) of course allows to use the afore-mentioned metrics (Accuracy, Recall, Precision, F-measure).<br />
+However, in practice, <mark>we want to measure the performances independently of the choice of a given threshold</mark>.</p>
+<p>This can be using either</p>
+<ul class="simple">
+<li><p>the <mark><strong>AUC (Area Under the Curve) of the ROC</strong></mark>.
 The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau\)</span>.
 The larger the AUC-ROC is (maximum of 1) the more discrimination is between the Positive and Negative classes.
 A value of 0.5 indicates no discrimination (random system).</p></li>
-<li><p>the <strong>mean-Average-Precision (mAP)</strong>.
+<li><p>the <mark><strong>mean-Average-Precision (mAP)</strong></mark>.
 The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau)\)</span>.</p></li>
 </ul>
 <p>The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
@@ -543,26 +559,26 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <span class="n">average_precision_score</span><span class="p">(</span><span class="n">labels_idx</span><span class="p">,</span> <span class="n">labels_pred_prob</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Averages in scikitlearn:</p>
+<p>About the averages in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>:</p>
 <ul class="simple">
-<li><p><strong>Macro average</strong>: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).</p></li>
-<li><p><strong>Micro average</strong>: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">macro</span></code> <strong>average</strong>: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">micro</span></code> <strong>average</strong>: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples</p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="chord-estimation">
 <h3>Chord Estimation<a class="headerlink" href="#chord-estimation" title="Permalink to this heading">#</a></h3>
-<p>Evaluating a chord estimation system can be done as a multi-class problem (for the sake of simplicity, this is what will be done in what follows).
-However, chord are not simple labels.
-Indeed, chord annotation is partly subjective, some chord are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).
+<p>In the following (for the sake of simplicity) we will evaluate our chord estimation system <mark>as a multi-class problem</mark>.</p>
+<p>However, chord are not simple labels.
+Indeed, chord annotation is partly subjective, some chords are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).<br />
 For this reason, <code class="docutils literal notranslate"><span class="pre">mir_eval</span></code> <span id="id19">[<a class="reference internal" href="bibiography.html#id10" title="Colin Raffel, Brian McFee, Eric J. Humphrey, Justin Salamon, Oriol Nieto, Dawen Liang, and Daniel P. W. Ellis. Mir_eval: A transparent implementation of common MIR metrics. In Hsin-Min Wang, Yi-Hsuan Yang, and Jin Ha Lee, editors, Proceedings of the 15th International Society for Music Information Retrieval Conference, ISMIR 2014, Taipei, Taiwan, October 27-31, 2014, 367–372. 2014. URL: http://www.terasoft.com.tw/conf/ismir2014/proceedings/T066\_320\_Paper.pdf.">RMH+14</a>]</span> or Pauwels et al. <span id="id20">[<a class="reference internal" href="bibiography.html#id13" title="Johan Pauwels and Geoffroy Peeters. Evaluating automatically estimated chord sequences. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2013, Vancouver, BC, Canada, May 26-31, 2013, 749–753. IEEE, 2013. URL: https://doi.org/10.1109/ICASSP.2013.6637748, doi:10.1109/ICASSP.2013.6637748.">PP13</a>]</span> proposed metrics that allows measuring the correctness of the <code class="docutils literal notranslate"><span class="pre">root</span></code>, the <code class="docutils literal notranslate"><span class="pre">major/minor</span></code> component, the <code class="docutils literal notranslate"><span class="pre">bass</span></code> or the constitution in terms of <code class="docutils literal notranslate"><span class="pre">chroma</span></code>.</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="some-popular-datasets">
 <h2>Some popular datasets<a class="headerlink" href="#some-popular-datasets" title="Permalink to this heading">#</a></h2>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
-<p>Many datasets exist for music-auto-tagging such as AcousticBrainz-Genre, AudioSet (music part), CAL10K, CAL500, FMA-Full/Medium/Small, IRMAS (instruments), Jamendo (vocal activity), MTG-Jamendo (genre, instruments, mood), Seyerlehner/*, …</p>
-<p>We have chosen the two following ones since they are often used, they represent the multi-class and multi-label problem, their audio is easely accessible.</p>
-<p>For our implementations, we will consider the two following datasets</p>
+<p>We have chosen the following ones since they are often used, they represent the multi-class, multi-label and chord estimation problems, and their audio is easely accessible.</p>
 <section id="gtzan">
 <h3>GTZAN<a class="headerlink" href="#gtzan" title="Permalink to this heading">#</a></h3>
 <p><a class="reference external" href="http://marsyas.info/downloads/datasets.html">GTZAN</a> contains 1000 audio files of 30s duration, each with a single (<strong>multi-class</strong>) genre label among 10 classes (‘blues’,’classical’,’country’,’disco’,’hiphop’,’jazz’,’metal’,’pop’, ‘reggae’,’rock’).
@@ -650,31 +666,20 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
           <span class="p">]</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
-<p>Auto-tagging is a classification problem and can be considered either as</p>
+<p>Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord estimation RWC-Pop) with a <mark>single code</mark>.
+We of course adapt the model (defined in the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file) depending on the task.</p>
 <ul class="simple">
-<li><p>a multi-class (mutually exclusive classes, such as for GTZAN or RWC-Popular-Chord) or</p></li>
-<li><p>a multi-label (non-mutually exclusive classes, such as MTT).</p></li>
+<li><p>GTZAN and RWC-Pop-Chord are <strong>multi-class</strong> problems (hence with softmax and categorial-CE), while MTT is <strong>multi-label</strong> (hence with sigmoids and BCEs).</p></li>
+<li><p>GTZAN and MTT are <strong>global</strong> annotations (we therefore need to reduce the time axis), while RWC-Pop-Chord are <strong>temporal</strong> annotations with a language model (we therefore use a bi-LSTM).</p></li>
 </ul>
-<p>Also,</p>
-<ul class="simple">
-<li><p>for GTZAN and MTT, the labels are assigned or the whole track duration. We therefore need to design a model that map a time-series of observation to a single output.</p></li>
-<li><p>for RWC-Popular-Chord, the labels are assigned over time.</p></li>
-</ul>
-<p>For this tutorial, we focus on the model used in the SincNet paper illustrated below.</p>
-<p><img alt="sincnet" src="_images/brick_sincnet.png" /></p>
-<p><strong>Figure</strong>. SincNet model. <em>image source: SincNet <span id="id23">[<a class="reference internal" href="bibiography.html#id77" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
-<section id="experiments">
-<h3>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
-<p>We illustrate a deep learning solution to this problem using the following files:</p>
-<ul class="simple">
-<li><p>(Main notebook)(<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb">geoffroypeeters/deeplearning-101-audiomir_notebook</a>)</p></li>
-<li><p>(Config Auto-Tagging)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
-<li><p>(Config Chord)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
-</ul>
+<p>For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated below.</p>
+<p><img alt="sincnet" src="_images/brick_sincnet.png" /><br />
+<strong>Figure</strong>. *SincNet model. <em>image source: SincNet <span id="id23">[<a class="reference internal" href="bibiography.html#id77" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
 <p>We will vary in turn</p>
 <ul class="simple">
 <li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a>, <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a> or <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a></p></li>
@@ -692,6 +697,15 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 </li>
 </ul>
 <p><img alt="expe" src="_images/expe_autotagging_P.png" /></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
+<section id="experiments">
+<h3>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
+<p>The code is available here:</p>
+<ul class="simple">
+<li><p>(Main notebook)(<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb">geoffroypeeters/deeplearning-101-audiomir_notebook</a>)</p></li>
+<li><p>(Config Auto-Tagging)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_autotagging.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
+<li><p>(Config Chord)[<a class="github reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/config_chord.yaml">geoffroypeeters/deeplearning-101-audiomir_notebook</a>]</p></li>
+</ul>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-left head"><p>Dataset</p></th>
@@ -748,14 +762,18 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 </tbody>
 </table>
 </section>
-<section id="illustrations">
-<h3>Illustrations:<a class="headerlink" href="#illustrations" title="Permalink to this heading">#</a></h3>
+<section id="actions">
+<h3>Actions:<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h3>
+<p>We show that</p>
 <ul class="simple">
-<li><p>learned filters Conv1d</p></li>
-<li><p>learned filters SincNet</p></li>
-<li><p>Tag-O-Gram: multi-class</p></li>
-<li><p>Tag-O-Gram: multi-label</p></li>
-<li><p>Tag-O-Gram: chords</p></li>
+<li><p>autotagging config file</p></li>
+<li><p>multi-class: results, CM and Tag-O-Gram</p></li>
+<li><p>multi-class:: learned filters SincNet, code SincNet</p></li>
+<li><p>multi-class: learned filters Conv1d</p></li>
+<li><p>multi-label: results, tag-o-gram:</p></li>
+<li><p>chord config file</p></li>
+<li><p>chord: training patches</p></li>
+<li><p>chord: resutls, tag-o-gram</p></li>
 </ul>
 </section>
 </section>
@@ -843,7 +861,7 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrations">Illustrations:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
 </ul>
 </li>
 </ul>

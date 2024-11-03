@@ -183,8 +183,8 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -415,11 +415,11 @@ document.write(`
 <p><a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Pytorch Lightning</a> is a high-level wrapper for PyTorch that simplifies the process of organizing, training, and scaling deep learning models.
 It structures PyTorch code with best practices, making it easier to implement, debug, and accelerate models across different hardware with minimal boilerplate code.
 It allows to by-pass the tedious work of writing training and validation loop over epoch and over mini-batch.</p>
-<p>The writing of the Lightning class is very standard and almost the same for all tasks.
+<p>The <mark>writing of the Lightning class</mark> is very standard and almost the same for all tasks.
 It involves indicating</p>
 <ul class="simple">
-<li><p>which model, loss and optimizer to use</p></li>
-<li><p>what is a forward pass for training (<code class="docutils literal notranslate"><span class="pre">training_step</span></code>) and validation (<code class="docutils literal notranslate"><span class="pre">validation_step</span></code>)</p></li>
+<li><p>which <code class="docutils literal notranslate"><span class="pre">model</span></code> to use, <code class="docutils literal notranslate"><span class="pre">loss</span></code> to minimize and the <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> to use</p></li>
+<li><p>what is a step of forward pass for training (<code class="docutils literal notranslate"><span class="pre">training_step</span></code>) and validation (<code class="docutils literal notranslate"><span class="pre">validation_step</span></code>)</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoTaggingLigthing</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
 
@@ -444,8 +444,13 @@ It involves indicating</p>
         <span class="k">return</span> <span class="n">optimizer</span>
 </pre></div>
 </div>
-<p>The training code is then extremely simple: <code class="docutils literal notranslate"><span class="pre">trainer.fit</span></code>.
-Pytorch Lightning also allows to define <strong>CallBack</strong> using predefined methods such as for <code class="docutils literal notranslate"><span class="pre">EarlyStopping</span></code> or for saving <code class="docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code>.</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
+<p>The training code is then extremely simple: <code class="docutils literal notranslate"><span class="pre">trainer.fit</span></code>.<br />
+Pytorch Lightning also allows to define <strong>CallBack</strong> using predefined methods such as</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EarlyStopping</span></code> to avoid over-fitting or</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code> for saving the best model</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_lighting</span> <span class="o">=</span> <span class="n">AutoTaggingLigthing</span><span class="p">(</span> <span class="n">model</span> <span class="p">)</span>
 
 <span class="n">early_stop_callback</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
@@ -466,6 +471,7 @@ Pytorch Lightning also allows to define <strong>CallBack</strong> using predefin
             <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">valid_dataloader</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 
     <script type="text/x-thebe-config">

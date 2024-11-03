@@ -9,7 +9,8 @@ We denote by `paradigm` the overall problem that is used to train a neural netwo
 (lab_supervised)=
 ## Supervised
 
-Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data $X$ and the corresponding ground-truth $y$.
+Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which <mark>one has access to both input data $X$ and the corresponding ground-truth $y$</mark>.
+
 The goal is then to define a function $f$ (a specific neural network architecture) and optimize its parameters $\theta$ such that $\hat{\mathbf{y}}=f_{\theta}(\mathbf{x})$ best approximates $\mathbf{y}$.
 This is done by defining a loss $\mathcal{L}$ associated to the approximation of $\mathbf{y}$ by $\hat{\mathbf{y}}$.
 Such a loss can be
@@ -57,7 +58,9 @@ Fore more details, see the very good tutorial
 
 The goal is to train a network $f_{\theta}$ such that the resulting projections satisfy the following triplet constraint:
 
-$$d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha < d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N)) $$
+$$d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha < d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N))$$
+
+$$d_{AP} + \alpha < d_{AN} $$
 
 where
 - $\mathbf{x}_A$ is an anchor,
@@ -65,7 +68,7 @@ where
 - $\mathbf{x}_N$ a negative we consider distant from $\mathbf{x}_A$
 - $\alpha$ a margin.
 
-In other words, we want $d_{AN}$ to be larger than $d_{AP}$ by a margin $\alpha$
+In other words, we want $d_{AP}$ to be smaller by a margin $\alpha$ than $d_{AN}$
 
 We solve this by minimizing the following loss $\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)$.
 It is usual to L2-normalized the output of $f_{\theta}$ (which then lives in the unit-hypersphere) to facilitate the setting of the $\alpha$ value.
@@ -80,6 +83,7 @@ loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 ```
 
 
+(lab_TripletMining)=
 ### Triplet Mining
 
 Triplet mining is the process of <mark>selecting the triplets</mark> for training using the triplet loss.

@@ -437,8 +437,8 @@ document.write(`
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">paradigm</span></code> the overall problem that is used to train a neural network: <em>such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, …</em></p>
 <section id="supervised">
 <span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
-<p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span>.
-The goal is then to define a function <span class="math notranslate nohighlight">\(f\)</span> (a specific neural network architecture) and optimize its parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}=f_{\theta}(\mathbf{x})\)</span> best approximates <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>.
+<p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which <mark>one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span></mark>.</p>
+<p>The goal is then to define a function <span class="math notranslate nohighlight">\(f\)</span> (a specific neural network architecture) and optimize its parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}=f_{\theta}(\mathbf{x})\)</span> best approximates <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>.
 This is done by defining a loss <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> associated to the approximation of <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> by <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}\)</span>.
 Such a loss can be</p>
 <ul class="simple">
@@ -482,7 +482,9 @@ The goal is to <mark>map input data into a space where</mark></p>
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
 <p>The goal is to train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections satisfy the following triplet constraint:</p>
 <div class="math notranslate nohighlight">
-\[d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &lt; d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N)) \]</div>
+\[d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &lt; d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N))\]</div>
+<div class="math notranslate nohighlight">
+\[d_{AP} + \alpha &lt; d_{AN} \]</div>
 <p>where</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> is an anchor,</p></li>
@@ -490,7 +492,7 @@ The goal is to <mark>map input data into a space where</mark></p>
 <li><p><span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> a negative we consider distant from <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(\alpha\)</span> a margin.</p></li>
 </ul>
-<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AN}\)</span> to be larger than <span class="math notranslate nohighlight">\(d_{AP}\)</span> by a margin <span class="math notranslate nohighlight">\(\alpha\)</span></p>
+<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AP}\)</span> to be smaller by a margin <span class="math notranslate nohighlight">\(\alpha\)</span> than <span class="math notranslate nohighlight">\(d_{AN}\)</span></p>
 <p>We solve this by minimizing the following loss <span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span>.
 It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilitate the setting of the <span class="math notranslate nohighlight">\(\alpha\)</span> value.</p>
 <p><img alt="triplet-loss" src="_images/brick_triplet.png" /><br />
@@ -501,7 +503,7 @@ It is usual to L2-normalized the output of <span class="math notranslate nohighl
 </div>
 </section>
 <section id="triplet-mining">
-<h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
+<span id="lab-tripletmining"></span><h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
 <p>Triplet mining is the process of <mark>selecting the triplets</mark> for training using the triplet loss.
 The goal is to ensure the model learns effectively by choosing the right combination of examples.</p>
 <p>Given the choice of an Anchor and a Positive, we denotes by</p>

@@ -4,6 +4,10 @@ In the first part of this tutorial, each dataset will be saved as a pair of file
 - one in .hdf5 format for the audio and
 - one in .pyjama format for the annotations.
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 A single [.hdf5](https://docs.h5py.org/) file contains all the audio data of a dataset.
 Each `key` corresponds to an entry.
 An entry corresponds to a specific audiofile.
@@ -17,6 +21,10 @@ with h5py.File(hdf5_audio_file, 'r') as hdf5_fid:
     pp.pprint(f"audio shape: {hdf5_fid[key][:].shape}")
     pp.pprint(f"audio sample-rate: {hdf5_fid[key].attrs['sr_hz']}")
 ```
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 A single [.pyjama](https://github.com/geoffroypeeters/pyjama) contains all the annotations of all the files of a dataset.
 The values of the `filepath` field of the .pyjama file correspond to the `key` values of the .hdf5 file.
@@ -69,6 +77,30 @@ pp.pprint(entry_l[0:2])
  'schemaversion': 1.31}
  ```
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.
 
 We provide a set of datasets (each with its .hdf5 and .pyjama file) for this tutorial [here](https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/).
+
+```python
+Index of /gpeeters/tuto_DL101forMIR
+[ICO]	Name	Last modified	Size	Description
+[PARENTDIR]	Parent Directory	 	-	 
+[   ] bach10.pyjama                   2024-10-19 12:21	19M	 
+[   ] bach10_audio.hdf5.zip           2024-10-02 07:51	129M	 
+[   ] cover1000.pyjama                2024-10-19 12:21	1.0M	 
+[   ] cover1000_feat.hdf5.zip         2024-10-02 07:52	101M	 
+[   ] datacos-benchmark.pyjama        2024-10-19 12:21	6.3M	 
+[   ] datacos-benchmark_feat.hdf5.zip 2024-10-14 12:31	1.5G	 
+[   ] gtzan-genre.pyjama              2024-10-19 12:21	306K	 
+[   ] gtzan-genre_audio.hdf5.zip      2024-10-02 09:59	1.5G	 
+[   ] maps.pyjama                     2024-10-19 12:21	51M	 
+[   ] maps_audio.hdf5.zip             2024-10-14 12:12	2.3G	 
+[   ] mtt.pyjama                      2024-10-19 12:21	1.7M	 
+[   ] mtt_audio.hdf5.zip              2024-10-14 12:15	2.3G	 
+[   ] rwc-pop_chord.pyjama            2024-10-22 12:23	10M	 
+[   ] rwc-pop_chord_audio.hdf5.zip    2024-10-22 12:25	1.8G	 
+```
