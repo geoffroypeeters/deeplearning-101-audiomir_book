@@ -486,10 +486,10 @@ dataloader = DataLoader(dataset, batch_size=125, shuffle=True)
 dataloader_val = DataLoader(dataset_val, batch_size=125, shuffle=True)
 </pre></div>
 </div>
-</section>
 <hr class="docutils" />
+</section>
 <section id="transformer-model-architecture">
-<h2>Transformer Model Architecture<a class="headerlink" href="#transformer-model-architecture" title="Permalink to this heading">#</a></h2>
+<span id="lab-architecture-auto"></span><h2>Transformer Model Architecture<a class="headerlink" href="#transformer-model-architecture" title="Permalink to this heading">#</a></h2>
 <p>We use a classic Transformer decoder with <em>rotary positional embeddings</em> from x_transformers to model the sequence of discrete tokens autoregressively.</p>
 <p>The model predicts the next token given the previous tokens.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">x_transformers</span> <span class="kn">import</span> <span class="n">TransformerWrapper</span><span class="p">,</span> <span class="n">Decoder</span>
