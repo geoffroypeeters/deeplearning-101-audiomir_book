@@ -420,7 +420,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-architectures">Recurrent Architectures</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn">RNN</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/ Self-Attention</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/Self-Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-attention-example">Self-Attention Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-encoding">Positional Encoding</a></li>
 </ul>
 </li>
 </ul>
@@ -440,7 +444,7 @@ document.write(`
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">architecture</span></code> the overall design of a neural network, i.e. the way front-end and projections are used together.</p>
 <section id="u-net">
 <span id="lab-unet"></span><h2>U-Net<a class="headerlink" href="#u-net" title="Permalink to this heading">#</a></h2>
-<p>The U-Net was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id55" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span> in the framework of biomedical image segmentation and made popular in MIR by <span id="id2">[<a class="reference internal" href="bibiography.html#id54" title="Andreas Jansson, Eric J. Humphrey, Nicola Montecchio, Rachel M. Bittner, Aparna Kumar, and Tillman Weyde. Singing voice separation with deep u-net convolutional networks. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 745–751. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171\_Paper.pdf.">JHM+17</a>]</span> for singing voice separation.</p>
+<p>The U-Net was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id56" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span> in the framework of biomedical image segmentation and made popular in MIR by <span id="id2">[<a class="reference internal" href="bibiography.html#id55" title="Andreas Jansson, Eric J. Humphrey, Nicola Montecchio, Rachel M. Bittner, Aparna Kumar, and Tillman Weyde. Singing voice separation with deep u-net convolutional networks. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 745–751. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171\_Paper.pdf.">JHM+17</a>]</span> for singing voice separation.</p>
 <p>The U-Net is an auto-encoder with skip-connections.</p>
 <ul class="simple">
 <li><p>The <strong>encoder</strong> (left part) downsample the spatial dimensions and increase the depth,</p></li>
@@ -462,18 +466,18 @@ document.write(`
 <li><p>using Interpolation followed by Normal convolution</p></li>
 </ul>
 <p><img alt="brick_unet" src="_images/brick_unet.png" /><br />
-<strong>Figure</strong> U-Net architecture for biomedical image segmentation <em>image source: <span id="id3">[<a class="reference internal" href="bibiography.html#id55" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span></em></p>
+<strong>Figure</strong> U-Net architecture for biomedical image segmentation <em>image source: <span id="id3">[<a class="reference internal" href="bibiography.html#id56" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span></em></p>
 </section>
 <section id="many-to-one-reducing-the-time-dimensions">
 <h2>Many to One: reducing the time dimensions<a class="headerlink" href="#many-to-one-reducing-the-time-dimensions" title="Permalink to this heading">#</a></h2>
 <p>They are many different ways to reduce a (temporal) sequence of embeddings <span class="math notranslate nohighlight">\(\{ \mathbf{x}_1, \ldots \mathbf{x}_{T_x}\}\)</span> to a single embedding <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (Many-to-One).</p>
 <p>Such a mechanism can be necessary in order to map the temporal embedding provided by the last layer of a network to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).</p>
-<p>The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> over time <span class="math notranslate nohighlight">\(t\)</span> (as done for example in <span id="id4">[<a class="reference internal" href="bibiography.html#id60">Die14</a>]</span>).</p>
+<p>The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> over time <span class="math notranslate nohighlight">\(t\)</span> (as done for example in <span id="id4">[<a class="reference internal" href="bibiography.html#id61">Die14</a>]</span>).</p>
 <section id="attention-weighting">
-<h3>Attention weighting<a class="headerlink" href="#attention-weighting" title="Permalink to this heading">#</a></h3>
+<span id="lab-attentionweighting"></span><h3>Attention weighting<a class="headerlink" href="#attention-weighting" title="Permalink to this heading">#</a></h3>
 <p>Another possibility is to compute a weighted sum of the values <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> where the weights <span class="math notranslate nohighlight">\(a_t\)</span> are denoted by <strong>attention</strong> parameters:
 <span class="math notranslate nohighlight">\(\mathbf{x} = \sum_{t=0}^{T_x-1} a_t \mathbf{x}_t\)</span></p>
-<p>In <span id="id5">[<a class="reference internal" href="bibiography.html#id58" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span>, it is proposed to compute these weights <span class="math notranslate nohighlight">\(a_t\)</span> either</p>
+<p>In <span id="id5">[<a class="reference internal" href="bibiography.html#id59" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span>, it is proposed to compute these weights <span class="math notranslate nohighlight">\(a_t\)</span> either</p>
 <ol class="arabic simple">
 <li><p>by computing a new projection of the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> and then normalize them:
 <span class="math notranslate nohighlight">\(a_t = \frac{\sigma(\mathbf{v}^T h(\mathbf{x}_t))}{\sum_{\tau} \sigma(\mathbf{v}^T h(\mathbf{x}_{\tau}))}\)</span></p>
@@ -484,7 +488,7 @@ document.write(`
 <li><p>doing the same after splitting <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> in two (along the channel dimensions): the first part being used to compute “values”, the second to compute “weights”</p></li>
 </ol>
 <p><img alt="brick_attention_instrument" src="_images/brick_attention_instrument.png" /><br />
-<strong>Figure</strong> Attention weighting, <em>image source: <span id="id6">[<a class="reference internal" href="bibiography.html#id58" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span></em></p>
+<strong>Figure</strong> Attention weighting, <em>image source: <span id="id6">[<a class="reference internal" href="bibiography.html#id59" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">nnSoftmaxWeight</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform attention weighing based on softmax with channel splitting</span>
@@ -502,7 +506,7 @@ document.write(`
 </section>
 <section id="auto-pool">
 <span id="lab-autopoolweightsplit"></span><h3>Auto-Pool<a class="headerlink" href="#auto-pool" title="Permalink to this heading">#</a></h3>
-<p>The above attention mechanism can by combined with the auto-pool operators proposed by <span id="id7">[<a class="reference internal" href="bibiography.html#id59" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span>.</p>
+<p>The above attention mechanism can by combined with the auto-pool operators proposed by <span id="id7">[<a class="reference internal" href="bibiography.html#id60" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span>.</p>
 <p>The auto-pool operators is defined as</p>
 <div class="math notranslate nohighlight">
 \[\tilde{\mathbf{x}}_t = \frac{\exp(\alpha \cdot \mathbf{x}_t)}{\sum_{\tau} \exp(\alpha \cdot \mathbf{x}_{\tau})}\]</div>
@@ -514,7 +518,7 @@ document.write(`
 </ul>
 <p>The <span class="math notranslate nohighlight">\(\alpha\)</span> parameters is a trainable parameters (optimized using SGD).</p>
 <p><img alt="brick_autopool" src="_images/brick_autopool.png" /><br />
-<strong>Figure</strong> Auto-pool operator <em>image source: <span id="id8">[<a class="reference internal" href="bibiography.html#id59" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span></em></p>
+<strong>Figure</strong> Auto-pool operator <em>image source: <span id="id8">[<a class="reference internal" href="bibiography.html#id60" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code: https://github.com/furkanyesiler/move</span>
 <span class="k">def</span> <span class="nf">f_autopool_weights</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">autopool_param</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -546,9 +550,9 @@ document.write(`
 <p><img alt="brick_pooling" src="_images/brick_pooling_P.png" /></p>
 <p>It should be noted that the term “Attention” encapsulates a large set of different paradigms.</p>
 <ul class="simple">
-<li><p>In the <strong>encode-decoder architecture</strong> <span id="id9">[<a class="reference internal" href="bibiography.html#id57" title="Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine translation by jointly learning to align and translate. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015. URL: http://arxiv.org/abs/1409.0473.">BCB15</a>]</span> it is used during decoding to define the correct context <span class="math notranslate nohighlight">\(\mathbf{c}_{\tau}\)</span> to be used to generate the hidden state <span class="math notranslate nohighlight">\(\mathbf{s}_{\tau}\)</span>.
+<li><p>In the <strong>encode-decoder architecture</strong> <span id="id9">[<a class="reference internal" href="bibiography.html#id58" title="Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine translation by jointly learning to align and translate. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015. URL: http://arxiv.org/abs/1409.0473.">BCB15</a>]</span> it is used during decoding to define the correct context <span class="math notranslate nohighlight">\(\mathbf{c}_{\tau}\)</span> to be used to generate the hidden state <span class="math notranslate nohighlight">\(\mathbf{s}_{\tau}\)</span>.
 For this it compares the decoder hidden state <span class="math notranslate nohighlight">\(\mathbf{s}_{\tau-1}\)</span> to all the encoder hidden states <span class="math notranslate nohighlight">\(\mathbf{a}_t\)</span>.</p></li>
-<li><p>In the <strong>transformer architecture</strong> <span id="id10">[<a class="reference internal" href="bibiography.html#id56" title="Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Isabelle Guyon, Ulrike von Luxburg, Samy Bengio, Hanna M. Wallach, Rob Fergus, S. V. N. Vishwanathan, and Roman Garnett, editors, Advances in Neural Information Processing Systems 30: Annual Conference on Neural Information Processing Systems 2017, December 4-9, 2017, Long Beach, CA, USA, 5998–6008. 2017. URL: https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html.">VSP+17</a>]</span> it is used to compute a self-attention.
+<li><p>In the <strong>transformer architecture</strong> <span id="id10">[<a class="reference internal" href="bibiography.html#id57" title="Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Isabelle Guyon, Ulrike von Luxburg, Samy Bengio, Hanna M. Wallach, Rob Fergus, S. V. N. Vishwanathan, and Roman Garnett, editors, Advances in Neural Information Processing Systems 30: Annual Conference on Neural Information Processing Systems 2017, December 4-9, 2017, Long Beach, CA, USA, 5998–6008. 2017. URL: https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html.">VSP+17</a>]</span> it is used to compute a self-attention.
 For this, the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> are mapped (using matrix projections) to query <span class="math notranslate nohighlight">\(\mathbf{q}_t\)</span>, key <span class="math notranslate nohighlight">\(\mathbf{k}_t\)</span> and values <span class="math notranslate nohighlight">\(\mathbf{v}_t\)</span>.
 A given <span class="math notranslate nohighlight">\(\mathbf{q}_{\tau}\)</span> is then compared to all <span class="math notranslate nohighlight">\(\mathbf{k}_t\)</span> to compute attention weights <span class="math notranslate nohighlight">\(\mathbf{a}_{t,\tau}\)</span> which are used in the weighting sum of the <span class="math notranslate nohighlight">\(\mathbf{v}_t\)</span>:
 <span class="math notranslate nohighlight">\(\mathbf{e}_{\tau} = \sum_t \mathbf{a}_{t,\tau} \mathbf{v}_{t}\)</span>.</p></li>
@@ -593,10 +597,12 @@ LSTM use a more complex architecture with</p>
 </li>
 </ul>
 <p>This allows them to retain relevant information over longer sequences while “forgetting” irrelevant information.</p>
-<p>As RNN, two configurations are often used with LSTMs:</p>
+<p><strong>A critical reason why LSTMs work better than RNNs</strong> is that the memory cell provides a path for information to flow across time steps without repeatedly passing it through non-linearities (e.g., <code class="docutils literal notranslate"><span class="pre">torch.nn.Sigmoid</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.nn.Tanh</span></code>).
+This principle mitigates the vanishing gradient problem and is similar to ResNets and the residual stream in Transformers, where skip connections allow information to bypass layers that add non-linearities.</p>
+<p>As in RNNs, two configurations are often used with LSTMs:</p>
 <ul class="simple">
-<li><p><mark>Many-to-Many</mark></p></li>
-<li><p><mark>Many-to-One</mark></p></li>
+<li><p><mark>Many-to-many</mark></p></li>
+<li><p><mark>Many-to-one</mark></p></li>
 </ul>
 <p><img alt="brick_rnn" src="_images/brick_lstm.png" /><br />
 <strong>Figure</strong> Details of a LSTM cell  <em>image source: <a class="reference external" href="https://mlarchive.com/deep-learning/understanding-long-short-term-memory-networks/">Link</a></em></p>
@@ -604,8 +610,49 @@ LSTM use a more complex architecture with</p>
 </pre></div>
 </div>
 </section>
+</section>
 <section id="transformer-self-attention">
-<h3>Transformer/ Self-Attention<a class="headerlink" href="#transformer-self-attention" title="Permalink to this heading">#</a></h3>
+<h2>Transformer/Self-Attention<a class="headerlink" href="#transformer-self-attention" title="Permalink to this heading">#</a></h2>
+<figure class="align-default" id="brick-transformer">
+<span id="lab-transformer-fig"></span><a class="reference internal image-reference" href="_images/brick_transformer.png"><img alt="_images/brick_transformer.png" src="_images/brick_transformer.png" style="width: 70%;" /></a>
+</figure>
+<p><strong>Figure:</strong> The Transformer - model architecture.</p>
+<p>In recent years, Transformers <span id="id11">[<a class="reference internal" href="bibiography.html#id57" title="Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Isabelle Guyon, Ulrike von Luxburg, Samy Bengio, Hanna M. Wallach, Rob Fergus, S. V. N. Vishwanathan, and Roman Garnett, editors, Advances in Neural Information Processing Systems 30: Annual Conference on Neural Information Processing Systems 2017, December 4-9, 2017, Long Beach, CA, USA, 5998–6008. 2017. URL: https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html.">VSP+17</a>]</span> widely replaced recurrent architectures for sequence modeling tasks and are also increasingly used instead of convolutional architectures.
+Their signature component, the <strong>attention mechanism</strong>, gives them a unique advantage over previous architectures.
+There are several intuitive explanations for the attention mechanism (e.g., attending to important tokens, address-based memory access).
+Independent of how one thinks about the attention mechanism, its result is an attention matrix (resembling a weight matrix) that is input-dependent, while most other architectures employ weight matrices whose parameters are fixed at inference time.</p>
+<p>For sequence modeling (cf. <a class="reference internal" href="task_musicgeneration_auto.html#lab-architecture-auto"><span class="std std-ref">our autoregressive generation example</span></a>), we usually employ a <strong>causal transformer</strong> where attention matrices are masked so that future information cannot be taken into consideration (indicated by <code class="docutils literal notranslate"><span class="pre">Masked</span> <span class="pre">Multi-Head</span> <span class="pre">Attention</span></code> in the figure above).
+For that, we only use the <strong>DECODER</strong> part, while for non-causal tasks like <em>masked token prediction</em> <span id="id12">[<a class="reference internal" href="bibiography.html#id5" title="Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training of deep bidirectional transformers for language understanding. In NAACL-HLT (1), 4171–4186. Association for Computational Linguistics, 2019.">DCLT19</a>]</span>, the <strong>ENCODER</strong> part is used.
+Using both, an encoder with cross-connections to the decoder, as proposed in the initial paper, is mainly used to inject conditioning information if needed.</p>
+<p>Note that after every <code class="docutils literal notranslate"><span class="pre">Multi-Head</span> <span class="pre">Attention</span></code> or <code class="docutils literal notranslate"><span class="pre">Feed</span> <span class="pre">Forward</span></code> module, there is an <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">&amp;</span> <span class="pre">Norm</span></code> operation.
+This means, the input to each module is added to its output, resulting in a “residual stream”, where information is written into or retrieved from.
+From a simplified point of view, it is now understood that the <code class="docutils literal notranslate"><span class="pre">Mult-Head</span> <span class="pre">Attention</span></code> modules rather combine and shuffle information from the residual stream, while weights of the <code class="docutils literal notranslate"><span class="pre">Feed</span> <span class="pre">Forward</span></code> modules act as “memories” that inject new information into the residual stream.</p>
+<section id="self-attention-example">
+<h3>Self-Attention Example<a class="headerlink" href="#self-attention-example" title="Permalink to this heading">#</a></h3>
+<p>This section gives an explanation of self-attention that is <span style="color: red;">illustrative but very simplified</span>.
+In practice, tokens are not full words but rather word fragments.
+Keys, values and queries are continuous vectors whose meaning is not as simple and discrete as in the example below, and a token can attend to more than one value.
+However, the example is correct in how information is propagated through a self-attention layer and could theoretically happen as described.</p>
+<p><img alt="brick_attention" src="_images/brick_attention.png" />
+<strong>Figure:</strong> Simple self-attention example.</p>
+<p>In self-attention, every <em>token</em> (every <em>word</em> in the example above), is represented by an embedding vector.
+By multiplying every such token embedding with three fixed matrices (<span class="math notranslate nohighlight">\(W^K\)</span>, <span class="math notranslate nohighlight">\(W^V\)</span> and <span class="math notranslate nohighlight">\(W^Q\)</span>) we obtain a key, value and query vector for every position.</p>
+<p>In our simplified example, the model may have learned to emit a <em>key</em> vector that stands for <mark>verb</mark> from a token embedding that stands for <mark>chasing</mark>, effectively saying “i am a verb!”.
+For the <mark>dog</mark> embedding, it may ask “what is the dog doing?” and therefore emitting a query resembling the <mark>verb</mark> key.
+The result of the self-attention is then to copy the value to whereever a query fits the respective key:</p>
+<figure class="align-default" id="brick-attention2">
+<a class="reference internal image-reference" href="_images/brick_attention2.png"><img alt="_images/brick_attention2.png" src="_images/brick_attention2.png" style="width: 83%;" /></a>
+</figure>
+<p><strong>Figure:</strong> Result of the simple self-attention example.</p>
+<p>As indicated in the <a class="reference internal" href="#lab-transformer-fig"><span class="std std-ref">architecture diagram</span></a>, after every attention layer, there is an <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">&amp;</span> <span class="pre">Norm</span></code> operation.
+In our example, we start from the <mark>dog</mark> embedding (i.e., the <mark>dog</mark> position in a semantic space), and add the <mark>chase</mark> vector, effectively augmenting <mark>dog</mark> by moving into the <mark>chase</mark> direction.
+As a result, we obtain a “chasing dog” that can then be further transformed in subsequent layers.
+Through iterative, relative transformations of such embeddings in a semantic space, we can thereby resolve complex relationships and perform precise, final predictions.</p>
+</section>
+<section id="positional-encoding">
+<h3>Positional Encoding<a class="headerlink" href="#positional-encoding" title="Permalink to this heading">#</a></h3>
+<p>Note that in the example above, the results would occur the same way if the order of the input sequence would be shuffled (i.e., the <mark>chase</mark> vector would also be added to the <mark>dog</mark> position).
+…</p>
 </section>
 </section>
 </section>
@@ -683,7 +730,11 @@ LSTM use a more complex architecture with</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-architectures">Recurrent Architectures</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn">RNN</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/ Self-Attention</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-self-attention">Transformer/Self-Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#self-attention-example">Self-Attention Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-encoding">Positional Encoding</a></li>
 </ul>
 </li>
 </ul>

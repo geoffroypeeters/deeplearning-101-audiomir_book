@@ -437,7 +437,7 @@ document.write(`
 <section id="encodec-neural-audio-codec">
 <h2>EnCodec Neural Audio Codec<a class="headerlink" href="#encodec-neural-audio-codec" title="Permalink to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/facebookresearch/encodec">EnCodec</a> <span id="id1">[]</span> is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.</p>
-<p><img alt="encodec_overview" src="images/expe_encodec.png" /></p>
+<p><img alt="encodec_overview" src="_images/expe_encodec.png" /></p>
 <p><strong>Figure 1</strong>: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization.</p>
 <p>To use EnCodec for our task, we first encode our dataset into discrete token sequences.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install encodec
@@ -486,10 +486,10 @@ dataloader = DataLoader(dataset, batch_size=125, shuffle=True)
 dataloader_val = DataLoader(dataset_val, batch_size=125, shuffle=True)
 </pre></div>
 </div>
-</section>
 <hr class="docutils" />
+</section>
 <section id="transformer-model-architecture">
-<h2>Transformer Model Architecture<a class="headerlink" href="#transformer-model-architecture" title="Permalink to this heading">#</a></h2>
+<span id="lab-architecture-auto"></span><h2>Transformer Model Architecture<a class="headerlink" href="#transformer-model-architecture" title="Permalink to this heading">#</a></h2>
 <p>We use a classic Transformer decoder with <em>rotary positional embeddings</em> from x_transformers to model the sequence of discrete tokens autoregressively.</p>
 <p>The model predicts the next token given the previous tokens.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">x_transformers</span> <span class="kn">import</span> <span class="n">TransformerWrapper</span><span class="p">,</span> <span class="n">Decoder</span>

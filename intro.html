@@ -183,8 +183,8 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -429,7 +429,7 @@ document.write(`
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
 <section id="organisation-of-the-book">
 <h2>Organisation of the book<a class="headerlink" href="#organisation-of-the-book" title="Permalink to this heading">#</a></h2>
-<p>The first part of the book, <strong>“Tasks”</strong>, describes a subset of typical audio-based MIR tasks.
+<p>The <mark>first part</mark> of the book, <strong>“Tasks”</strong>, describes a subset of typical audio-based MIR tasks.<br />
 To facilitate the reading of the book, we follow a similar structure to describe each of the audio-based MIR tasks we consider.
 We describe in turn:</p>
 <ul class="simple">
@@ -440,10 +440,11 @@ We describe in turn:</p>
 <li><p>how we can solve the task using <strong>deep learning</strong>. <br />
 <em>(This part refers to bricks that are described individually in the second part of the book.</em>)</p></li>
 </ul>
-<p>The second pat of the book, <strong>“Deep Learning Bricks”</strong>, describes each brick individually.
+<p>The <mark>second part</mark> of the book, <strong>“Deep Learning Bricks”</strong>, describes each brick individually.<br />
 We have chosen to separate the description of the bricks from the tasks in which they can be used in order to emphasise the fact that the same brick can be used for several tasks.</p>
-<p><img alt="concept1" src="_images/main_concept1.png" /></p>
-<p><strong>Figure</strong> Overall description of task in terms of goal/evaluation/datasets/model</p>
+<p><img alt="concept1" src="_images/main_concept1.png" /><br />
+<strong>Figure</strong> <em>Overall description of tasks in terms of goal/evaluation/datasets/model</em></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="simplifying-the-development">
 <h2>Simplifying the development<a class="headerlink" href="#simplifying-the-development" title="Permalink to this heading">#</a></h2>
@@ -458,6 +459,7 @@ We have chosen to separate the description of the bricks from the tasks in which
 </li>
 <li><p>for <strong>training</strong>: <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">pytorch-lighning</a> (a library added to pytorch that makes it easier/faster to train and deploy models)</p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="evaluation-metrics">
 <h3>Evaluation metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h3>
 <p>In the notebooks, we will rely most of the time on</p>
@@ -465,11 +467,13 @@ We have chosen to separate the description of the bricks from the tasks in which
 <li><p><a class="reference external" href="https://github.com/craffel/mir_eval"><code class="docutils literal notranslate"><span class="pre">mir_eval</span></code></a> which provides most MIR specific evaluation metrics,</p></li>
 <li><p><a class="reference external" href="https://scikit-learn.org/"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></a> which provides the standard machine-learning evaluation metrics.</p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="in-summary">
 <h3>In summary<a class="headerlink" href="#in-summary" title="Permalink to this heading">#</a></h3>
 <p>We summarize the various elements of code to be written below.</p>
 <p><img alt="concept2" src="_images/main_concept2.png" /></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <div class="toctree-wrapper compound">

@@ -183,8 +183,8 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -424,8 +424,8 @@ document.write(`
                   
   <section id="pytorch-dataset-dataloader">
 <h1>Pytorch dataset/dataloader<a class="headerlink" href="#pytorch-dataset-dataloader" title="Permalink to this heading">#</a></h1>
-<p>To help understanding what a dataloader should provide, we use a top-down approach.
-We start from the central part of the training of a DL-model.
+<p>To help understanding what a dataloader should provide, we use a <mark>top-down approach</mark>.<br />
+We start from the central part of the training of a deep-learning model.<br />
 It consists in a loop over <code class="docutils literal notranslate"><span class="pre">epochs</span></code> and for each an iteration over <code class="docutils literal notranslate"><span class="pre">batches</span></code> of data:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n_epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
   <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
@@ -435,48 +435,66 @@ It consists in a loop over <code class="docutils literal notranslate"><span clas
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>In this, <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> is an instance of the pytorch-class <code class="docutils literal notranslate"><span class="pre">Dataloader</span></code> which goal is to encapsulate a set of <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> input/output pairs (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>) provided by <code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
-                                                <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-                                                <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>In this, <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> is an instance of the pytorch-class <code class="docutils literal notranslate"><span class="pre">Dataloader</span></code> which goal is to encapsulate a set of <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> paris of input <code class="docutils literal notranslate"><span class="pre">X</span></code>/output <code class="docutils literal notranslate"><span class="pre">y</span></code> which are each provided by <code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">,</span>
+                                                <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
+                                                <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">train_dataset</span></code> is the one responsible for providing the <code class="docutils literal notranslate"><span class="pre">X</span></code>and the <code class="docutils literal notranslate"><span class="pre">y</span></code>.
-It is an instance of a class written by the user (which inherits from the pytorch-class <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>).
-Writing this class is probably the most complex part.</p>
-<p><img alt="expe" src="_images/expe_dataset_P.png" /></p>
-<p>The design of this class involves defining what should the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> return (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for the model) and involves providing in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>  all the necessary information so that <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> can do its job.</p>
+<p><code class="docutils literal notranslate"><span class="pre">train_dataset</span></code> is the one responsible for providing the <code class="docutils literal notranslate"><span class="pre">X</span></code> and the <code class="docutils literal notranslate"><span class="pre">y</span></code>.<br />
+It is an instance of a class written by the user (which inherits from the pytorch-class <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>).\</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
+<p>Writing this class is probably the most complex part.<br />
+It involves</p>
 <ul class="simple">
-<li><p>(1) It involves</p>
-<ul>
-<li><p>defining what is the <strong>input representation</strong> of the model (<code class="docutils literal notranslate"><span class="pre">X</span></code> can be waveform, Log-Mel-Spectrogram, Harmonic-CQT),</p></li>
-<li><p>defining <strong>where to compute</strong> those</p>
+<li><p>defining what should the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> return (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for the model) and</p></li>
+<li><p>provides in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>  all the necessary information so that <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> can do its job.</p></li>
+</ul>
+<p><img alt="expe" src="_images/expe_dataset_P.png" /></p>
+<ol class="arabic simple">
+<li><p>It involves defining <code class="docutils literal notranslate"><span class="pre">X</span></code></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>what is the input representation</strong> of the model ? (<code class="docutils literal notranslate"><span class="pre">X</span></code> can be waveform, Log-Mel-Spectrogram, Harmonic-CQT),</p></li>
+<li><p><strong>where to compute it</strong></p>
 <ul>
 <li><p>compute those one-the-fly in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> ?</p></li>
-<li><p>pre-computed those in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and read them on-the-fly from drive/memory in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> ?</p></li>
+<li><p>pre-compute those in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and read them on-the-fly from drive/memory in the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> ?</p></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<p>In the first notebooks, we define a set of features in the <code class="docutils literal notranslate"><span class="pre">feature.py</span></code> package (<code class="docutils literal notranslate"><span class="pre">feature.f_get_waveform</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_lms</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_hcqt</span></code>).
-We also define the output of <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>/<code class="docutils literal notranslate"><span class="pre">X</span></code> as a <strong>patch</strong> (a segment/chunk) of a specific time duration.
-The patch is extracted from the feature represented as a tensor (Channel, Dimension/Frequency, Time).
-In the case of <code class="docutils literal notranslate"><span class="pre">waveform</span></code> the tensor is (1,Time), of the LMS it is (1,128,Time), or the H-CQT it is (6,92,Time).
-To define the patch, we do a frame analysis (with a specific window lenght and hope size) over the tensor.
+<p>In the first notebooks, we define a set of features in the <code class="docutils literal notranslate"><span class="pre">feature.py</span></code> package (<code class="docutils literal notranslate"><span class="pre">feature.f_get_waveform</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_lms</span></code>, <code class="docutils literal notranslate"><span class="pre">feature.f_get_hcqt</span></code>).</p>
+<p>We also define the output of <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>/<code class="docutils literal notranslate"><span class="pre">X</span></code> as a <strong>patch</strong> (a segment/achunk) of a specific time duration.<br />
+The patches are extracted from the features which are represented as a tensor (Channel, Dimension/Frequency, Time).<br />
+In the case of <code class="docutils literal notranslate"><span class="pre">waveform</span></code> the tensor is (1,Time), of <code class="docutils literal notranslate"><span class="pre">LMS</span></code> it is (1,128,Time), of <code class="docutils literal notranslate"><span class="pre">H-CQT</span></code> it is (6,92,Time).<br />
+To define the patch, we do a <strong>frame analysis</strong> (with a specific window lenght and hope size) over the tensor.<br />
 We pre-compute the list of all possible patches for a given audio in the <code class="docutils literal notranslate"><span class="pre">feature.f_get_patches</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p>It involves <strong>mapping the annotations</strong> contained in the .pyjama file (such as pitch, genre or work-id   annotations)</p>
 <ul class="simple">
-<li><p>(2) It involves <strong>mapping the annotations</strong> contained in the .pyjama file (such as pitch, genre or work-id annotations) to the format of <code class="docutils literal notranslate"><span class="pre">hat_y</span></code> (scalar, matrix or one-hot-encoding) and to map it to the time position and extent of the patches <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p></li>
-<li><p>(3) It involves <strong>defining what is the unit of <code class="docutils literal notranslate"><span class="pre">idx</span></code></strong> in the <code class="docutils literal notranslate"><span class="pre">__getitem__(idx)</span></code>. It can refer to a patch number, a file number (in this case <code class="docutils literal notranslate"><span class="pre">X</span></code> represents all the patches a given file) or a work-id (in this case <code class="docutils literal notranslate"><span class="pre">X</span></code> provides the features of all the files with the same work-id).</p></li>
+<li><p>to the format of the output of the pytorch-model, <code class="docutils literal notranslate"><span class="pre">hat_y</span></code>, (scalar, matrix or one-hot-encoding) and</p></li>
+<li><p>to the time position and extent of the patches <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p></li>
 </ul>
+</li>
+<li><p>It involves <strong>defining what is the unit of <code class="docutils literal notranslate"><span class="pre">idx</span></code></strong> in the <code class="docutils literal notranslate"><span class="pre">__getitem__(idx)</span></code>. <br />
+For example it can refer to</p>
+<ul class="simple">
+<li><p>a patch number,</p></li>
+<li><p>a file number (in this case <code class="docutils literal notranslate"><span class="pre">X</span></code> represents all the patches a given file) or</p></li>
+<li><p>a work-id (in this case <code class="docutils literal notranslate"><span class="pre">X</span></code> provides the features of all the files with the same work-id).</p></li>
+</ul>
+</li>
+</ol>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="pytorch-models">
 <h1>Pytorch models<a class="headerlink" href="#pytorch-models" title="Permalink to this heading">#</a></h1>
-<p>Models in pytorch are usually written as classes which inherits from the pytorch-class <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.
+<p>Models in pytorch are usually written as classes which inherits from the pytorch-class <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.<br />
 Such a class should have</p>
 <ul class="simple">
 <li><p>a <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method defining the parameters (layers) to be trained and</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">__forward__</span></code> method describing how to do the forward with the layers defined in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> (for example how to go from <code class="docutils literal notranslate"><span class="pre">X</span></code> to <code class="docutils literal notranslate"><span class="pre">hat_y</span></code>).</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">__forward__</span></code> method describing how to do the forward with the layers defined in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> <br />
+(for example how to go from <code class="docutils literal notranslate"><span class="pre">X</span></code> to <code class="docutils literal notranslate"><span class="pre">hat_y</span></code>).</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NetModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 
@@ -492,10 +510,14 @@ Such a class should have</p>
         <span class="k">return</span> <span class="n">hat_y</span>
 </pre></div>
 </div>
-<p>In practice, it is common to specify the hyper-parameters of the model (such as number of layers, feature-maps, activations) in a dedicated <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>.</p>
-<p>In the first notebooks, we go one step further and define the entire model in a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.
-The model then becomes much more readable.
-<code class="docutils literal notranslate"><span class="pre">model_factory.NetModel</span></code> is a generic class that allows dynamically creating model classes based on this <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>  file (such as exemplified below).</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
+<p>In practice, it is common to <mark>specify the hyper-parameters</mark> of the model (such as number of layers, feature-maps, activations) in a dedicated <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>.</p>
+<p>In the first notebooks, we go one step further and <mark>specify the entire model</mark> in a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.</p>
+<ul class="simple">
+<li><p>The code then becomes much more readable.</p></li>
+<li><p>The class <code class="docutils literal notranslate"><span class="pre">model_factory.NetModel</span></code> allows to dynamically create model classes by parsing this file</p></li>
+</ul>
+<p>Below is an example of such a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">:</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">AutoTagging</span>
     <span class="n">block_l</span><span class="p">:</span>

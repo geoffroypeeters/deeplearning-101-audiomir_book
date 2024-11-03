@@ -183,8 +183,8 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -417,6 +417,7 @@ document.write(`
 <li><p>one in .hdf5 format for the audio and</p></li>
 <li><p>one in .pyjama format for the annotations.</p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <p>A single <a class="reference external" href="https://docs.h5py.org/">.hdf5</a> file contains all the audio data of a dataset.
 Each <code class="docutils literal notranslate"><span class="pre">key</span></code> corresponds to an entry.
 An entry corresponds to a specific audiofile.</p>
@@ -431,6 +432,7 @@ An entry corresponds to a specific audiofile.</p>
     <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio sample-rate: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;sr_hz&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <p>A single <a class="reference external" href="https://github.com/geoffroypeeters/pyjama">.pyjama</a> contains all the annotations of all the files of a dataset.
 The values of the <code class="docutils literal notranslate"><span class="pre">filepath</span></code> field of the .pyjama file correspond to the <code class="docutils literal notranslate"><span class="pre">key</span></code> values of the .hdf5 file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span>
@@ -479,8 +481,28 @@ The values of the <code class="docutils literal notranslate"><span class="pre">f
  <span class="s1">&#39;schemaversion&#39;</span><span class="p">:</span> <span class="mf">1.31</span><span class="p">}</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <p>Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.</p>
 <p>We provide a set of datasets (each with its .hdf5 and .pyjama file) for this tutorial <a class="reference external" href="https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Index</span> <span class="n">of</span> <span class="o">/</span><span class="n">gpeeters</span><span class="o">/</span><span class="n">tuto_DL101forMIR</span>
+<span class="p">[</span><span class="n">ICO</span><span class="p">]</span>	<span class="n">Name</span>	<span class="n">Last</span> <span class="n">modified</span>	<span class="n">Size</span>	<span class="n">Description</span>
+<span class="p">[</span><span class="n">PARENTDIR</span><span class="p">]</span>	<span class="n">Parent</span> <span class="n">Directory</span>	 	<span class="o">-</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">bach10</span><span class="o">.</span><span class="n">pyjama</span>                   <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mi">19</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">bach10_audio</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>           <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">02</span> <span class="mi">07</span><span class="p">:</span><span class="mi">51</span>	<span class="mi">129</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">cover1000</span><span class="o">.</span><span class="n">pyjama</span>                <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mf">1.0</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">cover1000_feat</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>         <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">02</span> <span class="mi">07</span><span class="p">:</span><span class="mi">52</span>	<span class="mi">101</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">datacos</span><span class="o">-</span><span class="n">benchmark</span><span class="o">.</span><span class="n">pyjama</span>        <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mf">6.3</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">datacos</span><span class="o">-</span><span class="n">benchmark_feat</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span> <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">14</span> <span class="mi">12</span><span class="p">:</span><span class="mi">31</span>	<span class="mf">1.5</span><span class="n">G</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">gtzan</span><span class="o">-</span><span class="n">genre</span><span class="o">.</span><span class="n">pyjama</span>              <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mi">306</span><span class="n">K</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">gtzan</span><span class="o">-</span><span class="n">genre_audio</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>      <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">02</span> <span class="mi">09</span><span class="p">:</span><span class="mi">59</span>	<span class="mf">1.5</span><span class="n">G</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">maps</span><span class="o">.</span><span class="n">pyjama</span>                     <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mi">51</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">maps_audio</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>             <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">14</span> <span class="mi">12</span><span class="p">:</span><span class="mi">12</span>	<span class="mf">2.3</span><span class="n">G</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">mtt</span><span class="o">.</span><span class="n">pyjama</span>                      <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span>	<span class="mf">1.7</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">mtt_audio</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>              <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">14</span> <span class="mi">12</span><span class="p">:</span><span class="mi">15</span>	<span class="mf">2.3</span><span class="n">G</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">rwc</span><span class="o">-</span><span class="n">pop_chord</span><span class="o">.</span><span class="n">pyjama</span>            <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">22</span> <span class="mi">12</span><span class="p">:</span><span class="mi">23</span>	<span class="mi">10</span><span class="n">M</span>	 
+<span class="p">[</span>   <span class="p">]</span> <span class="n">rwc</span><span class="o">-</span><span class="n">pop_chord_audio</span><span class="o">.</span><span class="n">hdf5</span><span class="o">.</span><span class="n">zip</span>    <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">22</span> <span class="mi">12</span><span class="p">:</span><span class="mi">25</span>	<span class="mf">1.8</span><span class="n">G</span>	 
+</pre></div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">

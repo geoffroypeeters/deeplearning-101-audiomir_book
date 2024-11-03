@@ -61,7 +61,7 @@ dataloader_val = DataLoader(dataset_val, batch_size=125, shuffle=True)
 ```
 
 ---
-
+(lab_architecture_auto)=
 ## Transformer Model Architecture
 
 We use a classic Transformer decoder with *rotary positional embeddings* from x_transformers to model the sequence of discrete tokens autoregressively.

@@ -37,6 +37,7 @@ Such a mechanism can be necessary in order to map the temporal embedding provide
 
 The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the $\mathbf{x}_t$ over time $t$ (as done for example in {cite}`Dieleman2014Spotify`).
 
+(lab_AttentionWeighting)=
 ### Attention weighting
 
 Another possibility is to compute a weighted sum of the values $\mathbf{x}_t$ where the weights $a_t$ are denoted by **attention** parameters:
@@ -169,9 +170,12 @@ LSTM use a more complex architecture with
 
 This allows them to retain relevant information over longer sequences while "forgetting" irrelevant information.
 
-As RNN, two configurations are often used with LSTMs:
-- <mark>Many-to-Many</mark>
-- <mark>Many-to-One</mark>
+**A critical reason why LSTMs work better than RNNs** is that the memory cell provides a path for information to flow across time steps without repeatedly passing it through non-linearities (e.g., `torch.nn.Sigmoid` or `torch.nn.Tanh`).
+This principle mitigates the vanishing gradient problem and is similar to ResNets and the residual stream in Transformers, where skip connections allow information to bypass layers that add non-linearities.
+
+As in RNNs, two configurations are often used with LSTMs:
+- <mark>Many-to-many</mark>
+- <mark>Many-to-one</mark>
 
 ![brick_rnn](/images/brick_lstm.png)\
 **Figure** Details of a LSTM cell  *image source: [Link](https://mlarchive.com/deep-learning/understanding-long-short-term-memory-networks/)*
@@ -180,4 +184,61 @@ As RNN, two configurations are often used with LSTMs:
 torch.nn.LSTM(input_size, hidden_size, num_layers=1, bidirectional=False)
 ```
 
-### Transformer/ Self-Attention
+## Transformer/Self-Attention
+
+(lab_transformer_fig)=
+```{figure} ./images/brick_transformer.png
+---
+width: 70%
+name: brick_transformer
+---
+```
+**Figure:** The Transformer - model architecture.
+
+In recent years, Transformers {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` widely replaced recurrent architectures for sequence modeling tasks and are also increasingly used instead of convolutional architectures.
+Their signature component, the **attention mechanism**, gives them a unique advantage over previous architectures.
+There are several intuitive explanations for the attention mechanism (e.g., attending to important tokens, address-based memory access).
+Independent of how one thinks about the attention mechanism, its result is an attention matrix (resembling a weight matrix) that is input-dependent, while most other architectures employ weight matrices whose parameters are fixed at inference time.
+
+For sequence modeling (cf. [our autoregressive generation example](lab_architecture_auto)), we usually employ a **causal transformer** where attention matrices are masked so that future information cannot be taken into consideration (indicated by `Masked Multi-Head Attention` in the figure above).
+For that, we only use the **DECODER** part, while for non-causal tasks like *masked token prediction* {cite}`DBLP:conf/naacl/DevlinCLT19`, the **ENCODER** part is used. 
+Using both, an encoder with cross-connections to the decoder, as proposed in the initial paper, is mainly used to inject conditioning information if needed.
+
+Note that after every `Multi-Head Attention` or `Feed Forward` module, there is an `Add & Norm` operation.
+This means, the input to each module is added to its output, resulting in a "residual stream", where information is written into or retrieved from.
+From a simplified point of view, it is now understood that the `Mult-Head Attention` modules rather combine and shuffle information from the residual stream, while weights of the `Feed Forward` modules act as "memories" that inject new information into the residual stream.
+
+### Self-Attention Example
+This section gives an explanation of self-attention that is <span style="color: red;">illustrative but very simplified</span>.
+In practice, tokens are not full words but rather word fragments. 
+Keys, values and queries are continuous vectors whose meaning is not as simple and discrete as in the example below, and a token can attend to more than one value.
+However, the example is correct in how information is propagated through a self-attention layer and could theoretically happen as described. 
+
+
+![brick_attention](/images/brick_attention.png)
+**Figure:** Simple self-attention example.
+
+In self-attention, every *token* (every *word* in the example above), is represented by an embedding vector.
+By multiplying every such token embedding with three fixed matrices ($W^K$, $W^V$ and $W^Q$) we obtain a key, value and query vector for every position.
+
+In our simplified example, the model may have learned to emit a *key* vector that stands for <mark>verb</mark> from a token embedding that stands for <mark>chasing</mark>, effectively saying "i am a verb!".
+For the <mark>dog</mark> embedding, it may ask "what is the dog doing?" and therefore emitting a query resembling the <mark>verb</mark> key.
+The result of the self-attention is then to copy the value to whereever a query fits the respective key:
+
+```{figure} ./images/brick_attention2.png
+---
+width: 83%
+name: brick_attention2
+---
+```
+**Figure:** Result of the simple self-attention example.
+
+As indicated in the [architecture diagram](lab_transformer_fig), after every attention layer, there is an `Add & Norm` operation.
+In our example, we start from the <mark>dog</mark> embedding (i.e., the <mark>dog</mark> position in a semantic space), and add the <mark>chase</mark> vector, effectively augmenting <mark>dog</mark> by moving into the <mark>chase</mark> direction.
+As a result, we obtain a "chasing dog" that can then be further transformed in subsequent layers.
+Through iterative, relative transformations of such embeddings in a semantic space, we can thereby resolve complex relationships and perform precise, final predictions.
+
+
+### Positional Encoding
+Note that in the example above, the results would occur the same way if the order of the input sequence would be shuffled (i.e., the <mark>chase</mark> vector would also be added to the <mark>dog</mark> position).
+...

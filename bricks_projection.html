@@ -414,11 +414,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-1d">Conv-1D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-2d">Conv-2D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-building-block">The <strong>building block</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-block">The <strong>“bottleneck” block</strong></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXt</a></li>
 </ul>
             </nav>
@@ -513,11 +509,33 @@ A ResNet is made of a</p>
 <li><p>the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).</p></li>
 </ul>
 <p>We are interested here in the two building blocks of ResNet:</p>
-<section id="the-building-block">
-<h3>The <strong>building block</strong><a class="headerlink" href="#the-building-block" title="Permalink to this heading">#</a></h3>
-<p>It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection <span class="math notranslate nohighlight">\(\mathcal{F}(x)+x\)</span>, - a ReLU</p>
-<p><img alt="resnet-block1" src="_images/brick_resnet.png" /><br />
-<strong>Figure</strong> <em>ResNet “building block”; image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p>
+<ul class="simple">
+<li><p>the <strong>building block</strong>:<br />
+It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, - the residual connection (<span class="math notranslate nohighlight">\(\mathcal{F}(x)+x\)</span>), - a ReLU</p></li>
+<li><p>the <strong>“bottleneck” block</strong>:<br />
+It is a stack of 3 layers instead of 2.<br />
+The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
+<ul>
+<li><p>the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,</p></li>
+<li><p>the 3×3 layer is a bottleneck with smaller input/output dimensions.</p></li>
+</ul>
+</li>
+</ul>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ResNet “building” block</p></th>
+<th class="head"><p>ResNet “bottleneck” block</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="resnet-block1" src="_images/brick_resnet.png" /></p></td>
+<td><p><img alt="resnet_bottleneck" src="_images/brick_resnet_bottleneck.png" />\</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Figure</strong> <em>image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p></td>
+<td><p><strong>Figure</strong> <em>image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p></td>
+</tr>
+</tbody>
+</table>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://www.digitalocean.com/community/tutorials/writing-resnet-from-scratch-in-pytorch</span>
 <span class="k">class</span> <span class="nc">ResidualBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
@@ -547,17 +565,6 @@ A ResNet is made of a</p>
         <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
-</section>
-<section id="the-bottleneck-block">
-<h3>The <strong>“bottleneck” block</strong><a class="headerlink" href="#the-bottleneck-block" title="Permalink to this heading">#</a></h3>
-<p>It is a stack of 3 layers instead of 2
-The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
-<ul class="simple">
-<li><p>the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,</p></li>
-<li><p>the 3×3 layer is a bottleneck with smaller input/output dimensions.</p></li>
-</ul>
-<p><img alt="resnet_bottleneck" src="_images/brick_resnet_bottleneck.png" /><br />
-<strong>Figure</strong> <em>ResNet ““bottleneck” block”; image source: <a class="reference external" href="https://arxiv.org/pdf/1512.03385">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py</span>
 <span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -606,7 +613,6 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
         <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
-</section>
 </section>
 <section id="convnext">
 <span id="lab-convnext"></span><h2>ConvNeXt<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>
@@ -760,11 +766,7 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-1d">Conv-1D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conv-2d">Conv-2D</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#depthwise-separable-convolution">Depthwise Separable Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-building-block">The <strong>building block</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bottleneck-block">The <strong>“bottleneck” block</strong></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet">ResNet</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convnext">ConvNeXt</a></li>
 </ul>
   </nav></div>
