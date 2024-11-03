@@ -19,7 +19,7 @@ The diffusion model learns to generate M2L latent vectors, which are then decode
 
 **Figure 1**: Training process of Music2Latent. The input sample is first encoded into a sequence of latent vectors. 
 The latents are then upsampled with a decoder model.
-The consistency model is trained via consistency training, conditioned on the information coming from the cross connections.
+The consistency model is trained via consistency training, conditioned on the information coming from the cross connections (image source: {cite}`DBLP:journals/corr/abs-2408-06500`).
 
 In our example, we first transform the dataset into M2L representations on which we then train our diffusion model.
 This involves the following steps:

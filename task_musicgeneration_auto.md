@@ -4,11 +4,11 @@ In this tutorial, we demonstrate a practical implementation of musical audio gen
 
 ## EnCodec Neural Audio Codec
 
-[EnCodec](https://github.com/facebookresearch/encodec) {cite}`defossez2022high` is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.
+[EnCodec](https://github.com/facebookresearch/encodec) {cite}`DBLP:journals/tmlr/DefossezCSA23` is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.
 
 ![encodec_overview](./images/expe_encodec.png)
 
-**Figure 1**: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization.
+**Figure 1**: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization (image source: {cite}`DBLP:journals/tmlr/DefossezCSA23`).
 
 To use EnCodec for our task, we first encode our dataset into discrete token sequences.
 

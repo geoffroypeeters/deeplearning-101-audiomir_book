@@ -241,4 +241,40 @@ Through iterative, relative transformations of such embeddings in a semantic spa
 
 ### Positional Encoding
 Note that in the example above, the results would occur the same way if the order of the input sequence would be shuffled (i.e., the <mark>chase</mark> vector would also be added to the <mark>dog</mark> position).
-...
+Transformers do not process tokens sequentially and thus lack an inherent sense of order in the input data. 
+Positional embeddings are a way to inject information about the position of each token within the sequence so that the model can still interpret the sequential nature of the data.
+
+**Embedding Strategy**: Each position in the sequence is assigned a unique vector (embedding). 
+This positional embedding can be static (learned) or computed through mathematical functions.
+It usually has the dimensionality of the token embeddings so that it can be easily added to the token embedding through element-wise addition. 
+
+#### Different Positional Embeddings
+
+**Sinusoidal Positional Embeddings**: In the original Transformer, positional embeddings are calculated using sine and cosine functions of varying frequencies:
+   
+   $$
+   PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d}}\right)
+   $$
+   $$
+   PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d}}\right)
+   $$
+   
+   Here:
+   - $pos$ represents the position of the token in the sequence.
+   - $i$ is the dimension index.
+   - $d$ is the dimensionality of the embeddings.
+
+   This allows the model to use position information consistently across different sequence lengths, making it invariant to input size.
+
+**Learned Positional Embeddings**: 
+Another possibility is to use learned positional embeddings, where each position in the sequence has an associated embedding vector that the model learns during training. 
+This can sometimes be more flexible, but it is not as adaptable to longer sequences not seen in training.
+
+**Relative Positional Embeddings**: 
+In relative positional embeddings {cite}`DBLP:conf/naacl/ShawUV18`, the model learns the relative distances between tokens, rather than absolute positions. 
+This approach is more natural for some tasks (e.g., musical sequences), and is assumed to allow the model to generalize better to sequences of varying lengths.
+
+**Rotary Positional Embeddings**: 
+Rotary Positional Embeddings (RoPE) {cite}`DBLP:journals/ijon/SuALPBL24` provide a way to encode positional information by rotating each token embedding in vector space. 
+This technique allows the model to capture relative positional information through rotation matrices applied to the embeddings at each position. 
+Unlike traditional positional embeddings, RoPE enables better generalization over longer sequences, as the rotational encoding inherently supports extrapolation beyond the training context.
