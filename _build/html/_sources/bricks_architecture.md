@@ -5,8 +5,6 @@
 We denote by `architecture` the overall design of a neural network, i.e. the way front-end and projections are used together.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
-
 
 (lab_unet)=
 ## U-Net
@@ -32,7 +30,6 @@ or Interpolation followed by Normal Conv-2d.
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Many to One: reducing the time dimensions
@@ -45,7 +42,6 @@ or Interpolation followed by Normal Conv-2d.
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_AttentionWeighting)=
@@ -125,7 +121,6 @@ def f_autopool_weights(data, autopool_param):
     return weights
 ```
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Using models
@@ -147,7 +142,6 @@ A given $\mathbf{q}_{\tau}$ is then compared to all $\mathbf{k}_t$ to compute at
 $\mathbf{e}_{\tau} = \sum_t \mathbf{a}_{t,\tau} \mathbf{v}_{t}$.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Recurrent Architectures
@@ -182,7 +176,7 @@ torch.nn.RNN(input_size, hidden_size, num_layers=1, bidirectional=False)
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_lstm)=
@@ -210,7 +204,7 @@ As in RNNs, two configurations are often used with LSTMs:
 torch.nn.LSTM(input_size, hidden_size, num_layers=1, bidirectional=False)
 ```
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_transformer)=

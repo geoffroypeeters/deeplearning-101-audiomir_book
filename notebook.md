@@ -6,10 +6,13 @@ We describe here how you can run in [Google Colab](https://colab.research.google
 
 From Colab, choose `File`, `Import`, `Github`, and indicate the following repository `https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook`.
 
-![colab1](/images/colab_1.png)
+```{figure} ./images/colab_1.png
+---
+name: colab_1
+---
+Importing github files in Google Colab
+```
 
-
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 Within the imported notebook, change `do_deploy` to` True`.\
@@ -18,10 +21,14 @@ If you then run the notebook, it will automatically
 2. **git clone** the code of this tutorial in your local (temporary) Colab space
 3. **download/unzip** the necessary datasets (audio in .hdf5 and annotations in .pyjama) in your local (temporary) Colab space
 
-![colab2](/images/colab_2.png)
+```{figure} ./images/colab_2.png
+---
+name: colab_2
+---
+Deploying package and dataset within Google Colab
+```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Actions:

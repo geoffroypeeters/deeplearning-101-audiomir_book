@@ -23,7 +23,6 @@ It is an instance of a class written by the user (which inherits from the pytorc
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 Writing this class is probably the most complex part.\
@@ -31,7 +30,12 @@ It involves
 - defining what should the `__getitem__` return (the `X` and `y` for the model) and
 - provides in the `__init__`  all the necessary information so that `__getitem__` can do its job.
 
-![expe](/images/expe_dataset_P.png)
+```{figure} ./images/expe_dataset_P.png
+---
+name: concept2
+---
+Writting a Dataset class
+```
 
 
 1. It involves defining `X`
@@ -59,7 +63,6 @@ For example it can refer to
     - a work-id (in this case `X` provides the features of all the files with the same work-id).
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Pytorch models
@@ -86,7 +89,6 @@ class NetModel(nn.Module):
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 In practice, it is common to <mark>specify the hyper-parameters</mark> of the model (such as number of layers, feature-maps, activations) in a dedicated `.yaml`.

@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -430,7 +431,6 @@ document.write(`
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">front-end</span></code> the first projections of a neural network directly applied to the input <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>.
 Those therefore depends on the type of the input.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="conv-1d">
 <span id="lab-conv1d"></span><h2>Conv-1D<a class="headerlink" href="#conv-1d" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -452,7 +452,6 @@ Those therefore depends on the type of the input.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="dilated-conv-1d">
 <span id="lab-dilated"></span><h2>Dilated-Conv-1D<a class="headerlink" href="#dilated-conv-1d" title="Permalink to this heading">#</a></h2>
@@ -477,7 +476,6 @@ The goal of it is to <mark>increase the side of the receptive field</mark>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="temporal-convolution-network-tcn">
 <span id="lab-tcn"></span><h2>Temporal Convolution Network (TCN)<a class="headerlink" href="#temporal-convolution-network-tcn" title="Permalink to this heading">#</a></h2>
@@ -557,7 +555,6 @@ It is made of</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="parametric-front-end-sincnet">
 <span id="lab-sincnet"></span><h2>Parametric front-end: SincNet<a class="headerlink" href="#parametric-front-end-sincnet" title="Permalink to this heading">#</a></h2>

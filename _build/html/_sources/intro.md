@@ -16,12 +16,15 @@ We describe in turn:
 The <mark>second part</mark> of the book, **"Deep Learning Bricks"**, describes each brick individually.\
 We have chosen to separate the description of the bricks from the tasks in which they can be used in order to emphasise the fact that the same brick can be used for several tasks.
 
+```{figure} ./images/main_concept1.png
+---
+name: concept1
+---
+Overall description of tasks in terms of goal/evaluation/datasets/model
+```
 
-![concept1](/images/main_concept1.png)\
-**Figure** *Overall description of tasks in terms of goal/evaluation/datasets/model*
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Simplifying the development
@@ -34,7 +37,6 @@ To make our life easier and **facilitate the reading of the code of the notebook
 - for **training**: [pytorch-lighning](https://lightning.ai/docs/pytorch/stable/) (a library added to pytorch that makes it easier/faster to train and deploy models)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Evaluation metrics
@@ -44,14 +46,14 @@ In the notebooks, we will rely most of the time on
 - [`scikit-learn`](https://scikit-learn.org/) which provides the standard machine-learning evaluation metrics.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
-
 
 ### In summary
 
 We summarize the various elements of code to be written below.
 
-![concept2](/images/main_concept2.png)
-
-
-<hr style="border: 2px solid red; margin: 60px 0;">
+```{figure} ./images/main_concept2.png
+---
+name: concept2
+---
+Code to be written
+```

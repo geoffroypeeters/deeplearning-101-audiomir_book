@@ -13,7 +13,6 @@ The task can either consists in:
 ![flow_autotagging](/images/flow_multipitch.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### A very short history of MPE
@@ -34,7 +33,6 @@ Fore more details, see the very good tutorials
 ["Programming MIR Baselines from Scratch: Three Case Studies"](https://github.com/rabitt/ismir-2021-tutorial-case-studies).
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How is MPE evaluated ?
@@ -84,7 +82,6 @@ OrderedDict([('Precision', 0.6666666666666666),
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Some popular datasets for MPE
@@ -160,7 +157,7 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ## How can we solve MPE using deep learning ?
@@ -198,7 +195,6 @@ We test the results on two datasets:
 ![expe](/images/expe_multipitch_P.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Experiments
@@ -223,7 +219,7 @@ The code is available here:
 | MAPS       | HCQT(H=6)      |  U-Net             | P=0.84, R=0.81, Acc=0.70  | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Multi_Pitch_Estimation.ipynb_D2-I2-Unet.ipynb) |
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ### Actions:

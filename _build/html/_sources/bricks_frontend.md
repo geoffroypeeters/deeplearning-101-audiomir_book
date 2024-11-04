@@ -6,7 +6,7 @@ We denote by `front-end` the first projections of a neural network directly appl
 Those therefore depends on the type of the input.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_conv1d)=
@@ -29,7 +29,7 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_dilated)=
@@ -56,7 +56,7 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_tcn)=
@@ -140,7 +140,7 @@ class TemporalConvNet(nn.Module):
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 (lab_sincnet)=

@@ -6,7 +6,6 @@ We denote by `projection` the type of operations performed within a neural netwo
 Those sometimes overlap with the ones used in the front-end.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Fully-Connected
@@ -21,7 +20,6 @@ torch.nn.Lineartorch.nn.Linear(in_features, out_features)
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Conv-1D
@@ -29,7 +27,6 @@ torch.nn.Lineartorch.nn.Linear(in_features, out_features)
 see [link](lab_conv1d)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_conv2d)=
@@ -54,7 +51,6 @@ torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_depthwise)=
@@ -96,7 +92,6 @@ model(X).size()
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_resnet)=
@@ -201,7 +196,6 @@ class Bottleneck(nn.Module):
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_convnext)=
@@ -225,7 +219,7 @@ It especially bases its design on the Swin Transformers:
 
 In {cite}`DBLP:conf/cvpr/0003MWFDX22`, it has been shown to achieve better performances than Transformer-based architecture.
 
-![convnext](/images/brick_convnext.png)
+![convnext](/images/brick_convnext.png)\
 **Figure**
 *ConvNeXt block; image source: [Link](https://arxiv.org/pdf/2201.03545)*
 

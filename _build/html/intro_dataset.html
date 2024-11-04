@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -417,7 +418,6 @@ document.write(`
 <li><p>one in .hdf5 format for the audio and</p></li>
 <li><p>one in .pyjama format for the annotations.</p></li>
 </ul>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <p>A single <a class="reference external" href="https://docs.h5py.org/">.hdf5</a> file contains all the audio data of a dataset.
 Each <code class="docutils literal notranslate"><span class="pre">key</span></code> corresponds to an entry.
 An entry corresponds to a specific audiofile.</p>
@@ -432,7 +432,6 @@ An entry corresponds to a specific audiofile.</p>
     <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;audio sample-rate: </span><span class="si">{</span><span class="n">hdf5_fid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;sr_hz&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <p>A single <a class="reference external" href="https://github.com/geoffroypeeters/pyjama">.pyjama</a> contains all the annotations of all the files of a dataset.
 The values of the <code class="docutils literal notranslate"><span class="pre">filepath</span></code> field of the .pyjama file correspond to the <code class="docutils literal notranslate"><span class="pre">key</span></code> values of the .hdf5 file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyjama_annot_file</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_fid</span><span class="p">:</span>
@@ -481,7 +480,6 @@ The values of the <code class="docutils literal notranslate"><span class="pre">f
  <span class="s1">&#39;schemaversion&#39;</span><span class="p">:</span> <span class="mf">1.31</span><span class="p">}</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <p>Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.</p>
 <p>We provide a set of datasets (each with its .hdf5 and .pyjama file) for this tutorial <a class="reference external" href="https://perso.telecom-paristech.fr/gpeeters/tuto_DL101forMIR/">here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Index</span> <span class="n">of</span> <span class="o">/</span><span class="n">gpeeters</span><span class="o">/</span><span class="n">tuto_DL101forMIR</span>

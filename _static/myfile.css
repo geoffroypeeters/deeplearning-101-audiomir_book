@@ -1,0 +1,32 @@
+/* Set all text to Courier font */
+/* body { font-family: "Courier New", Courier, monospace; } */
+/* body { font-family: monospace;} */
+p { text-align: justify; }
+
+
+/* Apply green background to titles (e.g., h1, h2, h3) */
+h1, h2, h3, h4, h5, h6 {
+    color: white; /* Optional: Set text color to white for contrast */
+    padding: 2px; /* Optional: Adds spacing within the title background */
+    border-bottom: 2px solid black; /* Black line below */
+}
+
+h1 {
+  background-color: rgba(107,210,95,0.2);
+}
+
+h2 {
+  background-color: rgba(114,159,242,0.2);
+}
+
+strong {
+    background-color: rgba(215,79,84,0.2);
+    color: black; /* Black text for contrast */
+    padding: 2px; /* Optional: Adds a little spacing around bold text */
+}
+
+mark {
+    background-color: rgba(255,226,11,0.7);
+    color: black; /* Black text for contrast */
+    padding: 2px; /* Optional: Adds spacing around marked text */
+}

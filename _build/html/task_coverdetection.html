@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -421,6 +422,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-matrix">Distance matrix</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-hard-mining">Semi-hard mining</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>
@@ -453,7 +455,6 @@ For example detecting that</p>
 We said that they are performances of the same work-id (or ISWC).<br />
 The group of songs that are identified as cover versions of each other is often denoted as a <strong>“clique”</strong>.</p>
 <p><img alt="flow_cover_identification" src="_images/flow_cover_identification.png" /></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="common-approach">
 <h3>Common approach<a class="headerlink" href="#common-approach" title="Permalink to this heading">#</a></h3>
 <p>Considering the very large number of possible work-id (there exist millions of compositions), it is not possible to solve this as a classification (multi-class) problem (too many classes).<br />
@@ -465,25 +466,23 @@ To solve this, the <mark>approach commonly used</mark> is to</p>
 <p>If <span class="math notranslate nohighlight">\(q\)</span> is similar to one track of the dataset (i.e. the distance <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> is small),<br />
 <span class="math notranslate nohighlight">\(\Rightarrow\)</span> we decide that <span class="math notranslate nohighlight">\(q\)</span> is a cover of <span class="math notranslate nohighlight">\(r_i\)</span> and they share the same work-id.</p>
 <p>This involves setting a <strong>threshold</strong> <span class="math notranslate nohighlight">\(\tau\)</span> on <span class="math notranslate nohighlight">\(d(q,r_i)\)</span>. If <span class="math notranslate nohighlight">\(d(q,r_i)&lt;\tau\)</span> we decide they are cover of each other.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="a-very-short-history-of-csi">
 <h3>A very short history of CSI<a class="headerlink" href="#a-very-short-history-of-csi" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p>The story starts with Ellis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id19" title="Daniel P. W. Ellis and Graham E. Poliner. Identifying 'cover songs' with chroma features and dynamic programming beat tracking. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2007, Honolulu, Hawaii, USA, April 15-20, 2007, 1429–1432. IEEE, 2007. URL: https://doi.org/10.1109/ICASSP.2007.367348, doi:10.1109/ICASSP.2007.367348.">EP07</a>]</span> who proposed to compute <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> as the <mark>cross-correlation between processed Chroma/PCP features</mark> of <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>.</p></li>
-<li><p>Later on, Serra et al. <span id="id2">[<a class="reference internal" href="bibiography.html#id18" title="Joan Serrà and Emilia Gómez. Audio cover song identification based on tonal sequence alignment. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2008, March 30 - April 4, 2008, Caesars Palace, Las Vegas, Nevada, USA, 61–64. IEEE, 2008. URL: https://doi.org/10.1109/ICASSP.2008.4517546, doi:10.1109/ICASSP.2008.4517546.">SerraGomez08</a>]</span> proposed to improve the features (Harmonic-PCP) and the comparison algorithm (<mark>DTW, Dynamic Time Warping</mark>).
+<li><p>The story starts with Ellis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id21" title="Daniel P. W. Ellis and Graham E. Poliner. Identifying 'cover songs' with chroma features and dynamic programming beat tracking. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2007, Honolulu, Hawaii, USA, April 15-20, 2007, 1429–1432. IEEE, 2007. URL: https://doi.org/10.1109/ICASSP.2007.367348, doi:10.1109/ICASSP.2007.367348.">EP07</a>]</span> who proposed to compute <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> as the <mark>cross-correlation between processed Chroma/PCP features</mark> of <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>.</p></li>
+<li><p>Later on, Serra et al. <span id="id2">[<a class="reference internal" href="bibiography.html#id20" title="Joan Serrà and Emilia Gómez. Audio cover song identification based on tonal sequence alignment. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2008, March 30 - April 4, 2008, Caesars Palace, Las Vegas, Nevada, USA, 61–64. IEEE, 2008. URL: https://doi.org/10.1109/ICASSP.2008.4517546, doi:10.1109/ICASSP.2008.4517546.">SerraGomez08</a>]</span> proposed to improve the features (Harmonic-PCP) and the comparison algorithm (<mark>DTW, Dynamic Time Warping</mark>).
 This has lead to the standard approach for years.
 However, computing the DTW for every pair of tracks is <strong>computationally expensive</strong>.</p></li>
 <li><p>To reduce the cost, <span class="math notranslate nohighlight">\(d\)</span> should simplified to a simple Euclidean distance between <mark>trained features/embedding</mark> extracted from <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>.
-Such an approach have been tested in the linear case (using 2D-DFT, PCA, ..) by <span id="id3">[<a class="reference internal" href="bibiography.html#id16" title="Eric J. Humphrey, Oriol Nieto, and Juan Pablo Bello. Data driven and discriminative projections for large-scale cover song identification. In Alceu de Souza Britto Jr., Fabien Gouyon, and Simon Dixon, editors, Proceedings of the 14th International Society for Music Information Retrieval Conference, ISMIR 2013, Curitiba, Brazil, November 4-8, 2013, 149–154. 2013. URL: http://www.ppgia.pucpr.br/ismir2013/wp-content/uploads/2013/09/246\_Paper.pdf.">HNB13</a>]</span>.
+Such an approach have been tested in the linear case (using 2D-DFT, PCA, ..) by <span id="id3">[<a class="reference internal" href="bibiography.html#id18" title="Eric J. Humphrey, Oriol Nieto, and Juan Pablo Bello. Data driven and discriminative projections for large-scale cover song identification. In Alceu de Souza Britto Jr., Fabien Gouyon, and Simon Dixon, editors, Proceedings of the 14th International Society for Music Information Retrieval Conference, ISMIR 2013, Curitiba, Brazil, November 4-8, 2013, 149–154. 2013. URL: http://www.ppgia.pucpr.br/ismir2013/wp-content/uploads/2013/09/246\_Paper.pdf.">HNB13</a>]</span>.
 However, the results were largely below those of Serra.</p></li>
 </ul>
 <p><strong>Deep learning era.</strong></p>
-<p>The solution will come from Computer Vision and the <mark>face recognition</mark> problem in which deep learning is used to perform <mark>metric learning</mark> <span id="id4">[<a class="reference internal" href="bibiography.html#id17" title="Florian Schroff, Dmitry Kalenichenko, and James Philbin. Facenet: A unified embedding for face recognition and clustering. In IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2015, Boston, MA, USA, June 7-12, 2015, 815–823. IEEE Computer Society, 2015. URL: https://doi.org/10.1109/CVPR.2015.7298682, doi:10.1109/CVPR.2015.7298682.">SKP15</a>]</span>.</p>
-<p>This method will be transferred to do the cover-song-identification case by <span id="id5">[<a class="reference internal" href="bibiography.html#id15" title="Guillaume Doras and Geoffroy Peeters. Cover detection using dominant melody embeddings. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 107–114. 2019. URL: http://archives.ismir.net/ismir2019/paper/000010.pdf.">DP19</a>]</span> and <span id="id6">[<a class="reference internal" href="bibiography.html#id43" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span>.</p>
+<p>The solution will come from Computer Vision and the <mark>face recognition</mark> problem in which deep learning is used to perform <mark>metric learning</mark> <span id="id4">[<a class="reference internal" href="bibiography.html#id19" title="Florian Schroff, Dmitry Kalenichenko, and James Philbin. Facenet: A unified embedding for face recognition and clustering. In IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2015, Boston, MA, USA, June 7-12, 2015, 815–823. IEEE Computer Society, 2015. URL: https://doi.org/10.1109/CVPR.2015.7298682, doi:10.1109/CVPR.2015.7298682.">SKP15</a>]</span>.</p>
+<p>This method will be transferred to do the cover-song-identification case by <span id="id5">[<a class="reference internal" href="bibiography.html#id17" title="Guillaume Doras and Geoffroy Peeters. Cover detection using dominant melody embeddings. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 107–114. 2019. URL: http://archives.ismir.net/ismir2019/paper/000010.pdf.">DP19</a>]</span> and <span id="id6">[<a class="reference internal" href="bibiography.html#id45" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span>.</p>
 <p>Fore more details, see the very good tutorial
 <a class="reference external" href="https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28">“Version Identification in the 20s”</a>.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="how-is-csi-evaluated">
@@ -529,7 +528,6 @@ However, the results were largely below those of Serra.</p></li>
 </pre></div>
 </div>
 <p>Other metrics are also commonly used such as the Cumulative Gain, (CG) Discounted Cumulative Gain (DCG), Normalised DCG.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="some-popular-datasets-for-csi">
 <h2>Some popular datasets for CSI<a class="headerlink" href="#some-popular-datasets-for-csi" title="Permalink to this heading">#</a></h2>
@@ -541,8 +539,7 @@ However, the results were largely below those of Serra.</p></li>
 <li><p><a class="reference external" href="https://www.covers1000.net/dataset.html">Cover-1000</a>: 996 performances of 395 different works</p></li>
 <li><p><a class="reference external" href="https://github.com/MTG/da-tacos">DA-TACOS</a>: 15.000 performances of 3000 different works</p></li>
 </ul>
-<p>Notes that those do not provide access to the audio but to the already extracted <strong>CREMA</strong> features <span id="id7">[<a class="reference internal" href="bibiography.html#id76" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> (12-dimensional).</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
+<p>Notes that those do not provide access to the audio but to the already extracted <strong>CREMA</strong> features <span id="id7">[<a class="reference internal" href="bibiography.html#id78" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> (12-dimensional).</p>
 </section>
 <section id="how-can-we-solve-csi-using-deep-learning">
 <h2>How can we solve CSI using deep learning ?<a class="headerlink" href="#how-can-we-solve-csi-using-deep-learning" title="Permalink to this heading">#</a></h2>
@@ -553,16 +550,15 @@ However, the results were largely below those of Serra.</p></li>
 <li><p><mark>only the projections</mark> (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> <mark>are stored</mark></p></li>
 </ul>
 <p>Various approaches can be used for <a class="reference internal" href="bricks_paradigm.html#lab-metric-learning"><span class="std std-ref">metric learning</span></a>, but the most common is the <mark><a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a></mark>.</p>
-<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id8">[<a class="reference internal" href="bibiography.html#id43" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
+<p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id8">[<a class="reference internal" href="bibiography.html#id45" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /><br />
-<strong>Figure</strong> <em>MOVE model for CSI proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id43" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span></em></p>
+<strong>Figure</strong> <em>MOVE model for CSI proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id45" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span></em></p>
 <p>We test the results on two datasets:</p>
 <ul class="simple">
 <li><p>a small one (Cover-1000)</p></li>
 <li><p>a large one (DA-TACOS-benchmark)</p></li>
 </ul>
 <p><img alt="expe" src="_images/expe_coverdetection_P.png" /></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="experiments">
 <h3>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
 <p>The code is available here:</p>
@@ -594,7 +590,6 @@ However, the results were largely below those of Serra.</p></li>
 </tr>
 </tbody>
 </table>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="actions">
 <h3>Actions:<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h3>
@@ -606,7 +601,6 @@ However, the results were largely below those of Serra.</p></li>
 <li><p>explain <a class="reference internal" href="bricks_paradigm.html#lab-tripletmining"><span class="std std-ref">Online Triplet Mining</span></a>, <code class="docutils literal notranslate"><span class="pre">triplet_loss_mining</span></code></p></li>
 <li><p>show performance measures, evaluation of number of OK triplets</p></li>
 </ul>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="online-triplet-mining-explained">
 <h3>Online Triplet mining explained<a class="headerlink" href="#online-triplet-mining-explained" title="Permalink to this heading">#</a></h3>
@@ -618,6 +612,18 @@ However, the results were largely below those of Serra.</p></li>
 <li><p>Online mining select those to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD).</p></li>
 <li><p>Only those selected are used for the loss.</p></li>
 </ul>
+<section id="distance-matrix">
+<h4>Distance matrix<a class="headerlink" href="#distance-matrix" title="Permalink to this heading">#</a></h4>
+<p>We first compute a pair-wise distance matrix <code class="docutils literal notranslate"><span class="pre">dist_all</span></code> between all the embeddings <span class="math notranslate nohighlight">\(\mathbf{e}_i\)</span>.</p>
+<ul class="simple">
+<li><p>The “cliques” are grouped together in the matrix, i.e. the performances <span class="math notranslate nohighlight">\(\{i-1, i, i+1\}\)</span> belong to the same work-id.</p></li>
+</ul>
+<p>We can then create</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">mask_pos</span></code>: all the distances of similar work-id</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">mask_neg</span></code>: all the distances of different work-id</p></li>
+</ul>
+</section>
 <section id="random-mining">
 <h4>Random mining<a class="headerlink" href="#random-mining" title="Permalink to this heading">#</a></h4>
 <p>For each anchor A (row), we select randomly a positive (among the mask_pos) and a negative (among the mask_neg).</p>
@@ -784,6 +790,7 @@ However, the results were largely below those of Serra.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-matrix">Distance matrix</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-hard-mining">Semi-hard mining</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-mining">Hard mining</a></li>

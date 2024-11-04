@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -436,9 +437,9 @@ document.write(`
 <p>In this tutorial, we demonstrate a practical implementation of musical audio generation using an autoregressive Transformer model and discrete audio representations obtained from a neural audio codec. We focus on the guitar subset of the NSynth dataset and use EnCodec representations to train our model.</p>
 <section id="encodec-neural-audio-codec">
 <h2>EnCodec Neural Audio Codec<a class="headerlink" href="#encodec-neural-audio-codec" title="Permalink to this heading">#</a></h2>
-<p><a class="reference external" href="https://github.com/facebookresearch/encodec">EnCodec</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id5" title="Alexandre Défossez, Jade Copet, Gabriel Synnaeve, and Yossi Adi. High fidelity neural audio compression. Trans. Mach. Learn. Res., 2023.">DefossezCSA23</a>]</span> is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.</p>
+<p><a class="reference external" href="https://github.com/facebookresearch/encodec">EnCodec</a> <span id="id1">[<a class="reference internal" href="bibiography.html#id7" title="Alexandre Défossez, Jade Copet, Gabriel Synnaeve, and Yossi Adi. High fidelity neural audio compression. Trans. Mach. Learn. Res., 2023.">DefossezCSA23</a>]</span> is a neural audio codec that compresses audio signals into discrete latent codes, achieving high compression rates while maintaining audio quality. It encodes audio into a sequence of discrete tokens using quantized latent vectors from multiple codebooks. This transforms the continuous audio generation problem into a discrete sequence modeling task, suitable for autoregressive models like Transformers.</p>
 <p><img alt="encodec_overview" src="_images/expe_encodec.png" /></p>
-<p><strong>Figure 1</strong>: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization (image source: <span id="id2">[<a class="reference internal" href="bibiography.html#id5" title="Alexandre Défossez, Jade Copet, Gabriel Synnaeve, and Yossi Adi. High fidelity neural audio compression. Trans. Mach. Learn. Res., 2023.">DefossezCSA23</a>]</span>).</p>
+<p><strong>Figure 1</strong>: Overview of the EnCodec architecture and training. The input audio is encoded into discrete tokens using residual vector quantization (image source: <span id="id2">[<a class="reference internal" href="bibiography.html#id7" title="Alexandre Défossez, Jade Copet, Gabriel Synnaeve, and Yossi Adi. High fidelity neural audio compression. Trans. Mach. Learn. Res., 2023.">DefossezCSA23</a>]</span>).</p>
 <p>To use EnCodec for our task, we first encode our dataset into discrete token sequences.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install encodec
 
