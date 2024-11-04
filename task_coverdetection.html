@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_coverdetection';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Auto-Tagging (SSL)" href="task_autotagging_ssl.html" />
+    <link rel="next" title="Auto-Tagging (front-ends)" href="task_autotagging_frontend.html" />
     <link rel="prev" title="Multi-Pitch-Estimation (MPE)" href="task_multipitchestimation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -183,10 +183,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musiccontent.html">Music Audio Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -473,7 +473,7 @@ To solve this, the <mark>approach commonly used</mark> is to</p>
 <li><p>The story starts with Ellis et al. <span id="id1">[<a class="reference internal" href="bibiography.html#id19" title="Daniel P. W. Ellis and Graham E. Poliner. Identifying 'cover songs' with chroma features and dynamic programming beat tracking. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2007, Honolulu, Hawaii, USA, April 15-20, 2007, 1429–1432. IEEE, 2007. URL: https://doi.org/10.1109/ICASSP.2007.367348, doi:10.1109/ICASSP.2007.367348.">EP07</a>]</span> who proposed to compute <span class="math notranslate nohighlight">\(d(q,r_i)\)</span> as the <mark>cross-correlation between processed Chroma/PCP features</mark> of <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>.</p></li>
 <li><p>Later on, Serra et al. <span id="id2">[<a class="reference internal" href="bibiography.html#id18" title="Joan Serrà and Emilia Gómez. Audio cover song identification based on tonal sequence alignment. In Proceedings of the IEEE International Conference on Acoustics, Speech, and Signal Processing, ICASSP 2008, March 30 - April 4, 2008, Caesars Palace, Las Vegas, Nevada, USA, 61–64. IEEE, 2008. URL: https://doi.org/10.1109/ICASSP.2008.4517546, doi:10.1109/ICASSP.2008.4517546.">SerraGomez08</a>]</span> proposed to improve the features (Harmonic-PCP) and the comparison algorithm (<mark>DTW, Dynamic Time Warping</mark>).
 This has lead to the standard approach for years.
-However, calculating the DTW between all the pairs of tracks is <strong>costly</strong>.</p></li>
+However, computing the DTW for every pair of tracks is <strong>computationally expensive</strong>.</p></li>
 <li><p>To reduce the cost, <span class="math notranslate nohighlight">\(d\)</span> should simplified to a simple Euclidean distance between <mark>trained features/embedding</mark> extracted from <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>.
 Such an approach have been tested in the linear case (using 2D-DFT, PCA, ..) by <span id="id3">[<a class="reference internal" href="bibiography.html#id16" title="Eric J. Humphrey, Oriol Nieto, and Juan Pablo Bello. Data driven and discriminative projections for large-scale cover song identification. In Alceu de Souza Britto Jr., Fabien Gouyon, and Simon Dixon, editors, Proceedings of the 14th International Society for Music Information Retrieval Conference, ISMIR 2013, Curitiba, Brazil, November 4-8, 2013, 149–154. 2013. URL: http://www.ppgia.pucpr.br/ismir2013/wp-content/uploads/2013/09/246\_Paper.pdf.">HNB13</a>]</span>.
 However, the results were largely below those of Serra.</p></li>
@@ -504,14 +504,14 @@ However, the results were largely below those of Serra.</p></li>
 </ul>
 <p>We then compute the usual ranking metrics:</p>
 <ul class="simple">
-<li><p><strong>MR1: Mean Rank</strong> (lower better): it is the mean (the average over queries <span class="math notranslate nohighlight">\(q\)</span>) of the rank of the first correct result<br />
-<span class="math notranslate nohighlight">\(MR1=\mathbb{E}_{q \in Q} \arg\min_i \{ rel(q,a_i)=1 \}\)</span></p></li>
+<li><p><strong>MR1: Mean Rank</strong> (lower better): it is the mean (average over queries) of the rank of the first correct result<br />
+<span class="math notranslate nohighlight">\(\hspace{3cm} MR1=\mathbb{E}_{q \in Q} \arg\min_i \{ rel(q,a_i)=1 \}\)</span></p></li>
 <li><p><strong>MRR1: Mean Reciprocal Rank</strong> (higher better): it is the mean (…) of 1/rank of the first correct result<br />
-<span class="math notranslate nohighlight">\(MRR1=\mathbb{E}_{q \in Q} \arg\max_i \frac{1}{ rel(q,a_i)=1}\)</span></p></li>
+<span class="math notranslate nohighlight">\(\hspace{3cm} MRR1=\mathbb{E}_{q \in Q} \arg\max_i \frac{1}{ rel(q,a_i)=1}\)</span></p></li>
 <li><p><strong>Precision &#64; k</strong> (higher better): the number of correct results in the first <span class="math notranslate nohighlight">\(k\)</span> elements of the ranked list<br />
-<span class="math notranslate nohighlight">\(P(k) = \frac{1}{k} \sum_{i=1}^k rel(q,a_i)\)</span></p></li>
+<span class="math notranslate nohighlight">\(\hspace{3cm} P(k) = \frac{1}{k} \sum_{i=1}^k rel(q,a_i)\)</span></p></li>
 <li><p><strong>mAP: mean Average Precision</strong> (higher better): same as for multi-label classification<br />
-<span class="math notranslate nohighlight">\(AP^q = \frac{1}{K} \sum_{k=1}^K P(k) \; rel(q,a_k)\)</span></p></li>
+<span class="math notranslate nohighlight">\(\hspace{3cm} AP^q = \frac{1}{K} \sum_{k=1}^K P(k) \; rel(q,a_k)\)</span></p></li>
 </ul>
 <p><img alt="brick_map2" src="_images/brick_map2.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">F_mean_rank</span><span class="p">(</span><span class="n">relevance</span><span class="p">):</span>
@@ -536,27 +536,23 @@ However, the results were largely below those of Serra.</p></li>
 <p>A (close to) exhaustive list of MIR datasets is available in the <a class="reference external" href="https://ismir.net/resources/datasets/">ismir.net web site</a>.</p>
 <p>The first dataset proposed for this task was the <a class="reference external" href="http://labrosa.ee.columbia.edu/projects/coversongs/covers80/">cover80</a> datasets containing 80 different work-id (or cliques) with 2 versions each.</p>
 <p>Since then, <strong>much larger datasets</strong> have been created mostly relying on the data provided by the <mark>collaborative website <a class="reference external" href="https://secondhandsongs.com/">SecondHandSongs</a></mark>.</p>
-<p>For our implementations, we will consider the two following datasets:\</p>
+<p>For our implementations, we will consider the two following datasets:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.covers1000.net/dataset.html">Cover-1000</a>: 996 performances of 395 different works</p></li>
 <li><p><a class="reference external" href="https://github.com/MTG/da-tacos">DA-TACOS</a>: 15.000 performances of 3000 different works</p></li>
 </ul>
-<p>Notes that those do not provide access to the audio but to the already extracted <strong>CREMA 12-dim audio features <span id="id7">[<a class="reference internal" href="bibiography.html#id76" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span></strong>.</p>
+<p>Notes that those do not provide access to the audio but to the already extracted <strong>CREMA</strong> features <span id="id7">[<a class="reference internal" href="bibiography.html#id76" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> (12-dimensional).</p>
 <hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="how-can-we-solve-csi-using-deep-learning">
 <h2>How can we solve CSI using deep learning ?<a class="headerlink" href="#how-can-we-solve-csi-using-deep-learning" title="Permalink to this heading">#</a></h2>
-<p>The usual solution</p>
-<ul class="simple">
-<li><p>develop an algorithm that allows to compute a distance between two tracks <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span>,</p></li>
-<li><p>the <mark>distance should relates to their “cover-ness”</mark> (how much <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span> are two performances of the same work-id).</p></li>
-</ul>
-<p>The common deep learning technique used is based on <mark>metric learning</mark>:</p>
+<p>The usual deep learning technique is based on <mark>metric learning</mark>:</p>
 <ul class="simple">
 <li><p>we <mark>train a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span></mark> such that the projections of <span class="math notranslate nohighlight">\(q\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(q)\)</span> can be directly compared (using Euclidean distance) to the projections of <span class="math notranslate nohighlight">\(r_i\)</span>, <span class="math notranslate nohighlight">\(f_{\theta}(r_i)\)</span>.</p></li>
-<li><p><mark>only the projections</mark> (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> <mark>are stored</mark> and the comparison simply reduce to the computation of <mark>Euclidean distances</mark>.</p></li>
+<li><p>the <mark>distance should relates to their “cover-ness”</mark> (how much <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r_i\)</span> are two performances of the same work-id).</p></li>
+<li><p><mark>only the projections</mark> (named embedding) of the elements of the reference-set <span class="math notranslate nohighlight">\(R\)</span> <mark>are stored</mark></p></li>
 </ul>
-<p>Various approaches can be used for metric learning, but the most common is the <mark><a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a></mark>.</p>
+<p>Various approaches can be used for <a class="reference internal" href="bricks_paradigm.html#lab-metric-learning"><span class="std std-ref">metric learning</span></a>, but the most common is the <mark><a class="reference internal" href="bricks_paradigm.html#lab-triplet"><span class="std std-ref">triplet loss</span></a></mark>.</p>
 <p>For the proposal code we will used the <a class="reference external" href="https://arxiv.org/pdf/1910.12551">MOVE model</a> <span id="id8">[<a class="reference internal" href="bibiography.html#id43" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span> and follow its <a class="reference external" href="https://github.com/furkanyesiler/move">implementation</a>.</p>
 <p><img alt="task_cover_move" src="_images/task_cover_move.png" /><br />
 <strong>Figure</strong> <em>MOVE model for CSI proposed by <span id="id9">[<a class="reference internal" href="bibiography.html#id43" title="Furkan Yesiler, Joan Serrà, and Emilia Gómez. Accurate and scalable version identification using musically-motivated embeddings. In 2020 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2020, Barcelona, Spain, May 4-8, 2020, 21–25. IEEE, 2020. URL: https://doi.org/10.1109/ICASSP40776.2020.9053793, doi:10.1109/ICASSP40776.2020.9053793.">YSerraGomez20</a>]</span></em></p>
@@ -754,11 +750,11 @@ However, the results were largely below those of Serra.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="task_autotagging_ssl.html"
+       href="task_autotagging_frontend.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Auto-Tagging (SSL)</p>
+        <p class="prev-next-title">Auto-Tagging (front-ends)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

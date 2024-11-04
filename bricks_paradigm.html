@@ -183,10 +183,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Audio Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -435,6 +435,7 @@ document.write(`
 <h1>Paradigms<a class="headerlink" href="#paradigms" title="Permalink to this heading">#</a></h1>
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">paradigm</span></code> the overall problem that is used to train a neural network: <em>such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, …</em></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="supervised">
 <span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
 <p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which <mark>one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span></mark>.</p>
@@ -450,9 +451,11 @@ Such a loss can be</p>
 <div class="math notranslate nohighlight">
 \[\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)})\]</div>
 <p>This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="self-supervised">
-<h2>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h2>
+<span id="lab-ssl"></span><h2>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h2>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="metric-learning">
 <span id="lab-metric-learning"></span><h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
@@ -478,29 +481,33 @@ The goal is to <mark>map input data into a space where</mark></p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="triplet-loss">
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
-<p>The goal is to train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> such that the resulting projections satisfy the following triplet constraint:</p>
+<p>The goal is to <mark>train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span></mark> such that the <mark>projections</mark> of
+<span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> (an <mark>anchor</mark>),
+<span class="math notranslate nohighlight">\(\mathbf{x}_P\)</span> (a <mark>positive</mark> we consider close to <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>),
+<span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> (a <mark>negative</mark> we consider distant from <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>),
+satisfy the following triplet constraint:</p>
 <div class="math notranslate nohighlight">
-\[d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &lt; d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N))\]</div>
+\[\begin{split}
+\begin{align}
+d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &amp;&lt; d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N)) \\
+d_{AP} + \alpha &amp;&lt; d_{AN}
+\end{align}
+\end{split}\]</div>
+<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AP}\)</span> to be smaller by a <mark>margin</mark> <span class="math notranslate nohighlight">\(\alpha\)</span> than <span class="math notranslate nohighlight">\(d_{AN}\)</span></p>
+<p>We solve this by minimizing the so-called “triplet-loss”:</p>
 <div class="math notranslate nohighlight">
-\[d_{AP} + \alpha &lt; d_{AN} \]</div>
-<p>where</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> is an anchor,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_P\)</span> a positive we consider close to <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> a negative we consider distant from <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> a margin.</p></li>
-</ul>
-<p>In other words, we want <span class="math notranslate nohighlight">\(d_{AP}\)</span> to be smaller by a margin <span class="math notranslate nohighlight">\(\alpha\)</span> than <span class="math notranslate nohighlight">\(d_{AN}\)</span></p>
-<p>We solve this by minimizing the following loss <span class="math notranslate nohighlight">\(\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\)</span>.
-It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilitate the setting of the <span class="math notranslate nohighlight">\(\alpha\)</span> value.</p>
+\[\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)\]</div>
+<p><em>Note: It is usual to L2-normalized the output of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> (which then lives in the unit-hypersphere) to facilitate the setting of the <span class="math notranslate nohighlight">\(\alpha\)</span> value.</em></p>
 <p><img alt="triplet-loss" src="_images/brick_triplet.png" /><br />
 <strong>Figure</strong>
 <em>Triplet Loss, bringing A and P closer and A and N further appart; image source: <a class="reference external" href="https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="triplet-mining">
 <span id="lab-tripletmining"></span><h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
@@ -541,13 +548,16 @@ The goal is to ensure the model learns effectively by choosing the right combina
 </ul>
 </li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="adversarial">
 <h2>Adversarial<a class="headerlink" href="#adversarial" title="Permalink to this heading">#</a></h2>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="encoder-decoder">
 <h2>Encoder-Decoder<a class="headerlink" href="#encoder-decoder" title="Permalink to this heading">#</a></h2>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="diffusion">
 <h2>Diffusion<a class="headerlink" href="#diffusion" title="Permalink to this heading">#</a></h2>

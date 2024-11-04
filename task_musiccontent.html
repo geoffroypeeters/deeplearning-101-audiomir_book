@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Music Content Analysis &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Music Audio Analysis &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -65,7 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_musiccontent';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Auto-Tagging (front-ends)" href="task_autotagging_frontend.html" />
+    <link rel="next" title="Multi-Pitch-Estimation (MPE)" href="task_multipitchestimation.html" />
     <link rel="prev" title="Nodebooks in Colab" href="notebook.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,10 +181,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Music Content Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Music Audio Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -396,7 +396,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Music Content Analysis</h1>
+    <h1>Music Audio Analysis</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -410,8 +410,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="music-content-analysis">
-<h1>Music Content Analysis<a class="headerlink" href="#music-content-analysis" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="music-audio-analysis">
+<h1>Music Audio Analysis<a class="headerlink" href="#music-audio-analysis" title="Permalink to this heading">#</a></h1>
+<p>Music Audio Analysis refers to the subset of MIR research which targets the <mark>extraction of information</mark> from the <mark>music content</mark> using <mark>audio analysis</mark>.</p>
+<p>Such information can relate to</p>
+<ul class="simple">
+<li><p><mark>musical concepts</mark> (onset, <strong>pitches</strong>, <strong>chords</strong>, key, beats/downbeats, tempo, meter, instrumentation, lyrics)</p></li>
+<li><p>the <mark>labelling of tracks for searching in catalogues</mark> (into <strong>genre</strong>, <strong>tags</strong>, style, moods, activity)</p></li>
+<li><p><mark>non-textual information to be used for retrieval</mark> in corpus (search by acoustic similarity, <strong>cover-version-identification</strong>, audio fingerprint).</p></li>
+</ul>
+<p>We study here a subset of these tasks.</p>
+<p><a class="reference external" href="https://www.music-ir.org/mirex/wiki/MIREX_HOME">MIREX</a> (Music Information Retrieval Evaluation eXchange) provides an extensive lists of such tasks.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -456,11 +465,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="task_autotagging_frontend.html"
+       href="task_multipitchestimation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Auto-Tagging (front-ends)</p>
+        <p class="prev-next-title">Multi-Pitch-Estimation (MPE)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

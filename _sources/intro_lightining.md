@@ -1,8 +1,9 @@
 ### TorchLightning training
 
-[Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/) is a high-level wrapper for PyTorch that simplifies the process of organizing, training, and scaling deep learning models.
-It structures PyTorch code with best practices, making it easier to implement, debug, and accelerate models across different hardware with minimal boilerplate code.
-It allows to by-pass the tedious work of writing training and validation loop over epoch and over mini-batch.
+[Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/)
+- is a high-level wrapper for PyTorch that **simplifies** the process of organizing, training, and scaling models.
+- **structures** PyTorch code with best practices, making it easier to implement, debug, and accelerate models across different hardware with minimal boilerplate code.
+- allows to **bypass the tedious writing** of training and validation loop over epoch and over mini-batch.
 
 The <mark>writing of the Lightning class</mark> is very standard and almost the same for all tasks.
 It involves indicating

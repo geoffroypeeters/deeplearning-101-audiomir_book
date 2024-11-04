@@ -183,10 +183,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Audio Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -432,6 +432,7 @@ document.write(`
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">projection</span></code> the type of operations performed within a neural network.
 Those sometimes overlap with the ones used in the front-end.</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="fully-connected">
 <h2>Fully-Connected<a class="headerlink" href="#fully-connected" title="Permalink to this heading">#</a></h2>
 <p>The Fully-Connected (FC) projection is the core projection of Multi-Layer-Perceptron (MLP) or Feed-Forward (FF) neural network.</p>
@@ -443,16 +444,27 @@ Those sometimes overlap with the ones used in the front-end.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Lineartorch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="conv-1d">
 <h2>Conv-1D<a class="headerlink" href="#conv-1d" title="Permalink to this heading">#</a></h2>
 <p>see <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">link</span></a></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="conv-2d">
 <span id="lab-conv2d"></span><h2>Conv-2D<a class="headerlink" href="#conv-2d" title="Permalink to this heading">#</a></h2>
+<p>The Conv-2D is the operator underlying all ConvNet archiectures (often combined with a Max-Pooling operator).
+It implements the following convolution with a kernel <span class="math notranslate nohighlight">\(W\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[(X \circledast W)_{x,y} = \sum_{i,j} W_{i,j} X_{x-i,y-j}\]</div>
+<figure class="align-left" id="brick-animated-conv2d">
+<a class="reference internal image-reference" href="_images/brick_animated_conv2D.gif"><img alt="_images/brick_animated_conv2D.gif" src="_images/brick_animated_conv2D.gif" style="width: 60%;" /></a>
+</figure>
+<p><strong>Figure</strong> <em>Animated illustration of 2D-convolution; image source <a class="reference external" href="https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1">Link</a></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="depthwise-separable-convolution">
 <span id="lab-depthwise"></span><h2>Depthwise Separable Convolution<a class="headerlink" href="#depthwise-separable-convolution" title="Permalink to this heading">#</a></h2>
@@ -499,6 +511,7 @@ The number of multiplications is also largely reduced.</p></li>
 <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="resnet">
 <span id="lab-resnet"></span><h2>ResNet<a class="headerlink" href="#resnet" title="Permalink to this heading">#</a></h2>
@@ -613,6 +626,7 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
         <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="convnext">
 <span id="lab-convnext"></span><h2>ConvNeXt<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>

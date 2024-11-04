@@ -21,9 +21,11 @@ A wide range of techniques can be employed for solving each of these tasks, span
 
 **Objective.** This tutorial aims to review the various elements of this deep learning zoo which are commonly applied in Audio-based MIR tasks.
 We review typical
-- <mark>audio front-ends</mark>: such as [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms), [HCQT](lab_hcqt), [SincNet](lab_sincnet), quantization using VQ-VAE, RVQ
-- <mark>projections</mark>: such as [1D-Conv](lab_conv1d), [2D-Conv](lab_conv2d), [Dilated-Conv](lab_dilated), [TCN](lab_tcn), [RNN](lab_rnn), Transformer, [U-Net](lab_unet), VAE
-- <mark>training paradigms</mark>: such as [supervised](lab_supervised), unsupervised (encoder-decoder), self-supervised, [metric-learning](lab_metric_learning), adversarial, denoising/latent diffusion
+- <mark>inputs</mark>: such as [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms), [CQT](lab_cqt), [HCQT](lab_hcqt), [Chroma](lab_chroma)
+- <mark>front-ends</mark>: such as [Dilated-Conv](lab_dilated), [TCN](lab_tcn), [SincNet](lab_sincnet)
+- <mark>projections</mark>: such as [1D-Conv](lab_conv1d), [2D-Conv](lab_conv2d), [U-Net](lab_unet), [RNN](lab_rnn), [LSTM](lab_lstm), [Transformer](lab_transformer)
+- <mark>bottleneck</mark>: AE, VAE quantization using VQ-VAE, RVQ
+- <mark>training paradigms</mark>: such as [supervised](lab_supervised), unsupervised (encoder-decoder), [self-supervised](lab_ssl), [metric-learning](lab_metric_learning), adversarial, denoising/latent diffusion
 
 
 <hr style="border: 2px solid red; margin: 60px 0;">
