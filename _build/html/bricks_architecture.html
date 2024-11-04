@@ -183,10 +183,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Audio Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -445,50 +445,54 @@ document.write(`
 <h1>Architectures<a class="headerlink" href="#architectures" title="Permalink to this heading">#</a></h1>
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">architecture</span></code> the overall design of a neural network, i.e. the way front-end and projections are used together.</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="u-net">
 <span id="lab-unet"></span><h2>U-Net<a class="headerlink" href="#u-net" title="Permalink to this heading">#</a></h2>
-<p>The U-Net was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id66" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span> in the framework of biomedical image segmentation and made popular in MIR by <span id="id2">[<a class="reference internal" href="bibiography.html#id65" title="Andreas Jansson, Eric J. Humphrey, Nicola Montecchio, Rachel M. Bittner, Aparna Kumar, and Tillman Weyde. Singing voice separation with deep u-net convolutional networks. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 745–751. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171\_Paper.pdf.">JHM+17</a>]</span> for singing voice separation.</p>
-<p>The U-Net is an auto-encoder with skip-connections.</p>
+<p>The U-Net was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id66" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span> in the framework of <mark>biomedical image segmentation</mark> and made popular in MIR by <span id="id2">[<a class="reference internal" href="bibiography.html#id65" title="Andreas Jansson, Eric J. Humphrey, Nicola Montecchio, Rachel M. Bittner, Aparna Kumar, and Tillman Weyde. Singing voice separation with deep u-net convolutional networks. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 745–751. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171\_Paper.pdf.">JHM+17</a>]</span> for singing voice separation.</p>
+<p>The U-Net is an <mark>auto-encoder with skip-connections</mark>.</p>
 <ul class="simple">
-<li><p>The <strong>encoder</strong> (left part) downsample the spatial dimensions and increase the depth,</p></li>
-<li><p>The <strong>decoder</strong> (right part) upsample the spatial dimensions and decrease the depth.</p></li>
+<li><p>The <strong>encoder</strong> (left part) <mark>downsample the spatial dimensions and increase the depth</mark>,</p></li>
+<li><p>The <strong>decoder</strong> (right part) <mark>upsample the spatial dimensions and decrease the depth</mark>.</p></li>
 </ul>
-<p><strong>Skip connections</strong> are added between equivalent layers of the encoder and decoder:</p>
+<p><strong>Skip connections</strong> are added between equivalent layers of the encoder and decoder.
+Their goals are:</p>
 <ul class="simple">
-<li><p>example: the 256 channels level of the encoder is concatenated with the 256 level of the decoder to form a 512 tensor.</p></li>
-<li><p>The goal of the skip-connections are two-folds:</p>
-<ul>
-<li><p>to bring back details of the original images to the decoder (the bottleneck being to compressed to represent detailed information)</p></li>
-<li><p>to facilitate the backpropagation of the gradient.</p></li>
+<li><p>to bring back <mark>details</mark> of the original images to the decoder<br />
+<em>(the bottleneck being to compressed to represent detailed information)</em></p></li>
+<li><p>to facilitate the <mark>back-propagation</mark> of the gradient.</p></li>
 </ul>
-</li>
-</ul>
-<p>The <strong>upsampling</strong> (decoder) part can be done either</p>
-<ul class="simple">
-<li><p>using Transposed Convolution (hence a well-known checkerboard artefact may appears)</p></li>
-<li><p>using Interpolation followed by Normal convolution</p></li>
-</ul>
+<p>The <strong>upsampling</strong> (decoder) part can be done either:
+using Transposed Convolution (hence a well-known checkerboard artefact may appears)
+or Interpolation followed by Normal Conv-2d.</p>
 <p><img alt="brick_unet" src="_images/brick_unet.png" /><br />
-<strong>Figure</strong> U-Net architecture for biomedical image segmentation <em>image source: <span id="id3">[<a class="reference internal" href="bibiography.html#id66" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span></em></p>
+<strong>Figure</strong> <em>U-Net architecture for biomedical image segmentation; image source: <span id="id3">[<a class="reference internal" href="bibiography.html#id66" title="Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: convolutional networks for biomedical image segmentation. In Nassir Navab, Joachim Hornegger, William M. Wells III, and Alejandro F. Frangi, editors, Medical Image Computing and Computer-Assisted Intervention - MICCAI 2015 - 18th International Conference Munich, Germany, October 5 - 9, 2015, Proceedings, Part III, volume 9351 of Lecture Notes in Computer Science, 234–241. Springer, 2015. URL: https://doi.org/10.1007/978-3-319-24574-4\_28, doi:10.1007/978-3-319-24574-4\_28.">RFB15</a>]</span></em></p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="many-to-one-reducing-the-time-dimensions">
 <h2>Many to One: reducing the time dimensions<a class="headerlink" href="#many-to-one-reducing-the-time-dimensions" title="Permalink to this heading">#</a></h2>
-<p>They are many different ways to reduce a (temporal) sequence of embeddings <span class="math notranslate nohighlight">\(\{ \mathbf{x}_1, \ldots \mathbf{x}_{T_x}\}\)</span> to a single embedding <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (Many-to-One).</p>
-<p>Such a mechanism can be necessary in order to map the temporal embedding provided by the last layer of a network to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).</p>
-<p>The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> over time <span class="math notranslate nohighlight">\(t\)</span> (as done for example in <span id="id4">[<a class="reference internal" href="bibiography.html#id71">Die14</a>]</span>).</p>
+<p><strong>Objective</strong>: <mark>reduce a (temporal) sequence of embeddings <span class="math notranslate nohighlight">\(\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}\)</span> to a single embedding <span class="math notranslate nohighlight">\(\mathbf{e}\)</span></mark> (<strong>Many-to-One</strong>).</p>
+<p><strong>Usage:</strong> map the (temporal) sequence of embeddings (provided by the last layer of a network) to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).</p>
+<p><strong>Pooling</strong>: The most simple way to achieve this is to use the <mark>Mean/Average</mark> value (Average Pooling) or <mark>Maximum</mark> value (Max Pooling) of the <span class="math notranslate nohighlight">\(\mathbf{e}_t\)</span> over time <span class="math notranslate nohighlight">\(t\)</span> (as done for example in <span id="id4">[<a class="reference internal" href="bibiography.html#id71">Die14</a>]</span>).</p>
+<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="attention-weighting">
 <span id="lab-attentionweighting"></span><h3>Attention weighting<a class="headerlink" href="#attention-weighting" title="Permalink to this heading">#</a></h3>
-<p>Another possibility is to compute a weighted sum of the values <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> where the weights <span class="math notranslate nohighlight">\(a_t\)</span> are denoted by <strong>attention</strong> parameters:
-<span class="math notranslate nohighlight">\(\mathbf{x} = \sum_{t=0}^{T_x-1} a_t \mathbf{x}_t\)</span></p>
-<p>In <span id="id5">[<a class="reference internal" href="bibiography.html#id69" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span>, it is proposed to compute these weights <span class="math notranslate nohighlight">\(a_t\)</span> either</p>
+<p>Compute a weighted sum of the values <span class="math notranslate nohighlight">\(\mathbf{e}_t\)</span> where the weights <span class="math notranslate nohighlight">\(a_t\)</span> are <strong>attention</strong> parameters:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{e} = \sum_{t=0}^{T_x-1} a_t \mathbf{e}_t\]</div>
+<p>In <span id="id5">[<a class="reference internal" href="bibiography.html#id69" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span>, it is proposed to <mark>compute the attention weights</mark> <span class="math notranslate nohighlight">\(a_t\)</span> either</p>
 <ol class="arabic simple">
-<li><p>by computing a new projection of the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> and then normalize them:
-<span class="math notranslate nohighlight">\(a_t = \frac{\sigma(\mathbf{v}^T h(\mathbf{x}_t))}{\sum_{\tau} \sigma(\mathbf{v}^T h(\mathbf{x}_{\tau}))}\)</span></p>
+<li><p>by computing a new projection of the <span class="math notranslate nohighlight">\(\mathbf{e}_t\)</span> and then normalize them:
+<span class="math notranslate nohighlight">\(a_t = \text{softmax}_t (\sigma(\mathbf{v}^T h(\mathbf{e}_t))\)</span></p>
 <ul class="simple">
 <li><p>with <span class="math notranslate nohighlight">\(h\)</span> a learnable embedding, <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> the learned parameters of the attention layer</p></li>
 </ul>
 </li>
-<li><p>doing the same after splitting <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span> in two (along the channel dimensions): the first part being used to compute “values”, the second to compute “weights”</p></li>
+<li><p>doing the same after splitting <span class="math notranslate nohighlight">\(\mathbf{e}_t\)</span> in two (along the channel dimensions):</p>
+<ul class="simple">
+<li><p>the first part <span class="math notranslate nohighlight">\(\mathbf{e}_t^{(1)}\)</span> being used to compute “prediction”,</p></li>
+<li><p>the second <span class="math notranslate nohighlight">\(\mathbf{e}_t^{(2)}\)</span> to compute attention “weights”</p></li>
+</ul>
+</li>
 </ol>
 <p><img alt="brick_attention_instrument" src="_images/brick_attention_instrument.png" /><br />
 <strong>Figure</strong> Attention weighting, <em>image source: <span id="id6">[<a class="reference internal" href="bibiography.html#id69" title="Siddharth Gururani, Mohit Sharma, and Alexander Lerch. An attention mechanism for musical instrument recognition. In Arthur Flexer, Geoffroy Peeters, Julián Urbano, and Anja Volk, editors, Proceedings of the 20th International Society for Music Information Retrieval Conference, ISMIR 2019, Delft, The Netherlands, November 4-8, 2019, 83–90. 2019. URL: http://archives.ismir.net/ismir2019/paper/000007.pdf.">GSL19</a>]</span></em></p>
@@ -509,20 +513,22 @@ document.write(`
 </section>
 <section id="auto-pool">
 <span id="lab-autopoolweightsplit"></span><h3>Auto-Pool<a class="headerlink" href="#auto-pool" title="Permalink to this heading">#</a></h3>
-<p>The above attention mechanism can by combined with the auto-pool operators proposed by <span id="id7">[<a class="reference internal" href="bibiography.html#id70" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span>.</p>
-<p>The auto-pool operators is defined as</p>
+<p>The above attention mechanism use a <code class="docutils literal notranslate"><span class="pre">softmax</span></code> for normalizing <span class="math notranslate nohighlight">\(\mathbf{a}_t\)</span>.
+We can replace it by the <mark>auto-pool operators</mark> proposed by <span id="id7">[<a class="reference internal" href="bibiography.html#id70" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span>defined as</p>
 <div class="math notranslate nohighlight">
-\[\tilde{\mathbf{x}}_t = \frac{\exp(\alpha \cdot \mathbf{x}_t)}{\sum_{\tau} \exp(\alpha \cdot \mathbf{x}_{\tau})}\]</div>
-<p>It uses a parameter <span class="math notranslate nohighlight">\(\alpha\)</span> which allows to range from</p>
+\[\tilde{\mathbf{a}}_t = \frac{\exp(\alpha \cdot \mathbf{a}_t)}{\sum_{\tau} \exp(\alpha \cdot \mathbf{a}_{\tau})}\]</div>
+<p>It introduces a training parameter <span class="math notranslate nohighlight">\(\alpha\)</span> (also optimized by SGD) which allows to range from</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\alpha=0\)</span> (unweighted, a.k.a. average pooling),</p></li>
-<li><p><span class="math notranslate nohighlight">\(\alpha=1\)</span> (softmax weighted mean),</p></li>
-<li><p><span class="math notranslate nohighlight">\(\alpha=\infty\)</span>: (a.k.a. max pooling).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha=0\)</span> (unweighted, a.k.a. average pooling): <span class="math notranslate nohighlight">\(\tilde{\mathbf{a}}_t = 1/T_x\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha=1\)</span> (softmax weighted mean): <span class="math notranslate nohighlight">\(\tilde{\mathbf{a}}_t = \text{softmax}_t (a_t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha=\infty\)</span>: (a.k.a. max pooling): <span class="math notranslate nohighlight">\(\tilde{\mathbf{a}}_t = \text{max}_t (a_t)\)</span></p></li>
 </ul>
-<p>The <span class="math notranslate nohighlight">\(\alpha\)</span> parameters is a trainable parameters (optimized using SGD).</p>
 <p><img alt="brick_autopool" src="_images/brick_autopool.png" /><br />
 <strong>Figure</strong> Auto-pool operator <em>image source: <span id="id8">[<a class="reference internal" href="bibiography.html#id70" title="Brian McFee, Justin Salamon, and Juan Pablo Bello. Adaptive pooling operators for weakly labeled sound event detection. IEEE ACM Trans. Audio Speech Lang. Process., 26(11):2180–2193, 2018. URL: https://doi.org/10.1109/TASLP.2018.2858559, doi:10.1109/TASLP.2018.2858559.">MSB18</a>]</span></em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code: https://github.com/furkanyesiler/move</span>
+<span class="o">...</span>
+<span class="n">autopool_param</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+<span class="o">...</span>
 <span class="k">def</span> <span class="nf">f_autopool_weights</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">autopool_param</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculating the autopool weights for a given tensor</span>
@@ -545,6 +551,7 @@ document.write(`
     <span class="k">return</span> <span class="n">weights</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="using-models">
 <h3>Using models<a class="headerlink" href="#using-models" title="Permalink to this heading">#</a></h3>
@@ -560,6 +567,7 @@ For this, the <span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span>
 A given <span class="math notranslate nohighlight">\(\mathbf{q}_{\tau}\)</span> is then compared to all <span class="math notranslate nohighlight">\(\mathbf{k}_t\)</span> to compute attention weights <span class="math notranslate nohighlight">\(\mathbf{a}_{t,\tau}\)</span> which are used in the weighting sum of the <span class="math notranslate nohighlight">\(\mathbf{v}_t\)</span>:
 <span class="math notranslate nohighlight">\(\mathbf{e}_{\tau} = \sum_t \mathbf{a}_{t,\tau} \mathbf{v}_{t}\)</span>.</p></li>
 </ul>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="recurrent-architectures">
@@ -585,9 +593,10 @@ They are often used to represent a Language model.</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="lstm">
-<h3>LSTM<a class="headerlink" href="#lstm" title="Permalink to this heading">#</a></h3>
+<span id="lab-lstm"></span><h3>LSTM<a class="headerlink" href="#lstm" title="Permalink to this heading">#</a></h3>
 <p><strong>Long Short-Term Memory (LSTM)</strong>  are a specialized type of RNN designed to handle long-term dependencies more effectively.
 LSTM use a more complex architecture with</p>
 <ul class="simple">
@@ -612,10 +621,11 @@ This principle mitigates the vanishing gradient problem and is similar to ResNet
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
+<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="transformer-self-attention">
-<h2>Transformer/Self-Attention<a class="headerlink" href="#transformer-self-attention" title="Permalink to this heading">#</a></h2>
+<span id="lab-transformer"></span><h2>Transformer/Self-Attention<a class="headerlink" href="#transformer-self-attention" title="Permalink to this heading">#</a></h2>
 <figure class="align-default" id="brick-transformer">
 <span id="lab-transformer-fig"></span><a class="reference internal image-reference" href="_images/brick_transformer.png"><img alt="_images/brick_transformer.png" src="_images/brick_transformer.png" style="width: 70%;" /></a>
 </figure>

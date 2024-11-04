@@ -6,6 +6,9 @@ We denote by `front-end` the first projections of a neural network directly appl
 Those therefore depends on the type of the input.
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 (lab_conv1d)=
 ## Conv-1D
 
@@ -26,6 +29,9 @@ torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 ```
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 (lab_dilated)=
 ## Dilated-Conv-1D
 
@@ -39,15 +45,18 @@ For a 1D-filter $w$ of size $l$ and a sequence $x_n$,
 - the dilated convolution with a dilatation factor $d$ is written $(x \circledast_d w)_n = \sum_{i=0}^{l-1} w_i x_{n - (d \times i)}$,
   - the filter is convolved with the signal only considering one over $d$ values.
 
-![dilated-conv](/images/brick_dilated.png)\
+![conv1d](/images/brick_dilated_conv.gif)\
 **Figure**
-*Dilated 1D-Convolution; image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
+*Dilated 1D-Convolution: the first projection uses $d=1$, the second $d=2$, the third $d=4$. Note that the stride remains equal to 1 so that all values over time and layers are processes; image source: WaveNet {cite}`DBLP:conf/ssw/OordDZSVGKSK16`*
 
 
 ```python
 torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=2, groups=1, bias=True, padding_mode='zeros')
 ```
 
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_tcn)=
@@ -129,6 +138,9 @@ class TemporalConvNet(nn.Module):
 
 
 
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_sincnet)=

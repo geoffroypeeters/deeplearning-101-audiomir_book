@@ -19,7 +19,7 @@ train_dataloader = torch.utils.data.DataLoader(dataset = train_dataset,
 ```
 
 `train_dataset` is the one responsible for providing the `X` and the `y`.\
-It is an instance of a class written by the user (which inherits from the pytorch-class `Dataset`).\
+It is an instance of a class written by the user (which inherits from the pytorch-class `Dataset`).
 
 
 

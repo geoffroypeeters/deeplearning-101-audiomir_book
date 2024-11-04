@@ -181,10 +181,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Content Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="task_musiccontent.html">Music Audio Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
 </ul>
 </li>
@@ -412,9 +412,12 @@ document.write(`
                   
   <section id="torchlightning-training">
 <h1>TorchLightning training<a class="headerlink" href="#torchlightning-training" title="Permalink to this heading">#</a></h1>
-<p><a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Pytorch Lightning</a> is a high-level wrapper for PyTorch that simplifies the process of organizing, training, and scaling deep learning models.
-It structures PyTorch code with best practices, making it easier to implement, debug, and accelerate models across different hardware with minimal boilerplate code.
-It allows to by-pass the tedious work of writing training and validation loop over epoch and over mini-batch.</p>
+<p><a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Pytorch Lightning</a></p>
+<ul class="simple">
+<li><p>is a high-level wrapper for PyTorch that <strong>simplifies</strong> the process of organizing, training, and scaling models.</p></li>
+<li><p><strong>structures</strong> PyTorch code with best practices, making it easier to implement, debug, and accelerate models across different hardware with minimal boilerplate code.</p></li>
+<li><p>allows to <strong>bypass the tedious writing</strong> of training and validation loop over epoch and over mini-batch.</p></li>
+</ul>
 <p>The <mark>writing of the Lightning class</mark> is very standard and almost the same for all tasks.
 It involves indicating</p>
 <ul class="simple">

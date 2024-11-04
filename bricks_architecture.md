@@ -5,49 +5,65 @@
 We denote by `architecture` the overall design of a neural network, i.e. the way front-end and projections are used together.
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 (lab_unet)=
 ## U-Net
 
-The U-Net was proposed in {cite}`DBLP:conf/miccai/RonnebergerFB15` in the framework of biomedical image segmentation and made popular in MIR by {cite}`DBLP:conf/ismir/JanssonHMBKW17` for singing voice separation.
+The U-Net was proposed in {cite}`DBLP:conf/miccai/RonnebergerFB15` in the framework of <mark>biomedical image segmentation</mark> and made popular in MIR by {cite}`DBLP:conf/ismir/JanssonHMBKW17` for singing voice separation.
 
-The U-Net is an auto-encoder with skip-connections.
-- The **encoder** (left part) downsample the spatial dimensions and increase the depth,
-- The **decoder** (right part) upsample the spatial dimensions and decrease the depth.
+The U-Net is an <mark>auto-encoder with skip-connections</mark>.
+- The **encoder** (left part) <mark>downsample the spatial dimensions and increase the depth</mark>,
+- The **decoder** (right part) <mark>upsample the spatial dimensions and decrease the depth</mark>.
 
-**Skip connections** are added between equivalent layers of the encoder and decoder:
-- example: the 256 channels level of the encoder is concatenated with the 256 level of the decoder to form a 512 tensor.
-- The goal of the skip-connections are two-folds:
-	- to bring back details of the original images to the decoder (the bottleneck being to compressed to represent detailed information)
-	- to facilitate the backpropagation of the gradient.
+**Skip connections** are added between equivalent layers of the encoder and decoder.
+Their goals are:
+- to bring back <mark>details</mark> of the original images to the decoder\
+*(the bottleneck being to compressed to represent detailed information)*
+- to facilitate the <mark>back-propagation</mark> of the gradient.
 
-The **upsampling** (decoder) part can be done either
-- using Transposed Convolution (hence a well-known checkerboard artefact may appears)
-- using Interpolation followed by Normal convolution
+The **upsampling** (decoder) part can be done either:
+using Transposed Convolution (hence a well-known checkerboard artefact may appears)
+or Interpolation followed by Normal Conv-2d.
 
 ![brick_unet](/images/brick_unet.png)\
-**Figure** U-Net architecture for biomedical image segmentation *image source: {cite}`DBLP:conf/miccai/RonnebergerFB15`*
+**Figure** *U-Net architecture for biomedical image segmentation; image source: {cite}`DBLP:conf/miccai/RonnebergerFB15`*
 
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Many to One: reducing the time dimensions
 
-They are many different ways to reduce a (temporal) sequence of embeddings $\{ \mathbf{x}_1, \ldots \mathbf{x}_{T_x}\}$ to a single embedding $\mathbf{x}$ (Many-to-One).
+**Objective**: <mark>reduce a (temporal) sequence of embeddings $\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}$ to a single embedding $\mathbf{e}$</mark> (**Many-to-One**).
 
-Such a mechanism can be necessary in order to map the temporal embedding provided by the last layer of a network to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).
+**Usage:** map the (temporal) sequence of embeddings (provided by the last layer of a network) to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).
 
-The most simple way to achieve this is to use the Mean/Average value (Average Pooling) or Maximum value (Max Pooling) of the $\mathbf{x}_t$ over time $t$ (as done for example in {cite}`Dieleman2014Spotify`).
+**Pooling**: The most simple way to achieve this is to use the <mark>Mean/Average</mark> value (Average Pooling) or <mark>Maximum</mark> value (Max Pooling) of the $\mathbf{e}_t$ over time $t$ (as done for example in {cite}`Dieleman2014Spotify`).
+
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 (lab_AttentionWeighting)=
 ### Attention weighting
 
-Another possibility is to compute a weighted sum of the values $\mathbf{x}_t$ where the weights $a_t$ are denoted by **attention** parameters:
-$\mathbf{x} = \sum_{t=0}^{T_x-1} a_t \mathbf{x}_t$
+Compute a weighted sum of the values $\mathbf{e}_t$ where the weights $a_t$ are **attention** parameters:
 
-In {cite}`DBLP:conf/ismir/GururaniSL19`, it is proposed to compute these weights $a_t$ either
-1. by computing a new projection of the $\mathbf{x}_t$ and then normalize them:
-	$a_t = \frac{\sigma(\mathbf{v}^T h(\mathbf{x}_t))}{\sum_{\tau} \sigma(\mathbf{v}^T h(\mathbf{x}_{\tau}))}$
+$$\mathbf{e} = \sum_{t=0}^{T_x-1} a_t \mathbf{e}_t$$
+
+In {cite}`DBLP:conf/ismir/GururaniSL19`, it is proposed to <mark>compute the attention weights</mark> $a_t$ either
+
+1. by computing a new projection of the $\mathbf{e}_t$ and then normalize them:
+	$a_t = \text{softmax}_t (\sigma(\mathbf{v}^T h(\mathbf{e}_t))$
 	- with $h$ a learnable embedding, $\mathbf{v}$ the learned parameters of the attention layer
-2. doing the same after splitting $\mathbf{x}_t$ in two (along the channel dimensions): the first part being used to compute "values", the second to compute "weights"
+
+2. doing the same after splitting $\mathbf{e}_t$ in two (along the channel dimensions):
+	- the first part $\mathbf{e}_t^{(1)}$ being used to compute "prediction",
+	- the second $\mathbf{e}_t^{(2)}$ to compute attention "weights"
 
 ![brick_attention_instrument](/images/brick_attention_instrument.png)\
 **Figure** Attention weighting, *image source: {cite}`DBLP:conf/ismir/GururaniSL19`*
@@ -69,24 +85,24 @@ class nnSoftmaxWeight(nn.Module):
 
 (lab_AutoPoolWeightSplit)=
 ### Auto-Pool
-The above attention mechanism can by combined with the auto-pool operators proposed by {cite}`DBLP:journals/taslp/McFeeSB18`.
+The above attention mechanism use a `softmax` for normalizing $\mathbf{a}_t$.
+We can replace it by the <mark>auto-pool operators</mark> proposed by {cite}`DBLP:journals/taslp/McFeeSB18`defined as
 
-The auto-pool operators is defined as
+$$\tilde{\mathbf{a}}_t = \frac{\exp(\alpha \cdot \mathbf{a}_t)}{\sum_{\tau} \exp(\alpha \cdot \mathbf{a}_{\tau})}$$
 
-$$\tilde{\mathbf{x}}_t = \frac{\exp(\alpha \cdot \mathbf{x}_t)}{\sum_{\tau} \exp(\alpha \cdot \mathbf{x}_{\tau})}$$
-
-It uses a parameter $\alpha$ which allows to range from
-- $\alpha=0$ (unweighted, a.k.a. average pooling),
-- $\alpha=1$ (softmax weighted mean),
-- $\alpha=\infty$: (a.k.a. max pooling).
-
-The $\alpha$ parameters is a trainable parameters (optimized using SGD).
+It introduces a training parameter $\alpha$ (also optimized by SGD) which allows to range from
+- $\alpha=0$ (unweighted, a.k.a. average pooling): $\tilde{\mathbf{a}}_t = 1/T_x$
+- $\alpha=1$ (softmax weighted mean): $\tilde{\mathbf{a}}_t = \text{softmax}_t (a_t)$
+- $\alpha=\infty$: (a.k.a. max pooling): $\tilde{\mathbf{a}}_t = \text{max}_t (a_t)$
 
 ![brick_autopool](/images/brick_autopool.png)\
 **Figure** Auto-pool operator *image source: {cite}`DBLP:journals/taslp/McFeeSB18`*
 
 ```python
 # Code: https://github.com/furkanyesiler/move
+...
+autopool_param = nn.Parameter(torch.tensor(0.).float())
+...
 def f_autopool_weights(data, autopool_param):
     """
     Calculating the autopool weights for a given tensor
@@ -109,6 +125,9 @@ def f_autopool_weights(data, autopool_param):
     return weights
 ```
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ### Using models
 
 It is also possible to use a **RNN/LSTM in Many-to-One configuration** (only the last hidden state $\mathbf{x}_{T_x}$ is mapped to an output $\hat{y}$).
@@ -126,6 +145,9 @@ For this it compares the decoder hidden state $\mathbf{s}_{\tau-1}$ to all the e
 For this, the $\mathbf{x}_t$ are mapped (using matrix projections) to query $\mathbf{q}_t$, key $\mathbf{k}_t$ and values $\mathbf{v}_t$.
 A given $\mathbf{q}_{\tau}$ is then compared to all $\mathbf{k}_t$ to compute attention weights $\mathbf{a}_{t,\tau}$ which are used in the weighting sum of the $\mathbf{v}_t$:
 $\mathbf{e}_{\tau} = \sum_t \mathbf{a}_{t,\tau} \mathbf{v}_{t}$.
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Recurrent Architectures
@@ -160,6 +182,10 @@ torch.nn.RNN(input_size, hidden_size, num_layers=1, bidirectional=False)
 ```
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
+(lab_lstm)=
 ### LSTM
 **Long Short-Term Memory (LSTM)**  are a specialized type of RNN designed to handle long-term dependencies more effectively.
 LSTM use a more complex architecture with
@@ -184,6 +210,10 @@ As in RNNs, two configurations are often used with LSTMs:
 torch.nn.LSTM(input_size, hidden_size, num_layers=1, bidirectional=False)
 ```
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
+(lab_transformer)=
 ## Transformer/Self-Attention
 
 (lab_transformer_fig)=
@@ -201,7 +231,7 @@ There are several intuitive explanations for the attention mechanism (e.g., atte
 Independent of how one thinks about the attention mechanism, its result is an attention matrix (resembling a weight matrix) that is input-dependent, while most other architectures employ weight matrices whose parameters are fixed at inference time.
 
 For sequence modeling (cf. [our autoregressive generation example](lab_architecture_auto)), we usually employ a **causal transformer** where attention matrices are masked so that future information cannot be taken into consideration (indicated by `Masked Multi-Head Attention` in the figure above).
-For that, we only use the **DECODER** part, while for non-causal tasks like *masked token prediction* {cite}`DBLP:conf/naacl/DevlinCLT19`, the **ENCODER** part is used. 
+For that, we only use the **DECODER** part, while for non-causal tasks like *masked token prediction* {cite}`DBLP:conf/naacl/DevlinCLT19`, the **ENCODER** part is used.
 Using both, an encoder with cross-connections to the decoder, as proposed in the initial paper, is mainly used to inject conditioning information if needed.
 
 Note that after every `Multi-Head Attention` or `Feed Forward` module, there is an `Add & Norm` operation.
@@ -210,9 +240,9 @@ From a simplified point of view, it is now understood that the `Mult-Head Attent
 
 ### Self-Attention Example
 This section gives an explanation of self-attention that is <span style="color: red;">illustrative but very simplified</span>.
-In practice, tokens are not full words but rather word fragments. 
+In practice, tokens are not full words but rather word fragments.
 Keys, values and queries are continuous vectors whose meaning is not as simple and discrete as in the example below, and a token can attend to more than one value.
-However, the example is correct in how information is propagated through a self-attention layer and could theoretically happen as described. 
+However, the example is correct in how information is propagated through a self-attention layer and could theoretically happen as described.
 
 
 ![brick_attention](/images/brick_attention.png)
@@ -241,24 +271,24 @@ Through iterative, relative transformations of such embeddings in a semantic spa
 
 ### Positional Encoding
 Note that in the example above, the results would occur the same way if the order of the input sequence would be shuffled (i.e., the <mark>chase</mark> vector would also be added to the <mark>dog</mark> position).
-Transformers do not process tokens sequentially and thus lack an inherent sense of order in the input data. 
+Transformers do not process tokens sequentially and thus lack an inherent sense of order in the input data.
 Positional embeddings are a way to inject information about the position of each token within the sequence so that the model can still interpret the sequential nature of the data.
 
-**Embedding Strategy**: Each position in the sequence is assigned a unique vector (embedding). 
+**Embedding Strategy**: Each position in the sequence is assigned a unique vector (embedding).
 This positional embedding can be static (learned) or computed through mathematical functions.
-It usually has the dimensionality of the token embeddings so that it can be easily added to the token embedding through element-wise addition. 
+It usually has the dimensionality of the token embeddings so that it can be easily added to the token embedding through element-wise addition.
 
 #### Different Positional Embeddings
 
 **Sinusoidal Positional Embeddings**: In the original Transformer, positional embeddings are calculated using sine and cosine functions of varying frequencies:
-   
+
    $$
    PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d}}\right)
    $$
    $$
    PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d}}\right)
    $$
-   
+
    Here:
    - $pos$ represents the position of the token in the sequence.
    - $i$ is the dimension index.
@@ -266,15 +296,15 @@ It usually has the dimensionality of the token embeddings so that it can be easi
 
    This allows the model to use position information consistently across different sequence lengths, making it invariant to input size.
 
-**Learned Positional Embeddings**: 
-Another possibility is to use learned positional embeddings, where each position in the sequence has an associated embedding vector that the model learns during training. 
+**Learned Positional Embeddings**:
+Another possibility is to use learned positional embeddings, where each position in the sequence has an associated embedding vector that the model learns during training.
 This can sometimes be more flexible, but it is not as adaptable to longer sequences not seen in training.
 
-**Relative Positional Embeddings**: 
-In relative positional embeddings {cite}`DBLP:conf/naacl/ShawUV18`, the model learns the relative distances between tokens, rather than absolute positions. 
+**Relative Positional Embeddings**:
+In relative positional embeddings {cite}`DBLP:conf/naacl/ShawUV18`, the model learns the relative distances between tokens, rather than absolute positions.
 This approach is more natural for some tasks (e.g., musical sequences), and is assumed to allow the model to generalize better to sequences of varying lengths.
 
-**Rotary Positional Embeddings**: 
-Rotary Positional Embeddings (RoPE) {cite}`DBLP:journals/ijon/SuALPBL24` provide a way to encode positional information by rotating each token embedding in vector space. 
-This technique allows the model to capture relative positional information through rotation matrices applied to the embeddings at each position. 
+**Rotary Positional Embeddings**:
+Rotary Positional Embeddings (RoPE) {cite}`DBLP:journals/ijon/SuALPBL24` provide a way to encode positional information by rotating each token embedding in vector space.
+This technique allows the model to capture relative positional information through rotation matrices applied to the embeddings at each position.
 Unlike traditional positional embeddings, RoPE enables better generalization over longer sequences, as the rotational encoding inherently supports extrapolation beyond the training context.

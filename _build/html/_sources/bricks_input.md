@@ -6,6 +6,7 @@ We denote by `input` the $\textbf{X}$ fed to a neural network.
 We describe in the following the usual type of inputs in the case of audio.
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_waveform)=
@@ -23,6 +24,8 @@ More details can be found in the following ["Waveform-based music processing wit
 ![waveform](/images/brick_waveform.png)\
 **Figure** *Waveform of an audio signal with sample values.*
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_lms)=
@@ -81,8 +84,11 @@ def f_get_lms(audio_v, sr_hz, param_lms):
 ```
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 (lab_cqt)=
-## Constant-Q-Transform (HCQT)
+## Constant-Q-Transform (CQT)
 
 Constant-Q-Transform was proposed in {cite}`Brown1991ConstantQ`.
 
@@ -100,8 +106,7 @@ This property has been used in some works such as Shift-Invariant PLCA or in 2D-
 **Figure** *Constant-Q-Transform of an audio signal with 6 octaves and 5 bins per semi-tone ($6 \times 12 \times 5$ frequencies).*
 
 
-
-
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_hcqt)=
@@ -173,6 +178,8 @@ def f_get_hcqt(audio_v, sr_hz, param_hcqt):
     return data_3m, time_sec_v, frequency_hz_v
 ```
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_chroma)=

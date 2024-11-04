@@ -18,9 +18,9 @@ The task can either consists in:
 
 ### A very short history of MPE
 The task has a long history.
-- Early approaches focused on single pitch estimation using a <mark>signal-based method</mark>, such as the YIN {cite}`CheveigneJASA2002Pitch` algorithm.
+- Early approaches focused on single pitch estimation (SPE) using a <mark>signal-based method</mark>, such as the YIN {cite}`CheveigneJASA2002Pitch` algorithm.
 - Next, the difficult case of multiple pitch estimation (MPE) (overlapping harmonics, ambiguous number of simultaneous pitches) was addressed using <mark>iterative</mark> estimation, as in Klapuri et al {cite}`Klapuri2003IEEEMultipleF0`.
-- Subsequently, <mark>unsupervised methods</mark> aimed at reconstructing the signal using a mixture of templates (with non-negative matrix factorisation NMF, probabilistic latent component analysis PLCA or shift-invariant SI-PLCA) have been the main trend {cite}`DBLP:journals/taslp/FuentesBR13`.
+- Subsequently, the main trend has been to use <mark>unsupervised methods</mark> aiming at reconstructing the signal using a mixture of templates (with non-negative matrix factorisation NMF, probabilistic latent component analysis PLCA or shift-invariant SI-PLCA)  {cite}`DBLP:journals/taslp/FuentesBR13`.
 
 **Deep learning era.**
 - We review here one of the most famous approaches proposed by Bittner et al {cite}`DBLP:conf/ismir/BittnerMSLB17`
@@ -43,17 +43,17 @@ To evaluate the performances of an MPE algorithm we rely on the metrics defined 
 By default, an estimated frequency is considered <mark>"correct"</mark> if it is <mark>within 0.5 semitones of a reference frequency</mark>.
 
 Using this, we compute at each time frame t:
-- <mark>"True Positives"</mark> TP(t):  the number of $f_0$s detected that correctly correspond to the ground-truth F0s
-- <mark>"False Positives"</mark> FP(t): the number of $f_0$s detected that do not exist in the ground-truth set
+- <mark>"True Positives"</mark> TP(t): the number of $f_0$'s detected that correctly correspond to the ground-truth $f_0$'s
+- <mark>"False Positives"</mark> FP(t): the number of $f_0$'s detected that do not exist in the ground-truth set
 - <mark>"False Negatives"</mark> FN(t): represent the number of active sources in the ground-truth that are not reported
 
 From this, one can compute
-- Precision= $\frac{TP}{TP+FN}$
-- Recall= $\frac{TP}{TP+FP}$
-- Accuracy= $\frac{TP}{TP+FP+FN}$
+- Precision= $\frac{\sum_t TP(t)}{\sum_t TP(t)+FP(t)}$
+- Recall= $\frac{\sum_t TP}{\sum_t TP(t)+FN(t)}$
+- Accuracy= $\frac{\sum_t TP(t)}{\sum_t TP(t)+FP(t)+FN(t)}$
 
-We can also compute the same metrics but considering only the <mark>chroma</mark> associated to the estimated pitch (independently of the octave estimated).
-This leads to the Chroma Precision, Accuracy, Recall
+We can also compute the same metrics but considering only the <mark>chroma</mark> associated to the estimated pitch (independently of the octave estimated).\
+This leads to the <mark>Chroma Precision, Accuracy, Recall</mark>.
 
 Example:
 ```python
@@ -92,8 +92,8 @@ OrderedDict([('Precision', 0.6666666666666666),
 A (close to) exhaustive list of MIR datasets is available in the [ismir.net web site](https://ismir.net/resources/datasets/).
 
 MPE datasets can be obtained in several ways:
-1. <mark>manually</mark> annotated full-tracks,
-2. annotating (or using mono-pitch estimation algorithm) the individual <mark>stems</mark> of a full-track: such as [MedleyDB](https://medleydb.weebly.com/)
+1. <mark>annotating</mark> manually the <mark>full-tracks</mark>,
+2. <mark>annotating</mark> (manually or automatically using SPE) the individual <mark>stems</mark> of a full-track: such as [MedleyDB](https://medleydb.weebly.com/)
 3. using a <mark>MIDI-fied</mark> piano: such as , [ENST MAPS](https://adasp.telecom-paris.fr/resources/2010-07-08-maps-database/), [MAESTRO](https://magenta.tensorflow.org/datasets/maestro)
 4. using audio to score <mark>synchronization</mark>: such as [MusicNet](https://zenodo.org/records/5120004#.YXDPwKBlBpQ), [SMD](https://resources.mpi-inf.mpg.de/SMD/SMD_MIDI-Audio-Piano-Music.html), [SWD](https://zenodo.org/records/4122060#.YPkxv-gzaUl)
 
@@ -167,8 +167,9 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.
 
 
 We propose here a solution for the MPE task using [supervised learning](lab_supervised), i.e. with known output `y`.
-- Rather than estimating the continuous $f_0$ by regression, we consider the classification problem into pitch-classes ($f_0$ are quantized to their nearest semi-tone or $\frac{1}{5}^{th}$ of semi-tone)
-- The output `y` to be predicted is a binary matrix indicating the presence of all possible pitch-classes at any time
+- Rather than estimating the continuous $f_0$ by regression, we consider the classification problem into pitch-classes \
+($f_0$ are quantized to their nearest semi-tone or $\frac{1}{5}^{th}$ of semi-tone)
+- The output `y` to be predicted is a binary matrix $\mathbf{Y} \in \{0,1\}^{(P,T)}$ indicating the presence of all possible pitch-classes $p\in P$ over time $t \in T$
 - The problem is then a <mark>supervised multi-label problem</mark>
   - $\Rightarrow$ We use a softmax and a set of Binary-Cross-Entropy
 
@@ -179,7 +180,7 @@ For the input `X`, we study various choices
 For the model $f_{\theta}$, we study various designs
 - the [Conv-2D](lab_conv2d) model proposed by {cite}`DBLP:conf/ismir/BittnerMSLB17` (see Figure below)
 - variations of its **blocks**: [Depthwise Separable Convolution](lab_depthwise), [ResNet](lab_resnet), [ConvNext](lab_convnext)
-- the [U-Net](lab_unet) model proposed by {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE`. (see Figure below)
+- the [U-Net](lab_unet) model proposed by {cite}`Doras2009UNetMelody,Weiss2022TASLPMPE` (see Figure below)
 
 | Conv-2D model for MPE                | U-Net model for MPE                |
 |------------------------|------------------------|

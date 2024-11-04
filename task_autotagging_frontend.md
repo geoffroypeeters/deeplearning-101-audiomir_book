@@ -5,9 +5,15 @@
 ## Goal of Auto-Tagging ?
 
 Music auto-tagging is the task of assigning tags (such as genre, style, moods, instrumentation, chords) to a music track.
+
 Tags can be
-- mutually exclusive (**multi-class** problem, such as genre) or not (**multi-label** problem, such as instrumentation)
-- can be assigned **locally** in time (such as instrumentation-segments, or chord-label segments) or **globally** in time (such as for music-genre).
+
+||mutually exclusive (multi-class) |non-mutually exclusive (multi-label)|
+|----|----|----|
+| **Global in time** | Music-genre | User-tags |
+| **Time-based** | Chord-segments | Instrument-segments |
+
+
 
 ![flow_autotagging](/images/flow_autotagging.png)
 
@@ -18,26 +24,26 @@ Tags can be
 ### A very short history of Auto-Tagging
 The task has a long history in MIR.
 - As soon as <mark>2002 Tzanetakis</mark> et al. {cite}`DBLP:journals/taslp/TzanetakisC02` demonstrated that it is possible to estimate the `genre` using a set of low-level (hand-crafted) audio features (such as MFCC) and simple machine-learning models (such as Gaussian-Mixture-Models).
-- Over years, the considered <mark>audio features</mark> improved  {cite}`Peeters2004AudioFeatures`, including block-features {cite}`Seyerlehner2010PHD` or speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the <mark>machine-learning</mark> models (moving to Support-Vector-Machine).
+- Over years, the considered <mark>audio features</mark> improved  {cite}`Peeters2004AudioFeatures`, including block-features {cite}`Seyerlehner2010PHD` or speech-inspired features (Universal-Background-Models and Super-Vector {cite}`Charbuillet2011DAFX`), as well as the <mark>machine-learning</mark> models (moving to Random forest or Support-Vector-Machine).
 - It also quickly appeared that the <mark>same feature/ML system could be trained to solve many tasks</mark> of tagging or segmentation (genre, mood, speech/music) {cite}`Peeters2007DAFXGenericClassification`, {cite}`Burred2009LSASMultiLabel`.
 
 **Deep learning era.**
-- One of the first successful application of deep learning for the auto-tagging task is the work of <mark>Dieleman</mark> {cite}`Dieleman2014Spotify`.
-In this a <mark>Conv2d</mark> is applied to a <mark>Log-Mel-Spectrogram</mark> using kernels that extend over the whole frequency range, therefore performing only convolution over time.
-The rational for this, is that as opposed to natural images, sources in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).
+- We start the story with <mark>Dieleman</mark> {cite}`Dieleman2014Spotify` who proposes to use a <mark>Conv2d</mark> applied to a <mark>Log-Mel-Spectrogram</mark> with kernel extending over the whole frequency range, therefore performing only convolution over time.\
+*The rational for this, is that, as opposed to natural images, sources in a T/F representation are not invariant by translation over frequencies and the adjacent frequencies are not necesseraly correlated (spacing between harmonics).*
 - Despite this, Choi et al. {cite}`DBLP:conf/ismir/ChoiFS16` proposed (with success) to apply Computer Vision <mark>VGG-like architecture</mark> to a time-frequency representation.
 - Later on, Pons et al. {cite}`DBLP:conf/cbmi/PonsLS16` proposed to <mark>design kernel shapes using musical consideration</mark> (with kernel extending over frequencies to represent timbre, over time to represent rhythm).
-- Using directly the <mark>audio waveform (End-to-end)</mark> system has also been proposed for this task, such as in Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` or Lee et al. {cite}`DBLP:journals/corr/LeePKN17`.
+- In order to avoid having to choose the kernel shape and STFT parameters, it is been proposed to use directly the <mark>audio waveform</mark> as input, the "End-to-End" systems of Dieleman et al. {cite}`DBLP:conf/icassp/DielemanS14` or Lee et al. {cite}`DBLP:journals/corr/LeePKN17`.
 - The task of auto-tagging has also close relationship with their equivalent task in Speech.
 
 <mark>*We will develop here a model developed initially for speaker recognition by Ravanelli et al. {cite}`DBLP:conf/slt/RavanelliB18`.*</mark>
 
-The task is still very active today, even in the supervised case.
-For example,
-- MULE {cite}`DBLP:conf/ismir/McCallumKOGE22` use a more sophisticated ConvNet architecture (Short-Fast-Normalizer-Free Net F0) and training paradigm (contrastive learning based on artist, album or tags) and is trained on a very large music collection (Pandora), or
-- PaSST {cite}`DBLP:conf/hear/KoutiniMSESW21` is based on the Vit, and use tokenized (set of patches) spectrograms fed to a Transformer
-
-The task is still active nowadays especially using Self-Supervised-Learning {cite}`DBLP:conf/nips/YuanMLZCYZLHTDW23` (see second part).
+The task is still very active <mark>today</mark>.
+For example
+- in the <mark>supervised case</mark>,
+	- MULE {cite}`DBLP:conf/ismir/McCallumKOGE22` which uses a more sophisticated ConvNet architecture (Short-Fast-Normalizer-Free Net F0) and training paradigm (contrastive learning)
+	- PaSST {cite}`DBLP:conf/hear/KoutiniMSESW21` which uses Vit with tokenized (set of patches) spectrograms fed to a Transformer
+- in the <mark>Self-Supervised-Learning case</mark>
+	- with the so-called foundation models such as MERT {cite}`DBLP:conf/iclr/LiYZMCYXLRBGDLC24` (see second part of this tutorial).
 
 Fore more details, see the very good tutorial
 ["musical classification"](https://music-classification.github.io/tutorial/landing-page.html).
@@ -58,9 +64,10 @@ Therefore, <mark>ASR (Automatic Speech Recognition)</mark> inspired techniques h
 
 **Deep learning era.**
 In the case of chord estimation, deep learning is also now commonly used.
-One seminal paper proposed by McFee at al. {cite}`DBLP:conf/ismir/McFeeB17` relies
-- on a RCNN (a ConvNet followed by a <mark>bi-directional RNN</mark>, here GRU) to perform the task.
-- an <mark>inner representation</mark> which relates to the `root`, `bass` and `pitches` (the <mark>CREMA</mark>) which allows the learning of representation which brings similar chords (but with different labels) closer.
+One seminal paper for this is McFee at al. {cite}`DBLP:conf/ismir/McFeeB17`
+- the model is a RCNN (a ConvNet followed by a <mark>bi-directional RNN</mark>, here GRU)
+- the model is trained to use an <mark>inner representation</mark> which relates to the `root`, `bass` and `pitches` (the <mark>CREMA</mark>)
+	- this allows learning representation which brings together close (but different) chords
 
 <mark>*We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.*</mark>
 
@@ -149,8 +156,11 @@ We have chosen the following ones since they are often used, they represent the 
 
 #### GTZAN
 
-[GTZAN](http://marsyas.info/downloads/datasets.html) contains 1000 audio files of 30s duration, each with a single (**multi-class**) genre label among 10 classes ('blues','classical','country','disco','hiphop','jazz','metal','pop', 'reggae','rock').
-Although GTZAN has been criticized for the quality of its label we only used to exemplify our models.
+[GTZAN](http://marsyas.info/downloads/datasets.html) contains 1000 audio files of 30s duration, each with a single (**multi-class**) genre label
+- among 10 classes: 'blues','classical','country','disco','hiphop','jazz','metal','pop', 'reggae','rock'
+
+Note that GTZAN has been criticized for the quality of its genre label {cite}`DBLP:journals/corr/Sturm13`; so results should be considered with cares.
+
 ```python
 "entry": [
             {
@@ -173,7 +183,9 @@ Although GTZAN has been criticized for the quality of its label we only used to 
 ```
 #### Magna-Tag-A-Tune
 
-[Magna-Tag-A-Tune (MTT)](https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset) is a **multi-label** large-scale dataset of 25,000 30-second music clips from various genres, each annotated with multiple tags describing genre, mood, instrumentation, and other musical attributes such as ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
+[Magna-Tag-A-Tune (MTT)](https://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset) is a **multi-label** large-scale dataset of 25,000 30-second music clips from various genres, each annotated with
+- multiple tags describing genre, mood, instrumentation, and other musical attributes such as ('guitar', 'classical', 'slow', 'techno', 'strings', 'drums', 'electronic', 'rock', 'fast', 'piano', ...)
+
 We only use a subset of this dataset by only selecting the most 50 used tags and further reducing the number of audio by 20.
 ```python
 "entry": [
@@ -243,15 +255,20 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 ## How we can solve it using deep learning
 
 Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord estimation RWC-Pop) with a <mark>single code</mark>.
-We of course adapt the model (defined in the `.yaml` file) depending on the task.
+Depending on the task, we of course adapt the model (defined in the `.yaml` files).
 
-- GTZAN and RWC-Pop-Chord are **multi-class** problems (hence with softmax and categorial-CE), while MTT is **multi-label** (hence with sigmoids and BCEs).
-- GTZAN and MTT are **global** annotations (we therefore need to reduce the time axis), while RWC-Pop-Chord are **temporal** annotations with a language model (we therefore use a bi-LSTM).
+<mark>multi-class/multi-label</mark>:
+- GTZAN and RWC-Pop-Chord are **multi-class** problems $\Rightarrow$ softmax and categorial-CE
+- MTT is **multi-label** $\Rightarrow$ sigmoids and BCEs
+
+<mark>global/local</mark>:
+- GTZAN and MTT have **global** annotations $\Rightarrow$ we reduce the time axis using AutoPoolWeightSplit
+- RWC-Pop-Chord have **local** annotations with a language model $\Rightarrow$ we use a bi-LSTM.
 
 For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated below.
 
 ![sincnet](/images/brick_sincnet.png)\
-**Figure**. *SincNet model. *image source: SincNet {cite}`DBLP:conf/slt/RavanelliB18`*
+**Figure**. *SincNet model. image source: SincNet {cite}`DBLP:conf/slt/RavanelliB18`*
 
 
 We will vary in turn

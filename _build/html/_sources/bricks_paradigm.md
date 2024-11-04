@@ -5,6 +5,8 @@
 We denote by `paradigm` the overall problem that is used to train a neural network: *such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, ...*
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 (lab_supervised)=
 ## Supervised
@@ -25,10 +27,17 @@ $$\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x
 This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
+(lab_ssl)=
 ## Self-supervised
 
 
 
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_metric_learning)=
@@ -53,34 +62,44 @@ The triplet loss can be extended to the multiple-loss with close relationship wi
 Fore more details, see the very good tutorial
 - ["Metric Learning for Music Information Retrieval" by Brian McFee, Jongpil Lee and Juhan Nam](https://github.com/bmcfee/ismir2020-metric-learning)
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 (lab_triplet)=
 ### Triplet Loss
 
-The goal is to train a network $f_{\theta}$ such that the resulting projections satisfy the following triplet constraint:
+The goal is to <mark>train a network $f_{\theta}$</mark> such that the <mark>projections</mark> of
+$\mathbf{x}_A$ (an <mark>anchor</mark>),
+$\mathbf{x}_P$ (a <mark>positive</mark> we consider close to $\mathbf{x}_A$),
+$\mathbf{x}_N$ (a <mark>negative</mark> we consider distant from $\mathbf{x}_A$),
+satisfy the following triplet constraint:
 
-$$d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha < d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N))$$
+$$
+\begin{align}
+d( f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_P) ) + \alpha &< d(f_{\theta}(\mathbf{x}_A), f_{\theta}(\mathbf{x}_N)) \\
+d_{AP} + \alpha &< d_{AN}
+\end{align}
+$$
 
-$$d_{AP} + \alpha < d_{AN} $$
+In other words, we want $d_{AP}$ to be smaller by a <mark>margin</mark> $\alpha$ than $d_{AN}$
 
-where
-- $\mathbf{x}_A$ is an anchor,
-- $\mathbf{x}_P$ a positive we consider close to $\mathbf{x}_A$,
-- $\mathbf{x}_N$ a negative we consider distant from $\mathbf{x}_A$
-- $\alpha$ a margin.
+We solve this by minimizing the so-called "triplet-loss":
 
-In other words, we want $d_{AP}$ to be smaller by a margin $\alpha$ than $d_{AN}$
+$$\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)$$
 
-We solve this by minimizing the following loss $\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)$.
-It is usual to L2-normalized the output of $f_{\theta}$ (which then lives in the unit-hypersphere) to facilitate the setting of the $\alpha$ value.
+*Note: It is usual to L2-normalized the output of $f_{\theta}$ (which then lives in the unit-hypersphere) to facilitate the setting of the $\alpha$ value.*
 
 ![triplet-loss](/images/brick_triplet.png)\
 **Figure**
 *Triplet Loss, bringing A and P closer and A and N further appart; image source: [Link](https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905)*
 
-
 ```python
 loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 ```
+
+
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_TripletMining)=
@@ -111,8 +130,17 @@ We also distinguish between
 
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ## Adversarial
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ## Encoder-Decoder
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 ## Diffusion

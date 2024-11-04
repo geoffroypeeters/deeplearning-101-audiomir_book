@@ -16,9 +16,9 @@ parts:
   chapters:
     - file: task_musiccontent
       sections:
-        - file: task_autotagging_frontend
         - file: task_multipitchestimation
         - file: task_coverdetection
+        - file: task_autotagging_frontend
         - file: task_autotagging_ssl
     - file: task_musicprocessing
       sections:

@@ -39,7 +39,7 @@ This involves setting a **threshold** $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ w
 - The story starts with Ellis et al. {cite}`DBLP:conf/icassp/EllisP07` who proposed to compute $d(q,r_i)$ as the <mark>cross-correlation between processed Chroma/PCP features</mark> of $q$ and $r_i$.
 - Later on, Serra et al. {cite}`DBLP:conf/icassp/SerraG08` proposed to improve the features (Harmonic-PCP) and the comparison algorithm (<mark>DTW, Dynamic Time Warping</mark>).
 This has lead to the standard approach for years.
-However, calculating the DTW between all the pairs of tracks is **costly**.
+However, computing the DTW for every pair of tracks is **computationally expensive**.
 - To reduce the cost, $d$ should simplified to a simple Euclidean distance between <mark>trained features/embedding</mark> extracted from $q$ and $r_i$.
 Such an approach have been tested in the linear case (using 2D-DFT, PCA, ..) by {cite}`DBLP:conf/ismir/HumphreyNB13`.
 However, the results were largely below those of Serra.
@@ -74,14 +74,17 @@ If we denote by
 - $rel(q,a_i)$ the relevance of items $a_i$, i.e. whether the item $a_i$ has the same work-id than $q$: $w(a_i)==w(q)$.
 
 We then compute the usual ranking metrics:
-- **MR1: Mean Rank** (lower better): it is the mean (the average over queries $q$) of the rank of the first correct result\
-$MR1=\mathbb{E}_{q \in Q} \arg\min_i \{ rel(q,a_i)=1 \}$
+- **MR1: Mean Rank** (lower better): it is the mean (average over queries) of the rank of the first correct result\
+$\hspace{3cm} MR1=\mathbb{E}_{q \in Q} \arg\min_i \{ rel(q,a_i)=1 \}$
+
 - **MRR1: Mean Reciprocal Rank** (higher better): it is the mean (...) of 1/rank of the first correct result\
-$MRR1=\mathbb{E}_{q \in Q} \arg\max_i \frac{1}{ rel(q,a_i)=1}$
+$\hspace{3cm} MRR1=\mathbb{E}_{q \in Q} \arg\max_i \frac{1}{ rel(q,a_i)=1}$
+
 - **Precision @ k** (higher better): the number of correct results in the first $k$ elements of the ranked list\
-$P(k) = \frac{1}{k} \sum_{i=1}^k rel(q,a_i)$
+$\hspace{3cm} P(k) = \frac{1}{k} \sum_{i=1}^k rel(q,a_i)$
+
 - **mAP: mean Average Precision** (higher better): same as for multi-label classification\
-$AP^q = \frac{1}{K} \sum_{k=1}^K P(k) \; rel(q,a_k)$
+$\hspace{3cm} AP^q = \frac{1}{K} \sum_{k=1}^K P(k) \; rel(q,a_k)$
 
 ![brick_map2](/images/brick_map2.png)
 
@@ -115,26 +118,23 @@ The first dataset proposed for this task was the [cover80](http://labrosa.ee.col
 
 Since then, **much larger datasets** have been created mostly relying on the data provided by the <mark>collaborative website [SecondHandSongs](https://secondhandsongs.com/)</mark>.
 
-For our implementations, we will consider the two following datasets:\
+For our implementations, we will consider the two following datasets:
 - [Cover-1000](https://www.covers1000.net/dataset.html): 996 performances of 395 different works
 - [DA-TACOS](https://github.com/MTG/da-tacos): 15.000 performances of 3000 different works
 
-Notes that those do not provide access to the audio but to the already extracted **CREMA 12-dim audio features {cite}`DBLP:conf/ismir/McFeeB17`**.
+Notes that those do not provide access to the audio but to the already extracted **CREMA** features {cite}`DBLP:conf/ismir/McFeeB17` (12-dimensional).
 
 <hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How can we solve CSI using deep learning ?
 
-The usual solution
-- develop an algorithm that allows to compute a distance between two tracks $q$ and $r_i$,
-- the <mark>distance should relates to their "cover-ness"</mark> (how much $q$ and $r_i$ are two performances of the same work-id).
-
-The common deep learning technique used is based on <mark>metric learning</mark>:
+The usual deep learning technique is based on <mark>metric learning</mark>:
 - we <mark>train a neural network $f_{\theta}$</mark> such that the projections of $q$, $f_{\theta}(q)$ can be directly compared (using Euclidean distance) to the projections of $r_i$, $f_{\theta}(r_i)$.
-- <mark>only the projections</mark> (named embedding) of the elements of the reference-set $R$ <mark>are stored</mark> and the comparison simply reduce to the computation of <mark>Euclidean distances</mark>.
+- the <mark>distance should relates to their "cover-ness"</mark> (how much $q$ and $r_i$ are two performances of the same work-id).
+- <mark>only the projections</mark> (named embedding) of the elements of the reference-set $R$ <mark>are stored</mark>
 
-Various approaches can be used for metric learning, but the most common is the <mark>[triplet loss](lab_triplet)</mark>.
+Various approaches can be used for [metric learning](lab_metric_learning), but the most common is the <mark>[triplet loss](lab_triplet)</mark>.
 
 For the proposal code we will used the [MOVE model](https://arxiv.org/pdf/1910.12551) {cite}`DBLP:conf/icassp/YesilerSG20` and follow its [implementation](https://github.com/furkanyesiler/move).
 

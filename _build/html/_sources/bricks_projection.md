@@ -6,6 +6,8 @@ We denote by `projection` the type of operations performed within a neural netwo
 Those sometimes overlap with the ones used in the front-end.
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 ## Fully-Connected
 
@@ -18,25 +20,41 @@ The Fully-Connected (FC) projection is the core projection of Multi-Layer-Percep
 torch.nn.Lineartorch.nn.Linear(in_features, out_features)
 ```
 
+
+<hr style="border: 2px solid red; margin: 60px 0;">
+
+
 ## Conv-1D
 
 see [link](lab_conv1d)
 
 
+<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 (lab_conv2d)=
 ## Conv-2D
 
+The Conv-2D is the operator underlying all ConvNet archiectures (often combined with a Max-Pooling operator).
+It implements the following convolution with a kernel $W$:
+
+  $$(X \circledast W)_{x,y} = \sum_{i,j} W_{i,j} X_{x-i,y-j}$$
+
+```{figure} ./images/brick_animated_conv2D.gif
+---
+width: 60%
+align: left
+name: brick_animated_conv2D
+---
+```
+**Figure** *Animated illustration of 2D-convolution; image source [Link](https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1)*
 
 ```python
 torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
 ```
 
 
-
-
-
-
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_depthwise)=
@@ -78,7 +96,7 @@ model(X).size()
 ```
 
 
-
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_resnet)=
@@ -98,20 +116,10 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where
   - the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,
   - the 3×3 layer is a bottleneck with smaller input/output dimensions.
 
-
 | ResNet "building" block                | ResNet "bottleneck" block                |
 |------------------------|------------------------|
 | ![resnet-block1](/images/brick_resnet.png)    | ![resnet_bottleneck](/images/brick_resnet_bottleneck.png)\    |
 | **Figure** *image source: [Link](https://arxiv.org/pdf/1512.03385)* | **Figure** *image source: [Link](https://arxiv.org/pdf/1512.03385)* |
-
-
-
-
-
-
-
-
-
 
 ```python
 # https://www.digitalocean.com/community/tutorials/writing-resnet-from-scratch-in-pytorch
@@ -142,11 +150,6 @@ class ResidualBlock(nn.Module):
         out = self.relu(out)
         return out
 ```
-
-
-
-
-
 
 ```python
 # https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py
@@ -198,12 +201,7 @@ class Bottleneck(nn.Module):
 ```
 
 
-
-
-
-
-
-
+<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_convnext)=
