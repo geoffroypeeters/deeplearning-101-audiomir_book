@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -440,14 +441,14 @@ In the corresponding <a class="reference external" href="https://github.com/geof
 This approach combines elements from both <strong>denoising diffusion probabilistic models (DDPMs)</strong> and <strong>normalizing flows</strong>, resulting in a continuous-time framework for generative modeling.</p>
 <section id="music2latent-codec">
 <h2>Music2Latent Codec<a class="headerlink" href="#music2latent-codec" title="Permalink to this heading">#</a></h2>
-<p>Music2Latent (M2L) <span id="id1">[<a class="reference internal" href="bibiography.html#id37" title="Marco Pasini, Stefan Lattner, and George Fazekas. Music2latent: consistency autoencoders for latent audio compression. CoRR, 2024. URL: https://doi.org/10.48550/arXiv.2408.06500, arXiv:2408.06500, doi:10.48550/ARXIV.2408.06500.">PLF24</a>]</span> provides highly compressed, continuous audio representations with ~<span class="math notranslate nohighlight">\(11 \times 64\)</span>-dimensional vectors per second (for 44.1kHz sample rate).
+<p>Music2Latent (M2L) <span id="id1">[<a class="reference internal" href="bibiography.html#id39" title="Marco Pasini, Stefan Lattner, and George Fazekas. Music2latent: consistency autoencoders for latent audio compression. CoRR, 2024. URL: https://doi.org/10.48550/arXiv.2408.06500, arXiv:2408.06500, doi:10.48550/ARXIV.2408.06500.">PLF24</a>]</span> provides highly compressed, continuous audio representations with ~<span class="math notranslate nohighlight">\(11 \times 64\)</span>-dimensional vectors per second (for 44.1kHz sample rate).
 A consistency autoencoder facilitates a <em>generative decoder</em> that makes up for potentially lost information, enabling high-quality reconstructions.
 The M2L representations serve as the data space in which the diffusion process operates.
 The diffusion model learns to generate M2L latent vectors, which are then decoded back into audio signals.</p>
 <p><img alt="music2latent" src="_images/expe_generation_m2l.png" /></p>
 <p><strong>Figure 1</strong>: Training process of Music2Latent. The input sample is first encoded into a sequence of latent vectors.
 The latents are then upsampled with a decoder model.
-The consistency model is trained via consistency training, conditioned on the information coming from the cross connections (image source: <span id="id2">[<a class="reference internal" href="bibiography.html#id37" title="Marco Pasini, Stefan Lattner, and George Fazekas. Music2latent: consistency autoencoders for latent audio compression. CoRR, 2024. URL: https://doi.org/10.48550/arXiv.2408.06500, arXiv:2408.06500, doi:10.48550/ARXIV.2408.06500.">PLF24</a>]</span>).</p>
+The consistency model is trained via consistency training, conditioned on the information coming from the cross connections (image source: <span id="id2">[<a class="reference internal" href="bibiography.html#id39" title="Marco Pasini, Stefan Lattner, and George Fazekas. Music2latent: consistency autoencoders for latent audio compression. CoRR, 2024. URL: https://doi.org/10.48550/arXiv.2408.06500, arXiv:2408.06500, doi:10.48550/ARXIV.2408.06500.">PLF24</a>]</span>).</p>
 <p>In our example, we first transform the dataset into M2L representations on which we then train our diffusion model.
 This involves the following steps:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install music2latent

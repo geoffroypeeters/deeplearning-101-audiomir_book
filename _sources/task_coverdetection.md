@@ -15,7 +15,6 @@ The group of songs that are identified as cover versions of each other is often 
 ![flow_cover_identification](/images/flow_cover_identification.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Common approach
@@ -31,7 +30,6 @@ $\Rightarrow$ we decide that $q$ is a cover of $r_i$ and they share the same wor
 This involves setting a **threshold** $\tau$ on $d(q,r_i)$. If $d(q,r_i)<\tau$ we decide they are cover of each other.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### A very short history of CSI
@@ -54,7 +52,6 @@ Fore more details, see the very good tutorial
 ["Version Identification in the 20s"](https://docs.google.com/presentation/d/17GDjTE9GV0cWxpYlsiXLvgPkVAg70Ho4RwPUyyL-j0U/edit#slide=id.g92d76a74bf_2_28).
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How is CSI evaluated ?
@@ -107,7 +104,6 @@ def F_average_precision(relevance):
 Other metrics are also commonly used such as the Cumulative Gain, (CG) Discounted Cumulative Gain (DCG), Normalised DCG.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Some popular datasets for CSI
@@ -124,7 +120,7 @@ For our implementations, we will consider the two following datasets:
 
 Notes that those do not provide access to the audio but to the already extracted **CREMA** features {cite}`DBLP:conf/ismir/McFeeB17` (12-dimensional).
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ## How can we solve CSI using deep learning ?
@@ -149,7 +145,7 @@ We test the results on two datasets:
 ![expe](/images/expe_coverdetection_P.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ### Experiments
@@ -166,7 +162,7 @@ The code is available here:
 | Datacos-benchmark | CREMA  |  Move   | meanRank=465.3, meanRecRank=0.201, P@1=0.13, mAP=0.073 | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Cover_Song_Identification.ipynb_datacos.ipynb) |
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ### Actions:
@@ -179,7 +175,7 @@ We show that
 - show performance measures, evaluation of number of OK triplets
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ### Online Triplet mining explained
@@ -191,6 +187,15 @@ $$\mathbf{e}_i=f_{\theta}(\mathbf{x}_i), i \in \{1, \ldots, \text{batch_size} \}
 Online mining is the <mark>mining of (the selection of the subset of) the $\mathbf{e}_i$ that will be used in the loss</mark>.
 - Online mining select those to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD).
 - Only those selected are used for the loss.
+
+#### Distance matrix
+
+We first compute a pair-wise distance matrix `dist_all` between all the embeddings $\mathbf{e}_i$.
+- The "cliques" are grouped together in the matrix, i.e. the performances $\{i-1, i, i+1\}$ belong to the same work-id.
+
+We can then create
+- a `mask_pos`: all the distances of similar work-id
+- a `mask_neg`: all the distances of different work-id
 
 #### Random mining
 

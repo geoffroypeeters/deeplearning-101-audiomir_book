@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -468,7 +469,6 @@ document.write(`
 </tbody>
 </table>
 <p><img alt="flow_autotagging" src="_images/flow_autotagging.png" /></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="a-very-short-history-of-auto-tagging">
 <h3>A very short history of Auto-Tagging<a class="headerlink" href="#a-very-short-history-of-auto-tagging" title="Permalink to this heading">#</a></h3>
 <p>The task has a long history in MIR.</p>
@@ -504,7 +504,6 @@ For example</p>
 </ul>
 <p>Fore more details, see the very good tutorial
 <a class="reference external" href="https://music-classification.github.io/tutorial/landing-page.html">“musical classification”</a>.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="a-very-short-history-of-chord-estimation">
 <h3>A very short history of Chord Estimation.<a class="headerlink" href="#a-very-short-history-of-chord-estimation" title="Permalink to this heading">#</a></h3>
@@ -531,7 +530,6 @@ One seminal paper for this is McFee at al. <span id="id18">[<a class="reference 
 </li>
 </ul>
 <p><mark><em>We will develop here a similar model based on the combination of Conv2d and Bi-LSTM but without the multi-task approach.</em></mark></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="how-is-the-task-evaluated">
@@ -589,7 +587,6 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <li><p><code class="docutils literal notranslate"><span class="pre">macro</span></code> <strong>average</strong>: computes the metric independently for each class and then takes the average (i.e., all classes are treated equally, regardless of their frequency).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">micro</span></code> <strong>average</strong>: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples</p></li>
 </ul>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="chord-estimation">
 <h3>Chord Estimation<a class="headerlink" href="#chord-estimation" title="Permalink to this heading">#</a></h3>
@@ -597,7 +594,6 @@ In the opposite, mAP which relies on the Precision is less sensitive to class im
 <p>However, chord are not simple labels.
 Indeed, chord annotation is partly subjective, some chords are equivalent, and the spelling of a chord depends on the choice of the level of detail (the choice of a dictionary).<br />
 For this reason, <code class="docutils literal notranslate"><span class="pre">mir_eval</span></code> <span id="id19">[<a class="reference internal" href="bibiography.html#id22" title="Colin Raffel, Brian McFee, Eric J. Humphrey, Justin Salamon, Oriol Nieto, Dawen Liang, and Daniel P. W. Ellis. Mir_eval: A transparent implementation of common MIR metrics. In Hsin-Min Wang, Yi-Hsuan Yang, and Jin Ha Lee, editors, Proceedings of the 15th International Society for Music Information Retrieval Conference, ISMIR 2014, Taipei, Taiwan, October 27-31, 2014, 367–372. 2014. URL: http://www.terasoft.com.tw/conf/ismir2014/proceedings/T066\_320\_Paper.pdf.">RMH+14</a>]</span> or Pauwels et al. <span id="id20">[<a class="reference internal" href="bibiography.html#id25" title="Johan Pauwels and Geoffroy Peeters. Evaluating automatically estimated chord sequences. In IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP 2013, Vancouver, BC, Canada, May 26-31, 2013, 749–753. IEEE, 2013. URL: https://doi.org/10.1109/ICASSP.2013.6637748, doi:10.1109/ICASSP.2013.6637748.">PP13</a>]</span> proposed metrics that allows measuring the correctness of the <code class="docutils literal notranslate"><span class="pre">root</span></code>, the <code class="docutils literal notranslate"><span class="pre">major/minor</span></code> component, the <code class="docutils literal notranslate"><span class="pre">bass</span></code> or the constitution in terms of <code class="docutils literal notranslate"><span class="pre">chroma</span></code>.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="some-popular-datasets">
@@ -697,7 +693,6 @@ For this reason, <code class="docutils literal notranslate"><span class="pre">mi
           <span class="p">]</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
@@ -734,7 +729,6 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 </li>
 </ul>
 <p><img alt="expe" src="_images/expe_autotagging_P.png" /></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="experiments">
 <h3>Experiments:<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h3>
 <p>The code is available here:</p>

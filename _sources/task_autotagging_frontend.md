@@ -18,7 +18,6 @@ Tags can be
 ![flow_autotagging](/images/flow_autotagging.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### A very short history of Auto-Tagging
@@ -48,7 +47,6 @@ For example
 Fore more details, see the very good tutorial
 ["musical classification"](https://music-classification.github.io/tutorial/landing-page.html).
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### A very short history of Chord Estimation.
@@ -73,7 +71,6 @@ One seminal paper for this is McFee at al. {cite}`DBLP:conf/ismir/McFeeB17`
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How is the task evaluated ?
@@ -132,7 +129,6 @@ About the averages in `scikit-learn`:
 - `micro` **average**: aggregates the contributions of all classes before calculating the overall metric, essentially treating the problem as a single binary classification task across all samples
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ### Chord Estimation
@@ -144,7 +140,6 @@ Indeed, chord annotation is partly subjective, some chords are equivalent, and t
 For this reason, `mir_eval` {cite}`DBLP:conf/ismir/RaffelMHSNLE14` or Pauwels et al. {cite}`DBLP:conf/icassp/PauwelsP13` proposed metrics that allows measuring the correctness of the `root`, the `major/minor` component, the `bass` or the constitution in terms of `chroma`.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Some popular datasets
@@ -249,7 +244,6 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## How we can solve it using deep learning
@@ -283,7 +277,6 @@ We will vary in turn
 ![expe](/images/expe_autotagging_P.png)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 

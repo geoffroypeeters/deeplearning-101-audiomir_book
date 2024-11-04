@@ -5,7 +5,6 @@ In the first part of this tutorial, each dataset will be saved as a pair of file
 - one in .pyjama format for the annotations.
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 A single [.hdf5](https://docs.h5py.org/) file contains all the audio data of a dataset.
@@ -23,7 +22,6 @@ with h5py.File(hdf5_audio_file, 'r') as hdf5_fid:
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 A single [.pyjama](https://github.com/geoffroypeeters/pyjama) contains all the annotations of all the files of a dataset.
@@ -78,7 +76,6 @@ pp.pprint(entry_l[0:2])
  ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 Using those, a dataset is described by only two files: a .hdf5 for the audio, a .pyjama for the annotations.

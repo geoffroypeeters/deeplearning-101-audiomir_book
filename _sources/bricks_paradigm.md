@@ -5,7 +5,6 @@
 We denote by `paradigm` the overall problem that is used to train a neural network: *such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, ...*
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_supervised)=
@@ -27,7 +26,6 @@ $$\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x
 This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_ssl)=
@@ -37,7 +35,6 @@ This minimization is usually done using one type of Steepest Gradient Descent (S
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_metric_learning)=
@@ -63,7 +60,6 @@ Fore more details, see the very good tutorial
 - ["Metric Learning for Music Information Retrieval" by Brian McFee, Jongpil Lee and Juhan Nam](https://github.com/bmcfee/ismir2020-metric-learning)
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_triplet)=
@@ -99,7 +95,6 @@ loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 (lab_TripletMining)=
@@ -130,17 +125,15 @@ We also distinguish between
 
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
+
 
 
 ## Adversarial
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Encoder-Decoder
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 ## Diffusion

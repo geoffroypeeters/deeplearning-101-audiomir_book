@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -431,7 +432,6 @@ document.write(`
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">input</span></code> the <span class="math notranslate nohighlight">\(\textbf{X}\)</span> fed to a neural network.
 We describe in the following the usual type of inputs in the case of audio.</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="waveform">
 <span id="lab-waveform"></span><h2>Waveform<a class="headerlink" href="#waveform" title="Permalink to this heading">#</a></h2>
 <p>It is possible to use directly the audio waveform <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> as input to a model.
@@ -442,7 +442,6 @@ It is often either a <a class="reference internal" href="bricks_frontend.html#la
 <p>More details can be found in the following <a class="reference external" href="https://zenodo.org/records/3529714">“Waveform-based music processing with deep learning” by Jongpil Lee, Jordi Pons, Sander Dieleman</a> ISMIR-2019 tutorial.</p>
 <p><img alt="waveform" src="_images/brick_waveform.png" /><br />
 <strong>Figure</strong> <em>Waveform of an audio signal with sample values.</em></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="log-mel-spectrogram-lms">
 <span id="lab-lms"></span><h2>Log-Mel-Spectrogram (LMS)<a class="headerlink" href="#log-mel-spectrogram-lms" title="Permalink to this heading">#</a></h2>
@@ -499,11 +498,10 @@ Indeed this DCT was necessary to decorrelate the dimensions and then allows cova
     <span class="k">return</span> <span class="n">data_m</span><span class="p">,</span> <span class="n">time_sec_v</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="constant-q-transform-cqt">
 <span id="lab-cqt"></span><h2>Constant-Q-Transform (CQT)<a class="headerlink" href="#constant-q-transform-cqt" title="Permalink to this heading">#</a></h2>
-<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id89" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.</p>
+<p>Constant-Q-Transform was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id91" title="J. Brown. Calculation of a constant q spectral transform. JASA (Journal of the Acoustical Society of America), 89(1):425-434, 1991.">Bro91</a>]</span>.</p>
 <ul class="simple">
 <li><p>The CQT divides the frequency axis into bins where the <strong>ratio between adjacent frequencies</strong> is constant (i.e., logarithmically spaced): <span class="math notranslate nohighlight">\(r=f_{k+1}/f_k=cst\)</span></p>
 <ul>
@@ -522,11 +520,10 @@ Indeed this DCT was necessary to decorrelate the dimensions and then allows cova
 This property has been used in some works such as Shift-Invariant PLCA or in 2D-Convolution.</p>
 <p><img alt="cqt" src="_images/brick_cqt.png" /><br />
 <strong>Figure</strong> <em>Constant-Q-Transform of an audio signal with 6 octaves and 5 bins per semi-tone (<span class="math notranslate nohighlight">\(6 \times 12 \times 5\)</span> frequencies).</em></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="harmonic-cqt-hcqt">
 <span id="lab-hcqt"></span><h2>Harmonic-CQT (HCQT)<a class="headerlink" href="#harmonic-cqt-hcqt" title="Permalink to this heading">#</a></h2>
-<p>The Harmonic-CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id87" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.</p>
+<p>The Harmonic-CQT has been proposed in <span id="id2">[<a class="reference internal" href="bibiography.html#id89" title="Rachel M. Bittner, Brian McFee, Justin Salamon, Peter Li, and Juan Pablo Bello. Deep salience representations for F0 estimation in polyphonic music. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 63–70. 2017. URL: https://brianmcfee.net/papers/ismir2017_salience.pdf.">BMS+17</a>]</span>.</p>
 <ul class="simple">
 <li><p>The usual “local correlation of the pixels” assumption underlying 2D-Convolution does not hold for musical sound.
 This is because the harmonics <span class="math notranslate nohighlight">\(h f_0\)</span> of a given sound are spread over the whole spectrum, hence the content at frequencies <span class="math notranslate nohighlight">\(f_k\)</span> are not correlated.</p></li>
@@ -591,11 +588,10 @@ An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> i
     <span class="k">return</span> <span class="n">data_3m</span><span class="p">,</span> <span class="n">time_sec_v</span><span class="p">,</span> <span class="n">frequency_hz_v</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="chroma-pitch-class-profile">
 <span id="lab-chroma"></span><h2>Chroma/ Pitch-Class-Profile<a class="headerlink" href="#chroma-pitch-class-profile" title="Permalink to this heading">#</a></h2>
-<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id77" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id78" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.</p>
+<p>Chroma (or Pitch-Class-Profile) <span id="id3">[<a class="reference internal" href="bibiography.html#id79" title="Takuya Fujishima. Realtime chord recognition of musical sound: a system using common lisp music. In Proceedings of the 1999 International Computer Music Conference, ICMC 1999, Beijing, China, October 22-27, 1999. Michigan Publishing, 1999. URL: https://hdl.handle.net/2027/spo.bbp2372.1999.446.">Fuj99</a>]</span> <span id="id4">[<a class="reference internal" href="bibiography.html#id80" title="Gregory H. Wakefield. Mathematical representation of joint time-chroma distributions. In Proc. of SPIE conference on Advanced Signal Processing Algorithms, Architecture and Implementations, 637-645. Denver, Colorado, USA, 1999.">Wak99</a>]</span> is a compact (12-dimensions) representation of the harmonic content over time of a music track.</p>
 <ul class="simple">
 <li><p>Its dimensions correspond to the pitch-classes (hence independently of their octave): C, C#, D, D#, E, …</p></li>
 <li><p>Chroma can be obtained by mapping the content of the spectrogram (or the CQT) to the pitch-classes (summing the content of all frequency bands corresponding to the C0, C1, C2, … to obtain the Chroma C, …).</p></li>
@@ -607,9 +603,9 @@ An extra component <span class="math notranslate nohighlight">\(h=0.5\)</span> i
 
 </pre></div>
 </div>
-<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id75" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id76" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id79" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
+<p>Since the direct mapping from spectram/CQT suffers from artifacts (fifth harmonics, noise, percussive instruments), it has been proposed to learn a cleaner chroma representation using deep learning models, the so-called deep-chroma <span id="id5">[<a class="reference internal" href="bibiography.html#id77" title="Filip Korzeniowski and Gerhard Widmer. Feature learning for chord recognition: the deep chroma extractor. In Michael I. Mandel, Johanna Devaney, Douglas Turnbull, and George Tzanetakis, editors, Proceedings of the 17th International Society for Music Information Retrieval Conference, ISMIR 2016, New York City, United States, August 7-11, 2016, 37–43. 2016. URL: https://wp.nyu.edu/ismir2016/wp-content/uploads/sites/2294/2016/07/178\_Paper.pdf.">KW16</a>]</span> <span id="id6">[<a class="reference internal" href="bibiography.html#id78" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> <span id="id7">[<a class="reference internal" href="bibiography.html#id81" title="Christof Weiss and Geoffroy Peeters. Training deep pitch-class representations with a multi-label CTC loss. In Jin Ha Lee, Alexander Lerch, Zhiyao Duan, Juhan Nam, Preeti Rao, Peter van Kranenburg, and Ajay Srinivasamurthy, editors, Proceedings of the 22nd International Society for Music Information Retrieval Conference, ISMIR 2021, Online, November 7-12, 2021, 754–761. 2021. URL: https://archives.ismir.net/ismir2021/paper/000094.pdf.">WP21</a>]</span>.</p>
 <p>Chroma are often as input for applications such as Automatic-Chord-Recogniton (ACR), key-detection or Cover-Song-Identification (CSI).
-We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id76" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
+We use here for CSI the deep-chroma of <span id="id8">[<a class="reference internal" href="bibiography.html#id78" title="Brian McFee and Juan Pablo Bello. Structured training for large-vocabulary chord recognition. In Sally Jo Cunningham, Zhiyao Duan, Xiao Hu, and Douglas Turnbull, editors, Proceedings of the 18th International Society for Music Information Retrieval Conference, ISMIR 2017, Suzhou, China, October 23-27, 2017, 188–194. 2017. URL: https://ismir2017.smcnus.org/wp-content/uploads/2017/10/77\_Paper.pdf.">MB17</a>]</span> named <em>crema-PCP</em>.</p>
 </section>
 </section>
 

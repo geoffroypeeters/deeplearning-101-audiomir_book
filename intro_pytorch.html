@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -443,14 +444,18 @@ It consists in a loop over <code class="docutils literal notranslate"><span clas
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">train_dataset</span></code> is the one responsible for providing the <code class="docutils literal notranslate"><span class="pre">X</span></code> and the <code class="docutils literal notranslate"><span class="pre">y</span></code>.<br />
 It is an instance of a class written by the user (which inherits from the pytorch-class <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>).</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <p>Writing this class is probably the most complex part.<br />
 It involves</p>
 <ul class="simple">
 <li><p>defining what should the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> return (the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for the model) and</p></li>
 <li><p>provides in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>  all the necessary information so that <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> can do its job.</p></li>
 </ul>
-<p><img alt="expe" src="_images/expe_dataset_P.png" /></p>
+<figure class="align-default" id="concept2">
+<img alt="_images/expe_dataset_P.png" src="_images/expe_dataset_P.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Writting a Dataset class</span><a class="headerlink" href="#concept2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <ol class="arabic simple">
 <li><p>It involves defining <code class="docutils literal notranslate"><span class="pre">X</span></code></p></li>
 </ol>
@@ -485,7 +490,6 @@ For example it can refer to</p>
 </ul>
 </li>
 </ol>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="pytorch-models">
 <h1>Pytorch models<a class="headerlink" href="#pytorch-models" title="Permalink to this heading">#</a></h1>
@@ -510,7 +514,6 @@ Such a class should have</p>
         <span class="k">return</span> <span class="n">hat_y</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <p>In practice, it is common to <mark>specify the hyper-parameters</mark> of the model (such as number of layers, feature-maps, activations) in a dedicated <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>.</p>
 <p>In the first notebooks, we go one step further and <mark>specify the entire model</mark> in a <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.</p>
 <ul class="simple">

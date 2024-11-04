@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/myfile.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -435,7 +436,6 @@ document.write(`
 <h1>Paradigms<a class="headerlink" href="#paradigms" title="Permalink to this heading">#</a></h1>
 <p><img alt="top" src="_images/top.png" /></p>
 <p>We denote by <code class="docutils literal notranslate"><span class="pre">paradigm</span></code> the overall problem that is used to train a neural network: <em>such as supervised, metric-learning, self-supervised, adversarial, encoder-decoder, …</em></p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="supervised">
 <span id="lab-supervised"></span><h2>Supervised<a class="headerlink" href="#supervised" title="Permalink to this heading">#</a></h2>
 <p>Supervised learning is the most standard paradigm in machine learning, hence in deep learning, in which <mark>one has access to both input data <span class="math notranslate nohighlight">\(X\)</span> and the corresponding ground-truth <span class="math notranslate nohighlight">\(y\)</span></mark>.</p>
@@ -451,11 +451,9 @@ Such a loss can be</p>
 <div class="math notranslate nohighlight">
 \[\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)})\]</div>
 <p>This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="self-supervised">
 <span id="lab-ssl"></span><h2>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h2>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="metric-learning">
 <span id="lab-metric-learning"></span><h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
@@ -473,15 +471,14 @@ The goal is to <mark>map input data into a space where</mark></p>
 </ul>
 <p>There exist many algorithm to train such a model such as</p>
 <ul class="simple">
-<li><p><mark>Contrastive Loss</mark> <span id="id1">[<a class="reference internal" href="bibiography.html#id64" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jointly) the model to minimize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
-<li><p><mark>Triplet Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id63" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
+<li><p><mark>Contrastive Loss</mark> <span id="id1">[<a class="reference internal" href="bibiography.html#id66" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jointly) the model to minimize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
+<li><p><mark>Triplet Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id65" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
 </ul>
 <p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
 <p>Fore more details, see the very good tutorial</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p></li>
 </ul>
-<hr style="border: 2px solid red; margin: 60px 0;">
 <section id="triplet-loss">
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
 <p>The goal is to <mark>train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span></mark> such that the <mark>projections</mark> of
@@ -507,7 +504,6 @@ d_{AP} + \alpha &amp;&lt; d_{AN}
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
 </pre></div>
 </div>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="triplet-mining">
 <span id="lab-tripletmining"></span><h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
@@ -548,16 +544,13 @@ The goal is to ensure the model learns effectively by choosing the right combina
 </ul>
 </li>
 </ul>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 </section>
 <section id="adversarial">
 <h2>Adversarial<a class="headerlink" href="#adversarial" title="Permalink to this heading">#</a></h2>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="encoder-decoder">
 <h2>Encoder-Decoder<a class="headerlink" href="#encoder-decoder" title="Permalink to this heading">#</a></h2>
-<hr style="border: 2px solid red; margin: 60px 0;">
 </section>
 <section id="diffusion">
 <h2>Diffusion<a class="headerlink" href="#diffusion" title="Permalink to this heading">#</a></h2>

@@ -35,7 +35,6 @@ class AutoTaggingLigthing(pl.LightningModule):
 ```
 
 
-<hr style="border: 2px solid red; margin: 60px 0;">
 
 
 The training code is then extremely simple: `trainer.fit`.\
@@ -63,5 +62,3 @@ trainer.fit(model=my_lighting,
             train_dataloaders=train_dataloader,
             val_dataloaders=valid_dataloader)
 ```
-
-<hr style="border: 2px solid red; margin: 60px 0;">
