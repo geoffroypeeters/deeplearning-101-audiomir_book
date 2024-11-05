@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -475,16 +478,10 @@ The goal is to <mark>map input data into a space where</mark></p>
 <li><p><mark>Triplet Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id65" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
 </ul>
 <p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
-<p>Fore more details, see the very good tutorial</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p></li>
-</ul>
+<p>Fore more details, see the very good tutorial <a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p>
 <section id="triplet-loss">
 <span id="lab-triplet"></span><h3>Triplet Loss<a class="headerlink" href="#triplet-loss" title="Permalink to this heading">#</a></h3>
-<p>The goal is to <mark>train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span></mark> such that the <mark>projections</mark> of
-<span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> (an <mark>anchor</mark>),
-<span class="math notranslate nohighlight">\(\mathbf{x}_P\)</span> (a <mark>positive</mark> we consider close to <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>),
-<span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> (a <mark>negative</mark> we consider distant from <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span>),
+<p>The goal is to <mark>train a network <span class="math notranslate nohighlight">\(f_{\theta}\)</span></mark> such that the <mark>projections</mark> of <span class="math notranslate nohighlight">\(\mathbf{x}_A\)</span> (an <strong>anchor</strong>), <span class="math notranslate nohighlight">\(\mathbf{x}_P\)</span> (a <strong>positive</strong> we consider close), <span class="math notranslate nohighlight">\(\mathbf{x}_N\)</span> (a <strong>negative</strong> we consider distant),
 satisfy the following triplet constraint:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -501,7 +498,7 @@ d_{AP} + \alpha &amp;&lt; d_{AN}
 <p><img alt="triplet-loss" src="_images/brick_triplet.png" /><br />
 <strong>Figure</strong>
 <em>Triplet Loss, bringing A and P closer and A and N further appart; image source: <a class="reference external" href="https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905">Link</a></em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="p">(</span><span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">dist_pos</span> <span class="o">+</span> <span class="n">param_d</span><span class="o">.</span><span class="n">margin</span> <span class="o">-</span> <span class="n">dist_neg</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -509,22 +506,22 @@ d_{AP} + \alpha &amp;&lt; d_{AN}
 <span id="lab-tripletmining"></span><h3>Triplet Mining<a class="headerlink" href="#triplet-mining" title="Permalink to this heading">#</a></h3>
 <p>Triplet mining is the process of <mark>selecting the triplets</mark> for training using the triplet loss.
 The goal is to ensure the model learns effectively by choosing the right combination of examples.</p>
-<p>Given the choice of an Anchor and a Positive, we denotes by</p>
+<p>Given the choice of an <code class="docutils literal notranslate"><span class="pre">A</span></code> and a <code class="docutils literal notranslate"><span class="pre">P</span></code>, we denotes by</p>
 <ul class="simple">
-<li><p><strong>Easy negatives</strong>: N that are already far from A.</p>
+<li><p><strong>Easy negatives</strong>: the <code class="docutils literal notranslate"><span class="pre">N</span></code>s that are already far from <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
 <ul>
-<li><p>do not provide much useful information (since the model already distinguishes them well).</p></li>
+<li><p>they do not provide much useful information (since the model already distinguishes them well).</p></li>
 </ul>
 </li>
-<li><p><strong>Hard negatives</strong>: N that are very close to A  (even closer than the P).</p>
+<li><p><strong>Hard negatives</strong>: the <code class="docutils literal notranslate"><span class="pre">N</span></code>s that are very close to <code class="docutils literal notranslate"><span class="pre">A</span></code>  (even closer than the <code class="docutils literal notranslate"><span class="pre">P</span></code>).</p>
 <ul>
-<li><p>these are difficult for the model to separate</p></li>
-<li><p>might lead to instability or overfitting.</p></li>
+<li><p>they are difficult for the model to separate</p></li>
+<li><p>this might lead to instability or overfitting.</p></li>
 </ul>
 </li>
-<li><p><strong>Semi-hard negatives</strong>: N that are farther from A than the P but still relatively close.</p>
+<li><p><strong>Semi-hard negatives</strong>: the <code class="docutils literal notranslate"><span class="pre">N</span></code>s that are farther from <code class="docutils literal notranslate"><span class="pre">A</span></code> than the <code class="docutils literal notranslate"><span class="pre">P</span></code> but still relatively close.</p>
 <ul>
-<li><p>provides valuable information  (because they are challenging without being as problematic as hard negatives).</p></li>
+<li><p>they provide valuable information  (because they are challenging without being as problematic as hard negatives).</p></li>
 </ul>
 </li>
 </ul>

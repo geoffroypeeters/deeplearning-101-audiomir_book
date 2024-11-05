@@ -5,9 +5,9 @@ In the first part of this tutorial, each dataset will be saved as a pair of file
 - one in .pyjama format for the annotations.
 
 
+[.hdf5](https://docs.h5py.org/) (Hierarchical Data Format version 5) is a file format and set of tools for managing and storing large amounts of data. It's widely used for handling complex data structures, such as multidimensional arrays, and allows efficient storage and retrieval of large datasets.
 
-
-A single [.hdf5](https://docs.h5py.org/) file contains all the audio data of a dataset.
+In our case, a single [.hdf5](https://docs.h5py.org/) file contains all the audio data of a dataset.
 Each `key` corresponds to an entry.
 An entry corresponds to a specific audiofile.
 - Its array contains the audio waveform.
@@ -23,8 +23,8 @@ with h5py.File(hdf5_audio_file, 'r') as hdf5_fid:
 
 
 
+[.pyjama](https://github.com/geoffroypeeters/pyjama) is a file format based on JSON which allows storing all the annotations (of potentially different types) of all files of a dataset. It is self-described.
 
-A single [.pyjama](https://github.com/geoffroypeeters/pyjama) contains all the annotations of all the files of a dataset.
 The values of the `filepath` field of the .pyjama file correspond to the `key` values of the .hdf5 file.
 
 ```python
