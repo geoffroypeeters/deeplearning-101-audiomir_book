@@ -56,8 +56,7 @@ There exist many algorithm to train such a model such as
 
 The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).
 
-Fore more details, see the very good tutorial
-- ["Metric Learning for Music Information Retrieval" by Brian McFee, Jongpil Lee and Juhan Nam](https://github.com/bmcfee/ismir2020-metric-learning)
+Fore more details, see the very good tutorial ["Metric Learning for Music Information Retrieval" by Brian McFee, Jongpil Lee and Juhan Nam](https://github.com/bmcfee/ismir2020-metric-learning)
 
 
 
@@ -65,10 +64,7 @@ Fore more details, see the very good tutorial
 (lab_triplet)=
 ### Triplet Loss
 
-The goal is to <mark>train a network $f_{\theta}$</mark> such that the <mark>projections</mark> of
-$\mathbf{x}_A$ (an <mark>anchor</mark>),
-$\mathbf{x}_P$ (a <mark>positive</mark> we consider close to $\mathbf{x}_A$),
-$\mathbf{x}_N$ (a <mark>negative</mark> we consider distant from $\mathbf{x}_A$),
+The goal is to <mark>train a network $f_{\theta}$</mark> such that the <mark>projections</mark> of $\mathbf{x}_A$ (an **anchor**), $\mathbf{x}_P$ (a **positive** we consider close), $\mathbf{x}_N$ (a **negative** we consider distant),
 satisfy the following triplet constraint:
 
 $$
@@ -91,7 +87,7 @@ $$\mathcal{L} = \max(d_{AP} + \alpha - d_{AN},0)$$
 *Triplet Loss, bringing A and P closer and A and N further appart; image source: [Link](https://towardsdatascience.com/triplet-loss-advanced-intro-49a07b7d8905)*
 
 ```python
-loss = F.relu(dist_pos + (param_d.margin - dist_neg))
+loss = F.relu(dist_pos + param_d.margin - dist_neg)
 ```
 
 
@@ -103,15 +99,15 @@ loss = F.relu(dist_pos + (param_d.margin - dist_neg))
 Triplet mining is the process of <mark>selecting the triplets</mark> for training using the triplet loss.
 The goal is to ensure the model learns effectively by choosing the right combination of examples.
 
-Given the choice of an Anchor and a Positive, we denotes by
+Given the choice of an `A` and a `P`, we denotes by
 
-- **Easy negatives**: N that are already far from A.
-	- do not provide much useful information (since the model already distinguishes them well).
-- **Hard negatives**: N that are very close to A  (even closer than the P).
-	- these are difficult for the model to separate
-	- might lead to instability or overfitting.
-- **Semi-hard negatives**: N that are farther from A than the P but still relatively close.
-	- provides valuable information  (because they are challenging without being as problematic as hard negatives).
+- **Easy negatives**: the `N`s that are already far from `A`.
+	- they do not provide much useful information (since the model already distinguishes them well).
+- **Hard negatives**: the `N`s that are very close to `A`  (even closer than the `P`).
+	- they are difficult for the model to separate
+	- this might lead to instability or overfitting.
+- **Semi-hard negatives**: the `N`s that are farther from `A` than the `P` but still relatively close.
+	- they provide valuable information  (because they are challenging without being as problematic as hard negatives).
 
 ![triplet-mining](/images/brick_tripletmining.png)\
 **Figure**

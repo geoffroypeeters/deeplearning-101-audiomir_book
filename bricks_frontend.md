@@ -66,7 +66,7 @@ Temporal Convolution Network was proposed in {cite}`DBLP:journals/corr/abs-1803-
 It is a simplification of the computational block underlying WaveNet.
 It is made of
 - Two blocks of
-  - Dilated *causal* convolution
+  - [Dilated *causal* convolution](lab_dilated)
   - Weight normalization
   - ReLU
   - Dropout
@@ -150,18 +150,17 @@ SincNet was proposed in {cite}`DBLP:conf/slt/RavanelliB18`.
 It is one of the first **parametric front-end**.
 
 **Parametric kernel:**
-- SincNet defines a 1D-kernel (to be used for 1D-convolution) as the results of a <mark>parametric function</mark>.
-- In parametric kernel, $w_n$ is the results of a parametric function evaluated at the points $n \in \{0,\ldots,N-1\}$: $w_n = f_{\theta}(n)$
-  - where $\theta$ are the parameters of the function
+- <mark>SincNet defines the value of a 1D-kernel $w_n$</mark> (to be used for 1D-convolution) <mark>as the results of a parametric function evaluated at the points $n \in \{0,\ldots,N-1\}$: $w_n = f_{\theta}(n)$</mark>
+  - where $\theta$ are the parameters of the function, to be trained
 
 **Training:**
 - Training a normal 1D-convolution kernel of length $N$ $\Rightarrow$ one has to learn each of the $N$ filter values.
 - Training a parametric kernel of length $N$ $\Rightarrow$ one has only to learn the $\theta$.
 
 **SincNet**
-- aims at designing kernels which frequency response is a band-pass filter $[f_1,f_2]$.
-- <mask>band-pass filters $[f_1,f_2]$</mask> = subtracting a low-pass filters at frequency $f_1$ from one at frequency $f_1$,
-- low-pass filters are expressed as SinC function in time: $SinC(x)=\frac{\sin(x)}{x}$
+- aims at designing kernels which frequency response is a <mark>band-pass</mark> filter $[f_1,f_2]$.
+- <mask>band-pass filters $[f_1,f_2]$</mask> = <mark>subtracting two low-pass filters</mark> at frequency $f_1$ and $f_1$,
+- low-pass filters are expressed as <mark>SinC function</mark> in time: $SinC(x)=\frac{\sin(x)}{x}$
 
   $$w_n^{f_1,f_2}=2 f_2 sinc(2 \pi f_2 n) - 2 f_1 sinc(2 \pi f_1 n)$$
 

@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -467,10 +470,10 @@ It implements the following convolution with a kernel <span class="math notransl
 <span id="lab-depthwise"></span><h2>Depthwise Separable Convolution<a class="headerlink" href="#depthwise-separable-convolution" title="Permalink to this heading">#</a></h2>
 <p>Depthwise Separable Convolution (DSC) was proposed in <span id="id1">[<a class="reference internal" href="bibiography.html#id88" title="François Chollet. Xception: deep learning with depthwise separable convolutions. In 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu, HI, USA, July 21-26, 2017, 1800–1807. IEEE Computer Society, 2017. URL: https://doi.org/10.1109/CVPR.2017.195, doi:10.1109/CVPR.2017.195.">Cho17</a>]</span> in the continuation of the Inception network.</p>
 <ul class="simple">
-<li><p>It is the concatenation of</p>
+<li><p>It is the <mark>concatenation</mark> of</p>
 <ul>
-<li><p>a Depthwise Convolution (channel-wise convolution)</p></li>
-<li><p>a Pointwise (1x1) convolution.</p></li>
+<li><p>a <mark>Depthwise</mark> Convolution (channel-wise convolution)</p></li>
+<li><p>a <mark>Pointwise (1x1)</mark> convolution.</p></li>
 </ul>
 </li>
 </ul>
@@ -484,7 +487,7 @@ It implements the following convolution with a kernel <span class="math notransl
 <li><p>A DSC uses <span class="math notranslate nohighlight">\(C_{in}\)</span> kernels each of shape <span class="math notranslate nohighlight">\((3,3)\)</span>, then <span class="math notranslate nohighlight">\(C_{out}\)</span> kernels of shape <span class="math notranslate nohighlight">\((C_{in},1,1)\)</span></p>
 <ul>
 <li><p>A DSC will only necessitates <span class="math notranslate nohighlight">\(C_{in} \times (3 \times 3)\)</span> and <span class="math notranslate nohighlight">\(C_{in} \times C_{out}\)</span> weights.
-The number of multiplications is also largely reduced.</p></li>
+<mark>The number of parameters to be learnt and of multiplications to be performed is largely reduced</mark>.</p></li>
 </ul>
 </li>
 </ul>
@@ -514,8 +517,13 @@ The number of multiplications is also largely reduced.</p></li>
 <p>ResNet has been proposed by <span id="id3">[<a class="reference internal" href="bibiography.html#id86" title="Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In 2016 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2016, Las Vegas, NV, USA, June 27-30, 2016, 770–778. IEEE Computer Society, 2016. URL: https://doi.org/10.1109/CVPR.2016.90, doi:10.1109/CVPR.2016.90.">HZRS16</a>]</span> in the framework of image recognition.
 A ResNet is made of a</p>
 <ul class="simple">
-<li><p>large number of blocks each containing a residual connection (skip-connection).</p></li>
-<li><p>the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).</p></li>
+<li><p><mark>large number of blocks</mark> each containing a <mark>residual</mark> connection (skip-connection).</p></li>
+<li><p>the residual connection allows to</p>
+<ul>
+<li><p>bypass blocks during forward, and</p></li>
+<li><p>backward easily the gradients during training hence allows constructing very deep models (152 in the original papers).</p></li>
+</ul>
+</li>
 </ul>
 <p>We are interested here in the two building blocks of ResNet:</p>
 <ul class="simple">
@@ -525,8 +533,8 @@ It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, 
 It is a stack of 3 layers instead of 2.<br />
 The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
 <ul>
-<li><p>the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,</p></li>
-<li><p>the 3×3 layer is a bottleneck with smaller input/output dimensions.</p></li>
+<li><p>the 1×1 layers are responsible for <mark>reducing and then increasing</mark> (restoring) dimensions,</p></li>
+<li><p>the 3×3 layer is operates in a <mark>smaller</mark> input/output dimensions.</p></li>
 </ul>
 </li>
 </ul>
@@ -576,16 +584,7 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py</span>
 <span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-        <span class="n">inplanes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">downsample</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">base_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
-        <span class="n">dilation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">norm_layer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">downsample</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">base_width</span><span class="p">,</span> <span class="n">dilation</span><span class="p">,</span> <span class="n">norm_layer</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">norm_layer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">norm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span>
         <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">planes</span> <span class="o">*</span> <span class="p">(</span><span class="n">base_width</span> <span class="o">/</span> <span class="mf">64.0</span><span class="p">))</span> <span class="o">*</span> <span class="n">groups</span>
@@ -625,11 +624,7 @@ The three layers are 1×1, 3×3, and 1×1 convolutions, where</p>
 </section>
 <section id="convnext">
 <span id="lab-convnext"></span><h2>ConvNeXt<a class="headerlink" href="#convnext" title="Permalink to this heading">#</a></h2>
-<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id4">[<a class="reference internal" href="bibiography.html#id85" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span></p>
-<ul class="simple">
-<li><p>with the goal of <mark>modernizing ResNet</mark> architecture</p></li>
-<li><p>to remains competitive with Vision Transformers (ViTs).</p></li>
-</ul>
+<p>ConvNeXT has been proposed in “A ConvNet for the 2020s” <span id="id4">[<a class="reference internal" href="bibiography.html#id85" title="Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In IEEE/CVF Conference on Computer Vision and Pattern Recognition, CVPR 2022, New Orleans, LA, USA, June 18-24, 2022, 11966–11976. IEEE, 2022. URL: https://doi.org/10.1109/CVPR52688.2022.01167, doi:10.1109/CVPR52688.2022.01167.">LMW+22</a>]</span> with the goal of <mark>modernizing ResNet</mark> architecture and to <mark>remains competitive with Vision Transformers</mark> (ViTs).</p>
 <p>It especially bases its design on the Swin Transformers:</p>
 <ul class="simple">
 <li><p><mark>larger kernel</mark> size (kernels are <span class="math notranslate nohighlight">\((7 \times 7)\)</span>),</p>

@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -469,7 +472,7 @@ or Interpolation followed by Normal Conv-2d.</p>
 </section>
 <section id="many-to-one-reducing-the-time-dimensions">
 <h2>Many to One: reducing the time dimensions<a class="headerlink" href="#many-to-one-reducing-the-time-dimensions" title="Permalink to this heading">#</a></h2>
-<p><strong>Objective</strong>: <mark>reduce a (temporal) sequence of embeddings <span class="math notranslate nohighlight">\(\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}\)</span> to a single embedding <span class="math notranslate nohighlight">\(\mathbf{e}\)</span></mark> (<strong>Many-to-One</strong>).</p>
+<p><strong>Objective</strong>: <mark>reduce a (temporal) sequence of embeddings <span class="math notranslate nohighlight">\(\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}\)</span> to a single embedding <span class="math notranslate nohighlight">\(\mathbf{e}\)</span></mark></p>
 <p><strong>Usage:</strong> map the (temporal) sequence of embeddings (provided by the last layer of a network) to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).</p>
 <p><strong>Pooling</strong>: The most simple way to achieve this is to use the <mark>Mean/Average</mark> value (Average Pooling) or <mark>Maximum</mark> value (Max Pooling) of the <span class="math notranslate nohighlight">\(\mathbf{e}_t\)</span> over time <span class="math notranslate nohighlight">\(t\)</span> (as done for example in <span id="id4">[<a class="reference internal" href="bibiography.html#id73" title="Sander Dieleman. Recommending music on spotify with deep learning. Technical Report, Spotify, http://benanne.github.io/2014/08/05/spotify-cnns.html, 2014.">Die14</a>]</span>).</p>
 <section id="attention-weighting">

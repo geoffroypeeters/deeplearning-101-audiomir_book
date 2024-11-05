@@ -57,16 +57,16 @@ torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dil
 ## Depthwise Separable Convolution
 
 Depthwise Separable Convolution (DSC) was proposed in {cite}`DBLP:conf/cvpr/Chollet17` in the continuation of the Inception network.
-- It is the concatenation of
-  - a Depthwise Convolution (channel-wise convolution)
-  - a Pointwise (1x1) convolution.
+- It is the <mark>concatenation</mark> of
+  - a <mark>Depthwise</mark> Convolution (channel-wise convolution)
+  - a <mark>Pointwise (1x1)</mark> convolution.
 
 Rationale behind this approach
 - A normal convolution uses $C_{out}$ kernels each of shape $(C_{in},3,3)$.
   - It necessitates $C_{out} \times (C_{in} \times 3 \times 3)$ weights.
 - A DSC uses $C_{in}$ kernels each of shape $(3,3)$, then $C_{out}$ kernels of shape $(C_{in},1,1)$
   - A DSC will only necessitates $C_{in} \times (3 \times 3)$ and $C_{in} \times C_{out}$ weights.
-The number of multiplications is also largely reduced.
+<mark>The number of parameters to be learnt and of multiplications to be performed is largely reduced</mark>.
 
 Because of this, it is largely used in model for IoT such as MobileNet {cite}`DBLP:journals/corr/HowardZCKWWAA17`.
 
@@ -99,8 +99,10 @@ model(X).size()
 
 ResNet has been proposed by {cite}`DBLP:conf/cvpr/HeZRS16` in the framework of image recognition.
 A ResNet is made of a
-- large number of blocks each containing a residual connection (skip-connection).
-- the residual connection allows to bypass blocks during forward, and backward easely during training hence allows constructing very deep models (152 in the original papers).
+- <mark>large number of blocks</mark> each containing a <mark>residual</mark> connection (skip-connection).
+- the residual connection allows to
+  - bypass blocks during forward, and
+  - backward easily the gradients during training hence allows constructing very deep models (152 in the original papers).
 
 We are interested here in the two building blocks of ResNet:
 - the **building block**:\
@@ -108,8 +110,8 @@ It is a stack of - a first 2D-Convolution, - a ReLU, - a second 2D-Convolution, 
 - the **“bottleneck” block**:\
 It is a stack of 3 layers instead of 2.\
 The three layers are 1×1, 3×3, and 1×1 convolutions, where
-  - the 1×1 layers are responsible for reducing and then increasing (restoring) dimensions,
-  - the 3×3 layer is a bottleneck with smaller input/output dimensions.
+  - the 1×1 layers are responsible for <mark>reducing and then increasing</mark> (restoring) dimensions,
+  - the 3×3 layer is operates in a <mark>smaller</mark> input/output dimensions.
 
 | ResNet "building" block                | ResNet "bottleneck" block                |
 |------------------------|------------------------|
@@ -149,16 +151,7 @@ class ResidualBlock(nn.Module):
 ```python
 # https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py
 class Bottleneck(nn.Module):
-    def __init__(self,
-        inplanes: int,
-        planes: int,
-        stride: int = 1,
-        downsample: Optional[nn.Module] = None,
-        groups: int = 1,
-        base_width: int = 64,
-        dilation: int = 1,
-        norm_layer: Optional[Callable[..., nn.Module]] = None,
-    ) -> None:
+    def __init__(self, inplanes, planes, stride, downsample, groups, base_width, dilation, norm_layer):
         super().__init__()
         if norm_layer is None: norm_layer = nn.BatchNorm2d
         width = int(planes * (base_width / 64.0)) * groups
@@ -201,9 +194,7 @@ class Bottleneck(nn.Module):
 (lab_convnext)=
 ## ConvNeXt
 
-ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22`
-- with the goal of <mark>modernizing ResNet</mark> architecture
-- to remains competitive with Vision Transformers (ViTs).
+ConvNeXT has been proposed in "A ConvNet for the 2020s" {cite}`DBLP:conf/cvpr/0003MWFDX22` with the goal of <mark>modernizing ResNet</mark> architecture and to <mark>remains competitive with Vision Transformers</mark> (ViTs).
 
 It especially bases its design on the Swin Transformers:
 - <mark>larger kernel</mark> size (kernels are $(7 \times 7)$),

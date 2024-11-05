@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
@@ -423,7 +426,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-solve-mpe-using-deep-learning">How can we solve MPE using deep learning ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 </ul>
 </li>
 </ul>
@@ -520,9 +523,9 @@ This leads to the <mark>Chroma Precision, Accuracy, Recall</mark>.</p>
 <p>MPE datasets can be obtained in several ways:</p>
 <ol class="arabic simple">
 <li><p><mark>annotating</mark> manually the <mark>full-tracks</mark>,</p></li>
-<li><p><mark>annotating</mark> (manually or automatically using SPE) the individual <mark>stems</mark> of a full-track: such as <a class="reference external" href="https://medleydb.weebly.com/">MedleyDB</a></p></li>
-<li><p>using a <mark>MIDI-fied</mark> piano: such as , <a class="reference external" href="https://adasp.telecom-paris.fr/resources/2010-07-08-maps-database/">ENST MAPS</a>, <a class="reference external" href="https://magenta.tensorflow.org/datasets/maestro">MAESTRO</a></p></li>
-<li><p>using audio to score <mark>synchronization</mark>: such as <a class="reference external" href="https://zenodo.org/records/5120004#.YXDPwKBlBpQ">MusicNet</a>, <a class="reference external" href="https://resources.mpi-inf.mpg.de/SMD/SMD_MIDI-Audio-Piano-Music.html">SMD</a>, <a class="reference external" href="https://zenodo.org/records/4122060#.YPkxv-gzaUl">SWD</a></p></li>
+<li><p><mark>annotating</mark> (manually or automatically using SPE) the individual <mark>stems</mark> of a full-track: such as <a class="reference external" href="https://labsites.rochester.edu/air/datasets/Bach10%20Dataset_v1.0.pdf">Bach10</a> or <a class="reference external" href="https://medleydb.weebly.com/">MedleyDB</a></p></li>
+<li><p>using a <mark>MIDI-fied</mark> piano: such as <a class="reference external" href="https://adasp.telecom-paris.fr/resources/2010-07-08-maps-database/">ENST MAPS</a>, <a class="reference external" href="https://magenta.tensorflow.org/datasets/maestro">MAESTRO</a></p></li>
+<li><p>using audio to score <mark>synchronization</mark>: such as <a class="reference external" href="https://zenodo.org/records/5120004#.YXDPwKBlBpQ">MusicNet</a>, <a class="reference external" href="https://resources.mpi-inf.mpg.de/SMD/SMD_MIDI-Audio-Piano-Music.html">SMD</a> or <a class="reference external" href="https://zenodo.org/records/4122060#.YPkxv-gzaUl">SWD</a></p></li>
 </ol>
 <p>We have chosen the two following datasets since they represent two different types of annotations:</p>
 <section id="bach10">
@@ -588,7 +591,7 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.</p>
 <h2>How can we solve MPE using deep learning ?<a class="headerlink" href="#how-can-we-solve-mpe-using-deep-learning" title="Permalink to this heading">#</a></h2>
 <p>We propose here a solution for the MPE task using <a class="reference internal" href="bricks_paradigm.html#lab-supervised"><span class="std std-ref">supervised learning</span></a>, i.e. with known output <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <ul class="simple">
-<li><p>Rather than estimating the continuous <span class="math notranslate nohighlight">\(f_0\)</span> by regression, we consider the classification problem into pitch-classes <br />
+<li><p>Rather than estimating the continuous <span class="math notranslate nohighlight">\(f_0\)</span> by regression, we consider the classification problem into pitch-classes
 (<span class="math notranslate nohighlight">\(f_0\)</span> are quantized to their nearest semi-tone or <span class="math notranslate nohighlight">\(\frac{1}{5}^{th}\)</span> of semi-tone)</p></li>
 <li><p>The output <code class="docutils literal notranslate"><span class="pre">y</span></code> to be predicted is a binary matrix <span class="math notranslate nohighlight">\(\mathbf{Y} \in \{0,1\}^{(P,T)}\)</span> indicating the presence of all possible pitch-classes <span class="math notranslate nohighlight">\(p\in P\)</span> over time <span class="math notranslate nohighlight">\(t \in T\)</span></p></li>
 <li><p>The problem is then a <mark>supervised multi-label problem</mark></p>
@@ -710,9 +713,9 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.</p>
 </tbody>
 </table>
 </section>
-<section id="actions">
-<h3>Actions:<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h3>
-<p>We show that</p>
+<section id="code">
+<h3>Code:<a class="headerlink" href="#code" title="Permalink to this heading">#</a></h3>
+<p>Illustrations of</p>
 <ul class="simple">
 <li><p>show config Conv2D</p></li>
 <li><p>show code Bach10/HCQT/Conv2D</p>
@@ -807,7 +810,7 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-solve-mpe-using-deep-learning">How can we solve MPE using deep learning ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 </ul>
 </li>
 </ul>

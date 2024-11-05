@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
@@ -420,7 +423,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets-for-csi">Some popular datasets for CSI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-solve-csi-using-deep-learning">How can we solve CSI using deep learning ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-matrix">Distance matrix</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>
@@ -591,9 +594,9 @@ However, the results were largely below those of Serra.</p></li>
 </tbody>
 </table>
 </section>
-<section id="actions">
-<h3>Actions:<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h3>
-<p>We show that</p>
+<section id="code">
+<h3>Code:<a class="headerlink" href="#code" title="Permalink to this heading">#</a></h3>
+<p>Illustrations of</p>
 <ul class="simple">
 <li><p>show config Model, explain invariance to transposition (maxpool-12)</p></li>
 <li><p>show <code class="docutils literal notranslate"><span class="pre">CoverDataset</span></code>, explain <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> provides a click, <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> provides a set of work-id</p></li>
@@ -607,9 +610,9 @@ However, the results were largely below those of Serra.</p></li>
 <p>The online mining of the triplets is actually <mark>not a mining of the best data to be fed</mark> to the model since all data are actually fed into the model to obtain the embeddings:</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{e}_i=f_{\theta}(\mathbf{x}_i), i \in \{1, \ldots, \text{batch_size} \}\]</div>
-<p>Online mining is the <mark>mining of (the selection of the subset of) the <span class="math notranslate nohighlight">\(\mathbf{e}_i\)</span> that will be used in the loss</mark>.</p>
+<p>Online mining is the <mark>mining of the subset of <span class="math notranslate nohighlight">\(\mathbf{e}_i\)</span> that will be used in the loss</mark>.</p>
 <ul class="simple">
-<li><p>Online mining select those to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD).</p></li>
+<li><p>Online mining select the <span class="math notranslate nohighlight">\(\{( \mathbf{e}_i \}\)</span> that will form the triplets <code class="docutils literal notranslate"><span class="pre">{A,P,N}</span></code> which are then used to compute the loss (which is to be minimized by SGD).</p></li>
 <li><p>Only those selected are used for the loss.</p></li>
 </ul>
 <section id="distance-matrix">
@@ -788,7 +791,7 @@ However, the results were largely below those of Serra.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-popular-datasets-for-csi">Some popular datasets for CSI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-solve-csi-using-deep-learning">How can we solve CSI using deep learning ?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-triplet-mining-explained">Online Triplet mining explained</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-matrix">Distance matrix</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-mining">Random mining</a></li>

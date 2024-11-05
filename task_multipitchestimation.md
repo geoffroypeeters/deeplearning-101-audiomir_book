@@ -90,9 +90,9 @@ A (close to) exhaustive list of MIR datasets is available in the [ismir.net web 
 
 MPE datasets can be obtained in several ways:
 1. <mark>annotating</mark> manually the <mark>full-tracks</mark>,
-2. <mark>annotating</mark> (manually or automatically using SPE) the individual <mark>stems</mark> of a full-track: such as [MedleyDB](https://medleydb.weebly.com/)
-3. using a <mark>MIDI-fied</mark> piano: such as , [ENST MAPS](https://adasp.telecom-paris.fr/resources/2010-07-08-maps-database/), [MAESTRO](https://magenta.tensorflow.org/datasets/maestro)
-4. using audio to score <mark>synchronization</mark>: such as [MusicNet](https://zenodo.org/records/5120004#.YXDPwKBlBpQ), [SMD](https://resources.mpi-inf.mpg.de/SMD/SMD_MIDI-Audio-Piano-Music.html), [SWD](https://zenodo.org/records/4122060#.YPkxv-gzaUl)
+2. <mark>annotating</mark> (manually or automatically using SPE) the individual <mark>stems</mark> of a full-track: such as [Bach10](https://labsites.rochester.edu/air/datasets/Bach10%20Dataset_v1.0.pdf) or [MedleyDB](https://medleydb.weebly.com/)
+3. using a <mark>MIDI-fied</mark> piano: such as [ENST MAPS](https://adasp.telecom-paris.fr/resources/2010-07-08-maps-database/), [MAESTRO](https://magenta.tensorflow.org/datasets/maestro)
+4. using audio to score <mark>synchronization</mark>: such as [MusicNet](https://zenodo.org/records/5120004#.YXDPwKBlBpQ), [SMD](https://resources.mpi-inf.mpg.de/SMD/SMD_MIDI-Audio-Piano-Music.html) or [SWD](https://zenodo.org/records/4122060#.YPkxv-gzaUl)
 
 We have chosen the two following datasets since they represent two different types of annotations:
 
@@ -164,7 +164,7 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.
 
 
 We propose here a solution for the MPE task using [supervised learning](lab_supervised), i.e. with known output `y`.
-- Rather than estimating the continuous $f_0$ by regression, we consider the classification problem into pitch-classes \
+- Rather than estimating the continuous $f_0$ by regression, we consider the classification problem into pitch-classes
 ($f_0$ are quantized to their nearest semi-tone or $\frac{1}{5}^{th}$ of semi-tone)
 - The output `y` to be predicted is a binary matrix $\mathbf{Y} \in \{0,1\}^{(P,T)}$ indicating the presence of all possible pitch-classes $p\in P$ over time $t \in T$
 - The problem is then a <mark>supervised multi-label problem</mark>
@@ -222,9 +222,9 @@ The code is available here:
 
 
 
-### Actions:
+### Code:
 
-We show that
+Illustrations of
 - show config Conv2D
 - show code Bach10/HCQT/Conv2D
   - f_parrallel

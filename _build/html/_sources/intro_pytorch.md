@@ -1,4 +1,6 @@
-### Pytorch dataset/dataloader
+# Pytorch
+
+## dataset/dataloader
 
 To help understanding what a dataloader should provide, we use a <mark>top-down approach</mark>.\
 We start from the central part of the training of a deep-learning model.\
@@ -64,8 +66,82 @@ For example it can refer to
 
 
 
+Below is an example of such a `dataset` code.
+We first get all the information ready.
 
-### Pytorch models
+```python
+class TagDataset(Dataset):
+    def __init__(self, hdf5_audio_file, pyjama_annot_file, do_train):
+
+        with open(pyjama_annot_file, encoding = "utf-8") as json_fid: data_d = json.load(json_fid)
+        entry_l = data_d['collection']['entry']
+
+        # --- get the dictionary of all labels (before splitting into train/valid)
+        self.labelname_dict_l = f_get_labelname_dict(data_d, config.dataset.annot_key)
+
+        self.do_train = do_train
+        # --- The split can be improved by filtering different artist, albums, ...
+        if self.do_train:   entry_l = [entry_l[idx] for idx in range(len(entry_l)) if (idx % 5) != 0]
+        else:               entry_l = [entry_l[idx] for idx in range(len(entry_l)) if (idx % 5) == 0]
+
+        self.audio_file_l =  [entry['filepath'][0]['value'] for entry in entry_l]
+
+        self.data_d, self.patch_l = {}, []
+
+        with h5py.File(hdf5_audio_file, 'r') as audio_fid:
+            for idx_entry, entry in enumerate(tqdm(entry_l)):
+                audio_file= entry['filepath'][0]['value']
+
+                audio_v, sr_hz =  audio_fid[audio_file][:], audio_fid[audio_file].attrs['sr_hz']
+                # --- get features
+                if config.feature.type == 'waveform': feat_value_m, time_sec_v = feature.f_get_waveform(audio_v, sr_hz)
+                elif config.feature.type == 'lms':    feat_value_m, time_sec_v = feature.f_get_lms(audio_v, sr_hz, config.feature)
+                elif config.feature.type == 'hcqt':   feat_value_m, time_sec_v, frequency_hz_v = feature.f_get_hcqt(audio_v, sr_hz, config.feature)
+
+                # --- map annotations
+                idx_label = f_get_groundtruth_item(entry, config.dataset.annot_key, self.labelname_dict_l, config.dataset.problem, time_sec_v)
+
+                # --- store for later use
+                self.data_d[audio_file] = {'X': torch.tensor(feat_value_m).float(), 'y': torch.tensor(idx_label)}
+
+                # --- create list of patches and associate information
+                localpatch_l = feature.f_get_patches(feat_value_m.shape[-1], config.feature.patch_L_frame, config.feature.patch_STEP_frame)
+                for localpatch in localpatch_l:
+                    self.patch_l.append({'audiofile': audio_file, 'start_frame': localpatch['start_frame'], 'end_frame': localpatch['end_frame'],})
+
+    def __len__(self):
+        return len(self.patch_l)
+```
+
+We then pick up the information corresponding to an `idx`, here the unit is a `patch`.
+
+```python
+    def __getitem__(self, idx_patch):
+        audiofile = self.patch_l[idx_patch]['audiofile']        
+        s = self.patch_l[idx_patch]['start_frame']
+        e = self.patch_l[idx_patch]['end_frame']
+
+        if config.feature.type == 'waveform':    
+            # --- X is (C, nb_time)
+            X = self.data_d[ audiofile ]['X'][:,s:e]
+        elif config.feature.type in ['lms', 'hcqt']:  
+            # --- X is (C, nb_dim, nb_time)
+            X = self.data_d[ audiofile ]['X'][:,:,s:e]
+
+        if config.dataset.problem in ['multiclass', 'multilabel']:
+            # --- We suppose the same annotation for the whole file
+            y = self.data_d[ audiofile ]['y']
+        else:
+            # --- We take the corresponding segment of the annotation
+            y = self.data_d[ audiofile ]['y'][s:e]
+        return {'X':X , 'y':y}
+
+train_dataset = TagDataset(hdf5_audio_file, pyjama_annot_file, do_train=True)
+valid_dataset = TagDataset(hdf5_audio_file, pyjama_annot_file, do_train=False)
+```
+
+
+## models
 
 Models in pytorch are usually written as classes which inherits from the pytorch-class `nn.Module`.\
 Such a class should have
@@ -101,43 +177,68 @@ Below is an example of such a `.yaml` file.
 
 ```python
 model:
-    name: AutoTagging
+    name: UNet
     block_l:
-    - sequential_l:
+    - sequential_l: # --- encoder
         - layer_l:
-            - [LayerNorm, {'normalized_shape': [128, 64]}]
-            - [Conv2d, {'in_channels': 1, 'out_channels': 80, 'kernel_size': [128, 5], 'stride': [1,1]}]
-            - [Squeeze, {'dim': 2}]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 64, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 64, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Activation, ReLU]
         - layer_l:
-            - [LayerNorm, {'normalized_shape': -1}]
-            - [Activation, LeakyReLU]
-            - [Dropout, {'p': 0}]
+            - [StoreAs, E64]
         - layer_l:
-            - [Conv1d, {'in_channels': -1, 'out_channels': 60, 'kernel_size': 5, 'stride': 1}]
-            - [MaxPool1d, {'kernel_size': 3, 'stride': 3}]
-            - [LayerNorm, {'normalized_shape': -1}]
-            - [Activation, LeakyReLU]
-            - [Dropout, {'p': 0}]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 128, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 128, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [MaxPool2d, {'kernel_size': [2,2]}]
+            - [Activation, ReLU]
         - layer_l:
-            - ['Permute', {'shape': [0, 2, 1]}]
-    - sequential_l:
+            - [StoreAs, E128]
         - layer_l:
-            - [LayerNorm, {'normalized_shape': -1}]
-            - [Linear, {'in_features': -1, 'out_features': 128}]
-            - [BatchNorm1dT, {'num_features': -1}]
-            - [Activation, LeakyReLU]
-            - [Dropout, {'p': 0}]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 256, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 256, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [MaxPool2d, {'kernel_size': [2,2]}]
+            - [Activation, ReLU]
         - layer_l:
-            - [Linear, {'in_features': -1, 'out_features': 128}]
-            - [BatchNorm1dT, {'num_features': -1}]
-            - [Activation, LeakyReLU]
-            - [Dropout, {'p': 0}]
+            - [StoreAs, E256]
         - layer_l:
-            - ['Permute', {'shape':[0, 2, 1]}]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 512, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 512, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [MaxPool2d, {'kernel_size': [2,2]}]
+            - [Activation, ReLU]
+    - sequential_l: # --- decoder
         - layer_l:
-            - [Mean, {'dim': 2}]
-    - sequential_l:
+            - [BatchNorm2d, {'num_features': -1}]
+            - [ConvTranspose2d, {'in_channels': -1, 'out_channels': 256, 'kernel_size': [2,2], 'stride': [2,2]}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 256, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 256, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Activation, ReLU]
         - layer_l:
-            - [Linear, {'in_features': -1, 'out_features': 50}]
-            - [Activation, Softmax]
+            - [CatWith, E256]
+        - layer_l:
+            - [DoubleChannel, empty]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [ConvTranspose2d, {'in_channels': -1, 'out_channels': 128, 'kernel_size': [2,2], 'stride': [2,2]}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 128, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 128, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Activation, ReLU]
+        - layer_l:
+            - [CatWith, E128]
+        - layer_l:
+            - [DoubleChannel, empty]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [ConvTranspose2d, {'in_channels': -1, 'out_channels': 64, 'kernel_size': [2,2], 'stride': [2,2]}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 64, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 64, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Activation, ReLU]
+        - layer_l:
+            - [CatWith, E64]
+        - layer_l:
+            - [DoubleChannel, empty]
+            - [BatchNorm2d, {'num_features': -1}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 1, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
+            - [Conv2d, {'in_channels': -1, 'out_channels': 1, 'kernel_size': [3,3], 'stride': 1, 'padding': 'same'}]
 ```

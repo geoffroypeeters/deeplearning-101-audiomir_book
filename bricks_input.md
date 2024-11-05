@@ -89,11 +89,11 @@ def f_get_lms(audio_v, sr_hz, param_lms):
 
 Constant-Q-Transform was proposed in {cite}`Brown1991ConstantQ`.
 
-- The CQT divides the frequency axis into bins where the **ratio between adjacent frequencies** is constant (i.e., logarithmically spaced): $r=f_{k+1}/f_k=cst$
+- The CQT divides the frequency axis into bins where the <mark>ratio between adjacent frequencies is constant</mark> (i.e., logarithmically spaced): $r=f_{k+1}/f_k=cst$
   - This is different from the Discrete Fourier Transform (DFT), where frequency bins are linearly spaced $f_{k+1}-f_k = cst$.
   - In music $r=2^{1/12}$ for adjacent musical pitches (semitones).
   - It is possible to increase the number of bins for each semitone (if 5 bins per semitone the ratio is $r=2^{1/(5 \cdot 12)}$)
-- The CQT adapts the duration of the analysis window $\mathbf{w}_k$ for each frequency $f_k$, in order to be able to spectrally separate adjacent frequencies $f_k, f_{k+1}$.
+- The CQT <mark>adapts the duration of the analysis window $\mathbf{w}_k$</mark> for each frequency $f_k$, in order to be able to spectrally <mark>separate adjacent frequencies</mark> $f_k, f_{k+1}$.
   - This is different from the DFT, which uses a single analysis window $\mathbf{w}$ (hence a single duration) for all its frequencies $f_k$ (hence with a fixed spectral resolution),
 
 Because of the frequencies are expressed in log-scale in the CQT, pitch-shifting of a musical instrument correspond to a vertical translation of the corresponding CQT ($\alpha f \rightarrow \log(\alpha) + \log(f)$.
@@ -110,14 +110,14 @@ This property has been used in some works such as Shift-Invariant PLCA or in 2D-
 
 The Harmonic-CQT has been proposed in {cite}`DBLP:conf/ismir/BittnerMSLB17`.
 
-- The usual "local correlation of the pixels" assumption underlying 2D-Convolution does not hold for musical sound.
+- The usual <mark>"local correlation of the pixels"</mark> assumption underlying 2D-Convolution <mark>does not hold for musical sound</mark>.
 This is because the harmonics $h f_0$ of a given sound are spread over the whole spectrum, hence the content at frequencies $f_k$ are not correlated.
-- To allow highlighing this correlation at harmonics, the Harmonic-CQT represent the harmonics of a frequency $f_k$ in a new depth/channel dimension
+- To allow highlighing this <mark>correlation of harmonics</mark>, the Harmonic-CQT <mark>represent the harmonics of a frequency $f_k$ in a new depth/channel dimension</mark>
   - In this, a channel $h$ represent the frequencies $f^{(h)}_k = h f_k$
     - Using channels $h \in \{1,2,3,4,5\}$ allows to represent in the depth the first five harmonics of a potentially pitched sound at $f_0=f_k$: $f^{(1)}_k = f_k, f^{(2)}_k = 2 f_k, f^{(3)}_k = 3 f_k, \ldots $
-  - To compute it, we use CQTs with different starting frequencies $h f_{min}$
-  - The HCQT is obtained by stacking the various downsampled CQTs in depth/channel dimension
-  - The resulting Harmonic-CQT is a 3D-tensor of dimensions (harmonic, time, frequencies).
+  - To compute it, we use CQTs with <mark>different starting frequencies $h f_{min}$</mark>
+  - The HCQT is obtained by <mark>stacking</mark> the various downsampled CQTs in depth/channel dimension
+  - The resulting Harmonic-CQT is a <mark>3D-tensor</mark>of dimensions (harmonic, time, frequencies).
 
 
 
@@ -131,7 +131,7 @@ If we downsample the CQT by a factor 2 (indicated in "h=2"), the stripe now high
 If we downsample the CQT by a factor 3 (indicated in "h=3"), the stripe now highlight $3 f_0$.
 The various harmonics $h f_0$ are now aligned vertically across downsampled versions.*
 
-The HCQT is often used as input to a 2D-Convolution layer with small kernels $(5 \times 5)$ which extend over the whole depth of the HCQT.
+The HCQT is often used as <mark>input to a 2D-Convolution layer with small kernels $(5 \times 5)$ which extend over the whole depth of the HCQT</mark>.
 When used for Multi-Pitch-Estimation, the kernels should therefore learn the specific relationship among harmonics specific to harmonics versus non-harmonics.
 An extra component $h=0.5$ is added to avoid octave errors.
 

@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="nav bd-sidenav">
@@ -485,7 +488,7 @@ It is made of</p>
 <ul class="simple">
 <li><p>Two blocks of</p>
 <ul>
-<li><p>Dilated <em>causal</em> convolution</p></li>
+<li><p><a class="reference internal" href="#lab-dilated"><span class="std std-ref">Dilated <em>causal</em> convolution</span></a></p></li>
 <li><p>Weight normalization</p></li>
 <li><p>ReLU</p></li>
 <li><p>Dropout</p></li>
@@ -562,10 +565,9 @@ It is made of</p>
 It is one of the first <strong>parametric front-end</strong>.</p>
 <p><strong>Parametric kernel:</strong></p>
 <ul class="simple">
-<li><p>SincNet defines a 1D-kernel (to be used for 1D-convolution) as the results of a <mark>parametric function</mark>.</p></li>
-<li><p>In parametric kernel, <span class="math notranslate nohighlight">\(w_n\)</span> is the results of a parametric function evaluated at the points <span class="math notranslate nohighlight">\(n \in \{0,\ldots,N-1\}\)</span>: <span class="math notranslate nohighlight">\(w_n = f_{\theta}(n)\)</span></p>
+<li><p><mark>SincNet defines the value of a 1D-kernel <span class="math notranslate nohighlight">\(w_n\)</span></mark> (to be used for 1D-convolution) <mark>as the results of a parametric function evaluated at the points <span class="math notranslate nohighlight">\(n \in \{0,\ldots,N-1\}\)</span>: <span class="math notranslate nohighlight">\(w_n = f_{\theta}(n)\)</span></mark></p>
 <ul>
-<li><p>where <span class="math notranslate nohighlight">\(\theta\)</span> are the parameters of the function</p></li>
+<li><p>where <span class="math notranslate nohighlight">\(\theta\)</span> are the parameters of the function, to be trained</p></li>
 </ul>
 </li>
 </ul>
@@ -576,9 +578,9 @@ It is one of the first <strong>parametric front-end</strong>.</p>
 </ul>
 <p><strong>SincNet</strong></p>
 <ul>
-<li><p>aims at designing kernels which frequency response is a band-pass filter <span class="math notranslate nohighlight">\([f_1,f_2]\)</span>.</p></li>
-<li><p><mask>band-pass filters <span class="math notranslate nohighlight">\([f_1,f_2]\)</span></mask> = subtracting a low-pass filters at frequency <span class="math notranslate nohighlight">\(f_1\)</span> from one at frequency <span class="math notranslate nohighlight">\(f_1\)</span>,</p></li>
-<li><p>low-pass filters are expressed as SinC function in time: <span class="math notranslate nohighlight">\(SinC(x)=\frac{\sin(x)}{x}\)</span></p>
+<li><p>aims at designing kernels which frequency response is a <mark>band-pass</mark> filter <span class="math notranslate nohighlight">\([f_1,f_2]\)</span>.</p></li>
+<li><p><mask>band-pass filters <span class="math notranslate nohighlight">\([f_1,f_2]\)</span></mask> = <mark>subtracting two low-pass filters</mark> at frequency <span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_1\)</span>,</p></li>
+<li><p>low-pass filters are expressed as <mark>SinC function</mark> in time: <span class="math notranslate nohighlight">\(SinC(x)=\frac{\sin(x)}{x}\)</span></p>
 <div class="math notranslate nohighlight">
 \[w_n^{f_1,f_2}=2 f_2 sinc(2 \pi f_2 n) - 2 f_1 sinc(2 \pi f_1 n)\]</div>
 </li>

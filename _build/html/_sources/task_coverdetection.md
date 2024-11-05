@@ -165,9 +165,9 @@ The code is available here:
 
 
 
-### Actions:
+### Code:
 
-We show that
+Illustrations of
 - show config Model, explain invariance to transposition (maxpool-12)
 - show `CoverDataset`, explain `__getitem__` provides a click, `train_dataloader` provides a set of work-id
 - explain [AutoPoolWeightSplit](lab_AttentionWeighting)
@@ -184,8 +184,8 @@ The online mining of the triplets is actually <mark>not a mining of the best dat
 
 $$\mathbf{e}_i=f_{\theta}(\mathbf{x}_i), i \in \{1, \ldots, \text{batch_size} \}$$
 
-Online mining is the <mark>mining of (the selection of the subset of) the $\mathbf{e}_i$ that will be used in the loss</mark>.
-- Online mining select those to form the triplets A,P,N which are then used to compute the loss (which is to be minimized by SGD).
+Online mining is the <mark>mining of the subset of $\mathbf{e}_i$ that will be used in the loss</mark>.
+- Online mining select the $\{( \mathbf{e}_i \}$ that will form the triplets `{A,P,N}` which are then used to compute the loss (which is to be minimized by SGD).
 - Only those selected are used for the loss.
 
 #### Distance matrix

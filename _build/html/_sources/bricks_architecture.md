@@ -34,7 +34,7 @@ or Interpolation followed by Normal Conv-2d.
 
 ## Many to One: reducing the time dimensions
 
-**Objective**: <mark>reduce a (temporal) sequence of embeddings $\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}$ to a single embedding $\mathbf{e}$</mark> (**Many-to-One**).
+**Objective**: <mark>reduce a (temporal) sequence of embeddings $\{ \mathbf{e}_1, \ldots \mathbf{e}_{T_x}\}$ to a single embedding $\mathbf{e}$</mark>
 
 **Usage:** map the (temporal) sequence of embeddings (provided by the last layer of a network) to a single ground-truth (such as in auto-tagging, where the whole track is from a given genre, or in Acoustic Scene Classification).
 

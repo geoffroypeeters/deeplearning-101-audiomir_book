@@ -8,7 +8,7 @@ Music auto-tagging is the task of assigning tags (such as genre, style, moods, i
 
 Tags can be
 
-||mutually exclusive (multi-class) |non-mutually exclusive (multi-label)|
+||Mutually exclusive (multi-class) |Non-mutually exclusive (multi-label)|
 |----|----|----|
 | **Global in time** | Music-genre | User-tags |
 | **Time-based** | Chord-segments | Instrument-segments |
@@ -57,8 +57,8 @@ However, it has (at least) two specificities:
 - some chord are equivalent, their spelling depends on the choice of the level of detail, and their choice on the
 
 Therefore, <mark>ASR (Automatic Speech Recognition)</mark> inspired techniques has been developed at first {cite}`Sheh2003ISMIRchord` or {cite}`Papadopo2007CBMI` with
-- an **acoustic model** representing $p(\text{chord}|\text{chroma})$ and
-- a **language model**, often a Hidden Markov Model, representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
+- an <mark>acoustic model</mark> representing $p(\text{chord}|\text{chroma})$ and
+- a <mark>language model</mark>, often a Hidden Markov Model, representing $p(\text{chord}_{t}|\text{chord}_{t-1}).$
 
 **Deep learning era.**
 In the case of chord estimation, deep learning is also now commonly used.
@@ -106,15 +106,15 @@ Using a default threshold ($\tau=0.5$) of course allows to use the afore-mention
 However, in practice, <mark>we want to measure the performances independently of the choice of a given threshold</mark>.
 
 This can be using either
-- the <mark>**AUC (Area Under the Curve) of the ROC**</mark>.
+- the <mark>AUC (Area Under the Curve) of the ROC</mark>.
 The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold $\tau$.
 The larger the AUC-ROC is (maximum of 1) the more discrimination is between the Positive and Negative classes.
 A value of 0.5 indicates no discrimination (random system).
-- the <mark>**mean-Average-Precision (mAP)**</mark>.
+- the <mark>mean-Average-Precision (mAP)</mark>.
 The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold $\tau)$.
 
-The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
-In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefoe prefered.
+*Note: The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
+In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefore preferred.*
 
 ![AUC-ROC-MAP](/images/brick_roc_map_P.png)
 
@@ -222,7 +222,8 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 
 #### RWC-Popular-Chord (AIST-Annotations)
 
-[RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06` is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named `Popular-Music-Dataset`. \
+[RWC-Popular-Chord (AIST-Annotations)](https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/){cite}`DBLP:conf/ismir/GotoHNO02`, {cite}`DBLP:conf/ismir/Goto06` is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches.\
+We use the subset of 100 tracks named `Popular-Music-Dataset` and the **chord segments annotations** which we map to a simplified 25 elements dictionary `maj/min/N`. \
 *This dataset has been made available online with Masataka Goto's permission specifically for this tutorial. For any other use, please contact Masataka Goto to obtain authorization.*
 
 ```python
@@ -248,7 +249,7 @@ We only use a subset of this dataset by only selecting the most 50 used tags and
 
 ## How we can solve it using deep learning
 
-Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord estimation RWC-Pop) with a <mark>single code</mark>.
+Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord segment estimation RWC-Pop) with a <mark>single code</mark>.
 Depending on the task, we of course adapt the model (defined in the `.yaml` files).
 
 <mark>multi-class/multi-label</mark>:
@@ -256,8 +257,8 @@ Depending on the task, we of course adapt the model (defined in the `.yaml` file
 - MTT is **multi-label** $\Rightarrow$ sigmoids and BCEs
 
 <mark>global/local</mark>:
-- GTZAN and MTT have **global** annotations $\Rightarrow$ we reduce the time axis using AutoPoolWeightSplit
-- RWC-Pop-Chord have **local** annotations with a language model $\Rightarrow$ we use a bi-LSTM.
+- GTZAN and MTT have **global** annotations $\Rightarrow$ we reduce the time axis using [AutoPoolWeightSplit](lab_AttentionWeighting)
+- RWC-Pop-Chord have **local** annotations with a language model $\Rightarrow$ we use a [RNN/bi-LSTM](lab_rnn).
 
 For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated below.
 
@@ -266,13 +267,12 @@ For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated b
 
 
 We will vary in turn
-- the **inputs**: [waveform](lab_waveform), [Log-Mel-Spectrogram](lab_lms) or [CQT](lab_cqt)
-- the **front-end**:
-	- [Conv-2d](lab_conv2d) when the input is LMS or CQT
-	- [SincNet](lab_sincnet), [Conv-1D](lab_conv1D) or [TCN](lab_tcn) when the input is waveform
+- the **inputs $\Rightarrow$ front-end**:
+	- Input: [waveform](lab_waveform) **$\Rightarrow$** Front-end: [Conv-1D](lab_conv1D), [TCN](lab_tcn), [SincNet](lab_sincnet),
+	- Input: [Log-Mel-Spectrogram](lab_lms), [CQT](lab_cqt) **$\Rightarrow$** Front-end: [Conv-2d](lab_conv2d)
 - the model **blocks**:
 	- [Conv-1d](lab_conv1d), Linear and [AutoPoolWeightSplit](lab_AutoPoolWeightSplit) for multi-class, multi-label
-	- [Conv-1d](lab_conv1d), Linear and [RNN/LSTM](lab_rnn) for segment (chord over time)
+	- [Conv-1d](lab_conv1d), Linear and [RNN/bi-LSTM](lab_rnn) for segment (chord over time)
 
 ![expe](/images/expe_autotagging_P.png)
 
@@ -291,16 +291,18 @@ The code is available here:
 | Dataset   | Input   | Frontend   | Model | Results   | Code |
 |:---------- |:----------|:----------|:----------|:---------- |:---------- |
 | GTZAN      | LMS       | Conv2d(128,5) | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I1-C1.ipynb) |
-| GTZAN      | Waveform  | SincNet/Abs   | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb) |
 | GTZAN      | Waveform  | Conv1D 			 | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.54           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C3.ipynb) |
 | GTZAN      | Waveform  | TCN					 | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.46           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C4.ipynb) |
+| GTZAN      | Waveform  | SincNet/Abs   | Conv1d/Linear/AutoPoolWeightSplit   | macroRecall: 0.56           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb) |
+| --  | -- | -- | -- | -- |
 | MTT        | LMS       | Conv2d(128,5) | Conv1d/Linear/AutoPoolWeightSplit   | AUC: 0.81, avgPrec: 0.29    | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D2-I1-C1.ipynb) |
+| --  | -- | -- | -- | -- |
 | RWC-Pop-Chord | CQT    | Conv2D(1,5)(5,1)* |	Conv1D/LSTM/Linear             | macroRecall: 0.54           | [LINK](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D3-I3-Chord.ipynb) |
 
 
-### Actions:
+### Code:
 
-We show that
+Illustrations of
 - autotagging config file
 - multi-class: results, CM and Tag-O-Gram
 - multi-class:: learned filters SincNet, code SincNet
@@ -308,4 +310,4 @@ We show that
 - multi-label: results, tag-o-gram:
 - chord config file
 - chord: training patches
-- chord: resutls, tag-o-gram
+- chord: results, tag-o-gram

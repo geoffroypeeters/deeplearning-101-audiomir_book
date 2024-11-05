@@ -4,6 +4,9 @@
 format: jb-book
 root: front
 parts:
+- caption: Abstract
+  chapters:
+    - file: abstract
 - caption: Introduction
   chapters:
     - file: intro

@@ -171,16 +171,19 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstract</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="abstract.html">Abstract</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro_dataset.html">Datasets .hdf5/.pyjama</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch dataset/dataloader</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="intro_pytorch.html">Pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro_lightining.html">TorchLightning training</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Nodebooks in Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebook.html">Notebooks in Colab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tasks</span></p>
 <ul class="current nav bd-sidenav">
@@ -430,7 +433,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 </ul>
 </li>
 </ul>
@@ -453,8 +456,8 @@ document.write(`
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>mutually exclusive (multi-class)</p></th>
-<th class="head"><p>non-mutually exclusive (multi-label)</p></th>
+<th class="head"><p>Mutually exclusive (multi-class)</p></th>
+<th class="head"><p>Non-mutually exclusive (multi-label)</p></th>
 </tr>
 </thead>
 <tbody>
@@ -515,8 +518,8 @@ However, it has (at least) two specificities:</p>
 </ul>
 <p>Therefore, <mark>ASR (Automatic Speech Recognition)</mark> inspired techniques has been developed at first <span id="id16">[<a class="reference internal" href="bibiography.html#id30" title="A. Sheh and Daniel P. W. Ellis. Chord segmentation and recognition using em-trained hidden markov models. In Proc. of ISMIR (International Society for Music Information Retrieval), 183-189. Baltimore, Maryland, USA, 2003.">SE03</a>]</span> or <span id="id17">[<a class="reference internal" href="bibiography.html#id29" title="Hélène Papadopoulos and Geoffroy Peeters. Large-scale study of chord estimation algorithms based on chroma representation. In Proc. of IEEE CBMI (International Workshop on Content-Based Multimedia Indexing). Bordeaux, France, 2007.">PP07</a>]</span> with</p>
 <ul class="simple">
-<li><p>an <strong>acoustic model</strong> representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and</p></li>
-<li><p>a <strong>language model</strong>, often a Hidden Markov Model, representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
+<li><p>an <mark>acoustic model</mark> representing <span class="math notranslate nohighlight">\(p(\text{chord}|\text{chroma})\)</span> and</p></li>
+<li><p>a <mark>language model</mark>, often a Hidden Markov Model, representing <span class="math notranslate nohighlight">\(p(\text{chord}_{t}|\text{chord}_{t-1}).\)</span></p></li>
 </ul>
 <p><strong>Deep learning era.</strong>
 In the case of chord estimation, deep learning is also now commonly used.
@@ -567,15 +570,15 @@ One seminal paper for this is McFee at al. <span id="id18">[<a class="reference 
 However, in practice, <mark>we want to measure the performances independently of the choice of a given threshold</mark>.</p>
 <p>This can be using either</p>
 <ul class="simple">
-<li><p>the <mark><strong>AUC (Area Under the Curve) of the ROC</strong></mark>.
+<li><p>the <mark>AUC (Area Under the Curve) of the ROC</mark>.
 The ROC curve represents the values of TPrate versus FPrate for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau\)</span>.
 The larger the AUC-ROC is (maximum of 1) the more discrimination is between the Positive and Negative classes.
 A value of 0.5 indicates no discrimination (random system).</p></li>
-<li><p>the <mark><strong>mean-Average-Precision (mAP)</strong></mark>.
+<li><p>the <mark>mean-Average-Precision (mAP)</mark>.
 The mAP measures the AUC of the Precision versus Recall curve for all possible choices of a threshold <span class="math notranslate nohighlight">\(\tau)\)</span>.</p></li>
 </ul>
-<p>The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
-In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefoe prefered.</p>
+<p><em>Note: The AUC-ROC is known to be sensitive to class imbalancing (in case of multi-label, negative examples are usually more numerous than positive ones, hence the FPrate is artificially low leading to good AUC of ROC).
+In the opposite, mAP which relies on the Precision is less sensitive to class imbalancing and is therefore preferred.</em></p>
 <p><img alt="AUC-ROC-MAP" src="_images/brick_roc_map_P.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">average_precision_score</span>
 <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">labels_idx</span><span class="p">,</span> <span class="n">labels_pred_prob</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
@@ -675,7 +678,8 @@ For this reason, <code class="docutils literal notranslate"><span class="pre">mi
 </section>
 <section id="rwc-popular-chord-aist-annotations">
 <h3>RWC-Popular-Chord (AIST-Annotations)<a class="headerlink" href="#rwc-popular-chord-aist-annotations" title="Permalink to this heading">#</a></h3>
-<p><a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/">RWC-Popular-Chord (AIST-Annotations)</a><span id="id22">[<a class="reference internal" href="bibiography.html#id40" title="Masataka Goto, Hiroki Hashiguchi, Takuichi Nishimura, and Ryuichi Oka. RWC music database: popular, classical and jazz music databases. In ISMIR 2002, 3rd International Conference on Music Information Retrieval, Paris, France, October 13-17, 2002, Proceedings. 2002. URL: http://ismir2002.ismir.net/proceedings/03-SP04-1.pdf.">GHNO02</a>]</span>, <span id="id23">[<a class="reference internal" href="bibiography.html#id41" title="Masataka Goto. AIST annotation for the RWC music database. In ISMIR 2006, 7th International Conference on Music Information Retrieval, Victoria, Canada, 8-12 October 2006, Proceedings, 359–360. 2006.">Got06</a>]</span> is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches. We use the subset of tracks named <code class="docutils literal notranslate"><span class="pre">Popular-Music-Dataset</span></code>. <br />
+<p><a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/AIST-Annotation/">RWC-Popular-Chord (AIST-Annotations)</a><span id="id22">[<a class="reference internal" href="bibiography.html#id40" title="Masataka Goto, Hiroki Hashiguchi, Takuichi Nishimura, and Ryuichi Oka. RWC music database: popular, classical and jazz music databases. In ISMIR 2002, 3rd International Conference on Music Information Retrieval, Paris, France, October 13-17, 2002, Proceedings. 2002. URL: http://ismir2002.ismir.net/proceedings/03-SP04-1.pdf.">GHNO02</a>]</span>, <span id="id23">[<a class="reference internal" href="bibiography.html#id41" title="Masataka Goto. AIST annotation for the RWC music database. In ISMIR 2006, 7th International Conference on Music Information Retrieval, Victoria, Canada, 8-12 October 2006, Proceedings, 359–360. 2006.">Got06</a>]</span> is one of the earliest and remains one of the most comprehensive datasets, featuring annotations for genre, structure, beat, chords, and multiple pitches.<br />
+We use the subset of 100 tracks named <code class="docutils literal notranslate"><span class="pre">Popular-Music-Dataset</span></code> and the <strong>chord segments annotations</strong> which we map to a simplified 25 elements dictionary <code class="docutils literal notranslate"><span class="pre">maj/min/N</span></code>. <br />
 <em>This dataset has been made available online with Masataka Goto’s permission specifically for this tutorial. For any other use, please contact Masataka Goto to obtain authorization.</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
@@ -697,7 +701,7 @@ For this reason, <code class="docutils literal notranslate"><span class="pre">mi
 </section>
 <section id="how-we-can-solve-it-using-deep-learning">
 <h2>How we can solve it using deep learning<a class="headerlink" href="#how-we-can-solve-it-using-deep-learning" title="Permalink to this heading">#</a></h2>
-<p>Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord estimation RWC-Pop) with a <mark>single code</mark>.
+<p>Our goal is to show that we can <mark>solve the three tasks</mark> (multi-class GTZAN, multi-label MTT and chord segment estimation RWC-Pop) with a <mark>single code</mark>.
 Depending on the task, we of course adapt the model (defined in the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> files).</p>
 <p><mark>multi-class/multi-label</mark>:</p>
 <ul class="simple">
@@ -706,25 +710,24 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 </ul>
 <p><mark>global/local</mark>:</p>
 <ul class="simple">
-<li><p>GTZAN and MTT have <strong>global</strong> annotations <span class="math notranslate nohighlight">\(\Rightarrow\)</span> we reduce the time axis using AutoPoolWeightSplit</p></li>
-<li><p>RWC-Pop-Chord have <strong>local</strong> annotations with a language model <span class="math notranslate nohighlight">\(\Rightarrow\)</span> we use a bi-LSTM.</p></li>
+<li><p>GTZAN and MTT have <strong>global</strong> annotations <span class="math notranslate nohighlight">\(\Rightarrow\)</span> we reduce the time axis using <a class="reference internal" href="bricks_architecture.html#lab-attentionweighting"><span class="std std-ref">AutoPoolWeightSplit</span></a></p></li>
+<li><p>RWC-Pop-Chord have <strong>local</strong> annotations with a language model <span class="math notranslate nohighlight">\(\Rightarrow\)</span> we use a <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/bi-LSTM</span></a>.</p></li>
 </ul>
 <p>For GTZAN and MTT our core model is the <mark>SincNet model</mark> illustrated below.</p>
 <p><img alt="sincnet" src="_images/brick_sincnet.png" /><br />
 <strong>Figure</strong>. <em>SincNet model. image source: SincNet <span id="id24">[<a class="reference internal" href="bibiography.html#id90" title="Mirco Ravanelli and Yoshua Bengio. Speaker recognition from raw waveform with sincnet. In 2018 IEEE Spoken Language Technology Workshop, SLT 2018, Athens, Greece, December 18-21, 2018, 1021–1028. IEEE, 2018. URL: https://doi.org/10.1109/SLT.2018.8639585, doi:10.1109/SLT.2018.8639585.">RB18</a>]</span></em></p>
 <p>We will vary in turn</p>
 <ul class="simple">
-<li><p>the <strong>inputs</strong>: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a>, <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a> or <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a></p></li>
-<li><p>the <strong>front-end</strong>:</p>
+<li><p>the <strong>inputs <span class="math notranslate nohighlight">\(\Rightarrow\)</span> front-end</strong>:</p>
 <ul>
-<li><p><a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2d</span></a> when the input is LMS or CQT</p></li>
-<li><p><a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a> or <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a> when the input is waveform</p></li>
+<li><p>Input: <a class="reference internal" href="bricks_input.html#lab-waveform"><span class="std std-ref">waveform</span></a> <strong><span class="math notranslate nohighlight">\(\Rightarrow\)</span></strong> Front-end: <a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1D</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-tcn"><span class="std std-ref">TCN</span></a>, <a class="reference internal" href="bricks_frontend.html#lab-sincnet"><span class="std std-ref">SincNet</span></a>,</p></li>
+<li><p>Input: <a class="reference internal" href="bricks_input.html#lab-lms"><span class="std std-ref">Log-Mel-Spectrogram</span></a>, <a class="reference internal" href="bricks_input.html#lab-cqt"><span class="std std-ref">CQT</span></a> <strong><span class="math notranslate nohighlight">\(\Rightarrow\)</span></strong> Front-end: <a class="reference internal" href="bricks_projection.html#lab-conv2d"><span class="std std-ref">Conv-2d</span></a></p></li>
 </ul>
 </li>
 <li><p>the model <strong>blocks</strong>:</p>
 <ul>
 <li><p><a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1d</span></a>, Linear and <a class="reference internal" href="bricks_architecture.html#lab-autopoolweightsplit"><span class="std std-ref">AutoPoolWeightSplit</span></a> for multi-class, multi-label</p></li>
-<li><p><a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1d</span></a>, Linear and <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/LSTM</span></a> for segment (chord over time)</p></li>
+<li><p><a class="reference internal" href="bricks_frontend.html#lab-conv1d"><span class="std std-ref">Conv-1d</span></a>, Linear and <a class="reference internal" href="bricks_architecture.html#lab-rnn"><span class="std std-ref">RNN/bi-LSTM</span></a> for segment (chord over time)</p></li>
 </ul>
 </li>
 </ul>
@@ -757,31 +760,45 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 </tr>
 <tr class="row-odd"><td class="text-left"><p>GTZAN</p></td>
 <td class="text-left"><p>Waveform</p></td>
-<td class="text-left"><p>SincNet/Abs</p></td>
-<td class="text-left"><p>Conv1d/Linear/AutoPoolWeightSplit</p></td>
-<td class="text-left"><p>macroRecall: 0.56</p></td>
-<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb">LINK</a></p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>GTZAN</p></td>
-<td class="text-left"><p>Waveform</p></td>
 <td class="text-left"><p>Conv1D</p></td>
 <td class="text-left"><p>Conv1d/Linear/AutoPoolWeightSplit</p></td>
 <td class="text-left"><p>macroRecall: 0.54</p></td>
 <td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C3.ipynb">LINK</a></p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p>GTZAN</p></td>
+<tr class="row-even"><td class="text-left"><p>GTZAN</p></td>
 <td class="text-left"><p>Waveform</p></td>
 <td class="text-left"><p>TCN</p></td>
 <td class="text-left"><p>Conv1d/Linear/AutoPoolWeightSplit</p></td>
 <td class="text-left"><p>macroRecall: 0.46</p></td>
 <td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C4.ipynb">LINK</a></p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p>MTT</p></td>
+<tr class="row-odd"><td class="text-left"><p>GTZAN</p></td>
+<td class="text-left"><p>Waveform</p></td>
+<td class="text-left"><p>SincNet/Abs</p></td>
+<td class="text-left"><p>Conv1d/Linear/AutoPoolWeightSplit</p></td>
+<td class="text-left"><p>macroRecall: 0.56</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D1-I2-C2.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>MTT</p></td>
 <td class="text-left"><p>LMS</p></td>
 <td class="text-left"><p>Conv2d(128,5)</p></td>
 <td class="text-left"><p>Conv1d/Linear/AutoPoolWeightSplit</p></td>
 <td class="text-left"><p>AUC: 0.81, avgPrec: 0.29</p></td>
 <td class="text-left"><p><a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Auto_Tagging.ipynb_D2-I1-C1.ipynb">LINK</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p>–</p></td>
+<td class="text-left"><p></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>RWC-Pop-Chord</p></td>
 <td class="text-left"><p>CQT</p></td>
@@ -793,9 +810,9 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 </tbody>
 </table>
 </section>
-<section id="actions">
-<h3>Actions:<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h3>
-<p>We show that</p>
+<section id="code">
+<h3>Code:<a class="headerlink" href="#code" title="Permalink to this heading">#</a></h3>
+<p>Illustrations of</p>
 <ul class="simple">
 <li><p>autotagging config file</p></li>
 <li><p>multi-class: results, CM and Tag-O-Gram</p></li>
@@ -804,7 +821,7 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 <li><p>multi-label: results, tag-o-gram:</p></li>
 <li><p>chord config file</p></li>
 <li><p>chord: training patches</p></li>
-<li><p>chord: resutls, tag-o-gram</p></li>
+<li><p>chord: results, tag-o-gram</p></li>
 </ul>
 </section>
 </section>
@@ -892,7 +909,7 @@ Depending on the task, we of course adapt the model (defined in the <code class=
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-we-can-solve-it-using-deep-learning">How we can solve it using deep learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code:</a></li>
 </ul>
 </li>
 </ul>

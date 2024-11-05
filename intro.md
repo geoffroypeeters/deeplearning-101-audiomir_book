@@ -34,7 +34,7 @@ To make our life easier and **facilitate the reading of the code of the notebook
 - for **deep learning**: [pytorch](https://pytorch.org/) (a python library for deep learning)
   - for the dataset/dataloader
   - for the models, the losses, the optimizers
-- for **training**: [pytorch-lighning](https://lightning.ai/docs/pytorch/stable/) (a library added to pytorch that makes it easier/faster to train and deploy models)
+- for **training**: [pytorch-lightning](https://lightning.ai/docs/pytorch/stable/) (a library added to pytorch that makes it easier/faster to train and deploy models)
 
 
 
