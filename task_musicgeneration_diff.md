@@ -5,7 +5,7 @@ It focuses on creating high-quality samples by modeling data in a compressed, la
 This approach reduces computational cost and time by generating compact latent representations that, compared to raw data, are already simplified and organized.
 
 Here, we provide a simple example of musical audio generation using the guitar subset of the NSynth dataset, Music2Latent representations, and a classic U-Net architecture.
-In the corresponding [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb) we implement a diffusion model that adopts a **Rectified Flow** method with **ODE-based sampling**. 
+In the corresponding [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb) we implement a diffusion model that adopts a **Rectified Flow** method with **ODE-based sampling** {cite}`DBLP:conf/iclr/LiuG023`.
 This approach combines elements from both **denoising diffusion probabilistic models (DDPMs)** and **normalizing flows**, resulting in a continuous-time framework for generative modeling.
 
 
@@ -95,7 +95,7 @@ In this section, we show the
    $$
 
    where $t$ is the time step indicating the level of noise added, with $t = 0$ being no noise and $t = 1$ being full noise.
-   This formulation is commonly used in Rectified Flow models and allows a simple, linear interpolation between the data and pure noise.
+   This formulation is commonly used in Rectified Flow models and allows a simple, linear transition between the data and pure noise.
 
 2. **Training Objective**: The model is trained to predict the residual $\mathbf{v} = \mathbf{x}_t - \mathbf{z}$ from the noisy samples and the time $t$. This residual guides the denoising process.
    In the case of Rectified Flow with ODE-based sampling, the reverse process can be formulated as:
