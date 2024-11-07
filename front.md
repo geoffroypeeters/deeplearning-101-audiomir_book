@@ -18,6 +18,6 @@ This is a web book written for a tutorial session of the [25th International Soc
 	address = {San Francisco, USA},
 	year = {2024},
 	month = November,
-	doi = {10.5281/zenodo.14049461),
+	doi = {10.5281/zenodo.14049461},
 }
 ```
