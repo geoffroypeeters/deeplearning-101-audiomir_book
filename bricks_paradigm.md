@@ -125,11 +125,29 @@ We also distinguish between
 
 
 ## Adversarial
+See [this link](lab_gans).
 
 
 
 ## Encoder-Decoder
+![encoder-decoder](./images/brick_enc_dec.png)
+
+**Figure:** Schematic illustration of a canonical autoencoder.
+
+In encoder-decoder methods, such as autoencoders, data is sent through hourglass-like architectures typically possessing a lower-dimensional bottleneck layer.
+Such models are trained to minimize a reconstruction error. For example, in the case of autoencoders, the output of the model should be equal to the input.
+In order to satisfy this objective, information needs to be "squeezed" through the low-dimensional bottleneck, effectively performing *data compression*.
+The resulting "latent space" tend to be organized in a meaningful way, where similar instances are close and specific data characteristics may correspond to particular directions in the space. 
+
+There are different formulations of autoencoder architectures, like **canonical and denoising autoencoders** {cite}`DBLP:conf/icml/VincentLBM08`, 
+as well as **Variational Autoencoders** (VAEs) {cite}`DBLP:journals/corr/KingmaW13`. 
+
+Encoder-decoder architectures can also be used in tasks where the output is not trained to be equal to the input, such as **style transfer** or **domain adaptation** (e.g., sequence-to-sequence language translation). 
+For musical audio, domain adaptation can be achieved by encoding recordings of an instrument or genre type and decoding into another type {cite}`DBLP:conf/iclr/MorWPT19`.   
+
+For a more detailed explanation of VAEs in this book, see [this link](lab_vaes).
 
 
 
 ## Diffusion
+See [this link](lab_diffusion).
