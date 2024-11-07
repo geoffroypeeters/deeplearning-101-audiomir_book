@@ -23,6 +23,7 @@ For generating **continuous-valued data**, the stochasticity usually comes from 
 Mathematically, this is typically defined as transforming a simple (usually Gaussian) distribution into the data distribution.
 In the following, a brief (architecture-agnostic) introduction in the most common training paradigms is given.
 
+(lab_gans)=
 ### Generative Adversarial Networks (GANs)
 
 For example, Generative Adversarial Networks (GANs) {cite}`DBLP:journals/corr/GoodfellowPMXWOCB14` in their basic form inject noise by inputting a high-dimensional noise vector
@@ -43,6 +44,7 @@ where $p(\mathbf{z})$ represents the distribution of noise input.
 This adversarial setup ensures that as $D$ improves in distinguishing real from fake data, 
 $G$ improves in generating more realistic samples, ultimately leading to convergence when the generated data becomes indistinguishable from the real data.
 
+(lab_vaes)=
 ### Variational Autoencoders (VAEs)
 
 Similarly, in Variational Autoencoders (VAEs, composed of encoder and decoder) {cite}`DBLP:journals/corr/KingmaW13`, the decoder receives as input a sample from an independent Gaussian prior distribution (a "standard normal distribution"). 
@@ -56,7 +58,7 @@ between the learned posterior $q_{\phi}(\mathbf{z} \mid \mathbf{x})$ and the pri
 The two objectives are adversarial because the KL term pushes the posteriors towards a zero mean and unit variance, while the reconstruction term encourages the posteriors to adopt distinct means and reduced variances, allowing each data point to have its own distribution.
 Together, they make it possible to sample from the prior $p(\mathbf{z}) \sim \mathcal{N}(0, I)$ at inference and decoding it into a plausible data sample: $\hat{\mathbf{x}} = D(\mathbf{z})$.
 
-
+(lab_diffusion)=
 ### Diffusion Models
 
 In Diffusion Models {cite}`DBLP:conf/nips/HoJA20`, the noise input has the same dimensionality as the data point that should be generated. 
