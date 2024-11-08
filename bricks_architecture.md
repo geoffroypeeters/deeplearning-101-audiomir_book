@@ -217,7 +217,8 @@ width: 70%
 name: brick_transformer
 ---
 ```
-**Figure:** The Transformer - model architecture.
+**Figure:** The Transformer model architecture. The **Encoder** is non-causal and therefore used for *masked token prediction* or as conditioning input for the Decoder. 
+The **Decoder** has causal masking and is therefore well-suited for *autoregressive generation*.   
 
 In recent years, Transformers {cite}`DBLP:conf/nips/VaswaniSPUJGKP17` widely replaced recurrent architectures for sequence modeling tasks and are also increasingly used instead of convolutional architectures.
 Their signature component, the **attention mechanism**, gives them a unique advantage over previous architectures.

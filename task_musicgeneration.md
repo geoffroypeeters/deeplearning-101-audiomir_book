@@ -1,42 +1,63 @@
 # Musical Audio Generation
 
+## Table of Contents
+
+- Basics of Generative Modeling
+  - [Autoregressive Generation](lab_autoregressive)
+  - [Non-Autoregressive (Parallel) Generation](lab_parallel)
+- Early Works
+  - [WaveNet](lab_wavenet)
+  - [SampleRNN](lab_samplernn)
+  - [Generative Adversarial Networks (GANs)](lab_gans2)
+- Examples
+  - [Autoregressive Generation:](lab_ex_autoregressive) [Notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Autoregressive.ipynb)
+  - [Generation with Latent Diffusion:](lab_ex_diffusion) [Notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb)
+
 ## Goal of the Task
 
-Musical audio generation aims to create various musical content, from individual notes {cite}`DBLP:conf/iclr/EngelACGDR19` to instrumental accompaniments/arrangements {cite}`DBLP:journals/corr/abs-2406-08384` and complete songs {cite}`DBLP:conf/icml/EvansCTHP24`. 
-In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain. 
-Recent approaches, however, work with compressed representations, often using neural audio codecs.
+Musical audio generation aims to create various musical content, from <mark>individual notes</mark> {cite}`DBLP:conf/iclr/EngelACGDR19` to <mark>instrumental accompaniments/arrangements</mark> {cite}`DBLP:journals/corr/abs-2406-08384` and <mark>complete songs</mark> {cite}`DBLP:conf/icml/EvansCTHP24`. 
+In the <mark>early days</mark> of audio generation research, methods often focused on producing audio directly in the <mark>time or time-frequency domain</mark>. 
+Recent approaches, however, work with <mark>compressed representations</mark>, often using <mark>neural audio codecs</mark>.
 
-The most widely used models today are autoregressive (Transformer) architectures and diffusion models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.
+The most widely used models today are <mark>autoregressive</mark> (Transformer) architectures and <mark>diffusion</mark> models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.
 
 ## Popular Datasets
 
-- **NSynth**: NSynth was once the go-to dataset for musical audio generation and can be regarded the "MNIST" in audio. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.
+- **NSynth**: NSynth is a dataset designed for musical audio generation, often regarded as the "MNIST" of audio. 
+It contains 305,979 short, single-note audio samples from 1,006 instruments, each labeled with attributes such as pitch, velocity, and instrument family. 
+This dataset is valuable for early experiments in audio synthesis and machine learning. [NSynth Dataset](https://magenta.tensorflow.org/datasets/nsynth)
 
-- **GTZAN**: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.
+- **MusicNet**: MusicNet is a collection of 330 freely-licensed classical music recordings, totaling over 34 hours of audio. 
+It includes more than 1 million annotated labels indicating the precise timing, instrument, and position of each note in the compositions. 
+This dataset is suitable for tasks involving complex musical structures and note prediction. [MusicNet Dataset](https://www.kaggle.com/datasets/imsparsh/musicnet-dataset)
 
-- **MusicNet**: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.
+- **MAESTRO**: The MAESTRO (MIDI and Audio Edited for Synchronous TRacks and Organization) dataset features over 200 hours of virtuosic piano performances captured with aligned MIDI and audio recordings. 
+It includes detailed metadata such as composer, title, and year of performance, making it particularly useful for training models in high-quality piano music generation. [MAESTRO Dataset](https://magenta.tensorflow.org/datasets/maestro)
 
-- **MAESTRO**: The MAESTRO dataset features piano performances, providing MIDI and corresponding audio recordings. This makes it particularly useful for training models of high-quality piano music generation.
-
-- **MagnaTagATune**: Offers a large collection of music with tags, useful for genre classification and multi-label tasks.
-
+- **MagnaTagATune**: MagnaTagATune offers a large collection of music annotated with tags, useful for genre classification and multi-label tasks. 
+It contains over 25,000 music clips, each 29 seconds long, with multiple annotations per clip, covering a wide range of genres and instruments. [MagnaTagATune Dataset](http://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset) 
 
 ## How is the Task Evaluated?
 
-Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set without directly reproducing any training data.
+Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in <mark>audio generation</mark>, the goal is to <mark>sample from the distribution of the training set without directly reproducing any training data</mark>.
 
-As a result, indirect, distribution-based evaluation metrics are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.
+As a result, indirect, <mark>distribution-based evaluation metrics</mark> are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.
 
 ### Frechet Audio Distance (FAD)
 
 Nowadays, the most commonly used metric in assessing the quality of generated audio is the Frechet Audio Distance (FAD) {cite}`DBLP:conf/interspeech/KilgourZRS19`. 
-It compares the statistics of generated audio to those of real, high-quality reference samples in the embedding space of a pre-trained model.
+It <mark>compares the statistics</mark> of generated audio to those of real, high-quality reference samples (usually the <mark>*test set*</mark>) in the embedding space of a pre-trained model.
 The idea is to assess the "closeness" of the two distributions: one for the generated samples and one for real samples.
 
 #### Origins and Motivation
 
-![fad_illustration](./images/brick_fad.png)
-**Figure 1:** FAD computation overview for a music enhancement system as initially proposed (image source: {cite}`DBLP:conf/interspeech/KilgourZRS19`).
+```{figure} ./images/brick_fad.png
+---
+width: 80%
+name: fad_illustration
+---
+```
+**Figure 1:** FAD computation overview for a <mark>music enhancement system</mark> as initially proposed (image source: {cite}`DBLP:conf/interspeech/KilgourZRS19`).
 
 Fréchet Audio Distance was initially developed to evaluate music enhancement algorithms (see Figure 1). 
 It filled a gap in objective audio quality evaluation, especially in generative tasks like music synthesis, audio inpainting, and speech generation. 
@@ -45,11 +66,19 @@ While subjective tests remain essential for evaluating the perceptual quality of
 
 #### Calculation of FAD
 
-The FAD metric works by embedding audio signals into a perceptual feature space using a pre-trained deep neural network model.
-Initially a VGGish model was proposed, but it has been shown that LAION CLAP embeddings {cite}`DBLP:conf/icassp/WuCZHBD23` or a specific PANN model {cite}`DBLP:journals/taslp/KongCIWWP20` align better with perceived audio quality {cite}`DBLP:conf/icassp/GuiGBE24, DBLP:journals/corr/abs-2403-17508`.
-Once embedded, it treats these embeddings as multidimensional distributions and calculates the Fréchet Distance (also known as the Wasserstein-2 distance) between the two distributions.
+```{figure} ./images/overlap_fad.png
+---
+width: 60%
+name: fad_distribution
+---
+```
+**Figure 2:** Example of audio samples projected in a 2d embedding space. The FAD in this example is <mark>$1.47$</mark>.
 
-Mathematically, it involves comparing the means and covariances of these distributions:
+The FAD metric works by embedding audio signals into a perceptual feature space using a <mark>pre-trained deep neural network</mark> model.
+Initially a <mark>VGGish</mark> model was proposed, but it has been shown that <mark>LAION CLAP</mark> embeddings {cite}`DBLP:conf/icassp/WuCZHBD23` or a specific <mark>PANN</mark> model {cite}`DBLP:journals/taslp/KongCIWWP20` align better with perceived audio quality {cite}`DBLP:conf/icassp/GuiGBE24, DBLP:journals/corr/abs-2403-17508`.
+Once embedded, it treats these embeddings as multidimensional distributions and calculates the <mark>Fréchet Distance</mark> (also known as the Wasserstein-2 distance) between the two distributions.
+
+Mathematically, it involves <mark>comparing the means and covariances</mark> of these distributions:
 
 $$
 \text{FAD} = \| \mu_r - \mu_g \|^2 + \text{Tr}( \Sigma_r + \Sigma_g - 2 (\Sigma_r \Sigma_g)^{1/2} )
@@ -68,7 +97,6 @@ FAD is widely used in research on generative audio models, including:
 
 Since its introduction, FAD has become a standard metric for evaluating the realism and quality of generated or processed audio.
 
-Certainly! Here’s a compact explanation of the **Inception Score (IS)** and **Kernel Inception Distance (KID)**, based on typical usage in evaluating generative models:
 
 ### Inception Methods
 The following methods apply if class labels are available for the training data of a generative model.
@@ -114,19 +142,20 @@ Therefore, it is very common (and important) in audio generation works to perfor
 For completeness, we also include methods in this section that are used to compare the audio quality of two or more audio files, typically used in audio enhancement, super resolution or restoration. 
 
 For reliable results in all methods, it is crucial to conduct tests in controlled listening environments, ideally with high-quality audio equipment. 
-Statistical analysis (like t-test) is often applied afterward to ensure the results are significant and unbiased.
+<mark>Statistical analysis</mark> (like t-test) is often applied afterward to ensure the results are significant and unbiased.
 
 #### Without Reference Samples
 
 The following metrics are used in cases where an absolute reference isn’t available, which typically applies to musical audio generation.
 
-One of the most widely used methods is the **Mean Opinion Score (MOS)**, where listeners rate each audio sample on a numerical scale, typically from 1 to 5 (i.e., Likert Scale), with higher scores indicating better quality. 
+**Single Stimulus Rating (SSR)** allows listeners to rate each sample individually. 
+This method is helpful when comparing samples of widely differing qualities, without needing a reference sample.
+One of the most widely used SSR methods is the **Mean Opinion Score (MOS)**, where listeners rate each audio sample on a numerical scale, <mark>typically from 1 to 5</mark> (i.e., Likert Scale), with higher scores indicating better quality. 
 MOS is popular because it gives a straightforward average score for quality, often applied in areas like audio generation, speech synthesis and audio enhancement.
 
-**Single Stimulus Rating (SSR)** allows listeners to rate each sample individually. 
-This method is helpful when comparing samples of widely differing qualities, such as generated audio, without needing a reference sample.
+In order to obtain <mark>meaningful results</mark> for SSR in audio generation, samples from <mark>different datasets</mark> are presented to the user, for example <mark>*real data*</mark> and <mark>*generated data*</mark>.  
 
-**Attribute-Specific Rating (ASR)** asks listeners to rate audio on specific qualities, like brightness, clarity, or naturalness, giving a more nuanced evaluation across multiple dimensions. 
+**Attribute-Specific Rating (ASR)** asks listeners to rate audio on <mark>specific qualities</mark>, like brightness, clarity, or naturalness, giving a more nuanced evaluation across multiple dimensions. 
 This approach is particularly useful when certain attributes are especially important, like naturalness in speech synthesis.
 
 #### With Reference Samples

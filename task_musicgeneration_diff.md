@@ -1,17 +1,19 @@
+(lab_ex_diffusion)=
 # Generation with Latent Diffusion
 
 For non-autoregressive generation, Latent Diffusion is currently one of the most effective and popular approaches.
 It focuses on creating high-quality samples by modeling data in a compressed, latent space rather than the spectrogram or waveform level. 
 This approach reduces computational cost and time by generating compact latent representations that, compared to raw data, are already simplified and organized.
 
-Here, we provide a simple example of musical audio generation using the guitar subset of the NSynth dataset, Music2Latent representations, and a classic U-Net architecture.
+Here, we provide a simple example of musical audio generation using the guitar subset of the [NSynth Dataset](https://magenta.tensorflow.org/datasets/nsynth),
+*continuous* [Music2Latent](https://github.com/SonyCSLParis/music2latent) representations, and a [classic U-Net architecture](lab_unet).
 In the corresponding [notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb) we implement a diffusion model that adopts a **Rectified Flow** method with **ODE-based sampling** {cite}`DBLP:conf/iclr/LiuG023`.
 This approach combines elements from both **denoising diffusion probabilistic models (DDPMs)** and **normalizing flows**, resulting in a continuous-time framework for generative modeling.
 
 
 ## Music2Latent Codec
-Music2Latent (M2L) {cite}`DBLP:journals/corr/abs-2408-06500` provides highly compressed, continuous audio representations with ~$11 \times 64$-dimensional vectors per second (for 44.1kHz sample rate).
-A consistency autoencoder facilitates a *generative decoder* that makes up for potentially lost information, enabling high-quality reconstructions.
+[Music2Latent (M2L)](https://github.com/SonyCSLParis/music2latent) {cite}`DBLP:journals/corr/abs-2408-06500` provides highly compressed, continuous audio representations with ~$11 \times 64$-dimensional vectors per second (for 44.1kHz sample rate).
+A <mark>consistency autoencoder</mark> facilitates a *generative decoder* that makes up for potentially lost information, enabling high-quality reconstructions.
 The M2L representations serve as the data space in which the diffusion process operates. 
 The diffusion model learns to generate M2L latent vectors, which are then decoded back into audio signals.
 
@@ -107,15 +109,23 @@ In this section, we show the
    where $f(\mathbf{x}_t, t)$ is the learned denoising function that predicts the residual (difference between noisy data and clean data):
 
    $$
-   f(\mathbf{x}_t, t) \approx \mathbf{x}_t - \mathbf{z}.
+   f(\mathbf{x}_t, t) \approx \mathbf{x}_0 - \mathbf{z}.
    $$
 
    As the model is trained to learn the difference between the data and the *unscaled* noise, it effectively learns a vector field with vectors pointing towards positions of high density (high probability).
 
 3. **ODE-Based Sampling**: During inference, the model uses an Ordinary Differential Equation (ODE) solver (the trained U-Net) to integrate over time from $t = 1$ (pure noise) to $t = 0$ (clean data).
-   As the model outputs unscaled direction vectors, at inference they are scaled by $\Delta t = \frac{1}{\text{num_steps}}$ (the `step_size`).
+   As the model outputs unscaled direction vectors $\mathbf{v}$, at inference they are scaled by $\Delta t = \frac{1}{\text{num_steps}}$ (the `step_size`).
    Note that, given the initial noise $\mathbf{z}$, this process is deterministic.
    This is in contrast to Denoising Diffusion Probabilistic Models (DDPMs) based on Stochastic Differential Equations (SDEs), where the noise is sampled at every step of the reverse diffusion process.
+
+```{figure} ./images/ode_sampling.png
+---
+width: 60%
+name: ode_based_sampling
+---
+```
+**Figure 2:** ODE-based sampling. Unscaled direction vectors $\mathbf{v}$ point in data direction.
 
 
 ### **Noise Addition and Training Objective**
@@ -153,9 +163,9 @@ The `RectifiedFlows` class handles the noise addition and defines the training l
       loss = mse(v, fv)
       # ...
   ```
-The model calculates the residual by subtracting the noise from the data, expressed as $v = x - \text{noise}$. 
+The model calculates the residual by subtracting the noise from the data, expressed as $\mathbf{v} = \mathbf{x} - \text{noise}$. 
 It then predicts $fv$, an approximation of the residual $v$, based on the noisy samples and the corresponding time step. 
-The loss function used is the Mean Squared Error (MSE) between the true residual $v$ and the predicted residual $fv$, which is given by $\text{Loss} = \| v - \text{fv} \|^2$. 
+The loss function used is the Mean Squared Error (MSE) between the true residual $v$ and the predicted residual $fv$, which is given by $\text{Loss} = \| \mathbf{v} - fv \|^2$. 
 Predicting the residual instead of the noise or the data directly is a characteristic of the **Rectified Flow** method, while in **Denoising Diffusion Probabilistic Models (DDPMs)**, the model typically predicts the noise. 
 
 ### **3. Inference and Sampling Process (`inference` function)**
@@ -186,10 +196,10 @@ def inference(rectified_flows, net, latents_shape, num_steps):
 
   - **Time Step (`step_size`)**: Calculated as $\Delta t = \frac{1}{\text{num_steps}}$.
 
-  - **Euler's Method**: Updates the sample by moving in the direction of `v` predicted by the model:
+  - **Euler's Method**: Updates the sample by moving in the direction of \mathbf{v} predicted by the model:
 
     $
-    \text{current_sample} = \text{current_sample} + \Delta t \cdot v
+    \text{current_sample} = \text{current_sample} + \Delta t \cdot \mathbf{v}
     $
 
   - **Time Update**: $t = t - \Delta t$

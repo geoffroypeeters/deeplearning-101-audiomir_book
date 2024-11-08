@@ -7,6 +7,7 @@ GANs were used to generate audio in the signal or frequency domain but faced cha
 Through the usage of neural audio codecs and the resulting reduction in dimensionality, the problem became simpler.
 Nowadays, through a combination of more efficient/simpler to-train generative models with generation in a compressed space, it is possible to generate high-quality, full-length music tracks.
 
+(lab_wavenet)=
 ## WaveNet
 
 
@@ -39,6 +40,7 @@ name: wavenet_scaling
 
 *Usage Example*: WaveNet was used by Google for text-to-speech (TTS) applications.
 
+(lab_samplernn)=
 ## SampleRNN
 
 ![sample_rnn](./images/sample_rnn.png)
@@ -56,6 +58,7 @@ As the memory of RNNs can be updated iteratively without the need to reconsider 
 
 *Usage Example*: Different artists used SampleRNN for music generation. Notably, a [livestream](https://www.youtube.com/watch?v=JF2p0Hlg_5U&ab_channel=DADABOTS) (by Dadabots) with Technical Death Metal music is ongoing with hardly any interruptions since March 2019 {cite}`DBLP:journals/corr/abs-1811-06633`.       
 
+(lab_gans2)=
 ## Generative Adversarial Networks
 
 For several years, Generative Adversarial Networks (GANs) {cite}`DBLP:journals/corr/GoodfellowPMXWOCB14` were among the most influential generative models.
