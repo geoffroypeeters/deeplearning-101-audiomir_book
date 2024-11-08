@@ -99,6 +99,13 @@ In this section, we show the
    where $t$ is the time step indicating the level of noise added, with $t = 0$ being no noise and $t = 1$ being full noise.
    This formulation is commonly used in Rectified Flow models and allows a simple, linear transition between the data and pure noise.
 
+   ```python
+   def add_noise(self, x, noise, times):
+       return (1. - times) * x + times * noise
+   ```
+
+   `add_noise` performs a linear interpolation between clean data `x` and random noise `noise` based on the time variable `times`.
+
 2. **Training Objective**: The model is trained to predict the residual $\mathbf{v} = \mathbf{x}_t - \mathbf{z}$ from the noisy samples and the time $t$. This residual guides the denoising process.
    In the case of Rectified Flow with ODE-based sampling, the reverse process can be formulated as:
 
@@ -114,6 +121,24 @@ In this section, we show the
 
    As the model is trained to learn the difference between the data and the *unscaled* noise, it effectively learns a vector field with vectors pointing towards positions of high density (high probability).
 
+   ```python
+   def forward(self, model, x, sigma=None, return_loss=True, **model_kwargs):
+       # ...
+       # random time
+       times = sigmoid(randn(x.shape[0]))
+       # random noise
+       noises = torch.randn_like(x)
+       v = x - noises
+       noisy_samples = self.add_noise(x, noises, times)
+       fv = model(noisy_samples, times, **model_kwargs)
+       loss = mse(v, fv)
+       # ...
+   ```
+   The model calculates the residual by subtracting the noise from the data, expressed as $\mathbf{v} = \mathbf{x} - \text{noise}$. 
+   It then predicts $fv$, an approximation of the residual $v$, based on the noisy samples and the corresponding time step. 
+   The loss function used is the Mean Squared Error (MSE) between the true residual $v$ and the predicted residual $fv$, which is given by $\text{Loss} = \| \mathbf{v} - fv \|^2$. 
+   Predicting the residual instead of the noise or the data directly is a characteristic of the **Rectified Flow** method, while in **Denoising Diffusion Probabilistic Models (DDPMs)**, the model typically predicts the noise. 
+
 3. **ODE-Based Sampling**: During inference, the model uses an Ordinary Differential Equation (ODE) solver (the trained U-Net) to integrate over time from $t = 1$ (pure noise) to $t = 0$ (clean data).
    As the model outputs unscaled direction vectors $\mathbf{v}$, at inference they are scaled by $\Delta t = \frac{1}{\text{num_steps}}$ (the `step_size`).
    Note that, given the initial noise $\mathbf{z}$, this process is deterministic.
@@ -126,47 +151,6 @@ name: ode_based_sampling
 ---
 ```
 **Figure 2:** ODE-based sampling. Unscaled direction vectors $\mathbf{v}$ point in data direction.
-
-
-### **Noise Addition and Training Objective**
-
-The `RectifiedFlows` class handles the noise addition and defines the training loss:
-
-- **Noise Addition (`add_noise` method)**:
-
-  ```python
-  def add_noise(self, x, noise, times):
-      return (1. - times) * x + times * noise
-  ```
-
-  `add_noise` performs a linear interpolation between clean data `x` and random noise `noise` based on the time variable `times`.
-
-- **Time Variable Sampling**:
-
-  ```python
-  times = torch.nn.functional.sigmoid(
-      torch.randn(x.shape[0]) * self.P_std + self.P_mean
-  )
-  ```
-
-  The sigmoid non-linearity ensures `times` lies between 0 and 1.
-
-- **Training Objective (`forward` method)**:
-
-  ```python
-  def forward(self, model, x, sigma=None, return_loss=True, **model_kwargs):
-      # ...
-      noises = torch.randn_like(x)
-      v = x - noises
-      noisy_samples = self.add_noise(x, noises, times)
-      fv = model(noisy_samples, times, **model_kwargs)
-      loss = mse(v, fv)
-      # ...
-  ```
-The model calculates the residual by subtracting the noise from the data, expressed as $\mathbf{v} = \mathbf{x} - \text{noise}$. 
-It then predicts $fv$, an approximation of the residual $v$, based on the noisy samples and the corresponding time step. 
-The loss function used is the Mean Squared Error (MSE) between the true residual $v$ and the predicted residual $fv$, which is given by $\text{Loss} = \| \mathbf{v} - fv \|^2$. 
-Predicting the residual instead of the noise or the data directly is a characteristic of the **Rectified Flow** method, while in **Denoising Diffusion Probabilistic Models (DDPMs)**, the model typically predicts the noise. 
 
 ### **3. Inference and Sampling Process (`inference` function)**
 
@@ -196,11 +180,11 @@ def inference(rectified_flows, net, latents_shape, num_steps):
 
   - **Time Step (`step_size`)**: Calculated as $\Delta t = \frac{1}{\text{num_steps}}$.
 
-  - **Euler's Method**: Updates the sample by moving in the direction of \mathbf{v} predicted by the model:
+  - **Euler's Method**: Updates the sample by moving in the direction of $\mathbf{v}$ predicted by the model:
 
-    $
+    $$
     \text{current_sample} = \text{current_sample} + \Delta t \cdot \mathbf{v}
-    $
+    $$
 
   - **Time Update**: $t = t - \Delta t$
 
