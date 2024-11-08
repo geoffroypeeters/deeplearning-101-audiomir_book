@@ -272,7 +272,7 @@ Positional embeddings are a way to inject information about the position of each
 This positional embedding can be static (learned) or computed through mathematical functions.
 It usually has the dimensionality of the token embeddings so that it can be easily added to the token embedding through element-wise addition.
 
-#### Different Positional Embeddings
+#### Positional Embedding Variants
 
 **Sinusoidal Positional Embeddings**: In the original Transformer, positional embeddings are calculated using sine and cosine functions of varying frequencies:
 
