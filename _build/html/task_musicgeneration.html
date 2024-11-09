@@ -414,6 +414,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
@@ -448,36 +449,67 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="musical-audio-generation">
 <h1>Musical Audio Generation<a class="headerlink" href="#musical-audio-generation" title="Permalink to this heading">#</a></h1>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Basics of Generative Modeling</p>
+<ul>
+<li><p><a class="reference internal" href="task_musicgeneration_basics.html#lab-autoregressive"><span class="std std-ref">Autoregressive Generation</span></a></p></li>
+<li><p><a class="reference internal" href="task_musicgeneration_basics.html#lab-parallel"><span class="std std-ref">Non-Autoregressive (Parallel) Generation</span></a></p></li>
+</ul>
+</li>
+<li><p>Early Works</p>
+<ul>
+<li><p><a class="reference internal" href="task_musicgeneration_early.html#lab-wavenet"><span class="std std-ref">WaveNet</span></a></p></li>
+<li><p><a class="reference internal" href="task_musicgeneration_early.html#lab-samplernn"><span class="std std-ref">SampleRNN</span></a></p></li>
+<li><p><a class="reference internal" href="task_musicgeneration_early.html#lab-gans2"><span class="std std-ref">Generative Adversarial Networks (GANs)</span></a></p></li>
+</ul>
+</li>
+<li><p>Examples</p>
+<ul>
+<li><p><a class="reference internal" href="task_musicgeneration_auto.html#lab-ex-autoregressive"><span class="std std-ref">Autoregressive Generation:</span></a> <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Autoregressive.ipynb">Notebook</a></p></li>
+<li><p><a class="reference internal" href="task_musicgeneration_diff.html#lab-ex-diffusion"><span class="std std-ref">Generation with Latent Diffusion:</span></a> <a class="reference external" href="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Diffusion.ipynb">Notebook</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="goal-of-the-task">
 <h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Musical audio generation aims to create various musical content, from individual notes <span id="id1">[<a class="reference internal" href="bibiography.html#id56" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span> to instrumental accompaniments/arrangements <span id="id2">[<a class="reference internal" href="bibiography.html#id50" title="Javier Nistal, Marco Pasini, Cyran Aouameur, Maarten Grachten, and Stefan Lattner. Diff-a-riff: musical accompaniment co-creation via latent diffusion models. CoRR, 2024.">NPA+24</a>]</span> and complete songs <span id="id3">[<a class="reference internal" href="bibiography.html#id6" title="Zach Evans, CJ Carr, Josiah Taylor, Scott H. Hawley, and Jordi Pons. Fast timing-conditioned latent audio diffusion. In ICML. OpenReview.net, 2024.">ECT+24</a>]</span>.
-In the early days of audio generation research, methods often focused on producing audio directly in the time or time-frequency domain.
-Recent approaches, however, work with compressed representations, often using neural audio codecs.</p>
-<p>The most widely used models today are autoregressive (Transformer) architectures and diffusion models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.</p>
+<p>Musical audio generation aims to create various musical content, from <mark>individual notes</mark> <span id="id1">[<a class="reference internal" href="bibiography.html#id61" title="Jesse H. Engel, Kumar Krishna Agrawal, Shuo Chen, Ishaan Gulrajani, Chris Donahue, and Adam Roberts. Gansynth: adversarial neural audio synthesis. In 7th International Conference on Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL: https://openreview.net/forum?id=H1xQVn09FX.">EAC+19</a>]</span> to <mark>instrumental accompaniments/arrangements</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id55" title="Javier Nistal, Marco Pasini, Cyran Aouameur, Maarten Grachten, and Stefan Lattner. Diff-a-riff: musical accompaniment co-creation via latent diffusion models. CoRR, 2024.">NPA+24</a>]</span> and <mark>complete songs</mark> <span id="id3">[<a class="reference internal" href="bibiography.html#id11" title="Zach Evans, CJ Carr, Josiah Taylor, Scott H. Hawley, and Jordi Pons. Fast timing-conditioned latent audio diffusion. In ICML. OpenReview.net, 2024.">ECT+24</a>]</span>.
+In the <mark>early days</mark> of audio generation research, methods often focused on producing audio directly in the <mark>time or time-frequency domain</mark>.
+Recent approaches, however, work with <mark>compressed representations</mark>, often using <mark>neural audio codecs</mark>.</p>
+<p>The most widely used models today are <mark>autoregressive</mark> (Transformer) architectures and <mark>diffusion</mark> models. Autoregressive architectures are particularly effective for discrete codecs, while diffusion models are better suited for continuous representations.</p>
 </section>
 <section id="popular-datasets">
 <h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>NSynth</strong>: NSynth was once the go-to dataset for musical audio generation and can be regarded the “MNIST” in audio. It contains short, synthetic, single-note samples from different instrument families and detailed metadata, making it a valuable resource for early experiments.</p></li>
-<li><p><strong>GTZAN</strong>: The GTZAN dataset is often used for genre classification and can serve as a starting point for more complex audio generation tasks involving diverse genres.</p></li>
-<li><p><strong>MusicNet</strong>: Contains recordings of classical music with aligned annotations, suitable for tasks involving complex musical structures.</p></li>
-<li><p><strong>MAESTRO</strong>: The MAESTRO dataset features piano performances, providing MIDI and corresponding audio recordings. This makes it particularly useful for training models of high-quality piano music generation.</p></li>
-<li><p><strong>MagnaTagATune</strong>: Offers a large collection of music with tags, useful for genre classification and multi-label tasks.</p></li>
+<li><p><strong>NSynth</strong>: NSynth is a dataset designed for musical audio generation, often regarded as the “MNIST” of audio.
+It contains 305,979 short, single-note audio samples from 1,006 instruments, each labeled with attributes such as pitch, velocity, and instrument family.
+This dataset is valuable for early experiments in audio synthesis and machine learning. <a class="reference external" href="https://magenta.tensorflow.org/datasets/nsynth">NSynth Dataset</a></p></li>
+<li><p><strong>MusicNet</strong>: MusicNet is a collection of 330 freely-licensed classical music recordings, totaling over 34 hours of audio.
+It includes more than 1 million annotated labels indicating the precise timing, instrument, and position of each note in the compositions.
+This dataset is suitable for tasks involving complex musical structures and note prediction. <a class="reference external" href="https://www.kaggle.com/datasets/imsparsh/musicnet-dataset">MusicNet Dataset</a></p></li>
+<li><p><strong>MAESTRO</strong>: The MAESTRO (MIDI and Audio Edited for Synchronous TRacks and Organization) dataset features over 200 hours of virtuosic piano performances captured with aligned MIDI and audio recordings.
+It includes detailed metadata such as composer, title, and year of performance, making it particularly useful for training models in high-quality piano music generation. <a class="reference external" href="https://magenta.tensorflow.org/datasets/maestro">MAESTRO Dataset</a></p></li>
+<li><p><strong>MagnaTagATune</strong>: MagnaTagATune offers a large collection of music annotated with tags, useful for genre classification and multi-label tasks.
+It contains over 25,000 music clips, each 29 seconds long, with multiple annotations per clip, covering a wide range of genres and instruments. <a class="reference external" href="http://mirg.city.ac.uk/codeapps/the-magnatagatune-dataset">MagnaTagATune Dataset</a></p></li>
 </ul>
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
-<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in audio generation, the goal is to sample from the distribution of the training set without directly reproducing any training data.</p>
-<p>As a result, indirect, distribution-based evaluation metrics are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.</p>
+<p>Evaluation of generation tasks is difficult. In other ML tasks, specific targets (e.g., labels, data points) are available in a given evaluation set, allowing precision estimation for a given model. In contrast, in <mark>audio generation</mark>, the goal is to <mark>sample from the distribution of the training set without directly reproducing any training data</mark>.</p>
+<p>As a result, indirect, <mark>distribution-based evaluation metrics</mark> are commonly used rather than relying on one-to-one comparisons, as in autoencoders or classification tasks.</p>
 <section id="frechet-audio-distance-fad">
 <h3>Frechet Audio Distance (FAD)<a class="headerlink" href="#frechet-audio-distance-fad" title="Permalink to this heading">#</a></h3>
-<p>Nowadays, the most commonly used metric in assessing the quality of generated audio is the Frechet Audio Distance (FAD) <span id="id4">[<a class="reference internal" href="bibiography.html#id12" title="Kevin Kilgour, Mauricio Zuluaga, Dominik Roblek, and Matthew Sharifi. Fréchet audio distance: A reference-free metric for evaluating music enhancement algorithms. In INTERSPEECH, 2350–2354. ISCA, 2019.">KZRS19</a>]</span>.
-It compares the statistics of generated audio to those of real, high-quality reference samples in the embedding space of a pre-trained model.
+<p>Nowadays, the most commonly used metric in assessing the quality of generated audio is the Frechet Audio Distance (FAD) <span id="id4">[<a class="reference internal" href="bibiography.html#id17" title="Kevin Kilgour, Mauricio Zuluaga, Dominik Roblek, and Matthew Sharifi. Fréchet audio distance: A reference-free metric for evaluating music enhancement algorithms. In INTERSPEECH, 2350–2354. ISCA, 2019.">KZRS19</a>]</span>.
+It <mark>compares the statistics</mark> of generated audio to those of real, high-quality reference samples (usually the <mark><em>test set</em></mark>) in the embedding space of a pre-trained model.
 The idea is to assess the “closeness” of the two distributions: one for the generated samples and one for real samples.</p>
 <section id="origins-and-motivation">
 <h4>Origins and Motivation<a class="headerlink" href="#origins-and-motivation" title="Permalink to this heading">#</a></h4>
-<p><img alt="fad_illustration" src="_images/brick_fad.png" />
-<strong>Figure 1:</strong> FAD computation overview for a music enhancement system as initially proposed (image source: <span id="id5">[<a class="reference internal" href="bibiography.html#id12" title="Kevin Kilgour, Mauricio Zuluaga, Dominik Roblek, and Matthew Sharifi. Fréchet audio distance: A reference-free metric for evaluating music enhancement algorithms. In INTERSPEECH, 2350–2354. ISCA, 2019.">KZRS19</a>]</span>).</p>
+<figure class="align-default" id="fad-illustration">
+<a class="reference internal image-reference" href="_images/brick_fad.png"><img alt="_images/brick_fad.png" src="_images/brick_fad.png" style="width: 80%;" /></a>
+</figure>
+<p><strong>Figure 1:</strong> FAD computation overview for a <mark>music enhancement system</mark> as initially proposed (image source: <span id="id5">[<a class="reference internal" href="bibiography.html#id17" title="Kevin Kilgour, Mauricio Zuluaga, Dominik Roblek, and Matthew Sharifi. Fréchet audio distance: A reference-free metric for evaluating music enhancement algorithms. In INTERSPEECH, 2350–2354. ISCA, 2019.">KZRS19</a>]</span>).</p>
 <p>Fréchet Audio Distance was initially developed to evaluate music enhancement algorithms (see Figure 1).
 It filled a gap in objective audio quality evaluation, especially in generative tasks like music synthesis, audio inpainting, and speech generation.
 Before FAD, audio evaluations often relied on metrics like mean squared error (for reconstruction-based approaches) or subjective listening tests.
@@ -485,10 +517,14 @@ While subjective tests remain essential for evaluating the perceptual quality of
 </section>
 <section id="calculation-of-fad">
 <h4>Calculation of FAD<a class="headerlink" href="#calculation-of-fad" title="Permalink to this heading">#</a></h4>
-<p>The FAD metric works by embedding audio signals into a perceptual feature space using a pre-trained deep neural network model.
-Initially a VGGish model was proposed, but it has been shown that LAION CLAP embeddings <span id="id6">[<a class="reference internal" href="bibiography.html#id9" title="Yusong Wu, Ke Chen, Tianyu Zhang, Yuchen Hui, Taylor Berg-Kirkpatrick, and Shlomo Dubnov. Large-scale contrastive language-audio pretraining with feature fusion and keyword-to-caption augmentation. In ICASSP, 1–5. IEEE, 2023.">WCZ+23</a>]</span> or a specific PANN model <span id="id7">[<a class="reference internal" href="bibiography.html#id8" title="Qiuqiang Kong, Yin Cao, Turab Iqbal, Yuxuan Wang, Wenwu Wang, and Mark D. Plumbley. Panns: large-scale pretrained audio neural networks for audio pattern recognition. IEEE ACM Trans. Audio Speech Lang. Process., 28:2880–2894, 2020.">KCI+20</a>]</span> align better with perceived audio quality <span id="id8">[<a class="reference internal" href="bibiography.html#id10" title="Azalea Gui, Hannes Gamper, Sebastian Braun, and Dimitra Emmanouilidou. Adapting frechet audio distance for generative music evaluation. In ICASSP, 1331–1335. IEEE, 2024.">GGBE24</a>, <a class="reference internal" href="bibiography.html#id11" title="Modan Tailleur, Junwon Lee, Mathieu Lagrange, Keunwoo Choi, Laurie M. Heller, Keisuke Imoto, and Yuki Okamoto. Correlation of fréchet audio distance with human perception of environmental audio is embedding dependant. CoRR, 2024.">TLL+24</a>]</span>.
-Once embedded, it treats these embeddings as multidimensional distributions and calculates the Fréchet Distance (also known as the Wasserstein-2 distance) between the two distributions.</p>
-<p>Mathematically, it involves comparing the means and covariances of these distributions:</p>
+<figure class="align-default" id="fad-distribution">
+<a class="reference internal image-reference" href="_images/overlap_fad.png"><img alt="_images/overlap_fad.png" src="_images/overlap_fad.png" style="width: 60%;" /></a>
+</figure>
+<p><strong>Figure 2:</strong> Example of audio samples projected in a 2d embedding space. The FAD in this example is <mark><span class="math notranslate nohighlight">\(1.47\)</span></mark>.</p>
+<p>The FAD metric works by embedding audio signals into a perceptual feature space using a <mark>pre-trained deep neural network</mark> model.
+Initially a <mark>VGGish</mark> model was proposed, but it has been shown that <mark>LAION CLAP</mark> embeddings <span id="id6">[<a class="reference internal" href="bibiography.html#id14" title="Yusong Wu, Ke Chen, Tianyu Zhang, Yuchen Hui, Taylor Berg-Kirkpatrick, and Shlomo Dubnov. Large-scale contrastive language-audio pretraining with feature fusion and keyword-to-caption augmentation. In ICASSP, 1–5. IEEE, 2023.">WCZ+23</a>]</span> or a specific <mark>PANN</mark> model <span id="id7">[<a class="reference internal" href="bibiography.html#id13" title="Qiuqiang Kong, Yin Cao, Turab Iqbal, Yuxuan Wang, Wenwu Wang, and Mark D. Plumbley. Panns: large-scale pretrained audio neural networks for audio pattern recognition. IEEE ACM Trans. Audio Speech Lang. Process., 28:2880–2894, 2020.">KCI+20</a>]</span> align better with perceived audio quality <span id="id8">[<a class="reference internal" href="bibiography.html#id15" title="Azalea Gui, Hannes Gamper, Sebastian Braun, and Dimitra Emmanouilidou. Adapting frechet audio distance for generative music evaluation. In ICASSP, 1331–1335. IEEE, 2024.">GGBE24</a>, <a class="reference internal" href="bibiography.html#id16" title="Modan Tailleur, Junwon Lee, Mathieu Lagrange, Keunwoo Choi, Laurie M. Heller, Keisuke Imoto, and Yuki Okamoto. Correlation of fréchet audio distance with human perception of environmental audio is embedding dependant. CoRR, 2024.">TLL+24</a>]</span>.
+Once embedded, it treats these embeddings as multidimensional distributions and calculates the <mark>Fréchet Distance</mark> (also known as the Wasserstein-2 distance) between the two distributions.</p>
+<p>Mathematically, it involves <mark>comparing the means and covariances</mark> of these distributions:</p>
 <div class="math notranslate nohighlight">
 \[
 \text{FAD} = \| \mu_r - \mu_g \|^2 + \text{Tr}( \Sigma_r + \Sigma_g - 2 (\Sigma_r \Sigma_g)^{1/2} )
@@ -505,7 +541,6 @@ Once embedded, it treats these embeddings as multidimensional distributions and 
 <li><p><strong>Denoising and Enhancement</strong>: Assessing the quality of denoised or enhanced audio by comparing it to clean reference audio.</p></li>
 </ol>
 <p>Since its introduction, FAD has become a standard metric for evaluating the realism and quality of generated or processed audio.</p>
-<p>Certainly! Here’s a compact explanation of the <strong>Inception Score (IS)</strong> and <strong>Kernel Inception Distance (KID)</strong>, based on typical usage in evaluating generative models:</p>
 </section>
 </section>
 <section id="inception-methods">
@@ -551,15 +586,16 @@ They rely on a so-called <em>Inception network</em> – a classifier trained to 
 Therefore, it is very common (and important) in audio generation works to perform user studies where human listeners assess the perceived quality of audio, focusing on aspects like naturalness, clarity, and overall fidelity.
 For completeness, we also include methods in this section that are used to compare the audio quality of two or more audio files, typically used in audio enhancement, super resolution or restoration.</p>
 <p>For reliable results in all methods, it is crucial to conduct tests in controlled listening environments, ideally with high-quality audio equipment.
-Statistical analysis (like t-test) is often applied afterward to ensure the results are significant and unbiased.</p>
+<mark>Statistical analysis</mark> (like t-test) is often applied afterward to ensure the results are significant and unbiased.</p>
 <section id="without-reference-samples">
 <h4>Without Reference Samples<a class="headerlink" href="#without-reference-samples" title="Permalink to this heading">#</a></h4>
 <p>The following metrics are used in cases where an absolute reference isn’t available, which typically applies to musical audio generation.</p>
-<p>One of the most widely used methods is the <strong>Mean Opinion Score (MOS)</strong>, where listeners rate each audio sample on a numerical scale, typically from 1 to 5 (i.e., Likert Scale), with higher scores indicating better quality.
-MOS is popular because it gives a straightforward average score for quality, often applied in areas like audio generation, speech synthesis and audio enhancement.</p>
 <p><strong>Single Stimulus Rating (SSR)</strong> allows listeners to rate each sample individually.
-This method is helpful when comparing samples of widely differing qualities, such as generated audio, without needing a reference sample.</p>
-<p><strong>Attribute-Specific Rating (ASR)</strong> asks listeners to rate audio on specific qualities, like brightness, clarity, or naturalness, giving a more nuanced evaluation across multiple dimensions.
+This method is helpful when comparing samples of widely differing qualities, without needing a reference sample.
+One of the most widely used SSR methods is the <strong>Mean Opinion Score (MOS)</strong>, where listeners rate each audio sample on a numerical scale, <mark>typically from 1 to 5</mark> (i.e., Likert Scale), with higher scores indicating better quality.
+MOS is popular because it gives a straightforward average score for quality, often applied in areas like audio generation, speech synthesis and audio enhancement.</p>
+<p>In order to obtain <mark>meaningful results</mark> for SSR in audio generation, samples from <mark>different datasets</mark> are presented to the user, for example <mark><em>real data</em></mark> and <mark><em>generated data</em></mark>.</p>
+<p><strong>Attribute-Specific Rating (ASR)</strong> asks listeners to rate audio on <mark>specific qualities</mark>, like brightness, clarity, or naturalness, giving a more nuanced evaluation across multiple dimensions.
 This approach is particularly useful when certain attributes are especially important, like naturalness in speech synthesis.</p>
 </section>
 <section id="with-reference-samples">
@@ -644,6 +680,7 @@ MUSHRA provides detailed insight across various conditions, making it useful for
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
