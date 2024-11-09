@@ -1,6 +1,9 @@
+(lab_ex_autoregressive)=
 # Autoregressive Generation
 
-In this tutorial, we demonstrate a practical implementation of musical audio generation using an autoregressive Transformer model and discrete audio representations obtained from a neural audio codec. We focus on the guitar subset of the NSynth dataset and use EnCodec representations to train our model.
+In this tutorial, we demonstrate a practical implementation of musical audio generation using an autoregressive [Transformer model](lab_transformer) and discrete audio representations obtained from a neural audio codec. 
+We focus on the guitar subset of the NSynth dataset and use EnCodec representations to train our model.
+The full code can be found in the corresponding [Notebook](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Generation_Autoregressive.ipynb).
 
 ## EnCodec Neural Audio Codec
 
@@ -36,6 +39,10 @@ def encode_audio(waveform, sample_rate):
     return codes.flatten()
 ```
 
+![linearize_codebook](./images/linearize.png)
+
+**Figure 2:** Linearization scheme for the EnCodec tokens in our example.
+
 ## Preparing the Dataset
 
 We use the guitar subset of the NSynth dataset, encoding each audio file into discrete token sequences by initializing the `DiscreteAudioRepDataset` and the `DataLoader`.
@@ -64,11 +71,13 @@ dataloader_val = DataLoader(dataset_val, batch_size=125, shuffle=True)
 (lab_architecture_auto)=
 ## Transformer Model Architecture
 
-We use a classic Transformer decoder with *rotary positional embeddings* from x_transformers to model the sequence of discrete tokens autoregressively.
+We use a classic [Transformer](lab_transformer) decoder with *rotary positional embeddings* from `x_transformers` to model the sequence of discrete tokens autoregressively.
 
 The model predicts the next token given the previous tokens.
 
 ```python
+!pip install x-transformers
+
 from x_transformers import TransformerWrapper, Decoder
 
 model = TransformerWrapper(
@@ -102,9 +111,9 @@ where $y_t^*$ is the true token at time $t$, and $y_{<t}$ are the previous token
 We train the model using teacher forcing, where the true previous tokens are provided as input during training.
 
 ```python
-import torch.nn as nn
+import torch
 
-criterion = nn.CrossEntropyLoss()
+criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
 for epoch in range(num_epochs):
@@ -115,10 +124,10 @@ for epoch in range(num_epochs):
         logits = model(batch)
         logits = logits.permute(0, 2, 1)
         
-        inputs = logits[..., :-1]  # All tokens except the last
+        pred = logits[..., :-1]  # All tokens except the last
         targets = batch[..., 1:]  # All tokens except the first
         
-        loss = criterion(inputs, targets)
+        loss = criterion(pred, targets)
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
@@ -129,21 +138,23 @@ for epoch in range(num_epochs):
 During inference, we generate new sequences by sampling tokens one at a time from the model's output distribution.
 
 ```python
-    LEVELS = 2 # 2 for bandwidth 1.5
-    generated = [start_token]
-    model.eval()
-    for _ in range(seq_length):
-        input_seq = torch.tensor([generated]).long()
-        logits = model(input_seq)[:, -1, :]
-        probs = torch.softmax(logits, dim=-1)
-        next_token = torch.multinomial(probs, num_samples=1).item()
-        generated.append(next_token)
-    
-    generated_sequence = torch.tensor(generated[1:]) # Remove start_token
-    codes = generated_sequence.view(1, -1, LEVELS).transpose(1, 2) # reshape to de-linearlize (into sequences of 2 Levels)
+LEVELS = 2 # 2 for bandwidth 1.5
+generated = [start_token]
+model.eval()
+for _ in range(seq_length):
+    input_seq = torch.tensor([generated]).long()
+    logits = model(input_seq)[:, -1, :]
+    probs = torch.softmax(logits, dim=-1)
+    next_token = torch.multinomial(probs, num_samples=1).item()
+    generated.append(next_token)
 
-    # Decode into waveform
-    decoded_audio = codec.decode([(codes, None)])
+generated_sequence = torch.tensor(generated[1:]) # Remove start_token
+
+# reshape to de-linearlize (into sequences of 2 Levels)
+codes = generated_sequence.view(1, -1, LEVELS).transpose(1, 2)
+
+# Decode into waveform
+decoded_audio = codec.decode([(codes, None)])
 ```
 
 ---

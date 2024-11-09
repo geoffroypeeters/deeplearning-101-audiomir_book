@@ -416,14 +416,15 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised">Unsupervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-loss">Triplet Loss</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-mining">Triplet Mining</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks">Generative Adversarial Networks</a></li>
 </ul>
             </nav>
         </div>
@@ -453,10 +454,21 @@ Such a loss can be</p>
 <p>Since we do not have access to the distribution <span class="math notranslate nohighlight">\(p(\mathbf{x},\mathbf{y})\)</span> but only to samples of it <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{y}^{(i)} \sim p(\mathbf{x},\mathbf{y})\)</span>, we <strong>empirically minimize the loss/risk</strong> for a set of training examples <span class="math notranslate nohighlight">\((\mathbf{x}^{(i)}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{y}^{(i)})\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)})\]</div>
-<p>This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
+<p>This minimization is usually done using one type of Stochastic Gradient Descent (SGD, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for <span class="math notranslate nohighlight">\(I\)</span> (stochastic, mini-batch, batch GD).</p>
 </section>
 <section id="self-supervised">
 <span id="lab-ssl"></span><h2>Self-supervised<a class="headerlink" href="#self-supervised" title="Permalink to this heading">#</a></h2>
+<p>While in supervised learning there is a clear input/target distinction (and both are available), in the self-supervised paradigm, “targets” are typically created from the input data directly.
+This can mean to predict the next token in a sequence (the current, popular way of training Large Language Models), to corrupt or mask parts of the input or to augment the input with domain-specific transformations.
+Such manipulations or selective predictions sometimes require domain knowledge, injected by domain-informed procedures during training.
+This results in data representations that represent specific properties and are invariant to others.
+In audio, one could augment signals by changing the volume to obtain representations that are volume-invariant.</p>
+</section>
+<section id="unsupervised">
+<span id="lab-usl"></span><h2>Unsupervised<a class="headerlink" href="#unsupervised" title="Permalink to this heading">#</a></h2>
+<p>Unsupervised approaches aim to learn correlations in data without the injection of any (domain-)knowledge.
+This results in (typically lower-dimensional) latent spaces with high variance for input dimensions that are correlated.
+For example, in music, unsupervised training could result in a latent space that puts samples close when their tonality is close in the circle of fifth <span id="id1">[<a class="reference internal" href="bibiography.html#id3" title="Carlos Eduardo Cancino Chacón, Stefan Lattner, and Maarten Grachten. Developing tonal perception through unsupervised learning. In ISMIR, 195–200. 2014.">ChaconLG14</a>]</span>.</p>
 </section>
 <section id="metric-learning">
 <span id="lab-metric-learning"></span><h2>Metric Learning<a class="headerlink" href="#metric-learning" title="Permalink to this heading">#</a></h2>
@@ -474,8 +486,8 @@ The goal is to <mark>map input data into a space where</mark></p>
 </ul>
 <p>There exist many algorithm to train such a model such as</p>
 <ul class="simple">
-<li><p><mark>Contrastive Loss</mark> <span id="id1">[<a class="reference internal" href="bibiography.html#id66" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jointly) the model to minimize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
-<li><p><mark>Triplet Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id65" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
+<li><p><mark>Contrastive Loss</mark> <span id="id2">[<a class="reference internal" href="bibiography.html#id71" title="Raia Hadsell, Sumit Chopra, and Yann LeCun. Dimensionality reduction by learning an invariant mapping. In 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2006), 17-22 June 2006, New York, NY, USA, 1735–1742. IEEE Computer Society, 2006. URL: https://doi.org/10.1109/CVPR.2006.100, doi:10.1109/CVPR.2006.100.">HCL06</a>]</span> in which we optimize in turns (but not jointly) the model to minimize a distance for similar pairs and maximize (up to a margin) it for dissimilar pairs</p></li>
+<li><p><mark>Triplet Loss</mark> <span id="id3">[<a class="reference internal" href="bibiography.html#id70" title="Elad Hoffer and Nir Ailon. Deep metric learning using triplet network. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Workshop Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6622.">HA15</a>]</span> see below</p></li>
 </ul>
 <p>The triplet loss can be extended to the multiple-loss with close relationship with Contrastive Learning (InfoNCE, NT-Xent losses).</p>
 <p>Fore more details, see the very good tutorial <a class="reference external" href="https://github.com/bmcfee/ismir2020-metric-learning">“Metric Learning for Music Information Retrieval” by Brian McFee, Jongpil Lee and Juhan Nam</a></p>
@@ -543,14 +555,27 @@ The goal is to ensure the model learns effectively by choosing the right combina
 </ul>
 </section>
 </section>
-<section id="adversarial">
-<h2>Adversarial<a class="headerlink" href="#adversarial" title="Permalink to this heading">#</a></h2>
-</section>
 <section id="encoder-decoder">
 <h2>Encoder-Decoder<a class="headerlink" href="#encoder-decoder" title="Permalink to this heading">#</a></h2>
+<p><img alt="encoder-decoder" src="_images/brick_enc_dec.png" /></p>
+<p><strong>Figure:</strong> Schematic illustration of a canonical autoencoder.</p>
+<p>In encoder-decoder methods, such as autoencoders, data is sent through hourglass-like architectures typically possessing a lower-dimensional bottleneck layer.
+Such models are trained to minimize a reconstruction error. For example, in the case of autoencoders, the output of the model should be equal to the input.
+In order to satisfy this objective, information needs to be “squeezed” through the low-dimensional bottleneck, effectively performing <em>data compression</em>.
+The resulting “latent space” tend to be organized in a meaningful way, where similar instances are close and specific data characteristics may correspond to particular directions in the space.</p>
+<p>There are different formulations of autoencoder architectures, like <strong>canonical and denoising autoencoders</strong> <span id="id4">[<a class="reference internal" href="bibiography.html#id6" title="Pascal Vincent, Hugo Larochelle, Yoshua Bengio, and Pierre-Antoine Manzagol. Extracting and composing robust features with denoising autoencoders. In ICML, volume 307 of ACM International Conference Proceeding Series, 1096–1103. ACM, 2008.">VLBM08</a>]</span>,
+as well as <strong>Variational Autoencoders</strong> (VAEs) <span id="id5">[<a class="reference internal" href="bibiography.html#id43" title="Diederik P. Kingma and Max Welling. Auto-encoding variational bayes. In Yoshua Bengio and Yann LeCun, editors, 2nd International Conference on Learning Representations, ICLR 2014, Banff, AB, Canada, April 14-16, 2014, Conference Track Proceedings. 2014. URL: http://arxiv.org/abs/1312.6114.">KW14</a>]</span>.</p>
+<p>Encoder-decoder architectures can also be used in tasks where the output is not trained to be equal to the input, such as <strong>style transfer</strong> or <strong>domain adaptation</strong> (e.g., sequence-to-sequence language translation).
+For musical audio, domain adaptation can be achieved by encoding recordings of an instrument or genre type and decoding into another type <span id="id6">[<a class="reference internal" href="bibiography.html#id7" title="Noam Mor, Lior Wolf, Adam Polyak, and Yaniv Taigman. A universal music translation network. In ICLR (Poster). OpenReview.net, 2019.">MWPT19</a>]</span>.</p>
+<p>For a more detailed explanation of VAEs in this book, see <a class="reference internal" href="task_musicgeneration_basics.html#lab-vaes"><span class="std std-ref">this link</span></a>.</p>
 </section>
-<section id="diffusion">
-<h2>Diffusion<a class="headerlink" href="#diffusion" title="Permalink to this heading">#</a></h2>
+<section id="diffusion-models">
+<h2>Diffusion Models<a class="headerlink" href="#diffusion-models" title="Permalink to this heading">#</a></h2>
+<p>See <a class="reference internal" href="task_musicgeneration_basics.html#lab-diffusion"><span class="std std-ref">this link</span></a>.</p>
+</section>
+<section id="generative-adversarial-networks">
+<h2>Generative Adversarial Networks<a class="headerlink" href="#generative-adversarial-networks" title="Permalink to this heading">#</a></h2>
+<p>See <a class="reference internal" href="task_musicgeneration_basics.html#lab-gans"><span class="std std-ref">this link</span></a>.</p>
 </section>
 </section>
 
@@ -619,14 +644,15 @@ The goal is to ensure the model learns effectively by choosing the right combina
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised">Supervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised">Self-supervised</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised">Unsupervised</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-learning">Metric Learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-loss">Triplet Loss</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triplet-mining">Triplet Mining</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adversarial">Adversarial</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoder-decoder">Encoder-Decoder</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-models">Diffusion Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-adversarial-networks">Generative Adversarial Networks</a></li>
 </ul>
   </nav></div>
 

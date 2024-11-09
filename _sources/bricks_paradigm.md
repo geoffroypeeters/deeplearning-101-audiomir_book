@@ -23,18 +23,23 @@ Since we do not have access to the distribution $p(\mathbf{x},\mathbf{y})$ but o
 
 $$\theta^* = \arg\min_{\theta} \sum_{i=0}^{I-1} \mathcal{L}(f_{\theta}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)})$$
 
-This minimization is usually done using one type of Steepest Gradient Descent (SDG, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
-
-
-
+This minimization is usually done using one type of Stochastic Gradient Descent (SGD, Momentum, AdaGrad, AdaDelta, ADAM) and using various cardinality for $I$ (stochastic, mini-batch, batch GD).
 
 (lab_ssl)=
 ## Self-supervised
 
+While in supervised learning there is a clear input/target distinction (and both are available), in the self-supervised paradigm, "targets" are typically created from the input data directly.
+This can mean to predict the next token in a sequence (the current, popular way of training Large Language Models), to corrupt or mask parts of the input or to augment the input with domain-specific transformations. 
+Such manipulations or selective predictions sometimes require domain knowledge, injected by domain-informed procedures during training.
+This results in data representations that represent specific properties and are invariant to others.
+In audio, one could augment signals by changing the volume to obtain representations that are volume-invariant.
 
+(lab_usl)=
+## Unsupervised
 
-
-
+Unsupervised approaches aim to learn correlations in data without the injection of any (domain-)knowledge.
+This results in (typically lower-dimensional) latent spaces with high variance for input dimensions that are correlated.
+For example, in music, unsupervised training could result in a latent space that puts samples close when their tonality is close in the circle of fifth {cite}`DBLP:conf/ismir/ChaconLG14`.
 
 
 (lab_metric_learning)=
@@ -121,15 +126,29 @@ We also distinguish between
 
 
 
-
-
-
-## Adversarial
-
-
-
 ## Encoder-Decoder
 
+![encoder-decoder](./images/brick_enc_dec.png)
+
+**Figure:** Schematic illustration of a canonical autoencoder.
+
+In encoder-decoder methods, such as autoencoders, data is sent through hourglass-like architectures typically possessing a lower-dimensional bottleneck layer.
+Such models are trained to minimize a reconstruction error. For example, in the case of autoencoders, the output of the model should be equal to the input.
+In order to satisfy this objective, information needs to be "squeezed" through the low-dimensional bottleneck, effectively performing *data compression*.
+The resulting "latent space" tend to be organized in a meaningful way, where similar instances are close and specific data characteristics may correspond to particular directions in the space. 
+
+There are different formulations of autoencoder architectures, like **canonical and denoising autoencoders** {cite}`DBLP:conf/icml/VincentLBM08`, 
+as well as **Variational Autoencoders** (VAEs) {cite}`DBLP:journals/corr/KingmaW13`. 
+
+Encoder-decoder architectures can also be used in tasks where the output is not trained to be equal to the input, such as **style transfer** or **domain adaptation** (e.g., sequence-to-sequence language translation). 
+For musical audio, domain adaptation can be achieved by encoding recordings of an instrument or genre type and decoding into another type {cite}`DBLP:conf/iclr/MorWPT19`.   
+
+For a more detailed explanation of VAEs in this book, see [this link](lab_vaes).
 
 
-## Diffusion
+## Diffusion Models
+See [this link](lab_diffusion).
+
+
+## Generative Adversarial Networks
+See [this link](lab_gans).
