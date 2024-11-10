@@ -416,7 +416,13 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#losses">Losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning">Conditioning</a></li>
 </ul>
             </nav>
         </div>
@@ -429,7 +435,11 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="source-separation">
-<span id="lab-source-separation"></span><h1>Source Separation<a class="headerlink" href="#source-separation" title="Permalink to this heading">#</a></h1>
+<h1>Source Separation<a class="headerlink" href="#source-separation" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Get the slides in <a class="reference external" href="https://docs.google.com/presentation/d/1wx7UlnwGMKhnByI1FPjTR5Vtj8WY4y8rvRUtfyCOpDk/edit?usp=sharing">Here</a></p></li>
+<li><p>Test the NOTEBOOK in <a class="reference external" href="https://colab.research.google.com/github/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Source_Separation.ipynb">Here</a></p></li>
+</ul>
 <section id="goal-of-the-task">
 <h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
 <p>Music source separation is the process of isolating individual musical sources, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is distinct from general source separation due to the unique challenges presented by musical compositions. For example, in a band setting, isolating a single instrument, like the bass guitar, allows musicians to practice along, or extracting vocals enables karaoke applications.
@@ -453,6 +463,53 @@ y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
 </section>
 <section id="how-is-the-task-evaluated">
 <h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
+<p>Three commonly used metrics for evaluating music source separation are Source-to-Distortion Ratio (SDR), Source-to-Interference Ratio (SIR), and Source-to-Artifact Ratio (SAR). These metrics assess the quality of a system’s output by analyzing how well it isolates each target source from undesired elements.</p>
+<p>Given an estimate of a source <span class="math notranslate nohighlight">\(\hat{s}_i\)</span>, it can be decomposed as follows:</p>
+<p><span class="math notranslate nohighlight">\(\hat{s}_i = s_{\text{target}} + e_{\text{interf}} + e_{\text{noise}} + e_{\text{artif}}\)</span></p>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(s_{\text{target}}\)</span> is the true source component,</p></li>
+<li><p><span class="math notranslate nohighlight">\(e_{\text{interf}}\)</span> represents interference from other sources,</p></li>
+<li><p><span class="math notranslate nohighlight">\(e_{\text{noise}}\)</span> is the noise, and</p></li>
+<li><p><span class="math notranslate nohighlight">\(e_{\text{artif}}\)</span> accounts for artifacts introduced by the separation system</p></li>
+</ul>
+<p>Using these components, we can calculate the three evaluation metrics:</p>
+<ul class="simple">
+<li><p><strong>Source-to-Artifact Ratio (SAR)</strong>: This metric quantifies the level of unwanted artifacts in the estimated source relative to the true source. A high SAR value indicates fewer artifacts. It represents the algorithmic artifacts of the process.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\text{SAR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} + e_{\text{interf}} + e_{\text{noise}} \|^2}{ \| e_{\text{artif}} \|^2} \right)
+\]</div>
+<ul class="simple">
+<li><p><strong>Source-to-Interference Ratio (SIR)</strong>: SIR measures the amount of interference from other sources in the estimate. This metric is helpful for understanding the extent of “bleed” or “leakage” from other instruments. It represents the interference in the isolation from other sources.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \text{SIR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} \|^2}{ \| e_{\text{interf}} \|^2} \right)
+ \]</div>
+<ul class="simple">
+<li><p><strong>Source-to-Distortion Ratio (SDR)</strong>: SDR provides an overall measure of the estimate’s quality by comparing the true source to the combined distortions (interference, noise, and artifacts). Higher SDR values indicate a better overall quality of separation, and it is often reported as the primary performance measure. It represents the overall performance of the separation.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \text{SDR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} \|^2}{ \| e_{\text{interf}} + e_{\text{noise}} + e_{\text{artif}} \|^2} \right)
+ \]</div>
+<p>All three metrics are calculated in decibels (dB), with higher values indicating better performance.
+For instance, if SDR is 1 dB better, then the distortion is 1 dB less (target is constant) 3dB means the “distortions” are two times more quiet. They require access to ground truth isolated sources and are computed over short, windowed segments of the signal for finer temporal accuracy.</p>
+<section id="discussion">
+<h3>Discussion<a class="headerlink" href="#discussion" title="Permalink to this heading">#</a></h3>
+<p>Coming shortly</p>
+</section>
+</section>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this heading">#</a></h2>
+<p>Coming shortly</p>
+</section>
+<section id="losses">
+<h2>Losses<a class="headerlink" href="#losses" title="Permalink to this heading">#</a></h2>
+<p>Coming shortly</p>
+</section>
+<section id="conditioning">
+<h2>Conditioning<a class="headerlink" href="#conditioning" title="Permalink to this heading">#</a></h2>
+<p>Coming shortly</p>
 </section>
 </section>
 
@@ -521,7 +578,13 @@ y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#losses">Losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning">Conditioning</a></li>
 </ul>
   </nav></div>
 
