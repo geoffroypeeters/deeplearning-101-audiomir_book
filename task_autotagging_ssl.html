@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Tutorial: Deep Learning 101 for Audio-based MIR - Self-supervised learning &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Auto-Tagging (self-supervised-learning) &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -191,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Tutorial: Deep Learning 101 for Audio-based MIR - Self-supervised learning</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Auto-Tagging (self-supervised-learning)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -404,7 +404,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tutorial: Deep Learning 101 for Audio-based MIR - Self-supervised learning</h1>
+    <h1>Auto-Tagging (self-supervised-learning)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -445,8 +445,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-deep-learning-101-for-audio-based-mir-self-supervised-learning">
-<h1>Tutorial: Deep Learning 101 for Audio-based MIR - Self-supervised learning<a class="headerlink" href="#tutorial-deep-learning-101-for-audio-based-mir-self-supervised-learning" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-self-supervised-learning">
+<h1>Auto-Tagging (self-supervised-learning)<a class="headerlink" href="#auto-tagging-self-supervised-learning" title="Permalink to this heading">#</a></h1>
 <p><em>Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner</em></p>
 <p>Self-supervised learning (SSL) is a paradigm in machine learning that aims to learn meaningful representations from data without relying on labels. The goal is to leverage the natural structure in data to define tasks that can guide the model’s learning process. This approach has grown in popularity for applications in computer vision, natural language processing, and audio processing, where labeled data is often scarce or costly to obtain.</p>
 <p>In this tutorial, we’ll focus on <strong>Siamese architectures</strong>, which are particularly well-suited to SSL. Siamese networks learn by comparing <strong>positive pairs</strong> of inputs, effectively constructing a task from data itself to learn useful representations.</p>
@@ -479,7 +479,7 @@ The convenient thing when training a SSL model is that we do not need any label,
 <p>For the transforms, we can directly use the transforms implemented in the <a class="reference external" href="https://github.com/Spijkervet/torchaudio-augmentations">torchaudio-augmentations</a> repository from Janne Spijkervet (who did a tutorial about SSL in ISMIR 2021, btw). Our <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> function then just picks an audio, extracts two chunks from it and randomly applies transforms before returning the pair.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PairDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A custom dataset class that retrieves pairs of random audio chunks </span>
+<span class="sd">    A custom dataset class that retrieves pairs of random audio chunks</span>
 <span class="sd">    from WAV files in a specified directory.</span>
 
 <span class="sd">    Args:</span>
@@ -522,7 +522,7 @@ The convenient thing when training a SSL model is that we do not need any label,
 <span class="sd">            idx (int): Index of the file to retrieve.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[torch.Tensor, torch.Tensor]: Two randomly extracted mono audio chunks </span>
+<span class="sd">            Tuple[torch.Tensor, torch.Tensor]: Two randomly extracted mono audio chunks</span>
 <span class="sd">            as tensors from the selected WAV file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Retrieve file path and audio info</span>
@@ -544,7 +544,7 @@ The convenient thing when training a SSL model is that we do not need any label,
         <span class="c1"># Apply transforms (if any) to both chunks</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        
+
         <span class="c1"># Convert stereo to mono by summing across the channel dimension</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -573,7 +573,7 @@ The convenient thing when training a SSL model is that we do not need any label,
 
 <span class="sd">    Args:</span>
 <span class="sd">        encoder (torch.nn.Module): The feature extractor model that projects inputs into a latent space.</span>
-<span class="sd">        loss_fn (torch.nn.Module): The loss function used to optimize the network based on the similarity </span>
+<span class="sd">        loss_fn (torch.nn.Module): The loss function used to optimize the network based on the similarity</span>
 <span class="sd">                                   or dissimilarity between the two inputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -589,7 +589,7 @@ The convenient thing when training a SSL model is that we do not need any label,
             <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
             <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
         <span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -655,14 +655,14 @@ However, the choice of the architecture is independent from the paradigm: any ne
             <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span>
             <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
         <span class="o">...</span>
-        
-        
+
+
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="o">...</span>
-        
+
         <span class="c1"># average along time axis to get a single embedding per audio</span>
         <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -672,15 +672,15 @@ However, the choice of the architecture is independent from the paradigm: any ne
 <h3>1.4. Loss function<a class="headerlink" href="#loss-function" title="Permalink to this heading">#</a></h3>
 <p>Recall that Siamese networks consist in pushing together the representations of inputs that are similar. However, if we only train our model to minimize the Mean Squared Error between positive pairs, we observe an undesirable phenomenon: the network will project everything to the same point, discarding any information from the input.</p>
 <p>This phenomenon is called <strong>collapse</strong>, and a lot of research has been about how to prevent this phenomenon to happen. In particular, the most widely technique is to use a contrastive learning. In other words, we want to have <strong>positive pairs</strong> that we push together, but also <strong>negative pairs</strong> that we push far away from each other.</p>
-<p><img alt="Negative pairs" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_book/raw/ssl/images/ssl/5e51a5cc-b970-44f9-9ba6-7ccfc2833399.png" /></p>
+<p><img alt="Negative pairs" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5e51a5cc-b970-44f9-9ba6-7ccfc2833399.png" /></p>
 <p><em>We know how to choose the positive pairs, but how to choose the negative ones?</em> Well, a simple yet effective is to say that everything that is not a positive pair is a negative pair. Practically speaking, since we anyway process batches of inputs, we use the other elements of a batch to create these negative pairs.
 Given a pair of two batches of size <span class="math notranslate nohighlight">\(N\)</span>, we concatenate both into a big matrix <span class="math notranslate nohighlight">\(Z = (z_1, \dots, z_{2N}) \in \mathbb{R}^{2N \times d}\)</span>. For <span class="math notranslate nohighlight">\(1 \leq i \leq 2N\)</span>, let <span class="math notranslate nohighlight">\(i^+\)</span> be the index of the corresponding positive pair (i.e. <span class="math notranslate nohighlight">\(i^+ = i \pm N\)</span>). Overall, the formula looks like this:</p>
-<p><img alt="Contrastive loss" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_book/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png" /></p>
+<p><img alt="Contrastive loss" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png" /></p>
 <p>where <span class="math notranslate nohighlight">\(\text{sim}(z_i, z_j)\)</span> denotes the cosine similarity between vectors <span class="math notranslate nohighlight">\(z_i\)</span> and <span class="math notranslate nohighlight">\(z_j\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> is a fixed temperature hyperparameter.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ContrastiveLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A contrastive loss function designed for self-supervised learning. It computes</span>
-<span class="sd">    the similarity between two sets of embeddings (z1, z2) and aims to maximize the similarity </span>
+<span class="sd">    the similarity between two sets of embeddings (z1, z2) and aims to maximize the similarity</span>
 <span class="sd">    between positive pairs (same inputs) and minimize it between negative pairs (different inputs).</span>
 
 <span class="sd">    Args:</span>
@@ -702,7 +702,7 @@ Given a pair of two batches of size <span class="math notranslate nohighlight">\
 <span class="sd">            torch.Tensor: The contrastive loss computed from the similarity between positive and negative pairs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">z1</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        
+
         <span class="c1"># Concatenate z1 and z2 along the batch dimension and normalize them</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">)))</span>
 
