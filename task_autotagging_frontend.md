@@ -90,8 +90,8 @@ We evaluate the performances by computing the standard
 ```python
 from sklearn.metrics import classification_report, confusion_matrix
 classification_reports = classification_report(labels_idx,
-																								labels_pred_idx,
-																								output_dict=True)
+                                                labels_pred_idx,
+                                                output_dict=True)
 cm = confusion_matrix(labels_idx, labels_pred_idx)
 ```
 

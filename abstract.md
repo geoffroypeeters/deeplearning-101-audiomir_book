@@ -19,7 +19,7 @@ We review typical
 - <mark>front-ends</mark>: such as [Dilated-Conv](lab_dilated), [TCN](lab_tcn), [SincNet](lab_sincnet)
 - <mark>projections</mark>: such as [1D-Conv](lab_conv1d), [2D-Conv](lab_conv2d), [U-Net](lab_unet), [RNN](lab_rnn), [LSTM](lab_lstm), [Transformer](lab_transformer)
 - <mark>bottleneck</mark>: AE, VAE quantization using VQ-VAE, RVQ
-- <mark>training paradigms</mark>: such as [supervised](lab_supervised), unsupervised (encoder-decoder), [self-supervised](lab_ssl), [metric-learning](lab_metric_learning), adversarial, denoising/latent diffusion
+- <mark>training paradigms</mark>: such as [supervised](lab_supervised), [unsupervised](lab_usl), [encoder-decoder](lab_encoder_decoder), [self-supervised](lab_ssl), [metric-learning](lab_metric_learning), adversarial, denoising/latent diffusion
 
 
 
@@ -27,8 +27,8 @@ We review typical
 
 **Method.** Rather than providing an exhaustive list of all of these elements, we illustrate their use within a subset of (commonly studied) <mark>Audio-based MIR tasks</mark> such as
 - <mark>analysis</mark>: [multi-pitch](lab_multi_pitch), [cover-detection](lab_cover_detection), [auto-tagging](lab_auto_tagging),
-- <mark>processing</mark>: source separation
-- <mark>generation</mark>: auto-regressive/LLM, diffusion
+- <mark>processing</mark>: [source separation](lab_source_separation)
+- <mark>generation</mark>: [auto-regressive/LLM](lab_ex_autoregressive), [diffusion](lab_ex_diffusion)
 
 This subset of Audio-based MIR tasks is designed to encompass a wide range of deep learning elements.
 

@@ -191,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (self-supervised-learning)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -416,12 +416,12 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#music2latent-codec">Music2Latent Codec</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>Diffusion Model Architecture</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference"><strong>Training and Inference</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture">Diffusion Model Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference">Training and Inference</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-sampling-process-inference-function"><strong>3. Inference and Sampling Process (<code class="docutils literal notranslate"><span class="pre">inference</span></code> function)</strong></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
 </ul>
             </nav>
         </div>
@@ -492,7 +492,7 @@ dataloader_val = DataLoader(dataset_val, batch_size=500, shuffle=False)
 </section>
 <hr class="docutils" />
 <section id="diffusion-model-architecture">
-<h2><strong>Diffusion Model Architecture</strong><a class="headerlink" href="#diffusion-model-architecture" title="Permalink to this heading">#</a></h2>
+<h2>Diffusion Model Architecture<a class="headerlink" href="#diffusion-model-architecture" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">DiffusionUnet</span></code> class defines a <a class="reference internal" href="bricks_architecture.html#lab-unet"><span class="std std-ref">classic U-Net architecture</span></a> with time conditioning.
 The time embedding (<code class="docutils literal notranslate"><span class="pre">self.time_mlp</span></code>) is a multi-layer perceptron (MLP) that embeds the time variable <span class="math notranslate nohighlight">\(t\)</span> into a higher-dimensional space to condition the model on the diffusion time step.
 It is added to the deepest layer, allowing the model to adjust its predictions based on the amount of noise present.</p>
@@ -512,7 +512,7 @@ It is added to the deepest layer, allowing the model to adjust its predictions b
 </section>
 <hr class="docutils" />
 <section id="training-and-inference">
-<h2><strong>Training and Inference</strong><a class="headerlink" href="#training-and-inference" title="Permalink to this heading">#</a></h2>
+<h2>Training and Inference<a class="headerlink" href="#training-and-inference" title="Permalink to this heading">#</a></h2>
 <p>In this section, we show the</p>
 <ol class="arabic">
 <li><p><strong>Noise Addition via Linear Interpolation</strong>: The model adds noise to the data by linearly interpolating between the clean data <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> and pure noise <span class="math notranslate nohighlight">\(\mathbf{z}\)</span>, controlled by a time variable <span class="math notranslate nohighlight">\(t\)</span> as</p>
@@ -608,7 +608,7 @@ This is in contrast to Denoising Diffusion Probabilistic Models (DDPMs) based on
 </section>
 <hr class="docutils" />
 <section id="conclusion">
-<h2><strong>Conclusion</strong><a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
 <p>In this tutorial, we demonstrated a practical implementation of musical audio generation using Latent Diffusion with the guitar subset of the NSynth dataset and Music2Latent (M2L) representations.
 By encoding audio data into compressed latent vectors through M2L, we significantly reduced computational complexity.</p>
 <p>We employed a diffusion model that adopts the <strong>Rectified Flow</strong> method with <strong>ODE-based deterministic sampling</strong>.
@@ -687,12 +687,12 @@ This approach merges concepts from both denoising diffusion probabilistic models
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#music2latent-codec">Music2Latent Codec</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">Preparing the dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture"><strong>Diffusion Model Architecture</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference"><strong>Training and Inference</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion-model-architecture">Diffusion Model Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-inference">Training and Inference</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-and-sampling-process-inference-function"><strong>3. Inference and Sampling Process (<code class="docutils literal notranslate"><span class="pre">inference</span></code> function)</strong></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
 </ul>
   </nav></div>
 
