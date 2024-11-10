@@ -275,6 +275,14 @@ It usually has the dimensionality of the token embeddings so that it can be easi
 
 #### Positional Embedding Variants
 
+```{figure} ./images/positional_encoding.png
+---
+width: 80%
+name: positional_encoding
+---
+```
+**Figure:** Visualization of Positional Encoding for 40-dimensional token embeddings.
+
 **Sinusoidal Positional Embeddings**: In the original Transformer, positional embeddings are calculated using sine and cosine functions of varying frequencies:
 
    $$
