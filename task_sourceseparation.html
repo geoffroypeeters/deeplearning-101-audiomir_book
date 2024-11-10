@@ -63,6 +63,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_sourceseparation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -189,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="task_autotagging_ssl.html">Auto-Tagging (self-supervised-learning)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -389,7 +391,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -405,6 +409,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -416,9 +430,30 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="source-separation">
 <h1>Source Separation<a class="headerlink" href="#source-separation" title="Permalink to this heading">#</a></h1>
+<section id="goal-of-the-task">
+<h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
+<p>Music source separation is the process of isolating individual musical sources, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is distinct from general source separation due to the unique challenges presented by musical compositions. For example, in a band setting, isolating a single instrument, like the bass guitar, allows musicians to practice along, or extracting vocals enables karaoke applications.
+Formally:</p>
+<div class="math notranslate nohighlight">
+\[
+y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
+\]</div>
+<p>where  <span class="math notranslate nohighlight">\(y(t)\)</span> is composed of <span class="math notranslate nohighlight">\(N\)</span> sources <span class="math notranslate nohighlight">\(x_n(t)\)</span>, for <span class="math notranslate nohighlight">\(n=1...N\)</span>.</p>
+<p>The underlying challenge in music source separation is that musical signals are highly correlated, meaning multiple sources, like instruments, often change in harmony or in response to rhythmic patterns in the track. Moreover, music recordings undergo complex, non-linear processing during mixing, where reverb, filters, and other effects alter each instrument’s natural characteristics. As a result, music source separation is often an underdetermined problem, where the number of sources exceeds the available observed mixture channels, making it mathematically complex to isolate each element independently.</p>
+<p>This tutorial will outline the main characteristics of music source separation, providing a foundation for further exploration of open-source tools and datasets. For an in-depth review of available resources and methods, see the<a class="reference external" href="https://source-separation.github.io/tutorial/landing.html">”Open Source Tools &amp; Data for Music Source Separation”</a>.</p>
+<p>Additionally, we introduce the concept of conditional learning, an approach in which input <span class="math notranslate nohighlight">\(x\)</span> d is processed differently based on an external context <span class="math notranslate nohighlight">\(z\)</span>. This enables a single model to adapt its behavior dynamically, allowing the separation process to respond flexibly to diverse condition.</p>
+</section>
+<section id="popular-datasets">
+<h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>author: Gabriel</p></li>
+<li><p><strong>MUSDB</strong>: The MUSDB dataset includes 100 tracks for training and 50 for testing, each with four stems: drums, bass, vocals, and others. Covering approximately 10 hours of music across multiple genres, including 46 tracks from MedleyDB, it provides a foundational dataset for experiments in music source separation.</p></li>
+<li><p><strong>MedleyDB</strong>: MedleyDB offers 179 full-length tracks, each about 3 to 5 minutes long, in a multitrack format with up to 17 individual stems. Spanning approximately 12 hours, the dataset includes a wide range of genres such as Singer/Songwriter, Classical, Rock, World/Folk, Fusion, Jazz, Pop, Musical Theatre, and Rap, making it valuable for tasks requiring genre diversity and high-quality source separation.</p></li>
+<li><p><strong>MoisesDB</strong>: MoisesDB contains 240 tracks with 11 unique stems, including Bass, Bowed Strings, Drums, Guitar, Other, Other Keys, Other Plucked, Percussion, Piano, Vocals, and Wind instruments. Comprising approximately 14 hours of music from 47 artists across twelve genres, MoisesDB is especially useful for complex separation tasks requiring a detailed breakdown of diverse instrument types.</p></li>
 </ul>
+</section>
+<section id="how-is-the-task-evaluated">
+<h2>How is the Task Evaluated?<a class="headerlink" href="#how-is-the-task-evaluated" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -475,6 +510,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal-of-the-task">Goal of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-datasets">Popular Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-the-task-evaluated">How is the Task Evaluated?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
