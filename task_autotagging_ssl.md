@@ -1,4 +1,4 @@
-# Tutorial: Deep Learning 101 for Audio-based MIR - Self-supervised learning
+# Auto-Tagging (self-supervised-learning)
 
 *Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner*
 
@@ -46,7 +46,7 @@ For the transforms, we can directly use the transforms implemented in the [torch
 ```python
 class PairDataset(torch.utils.data.Dataset):
     """
-    A custom dataset class that retrieves pairs of random audio chunks 
+    A custom dataset class that retrieves pairs of random audio chunks
     from WAV files in a specified directory.
 
     Args:
@@ -89,7 +89,7 @@ class PairDataset(torch.utils.data.Dataset):
             idx (int): Index of the file to retrieve.
 
         Returns:
-            Tuple[torch.Tensor, torch.Tensor]: Two randomly extracted mono audio chunks 
+            Tuple[torch.Tensor, torch.Tensor]: Two randomly extracted mono audio chunks
             as tensors from the selected WAV file.
         """
         # Retrieve file path and audio info
@@ -111,7 +111,7 @@ class PairDataset(torch.utils.data.Dataset):
         # Apply transforms (if any) to both chunks
         x1 = self.transforms(x1)
         x2 = self.transforms(x2)
-        
+
         # Convert stereo to mono by summing across the channel dimension
         x1 = x1.sum(dim=0)
         x2 = x2.sum(dim=0)
@@ -147,7 +147,7 @@ class SiameseNetwork(pl.LightningModule):
 
     Args:
         encoder (torch.nn.Module): The feature extractor model that projects inputs into a latent space.
-        loss_fn (torch.nn.Module): The loss function used to optimize the network based on the similarity 
+        loss_fn (torch.nn.Module): The loss function used to optimize the network based on the similarity
                                    or dissimilarity between the two inputs.
     """
     def __init__(self,
@@ -163,7 +163,7 @@ class SiameseNetwork(pl.LightningModule):
             nn.ReLU(),
             nn.Linear(in_channels, out_channels)
         )
-        
+
         self.loss_fn = loss_fn
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -231,14 +231,14 @@ class SampleCNN(nn.Module):
             nn.BatchNorm1d(128),
             nn.ReLU())
         ...
-        
-        
+
+
 
     def forward(self, x):
         x = x.view(x.shape[0], 1, -1)
         out = self.conv1(x)
         ...
-        
+
         # average along time axis to get a single embedding per audio
         return out.mean(dim=-1)
 ```
@@ -249,12 +249,12 @@ Recall that Siamese networks consist in pushing together the representations of 
 
 This phenomenon is called **collapse**, and a lot of research has been about how to prevent this phenomenon to happen. In particular, the most widely technique is to use a contrastive learning. In other words, we want to have **positive pairs** that we push together, but also **negative pairs** that we push far away from each other.
 
-![Negative pairs](https://github.com/geoffroypeeters/deeplearning-101-audiomir_book/raw/ssl/images/ssl/5e51a5cc-b970-44f9-9ba6-7ccfc2833399.png)
+![Negative pairs](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5e51a5cc-b970-44f9-9ba6-7ccfc2833399.png)
 
 *We know how to choose the positive pairs, but how to choose the negative ones?* Well, a simple yet effective is to say that everything that is not a positive pair is a negative pair. Practically speaking, since we anyway process batches of inputs, we use the other elements of a batch to create these negative pairs.
 Given a pair of two batches of size $N$, we concatenate both into a big matrix $Z = (z_1, \dots, z_{2N}) \in \mathbb{R}^{2N \times d}$. For $1 \leq i \leq 2N$, let $i^+$ be the index of the corresponding positive pair (i.e. $i^+ = i \pm N$). Overall, the formula looks like this:
 
-![Contrastive loss](https://github.com/geoffroypeeters/deeplearning-101-audiomir_book/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png)
+![Contrastive loss](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png)
 
 where $\text{sim}(z_i, z_j)$ denotes the cosine similarity between vectors $z_i$ and $z_j$ and $\tau$ is a fixed temperature hyperparameter.
 
@@ -263,7 +263,7 @@ where $\text{sim}(z_i, z_j)$ denotes the cosine similarity between vectors $z_i$
 class ContrastiveLoss(nn.Module):
     """
     A contrastive loss function designed for self-supervised learning. It computes
-    the similarity between two sets of embeddings (z1, z2) and aims to maximize the similarity 
+    the similarity between two sets of embeddings (z1, z2) and aims to maximize the similarity
     between positive pairs (same inputs) and minimize it between negative pairs (different inputs).
 
     Args:
@@ -285,7 +285,7 @@ class ContrastiveLoss(nn.Module):
             torch.Tensor: The contrastive loss computed from the similarity between positive and negative pairs.
         """
         n = z1.size(0)
-        
+
         # Concatenate z1 and z2 along the batch dimension and normalize them
         z = torch.nn.functional.normalize(torch.cat((z1, z2)))
 
@@ -734,7 +734,7 @@ Mean Average Precision (mAP) is a performance metric used to evaluate the accura
 1. **Precision and Recall:** For each label, calculate the precision and recall at each prediction threshold.
    - **Precision** is the ratio of true positive predictions to the total number of positive predictions.
    - **Recall** is the ratio of true positive predictions to the total number of actual positives.
-   
+
 2. **Average Precision (AP):** For each label, plot the precision-recall curve and calculate the area under this curve. This gives the AP for that label.
 
 3. **Mean Average Precision (mAP):** Compute the mean of the AP values across all labels to obtain the mAP score.
