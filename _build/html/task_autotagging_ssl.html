@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Auto-Tagging (SSL) &#8212; Deep Learning 101 for Audio-based MIR</title>
+    <title>Auto-Tagging (self-supervised-learning) &#8212; Deep Learning 101 for Audio-based MIR</title>
   
   
   
@@ -63,6 +63,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'task_autotagging_ssl';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -189,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="task_multipitchestimation.html">Multi-Pitch-Estimation (MPE)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_coverdetection.html">Cover Song Identification (CSI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="task_autotagging_frontend.html">Auto-Tagging (front-ends)</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Auto-Tagging (SSL)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Auto-Tagging (self-supervised-learning)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="task_musicprocessing.html">Music Audio Processing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -389,7 +391,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -400,11 +404,38 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Auto-Tagging (SSL)</h1>
+    <h1>Auto-Tagging (self-supervised-learning)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts-in-siamese-architectures-for-ssl">Key Concepts in Siamese Architectures for SSL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-a-ssl-model">1. Training a SSL model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-dataset-of-positive-pairs">1.1. Building a dataset of positive pairs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-siamese-networks-as-a-lightningmodule">1.2. Implementing Siamese Networks as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-of-the-model">1.3. Architecture of the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">1.4. Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">1.5. Train!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">2. Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-small-annotated-dataset">2.1. Loading the small annotated dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-probe-as-a-lightningmodule">2.2. Linear probe as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-average-precision-map">Mean Average Precision (mAP)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#roc-auc">ROC-AUC</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#downstream-evaluation">2.5. Downstream evaluation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">3. Conclusion</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -414,11 +445,827 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-ssl">
-<h1>Auto-Tagging (SSL)<a class="headerlink" href="#auto-tagging-ssl" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="auto-tagging-self-supervised-learning">
+<h1>Auto-Tagging (self-supervised-learning)<a class="headerlink" href="#auto-tagging-self-supervised-learning" title="Permalink to this heading">#</a></h1>
+<p><em>Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner</em></p>
+<p>Self-supervised learning (SSL) is a paradigm in machine learning that aims to learn meaningful representations from data without relying on labels. The goal is to leverage the natural structure in data to define tasks that can guide the model’s learning process. This approach has grown in popularity for applications in computer vision, natural language processing, and audio processing, where labeled data is often scarce or costly to obtain.</p>
+<p>In this tutorial, we’ll focus on <strong>Siamese architectures</strong>, which are particularly well-suited to SSL. Siamese networks learn by comparing <strong>positive pairs</strong> of inputs, effectively constructing a task from data itself to learn useful representations.</p>
+<p><strong>Disclaimer:</strong> This book incorporates bricks of Python code for the main components described. The full runnable code for training and evaluating a SSL model is provided in this <a class="reference external" href="https://colab.research.google.com/drive/1lVpAKC1Tc8BRDKYnyna6IplxzpW7rdby?usp=sharing">Jupyter notebook</a>.</p>
+<section id="key-concepts-in-siamese-architectures-for-ssl">
+<h2>Key Concepts in Siamese Architectures for SSL<a class="headerlink" href="#key-concepts-in-siamese-architectures-for-ssl" title="Permalink to this heading">#</a></h2>
+<p>A Siamese network takes two input samples <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> and projects them into a shared latent space using a neural network <span class="math notranslate nohighlight">\(f_{\theta}\)</span> with parameters <span class="math notranslate nohighlight">\(\theta\)</span>. The underlying idea is simple yet powerful:</p>
+<ol class="arabic simple">
+<li><p><strong>Positive pairs</strong>: Each input pair <span class="math notranslate nohighlight">\( (x_1, x_2) \)</span> is chosen such that <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> are related in some way (e.g., two different views of the same object or nearby audio chunks in a music track). Since these inputs are “similar,” we want their representations in the latent space to be close.</p></li>
+<li><p><strong>Learning Objective</strong>: To achieve this, we optimize the parameters <span class="math notranslate nohighlight">\(\theta\)</span> of <span class="math notranslate nohighlight">\(f_{\theta}\)</span> by minimizing the distance between <span class="math notranslate nohighlight">\(f_{\theta}(x_1)\)</span> and <span class="math notranslate nohighlight">\(f_{\theta}(x_2)\)</span> in the latent space.</p></li>
+</ol>
+<p>Training the model in this way encourages it to focus on commonalities between similar samples, capturing meaningful and invariant features in the data. The resulting learned representations are useful for downstream tasks, even when labeled data is unavailable.</p>
+<p><img alt="Siamese network" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/a4ece110-e64b-4362-ad4d-28cdcf396963.png" /></p>
+</section>
+<section id="training-a-ssl-model">
+<h2>1. Training a SSL model<a class="headerlink" href="#training-a-ssl-model" title="Permalink to this heading">#</a></h2>
+<p>In this part, we will implement the different components of a Siamese architecture, namely its structure, the underlying backbone architecture and the criterion to optimize. In addition, we implement the mechanism to create the positive pairs.</p>
+<section id="building-a-dataset-of-positive-pairs">
+<h3>1.1. Building a dataset of positive pairs<a class="headerlink" href="#building-a-dataset-of-positive-pairs" title="Permalink to this heading">#</a></h3>
+<p>The first step is to define what are the positive pairs that our model to process, and how to build them. In practice, this mechanism will be directly implemented in a standard PyTorch <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>.</p>
+<p>When dealing with music, common strategies to create pairs of similar points without supervision are:</p>
 <ul class="simple">
-<li><p>author: Gabriel, Alain</p></li>
+<li><p>extracting different chunks from the same song</p></li>
+<li><p>applying audio effects to the audio chunk</p></li>
 </ul>
+<p>Recall that the network will learn to find what the elements of the pair have <strong>in common</strong>. For example, if you use chunks of the same song, it will probably capture info such as tonality, genre, tempo, but not chords or timbre. On the contrary, if you transpose your audio to create pairs, it will learn to discard pitch information.</p>
+<p>In other words, you control what your model captures by choosing how you compute pairs. And of course, you can combine different techniques!</p>
+<p>Let’s start by implementing a simple dataset that extracts chunks of audio and randomly apply several transforms.
+The convenient thing when training a SSL model is that we do not need any label, so we can recursively explore folders and use any audio data we find, which makes the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function super simple.</p>
+<p>For the transforms, we can directly use the transforms implemented in the <a class="reference external" href="https://github.com/Spijkervet/torchaudio-augmentations">torchaudio-augmentations</a> repository from Janne Spijkervet (who did a tutorial about SSL in ISMIR 2021, btw). Our <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> function then just picks an audio, extracts two chunks from it and randomly applies transforms before returning the pair.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PairDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A custom dataset class that retrieves pairs of random audio chunks</span>
+<span class="sd">    from WAV files in a specified directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data_dir (str): Path to the directory containing WAV files.</span>
+<span class="sd">        chunk_duration (float): Duration of the audio chunks in seconds. Defaults to 10 seconds.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        paths (List[str]): List of paths to all WAV files in the dataset.</span>
+<span class="sd">        chunk_duration (float): Duration of the audio chunks to be extracted.</span>
+<span class="sd">        transforms (torch.nn.Module): Placeholder for audio augmentation/transforms.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chunk_duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/**/*.mp3&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunk_duration</span> <span class="o">=</span> <span class="n">chunk_duration</span>
+
+        <span class="c1"># Define the set of transforms here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="p">[</span>
+            <span class="n">RandomApply</span><span class="p">([</span><span class="n">PolarityInversion</span><span class="p">()],</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.8</span><span class="p">),</span>
+            <span class="n">RandomApply</span><span class="p">([</span><span class="n">Noise</span><span class="p">(</span><span class="n">min_snr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">max_snr</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)],</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">RandomApply</span><span class="p">([</span><span class="n">Gain</span><span class="p">()],</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+            <span class="n">HighLowPass</span><span class="p">(</span><span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">),</span> <span class="c1"># this augmentation will always be applied in this aumgentation chain!</span>
+            <span class="n">RandomApply</span><span class="p">([</span><span class="n">Delay</span><span class="p">(</span><span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">)],</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">RandomApply</span><span class="p">([</span><span class="n">Reverb</span><span class="p">(</span><span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">)],</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of audio files in the dataset.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The total number of WAV files in the dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a pair of random audio chunks from a WAV file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx (int): Index of the file to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[torch.Tensor, torch.Tensor]: Two randomly extracted mono audio chunks</span>
+<span class="sd">            as tensors from the selected WAV file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve file path and audio info</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">torchaudio</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">sr</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">sample_rate</span>
+        <span class="n">total_frames</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">num_frames</span>
+
+        <span class="c1"># Calculate the number of frames per chunk</span>
+        <span class="n">num_frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chunk_duration</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span>
+
+        <span class="c1"># Randomly select starting points for two chunks</span>
+        <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total_frames</span> <span class="o">-</span> <span class="n">num_frames</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+
+        <span class="c1"># Load two audio chunks from the file</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torchaudio</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">frame_offset</span><span class="o">=</span><span class="n">i1</span><span class="p">,</span> <span class="n">num_frames</span><span class="o">=</span><span class="n">num_frames</span><span class="p">)</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torchaudio</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">frame_offset</span><span class="o">=</span><span class="n">i2</span><span class="p">,</span> <span class="n">num_frames</span><span class="o">=</span><span class="n">num_frames</span><span class="p">)</span>
+
+        <span class="c1"># Apply transforms (if any) to both chunks</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+
+        <span class="c1"># Convert stereo to mono by summing across the channel dimension</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
+</pre></div>
+</div>
+</section>
+<section id="implementing-siamese-networks-as-a-lightningmodule">
+<h3>1.2. Implementing Siamese Networks as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code><a class="headerlink" href="#implementing-siamese-networks-as-a-lightningmodule" title="Permalink to this heading">#</a></h3>
+<p>Siamese Networks are a simple structure just composed of two… siamese networks, and each of them projects an element of the pair in the latent space. Then a criterion between the two projections is being optimized.</p>
+<p><em>But why only two? Couldn’t we use more than only two views?</em> Actually yes, some recent works such as <a class="reference external" href="https://arxiv.org/pdf/2403.05490">this article from ICLR 2024 by Shidani et al.</a> suggest that Siamese networks can be generalized to more than pairs of two views. However, as 99% of the papers, we will stick to pairs in this tutorial.</p>
+<p>Let us build our Siamese networks as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code>. Recall that it is just a training paradigm that does not depend on the underlying architectures, so we can make it quite modular. Our LightningModule just takes two main arguments:</p>
+<ul class="simple">
+<li><p>The architecture of the network itself</p></li>
+<li><p>The loss criterion that we want to optimize</p></li>
+</ul>
+<p>That’s it!</p>
+<p>An interesting trick to improve the generalization abilities of the learned embeddings is not to use the outputs of the last layer of the network but a previous one after training. Doing so enables the mitigation of the misalignment between the training objective and the actual downstream applications. Some French researchers named this trick Guillotine Regularization and studied it in depth in <a class="reference external" href="https://arxiv.org/pdf/2206.13378">this journal paper from Bordes et al.</a>.</p>
+<p>In practice, we implement this trick by splitting our network in two successive parts, usually referred to as the <strong>encoder</strong> and the <strong>projector</strong>. In our case, as often, we will use a domain-specific architecture for the encoder and a simple MLP with 2 layers for the projector.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SiameseNetwork</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Siamese Network implemented using PyTorch Lightning, designed to work with</span>
+<span class="sd">    a backbone neural network and a loss function. The network projects two input</span>
+<span class="sd">    samples into a latent space and optimizes their relationship via the provided loss function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        encoder (torch.nn.Module): The feature extractor model that projects inputs into a latent space.</span>
+<span class="sd">        loss_fn (torch.nn.Module): The loss function used to optimize the network based on the similarity</span>
+<span class="sd">                                   or dissimilarity between the two inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">encoder</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                 <span class="n">loss_fn</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                 <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+                 <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SiameseNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projector</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass through the backbone network.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): Input tensor to be projected into the latent space.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: Latent representation of the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">projector</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines a single training step, including the forward pass and loss computation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batch (Any): A batch of data, expected to contain two input tensors.</span>
+<span class="sd">            batch_idx (int): Index of the current batch.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The computed loss for this step.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">batch</span>
+
+        <span class="c1"># Project x1 and x2 into the latent space</span>
+        <span class="n">z1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+
+        <span class="c1"># Compute the loss based on z1 and z2</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span>
+
+        <span class="c1"># Log the loss for visualization and monitoring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configures the optimizer for training.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.optim.Optimizer: Adam optimizer with a learning rate of 1e-4.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="architecture-of-the-model">
+<h3>1.3. Architecture of the model<a class="headerlink" href="#architecture-of-the-model" title="Permalink to this heading">#</a></h3>
+<p>Now let us define those two components.
+In the notebook, we use <a class="reference external" href="https://github.com/kyungyunlee/sampleCNN-pytorch">SampleCNN</a> for the architecture of the backbone and we define it as a simple PyTorch <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.
+However, the choice of the architecture is independent from the paradigm: any neural architecuture can be used to do SSL, SampleCNN is just an example.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SampleCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SampleCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+        <span class="o">...</span>
+
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="o">...</span>
+
+        <span class="c1"># average along time axis to get a single embedding per audio</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="loss-function">
+<h3>1.4. Loss function<a class="headerlink" href="#loss-function" title="Permalink to this heading">#</a></h3>
+<p>Recall that Siamese networks consist in pushing together the representations of inputs that are similar. However, if we only train our model to minimize the Mean Squared Error between positive pairs, we observe an undesirable phenomenon: the network will project everything to the same point, discarding any information from the input.</p>
+<p>This phenomenon is called <strong>collapse</strong>, and a lot of research has been about how to prevent this phenomenon to happen. In particular, the most widely technique is to use a contrastive learning. In other words, we want to have <strong>positive pairs</strong> that we push together, but also <strong>negative pairs</strong> that we push far away from each other.</p>
+<p><img alt="Negative pairs" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5e51a5cc-b970-44f9-9ba6-7ccfc2833399.png" /></p>
+<p><em>We know how to choose the positive pairs, but how to choose the negative ones?</em> Well, a simple yet effective is to say that everything that is not a positive pair is a negative pair. Practically speaking, since we anyway process batches of inputs, we use the other elements of a batch to create these negative pairs.
+Given a pair of two batches of size <span class="math notranslate nohighlight">\(N\)</span>, we concatenate both into a big matrix <span class="math notranslate nohighlight">\(Z = (z_1, \dots, z_{2N}) \in \mathbb{R}^{2N \times d}\)</span>. For <span class="math notranslate nohighlight">\(1 \leq i \leq 2N\)</span>, let <span class="math notranslate nohighlight">\(i^+\)</span> be the index of the corresponding positive pair (i.e. <span class="math notranslate nohighlight">\(i^+ = i \pm N\)</span>). Overall, the formula looks like this:</p>
+<p><img alt="Contrastive loss" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png" /></p>
+<p>where <span class="math notranslate nohighlight">\(\text{sim}(z_i, z_j)\)</span> denotes the cosine similarity between vectors <span class="math notranslate nohighlight">\(z_i\)</span> and <span class="math notranslate nohighlight">\(z_j\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> is a fixed temperature hyperparameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ContrastiveLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A contrastive loss function designed for self-supervised learning. It computes</span>
+<span class="sd">    the similarity between two sets of embeddings (z1, z2) and aims to maximize the similarity</span>
+<span class="sd">    between positive pairs (same inputs) and minimize it between negative pairs (different inputs).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        temperature (float): A scaling factor applied to the similarity scores. Defaults to 0.1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContrastiveLoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">z2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the contrastive loss between two sets of embeddings.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z1 (torch.Tensor): A batch of embeddings from the first view (e.g., first audio chunk).</span>
+<span class="sd">            z2 (torch.Tensor): A batch of embeddings from the second view (e.g., second audio chunk).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The contrastive loss computed from the similarity between positive and negative pairs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">z1</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate z1 and z2 along the batch dimension and normalize them</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">)))</span>
+
+        <span class="c1"># Compute cosine similarity matrix scaled by temperature</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">t</span><span class="p">())</span><span class="o">.</span><span class="n">div_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span>
+
+        <span class="c1"># Positive loss: average of n-diagonal elements (corresponding to positive pairs)</span>
+        <span class="n">pos_loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">diagonal</span><span class="o">=</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># Negative loss: log of the sum of the exponentiated similarities for negative pairs</span>
+        <span class="n">exp_sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">exp_</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>  <span class="c1"># Avoid in-place ops that interfere with autograd</span>
+        <span class="n">exp_sim</span><span class="o">.</span><span class="n">fill_diagonal_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="c1"># Set diagonal elements (positive pairs) to 0</span>
+
+        <span class="n">neg_loss</span> <span class="o">=</span> <span class="n">exp_sim</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log_</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># Return the combined loss (positive + negative)</span>
+        <span class="k">return</span> <span class="n">pos_loss</span> <span class="o">+</span> <span class="n">neg_loss</span>
+
+</pre></div>
+</div>
+</section>
+<section id="train">
+<h3>1.5. Train!<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h3>
+<p>We now have all the elements to train a model:</p>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object that yields positive pairs of audio chunks</p></li>
+<li><p>The general Siamese Networks training pipeline (in a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code>)</p></li>
+<li><p>An appropriate architecture for the encoder (SampleCNN, in a <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>)</p></li>
+<li><p>An objective to minimize that pushes the projections of positive pairs together, but also prevents collapse</p></li>
+</ul>
+<p>Here is a minimal code example to train a SSL model using Lightning’s <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> with all the elements we described above:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># build dataloader</span>
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span>
+                                         <span class="n">batch_size</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span>              <span class="c1"># use approximately 8 GB of memory with SampleCNN as encoder</span>
+                                         <span class="n">num_workers</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span> <span class="c1"># use one worker for computing batches of pairs per CPU you have</span>
+                                         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>               <span class="c1"># elements of the dataset should be sent in a random order</span>
+                                         <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># I never understood this but set it to True</span>
+                                         <span class="n">persistent_workers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># reuse the existing workers instead of creating new ones between each epoch</span>
+
+
+<span class="c1"># Build the model</span>
+<span class="n">sample_cnn</span> <span class="o">=</span> <span class="n">SampleCNN</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SiameseNetwork</span><span class="p">(</span><span class="n">sample_cnn</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="n">ContrastiveLoss</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+
+<span class="c1"># Define the trainer. To speed-up training and reduce memory footprint, we use 16-bit mixed precision</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;gpu&#39;</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># Train!</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note how modular are the different blocks; the dataset implementation is completely independent from the loss which is independent from the architecture, etc.</p>
+<p>In practice you can imagine alternative ways to sample pairs, use a different frontend/architecture, optimize another loss function, etc. or <em><strong>any combination of these!</strong></em> Actually, all of these design choices are interesting research directions that led to many publications.</p>
+</section>
+</section>
+<section id="evaluation">
+<h2>2. Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">#</a></h2>
+<p>To evaluate SSL models, we typically combine the encoder and a linear probe. First, the encoder is frozen to prevent any further updates to its parameters. This ensures that we are evaluating the representations learned during the self-supervised phase. Next, a simple linear classifier (linear probe) is trained on top of these frozen features using labeled data. The performance of this linear probe, typically measured through metrics like accuracy, mean Average Precision (mAP), or ROC-AUC, provides an indication of the quality of the learned representations. This evaluation method effectively assesses how well the SSL model has captured useful features from the data.</p>
+<p><img alt="Evaluation" src="https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/c99fc9dc-3b54-4796-9339-c23415f52bff.png" /></p>
+<p>In this tutorial, we focus on a music tagging task on a subset of MagnaTagATune. It is modeled as a multilabel classification problem.</p>
+<section id="loading-the-small-annotated-dataset">
+<h3>2.1. Loading the small annotated dataset<a class="headerlink" href="#loading-the-small-annotated-dataset" title="Permalink to this heading">#</a></h3>
+<p>In this part, we rely on a small <strong>annotated</strong> dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;mtt_ssl/train/annotations.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mp3_path</th>
+      <th>guitar</th>
+      <th>classical</th>
+      <th>slow</th>
+      <th>techno</th>
+      <th>drums</th>
+      <th>strings</th>
+      <th>rock</th>
+      <th>electronic</th>
+      <th>fast</th>
+      <th>...</th>
+      <th>choir</th>
+      <th>no voice</th>
+      <th>dance</th>
+      <th>metal</th>
+      <th>voice</th>
+      <th>male voice</th>
+      <th>country</th>
+      <th>harp</th>
+      <th>male vocals</th>
+      <th>electro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0/american_bach_soloists-j_s__bach__cantatas_v...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>f/the_headroom_project-jetuton_andawai-01-lind...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>9/american_bach_soloists-heinrich_schutz__musi...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9/american_bach_soloists-heinrich_schutz__musi...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9/american_bach_soloists-heinrich_schutz__musi...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2589</th>
+      <td>3/musica_franca-boismortier__sonatas_for_two_b...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2590</th>
+      <td>3/musica_franca-boismortier__sonatas_for_two_b...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2591</th>
+      <td>f/magnaloops-electronica_loops_1-43-osxivilion...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2592</th>
+      <td>8/jacob_heringman-blame_not_my_lute-57-lost_is...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2593</th>
+      <td>8/jacob_heringman-blame_not_my_lute-57-lost_is...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2594 rows × 51 columns</p>
+<p>The quantity of annotated data is 10x smaller than the non-annotated one. We will now use this small quantity of data to train a simple linear probe in a supervised way, on top of the learned embeddings.</p>
+<p>Let us first build our <code class="docutils literal notranslate"><span class="pre">MultiLabelDataset</span></code> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MultiLabelDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22050</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            data_dir (str): Root directory of the dataset, containing the annotations.csv and audio files.</span>
+<span class="sd">            duration (float, optional): Duration of audio samples in seconds. If None, load full audio.</span>
+<span class="sd">            sample_rate (int): The sample rate to use when loading audio.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="n">sample_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
+
+        <span class="c1"># Define the path to the annotations file inside the data_dir</span>
+        <span class="n">annotations_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;annotations.csv&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Load annotations from CSV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annotations_file</span><span class="p">)</span>
+
+        <span class="c1"># Extract wav paths and labels from the CSV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;mp3_path&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mp3_path&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># Get the file path and the corresponding label</span>
+        <span class="n">audio_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="c1"># Load audio file</span>
+        <span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">torchaudio</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio_path</span><span class="p">,</span> <span class="n">num_frames</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_frames</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">label</span>
+
+</pre></div>
+</div>
+</section>
+<section id="linear-probe-as-a-lightningmodule">
+<h3>2.2. Linear probe as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code><a class="headerlink" href="#linear-probe-as-a-lightningmodule" title="Permalink to this heading">#</a></h3>
+<p>We then define our linear probe as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code>. This probe takes as argument the backbone model that we previously trained, as well as its output dimension and the number of labels of our supervised task.</p>
+<p>We use the same naming convention as earlier for the encoder, enabling us to load the pretrained encoder in the linear probe seamlessly.</p>
+<p>Since we are in a multilabel scenario, the linear probe is followed by a sigmoid function that individually maps all outputs in <span class="math notranslate nohighlight">\([0, 1]\)</span>. We then optimize the Binary Cross-Entropy between the predicted activation probabilities and our actual annotations.</p>
+<p>We evaluate the performances of our model by measuring two metrics: <strong>mean Average Precision</strong> and <strong>ROC-AUC</strong>.</p>
+<section id="mean-average-precision-map">
+<h4>Mean Average Precision (mAP)<a class="headerlink" href="#mean-average-precision-map" title="Permalink to this heading">#</a></h4>
+<p>Mean Average Precision (mAP) is a performance metric used to evaluate the accuracy of a multilabel classification model. In this context, it measures how well the model ranks relevant labels higher than irrelevant ones across multiple classes. The mAP is the mean of the average precision scores for each label, calculated as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Precision and Recall:</strong> For each label, calculate the precision and recall at each prediction threshold.</p>
+<ul class="simple">
+<li><p><strong>Precision</strong> is the ratio of true positive predictions to the total number of positive predictions.</p></li>
+<li><p><strong>Recall</strong> is the ratio of true positive predictions to the total number of actual positives.</p></li>
+</ul>
+</li>
+<li><p><strong>Average Precision (AP):</strong> For each label, plot the precision-recall curve and calculate the area under this curve. This gives the AP for that label.</p></li>
+<li><p><strong>Mean Average Precision (mAP):</strong> Compute the mean of the AP values across all labels to obtain the mAP score.</p></li>
+</ol>
+<p>The mAP provides a single score that summarizes the performance of the model across all labels, taking into account both the precision and recall.</p>
+</section>
+<section id="roc-auc">
+<h4>ROC-AUC<a class="headerlink" href="#roc-auc" title="Permalink to this heading">#</a></h4>
+<p>The Receiver Operating Characteristic (ROC) curve and the Area Under the Curve (AUC) are used to evaluate the performance of a classification model. In the context of multilabel classification, the ROC-AUC is calculated for each label independently and then averaged.</p>
+<ol class="arabic simple">
+<li><p><strong>ROC Curve:</strong> For each label, plot the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.</p>
+<ul class="simple">
+<li><p><strong>True Positive Rate (TPR)</strong> is the ratio of true positives to the total number of actual positives.</p></li>
+<li><p><strong>False Positive Rate (FPR)</strong> is the ratio of false positives to the total number of actual negatives.</p></li>
+</ul>
+</li>
+<li><p><strong>AUC (Area Under the Curve):</strong> The AUC represents the probability that the model ranks a randomly chosen positive instance higher than a randomly chosen negative instance. An AUC of 1 indicates perfect performance, while an AUC of 0.5 indicates performance no better than random guessing.</p></li>
+<li><p><strong>Mean ROC-AUC:</strong> Calculate the AUC for each label and then take the average of these AUC scores to obtain the mean ROC-AUC. This provides a single metric that reflects the model’s overall ability to discriminate between the positive and negative classes across all labels.</p></li>
+</ol>
+<p>For simplicity, we do not focus here on the specific implementation of these metrics and use the existing one from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinearProbe</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">backbone</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                 <span class="n">backbone_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_labels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">precomputed_embeddings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearProbe</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">backbone</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">backbone_dim</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>  <span class="c1"># Use binary cross-entropy for multi-label classification</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precomputed_embeddings</span> <span class="o">=</span> <span class="n">precomputed_embeddings</span>
+
+        <span class="c1"># During evaluation, freeze the backbone and discard the final projection layer</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Store predictions and labels for the entire epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_preds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probe</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+
+        <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+
+        <span class="c1"># Store predictions and labels for metric calculation at the end of the epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">preds</span><span class="p">,</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">on_validation_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Clear the lists for the next epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_preds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="c1"># Convert to numpy arrays for metric calculation</span>
+        <span class="n">preds_np</span> <span class="o">=</span> <span class="n">preds</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="n">labels_np</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+        <span class="c1"># Calculate mAP and ROC AUC</span>
+        <span class="n">mAP</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">labels_np</span><span class="p">,</span> <span class="n">preds_np</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>  <span class="c1"># mAP for multi-label</span>
+        <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">labels_np</span><span class="p">,</span> <span class="n">preds_np</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>  <span class="c1"># ROC AUC for multi-label</span>
+
+        <span class="c1"># Log the metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;mAP&quot;</span><span class="p">,</span> <span class="n">mAP</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;ROC-AUC&quot;</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">,</span> <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probe</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">probe</span> <span class="o">=</span> <span class="n">LinearProbe</span><span class="p">(</span><span class="n">backbone</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="p">,</span> <span class="n">backbone_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># create the training and validation datasets</span>
+<span class="n">train_set</span> <span class="o">=</span> <span class="n">MultiLabelDataset</span><span class="p">(</span><span class="s2">&quot;mtt_ssl/train&quot;</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">25.</span><span class="p">)</span>
+<span class="n">val_set</span> <span class="o">=</span> <span class="n">MultiLabelDataset</span><span class="p">(</span><span class="s2">&quot;mtt_ssl/test&quot;</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">25.</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="downstream-evaluation">
+<h3>2.5. Downstream evaluation<a class="headerlink" href="#downstream-evaluation" title="Permalink to this heading">#</a></h3>
+<p>Finally, let’s train our <strong>linear probe</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span>
+                                               <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                                               <span class="n">num_workers</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span>
+                                               <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">persistent_workers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">val_set</span><span class="p">,</span>
+                                             <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                                             <span class="n">num_workers</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span>
+                                             <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">pin_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">persistent_workers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># callbacks</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;gpu&#39;</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">probe</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That’s it! Once your big SSL model is trained, such a simple linear classifier and a few annotated samples are all you need!</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>3. Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>In this tutorial, we saw how to both train and evaluate an SSL model based on Siamese networks. We focused in particular on contrastive learning, which is the most widely used technique, but of course there are many others.</p>
+<p>Overall, the main directions of research are:</p>
+<ul class="simple">
+<li><p><em>How to create positive pairs?</em> We can use transforms as in this notebook, however one can instead use masking, or even multimodal data (e.g. an audio and its description) to build multimodal latent spaces (see <a class="reference external" href="https://arxiv.org/abs/2103.00020">CLIP</a>, <a class="reference external" href="https://arxiv.org/abs/2206.04769">CLAP</a>, etc.)</p></li>
+<li><p><em>How to prevent collapse?</em> In this notebook, we covered the contrastive loss but there are several other techniques, such as directly optimizing the batch statistics (<a class="reference external" href="https://arxiv.org/abs/2005.10242">Wang et al.</a>, <a class="reference external" href="https://arxiv.org/abs/2105.04906">VICReg</a>…) or breaking the symmetry between the two branches of the Siamese network (<a class="reference external" href="https://arxiv.org/abs/2006.07733">BYOL</a>, etc.)</p></li>
+</ul>
+<p>For going more into details, we strongly encourage the reader to check this great <a class="reference external" href="https://arxiv.org/abs/2304.12210">Cookbook of Self-Supervised Learning</a>.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -475,6 +1322,39 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts-in-siamese-architectures-for-ssl">Key Concepts in Siamese Architectures for SSL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-a-ssl-model">1. Training a SSL model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-dataset-of-positive-pairs">1.1. Building a dataset of positive pairs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-siamese-networks-as-a-lightningmodule">1.2. Implementing Siamese Networks as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-of-the-model">1.3. Architecture of the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">1.4. Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">1.5. Train!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">2. Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-small-annotated-dataset">2.1. Loading the small annotated dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-probe-as-a-lightningmodule">2.2. Linear probe as a <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-average-precision-map">Mean Average Precision (mAP)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#roc-auc">ROC-AUC</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#downstream-evaluation">2.5. Downstream evaluation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">3. Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
