@@ -1,6 +1,8 @@
 # Source Separation
 
-Get the slides in [Here](https://docs.google.com/presentation/d/1wx7UlnwGMKhnByI1FPjTR5Vtj8WY4y8rvRUtfyCOpDk/edit?usp=sharing)!
+- Get the slides in [Here](https://docs.google.com/presentation/d/1wx7UlnwGMKhnByI1FPjTR5Vtj8WY4y8rvRUtfyCOpDk/edit?usp=sharing)
+
+- Test the NOTEBOOK in [Here](https://colab.research.google.com/github/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Source_Separation.ipynb)
 
 ## Goal of the Task
 
