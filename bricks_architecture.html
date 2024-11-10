@@ -670,6 +670,10 @@ This positional embedding can be static (learned) or computed through mathematic
 It usually has the dimensionality of the token embeddings so that it can be easily added to the token embedding through element-wise addition.</p>
 <section id="positional-embedding-variants">
 <h4>Positional Embedding Variants<a class="headerlink" href="#positional-embedding-variants" title="Permalink to this heading">#</a></h4>
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="_images/positional_encoding.png"><img alt="_images/positional_encoding.png" src="_images/positional_encoding.png" style="width: 80%;" /></a>
+</figure>
+<p><strong>Figure:</strong> Visualization of Positional Encoding for 40-dimensional token embeddings.</p>
 <p><strong>Sinusoidal Positional Embeddings</strong>: In the original Transformer, positional embeddings are calculated using sine and cosine functions of varying frequencies:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -690,10 +694,10 @@ It usually has the dimensionality of the token embeddings so that it can be easi
 Another possibility is to use learned positional embeddings, where each position in the sequence has an associated embedding vector that the model learns during training.
 This can sometimes be more flexible, but it is not as adaptable to longer sequences not seen in training.</p>
 <p><strong>Relative Positional Embeddings</strong>:
-In relative positional embeddings <span id="id13">[<a class="reference internal" href="bibiography.html#id10" title="Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. In NAACL-HLT (2), 464–468. Association for Computational Linguistics, 2018.">SUV18</a>]</span>, the model learns the relative distances between tokens, rather than absolute positions.
+In relative positional embeddings <span id="id14">[<a class="reference internal" href="bibiography.html#id10" title="Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. In NAACL-HLT (2), 464–468. Association for Computational Linguistics, 2018.">SUV18</a>]</span>, the model learns the relative distances between tokens, rather than absolute positions.
 This approach is more natural for some tasks (e.g., musical sequences), and is assumed to allow the model to generalize better to sequences of varying lengths.</p>
 <p><strong>Rotary Positional Embeddings</strong>:
-Rotary Positional Embeddings (RoPE) <span id="id14">[<a class="reference internal" href="bibiography.html#id9" title="Jianlin Su, Murtadha H. M. Ahmed, Yu Lu, Shengfeng Pan, Wen Bo, and Yunfeng Liu. Roformer: enhanced transformer with rotary position embedding. Neurocomputing, 568:127063, 2024.">SAL+24</a>]</span> provide a way to encode positional information by rotating each token embedding in vector space.
+Rotary Positional Embeddings (RoPE) <span id="id15">[<a class="reference internal" href="bibiography.html#id9" title="Jianlin Su, Murtadha H. M. Ahmed, Yu Lu, Shengfeng Pan, Wen Bo, and Yunfeng Liu. Roformer: enhanced transformer with rotary position embedding. Neurocomputing, 568:127063, 2024.">SAL+24</a>]</span> provide a way to encode positional information by rotating each token embedding in vector space.
 This technique allows the model to capture relative positional information through rotation matrices applied to the embeddings at each position.
 Unlike traditional positional embeddings, RoPE enables better generalization over longer sequences, as the rotational encoding inherently supports extrapolation beyond the training context.</p>
 </section>

@@ -6,8 +6,17 @@
 
 ## Goal of the Task
 
-Music source separation is the process of isolating individual musical sources, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is distinct from general source separation due to the unique challenges presented by musical compositions. For example, in a band setting, isolating a single instrument, like the bass guitar, allows musicians to practice along, or extracting vocals enables karaoke applications.
-Formally:
+Music source separation aims to isolate individual musical elements, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is different from general source separation due to the unique challenges posed by musical compositions:
+
+- Musical sources are highly correlated and often change together over time, leading to overlapping frequencies and synchronized timing that make separation challenging.
+
+- Music mixing involves complex, non-linear effects like compression and filtering, creating a mixture where individual stems are not combined in a simple, linear way.
+
+- Ambiguity in defining musical sources complicates separation; for example, a “guitar” source could mean electric or acoustic, rhythm or solo, and similar sounds like a plucked ukulele and pizzicato violin may still belong to different stems, reducing the model’s real-world accuracy.
+
+For end-user applications, the quality of source separation must be high, as listeners expect clear and accurate results from these systems. For example, in a band setting, isolating a specific instrument, like the bass guitar, allows musicians to practice along, while extracting vocals can enable karaoke applications.
+
+Formally speaking, music source separation can be defined as:
 
 $$
 y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
@@ -19,7 +28,7 @@ The underlying challenge in music source separation is that musical signals are 
 
 This tutorial will outline the main characteristics of music source separation, providing a foundation for further exploration of open-source tools and datasets. For an in-depth review of available resources and methods, see the["Open Source Tools & Data for Music Source Separation"](https://source-separation.github.io/tutorial/landing.html).
 
-Additionally, we introduce the concept of conditional learning, an approach in which input $x$ d is processed differently based on an external context $z$. This enables a single model to adapt its behavior dynamically, allowing the separation process to respond flexibly to diverse condition.
+Additionally, in this section we introduce the concept of conditional learning, an approach in which input $x$ d is processed differently based on an external context $z$. This enables a single model to adapt its behavior dynamically, allowing the separation process to respond flexibly to diverse condition.
 
 ## Popular Datasets
 

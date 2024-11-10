@@ -442,8 +442,14 @@ document.write(`
 </ul>
 <section id="goal-of-the-task">
 <h2>Goal of the Task<a class="headerlink" href="#goal-of-the-task" title="Permalink to this heading">#</a></h2>
-<p>Music source separation is the process of isolating individual musical sources, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is distinct from general source separation due to the unique challenges presented by musical compositions. For example, in a band setting, isolating a single instrument, like the bass guitar, allows musicians to practice along, or extracting vocals enables karaoke applications.
-Formally:</p>
+<p>Music source separation aims to isolate individual musical elements, such as vocals, drums, bass, and other instruments, from a mixed music track. This task is different from general source separation due to the unique challenges posed by musical compositions:</p>
+<ul class="simple">
+<li><p>Musical sources are highly correlated and often change together over time, leading to overlapping frequencies and synchronized timing that make separation challenging.</p></li>
+<li><p>Music mixing involves complex, non-linear effects like compression and filtering, creating a mixture where individual stems are not combined in a simple, linear way.</p></li>
+<li><p>Ambiguity in defining musical sources complicates separation; for example, a “guitar” source could mean electric or acoustic, rhythm or solo, and similar sounds like a plucked ukulele and pizzicato violin may still belong to different stems, reducing the model’s real-world accuracy.</p></li>
+</ul>
+<p>For end-user applications, the quality of source separation must be high, as listeners expect clear and accurate results from these systems. For example, in a band setting, isolating a specific instrument, like the bass guitar, allows musicians to practice along, while extracting vocals can enable karaoke applications.</p>
+<p>Formally speaking, music source separation can be defined as:</p>
 <div class="math notranslate nohighlight">
 \[
 y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
@@ -451,7 +457,7 @@ y(t) = \displaystyle\sum_{i=1}^{N} x_i(t).
 <p>where  <span class="math notranslate nohighlight">\(y(t)\)</span> is composed of <span class="math notranslate nohighlight">\(N\)</span> sources <span class="math notranslate nohighlight">\(x_n(t)\)</span>, for <span class="math notranslate nohighlight">\(n=1...N\)</span>.</p>
 <p>The underlying challenge in music source separation is that musical signals are highly correlated, meaning multiple sources, like instruments, often change in harmony or in response to rhythmic patterns in the track. Moreover, music recordings undergo complex, non-linear processing during mixing, where reverb, filters, and other effects alter each instrument’s natural characteristics. As a result, music source separation is often an underdetermined problem, where the number of sources exceeds the available observed mixture channels, making it mathematically complex to isolate each element independently.</p>
 <p>This tutorial will outline the main characteristics of music source separation, providing a foundation for further exploration of open-source tools and datasets. For an in-depth review of available resources and methods, see the<a class="reference external" href="https://source-separation.github.io/tutorial/landing.html">”Open Source Tools &amp; Data for Music Source Separation”</a>.</p>
-<p>Additionally, we introduce the concept of conditional learning, an approach in which input <span class="math notranslate nohighlight">\(x\)</span> d is processed differently based on an external context <span class="math notranslate nohighlight">\(z\)</span>. This enables a single model to adapt its behavior dynamically, allowing the separation process to respond flexibly to diverse condition.</p>
+<p>Additionally, in this section we introduce the concept of conditional learning, an approach in which input <span class="math notranslate nohighlight">\(x\)</span> d is processed differently based on an external context <span class="math notranslate nohighlight">\(z\)</span>. This enables a single model to adapt its behavior dynamically, allowing the separation process to respond flexibly to diverse condition.</p>
 </section>
 <section id="popular-datasets">
 <h2>Popular Datasets<a class="headerlink" href="#popular-datasets" title="Permalink to this heading">#</a></h2>
