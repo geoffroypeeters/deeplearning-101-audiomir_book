@@ -1,5 +1,8 @@
-(lab_source_separation)=
 # Source Separation
+
+- Get the slides in [Here](https://docs.google.com/presentation/d/1wx7UlnwGMKhnByI1FPjTR5Vtj8WY4y8rvRUtfyCOpDk/edit?usp=sharing)
+
+- Test the NOTEBOOK in [Here](https://colab.research.google.com/github/geoffroypeeters/deeplearning-101-audiomir_notebook/blob/master/TUTO_task_Source_Separation.ipynb)
 
 ## Goal of the Task
 
@@ -27,3 +30,52 @@ Additionally, we introduce the concept of conditional learning, an approach in w
 - **MoisesDB**: MoisesDB contains 240 tracks with 11 unique stems, including Bass, Bowed Strings, Drums, Guitar, Other, Other Keys, Other Plucked, Percussion, Piano, Vocals, and Wind instruments. Comprising approximately 14 hours of music from 47 artists across twelve genres, MoisesDB is especially useful for complex separation tasks requiring a detailed breakdown of diverse instrument types.
 
 ## How is the Task Evaluated?
+
+Three commonly used metrics for evaluating music source separation are Source-to-Distortion Ratio (SDR), Source-to-Interference Ratio (SIR), and Source-to-Artifact Ratio (SAR). These metrics assess the quality of a system's output by analyzing how well it isolates each target source from undesired elements.
+
+Given an estimate of a source $\hat{s}_i$, it can be decomposed as follows:
+
+$\hat{s}_i = s_{\text{target}} + e_{\text{interf}} + e_{\text{noise}} + e_{\text{artif}}$
+
+where:
+
+- $s_{\text{target}}$ is the true source component,
+- $e_{\text{interf}}$ represents interference from other sources,
+- $e_{\text{noise}}$ is the noise, and
+- $e_{\text{artif}}$ accounts for artifacts introduced by the separation system
+
+Using these components, we can calculate the three evaluation metrics:
+
+- **Source-to-Artifact Ratio (SAR)**: This metric quantifies the level of unwanted artifacts in the estimated source relative to the true source. A high SAR value indicates fewer artifacts. It represents the algorithmic artifacts of the process.
+
+$$\text{SAR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} + e_{\text{interf}} + e_{\text{noise}} \|^2}{ \| e_{\text{artif}} \|^2} \right)
+$$
+
+- **Source-to-Interference Ratio (SIR)**: SIR measures the amount of interference from other sources in the estimate. This metric is helpful for understanding the extent of “bleed” or “leakage” from other instruments. It represents the interference in the isolation from other sources.
+
+$$ \text{SIR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} \|^2}{ \| e_{\text{interf}} \|^2} \right)
+ $$
+
+- **Source-to-Distortion Ratio (SDR)**: SDR provides an overall measure of the estimate's quality by comparing the true source to the combined distortions (interference, noise, and artifacts). Higher SDR values indicate a better overall quality of separation, and it is often reported as the primary performance measure. It represents the overall performance of the separation.
+
+$$ \text{SDR} := 10 \log_{10} \left( \frac{\| s_{\text{target}} \|^2}{ \| e_{\text{interf}} + e_{\text{noise}} + e_{\text{artif}} \|^2} \right)
+ $$
+
+All three metrics are calculated in decibels (dB), with higher values indicating better performance.
+For instance, if SDR is 1 dB better, then the distortion is 1 dB less (target is constant) 3dB means the “distortions” are two times more quiet. They require access to ground truth isolated sources and are computed over short, windowed segments of the signal for finer temporal accuracy.
+
+### Discussion
+
+Coming shortly
+
+## Models
+
+Coming shortly
+
+## Losses
+
+Coming shortly
+
+## Conditioning
+
+Coming shortly
