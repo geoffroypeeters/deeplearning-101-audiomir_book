@@ -64,7 +64,7 @@ In the following code, we download the dataset, intitialize the `MusicLatentData
 
 ---
 
-## **Diffusion Model Architecture**
+## Diffusion Model Architecture
 
 The `DiffusionUnet` class defines a [classic U-Net architecture](lab_unet) with time conditioning. 
 The time embedding (`self.time_mlp`) is a multi-layer perceptron (MLP) that embeds the time variable $t$ into a higher-dimensional space to condition the model on the diffusion time step.
@@ -86,7 +86,7 @@ It is added to the deepest layer, allowing the model to adjust its predictions b
 
 ---
 
-## **Training and Inference**
+## Training and Inference
 
 In this section, we show the 
 
@@ -193,7 +193,7 @@ def inference(rectified_flows, net, latents_shape, num_steps):
 
 ---
 
-## **Conclusion**
+## Conclusion
 
 In this tutorial, we demonstrated a practical implementation of musical audio generation using Latent Diffusion with the guitar subset of the NSynth dataset and Music2Latent (M2L) representations. 
 By encoding audio data into compressed latent vectors through M2L, we significantly reduced computational complexity.

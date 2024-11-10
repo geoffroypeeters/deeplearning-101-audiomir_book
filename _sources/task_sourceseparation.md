@@ -1,3 +1,4 @@
+(lab_source_separation)=
 # Source Separation
 
 ## Goal of the Task
