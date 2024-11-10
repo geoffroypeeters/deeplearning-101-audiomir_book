@@ -2,6 +2,8 @@
 
 *Geoffroy Peeters, Gabriel Meseguer-Brocal, Alain Riou, Stefan Lattner*
 
+Get the slides in [Here](https://docs.google.com/presentation/d/1vuPHdc754jplWolyjDO-adKONRi3kCTIRYi-LOBE97I/edit?usp=sharing)!
+
 Self-supervised learning (SSL) is a paradigm in machine learning that aims to learn meaningful representations from data without relying on labels. The goal is to leverage the natural structure in data to define tasks that can guide the model’s learning process. This approach has grown in popularity for applications in computer vision, natural language processing, and audio processing, where labeled data is often scarce or costly to obtain.
 
 In this tutorial, we’ll focus on **Siamese architectures**, which are particularly well-suited to SSL. Siamese networks learn by comparing **positive pairs** of inputs, effectively constructing a task from data itself to learn useful representations.
@@ -20,7 +22,6 @@ Training the model in this way encourages it to focus on commonalities between s
 
 ![Siamese network](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/a4ece110-e64b-4362-ad4d-28cdcf396963.png)
 
-
 ## 1. Training a SSL model
 
 In this part, we will implement the different components of a Siamese architecture, namely its structure, the underlying backbone architecture and the criterion to optimize. In addition, we implement the mechanism to create the positive pairs.
@@ -30,6 +31,7 @@ In this part, we will implement the different components of a Siamese architectu
 The first step is to define what are the positive pairs that our model to process, and how to build them. In practice, this mechanism will be directly implemented in a standard PyTorch `Dataset`.
 
 When dealing with music, common strategies to create pairs of similar points without supervision are:
+
 - extracting different chunks from the same song
 - applying audio effects to the audio chunk
 
@@ -41,7 +43,6 @@ Let's start by implementing a simple dataset that extracts chunks of audio and r
 The convenient thing when training a SSL model is that we do not need any label, so we can recursively explore folders and use any audio data we find, which makes the `__init__` function super simple.
 
 For the transforms, we can directly use the transforms implemented in the [torchaudio-augmentations](https://github.com/Spijkervet/torchaudio-augmentations) repository from Janne Spijkervet (who did a tutorial about SSL in ISMIR 2021, btw). Our `__getitem__` function then just picks an audio, extracts two chunks from it and randomly applies transforms before returning the pair.
-
 
 ```python
 class PairDataset(torch.utils.data.Dataset):
@@ -119,8 +120,6 @@ class PairDataset(torch.utils.data.Dataset):
         return x1, x2
 ```
 
-
-
 ### 1.2. Implementing Siamese Networks as a `LightningModule`
 
 Siamese Networks are a simple structure just composed of two... siamese networks, and each of them projects an element of the pair in the latent space. Then a criterion between the two projections is being optimized.
@@ -128,6 +127,7 @@ Siamese Networks are a simple structure just composed of two... siamese networks
 *But why only two? Couldn't we use more than only two views?* Actually yes, some recent works such as [this article from ICLR 2024 by Shidani et al.](https://arxiv.org/pdf/2403.05490) suggest that Siamese networks can be generalized to more than pairs of two views. However, as 99% of the papers, we will stick to pairs in this tutorial.
 
 Let us build our Siamese networks as a `LightningModule`. Recall that it is just a training paradigm that does not depend on the underlying architectures, so we can make it quite modular. Our LightningModule just takes two main arguments:
+
 - The architecture of the network itself
 - The loss criterion that we want to optimize
 
@@ -136,7 +136,6 @@ That's it!
 An interesting trick to improve the generalization abilities of the learned embeddings is not to use the outputs of the last layer of the network but a previous one after training. Doing so enables the mitigation of the misalignment between the training objective and the actual downstream applications. Some French researchers named this trick Guillotine Regularization and studied it in depth in [this journal paper from Bordes et al.](https://arxiv.org/pdf/2206.13378).
 
 In practice, we implement this trick by splitting our network in two successive parts, usually referred to as the **encoder** and the **projector**. In our case, as often, we will use a domain-specific architecture for the encoder and a simple MLP with 2 layers for the projector.
-
 
 ```python
 class SiameseNetwork(pl.LightningModule):
@@ -220,7 +219,6 @@ Now let us define those two components.
 In the notebook, we use [SampleCNN](https://github.com/kyungyunlee/sampleCNN-pytorch) for the architecture of the backbone and we define it as a simple PyTorch `nn.Module`.
 However, the choice of the architecture is independent from the paradigm: any neural architecuture can be used to do SSL, SampleCNN is just an example.
 
-
 ```python
 class SampleCNN(nn.Module):
     def __init__(self):
@@ -257,7 +255,6 @@ Given a pair of two batches of size $N$, we concatenate both into a big matrix $
 ![Contrastive loss](https://github.com/geoffroypeeters/deeplearning-101-audiomir_notebook/raw/ssl/images/ssl/5f59560e-eda0-43b3-8def-6f24c39f3ff1.png)
 
 where $\text{sim}(z_i, z_j)$ denotes the cosine similarity between vectors $z_i$ and $z_j$ and $\tau$ is a fixed temperature hyperparameter.
-
 
 ```python
 class ContrastiveLoss(nn.Module):
@@ -306,7 +303,7 @@ class ContrastiveLoss(nn.Module):
 
 ```
 
-### 1.5. Train!
+### 1.5. Train
 
 We now have all the elements to train a model:
 
@@ -316,7 +313,6 @@ We now have all the elements to train a model:
 - An objective to minimize that pushes the projections of positive pairs together, but also prevents collapse
 
 Here is a minimal code example to train a SSL model using Lightning's `Trainer` with all the elements we described above:
-
 
 ```python
 # build dataloader
@@ -343,8 +339,6 @@ Note how modular are the different blocks; the dataset implementation is complet
 
 In practice you can imagine alternative ways to sample pairs, use a different frontend/architecture, optimize another loss function, etc. or ***any combination of these!*** Actually, all of these design choices are interesting research directions that led to many publications.
 
-
-
 ## 2. Evaluation
 
 To evaluate SSL models, we typically combine the encoder and a linear probe. First, the encoder is frozen to prevent any further updates to its parameters. This ensures that we are evaluating the representations learned during the self-supervised phase. Next, a simple linear classifier (linear probe) is trained on top of these frozen features using labeled data. The performance of this linear probe, typically measured through metrics like accuracy, mean Average Precision (mAP), or ROC-AUC, provides an indication of the quality of the learned representations. This evaluation method effectively assesses how well the SSL model has captured useful features from the data.
@@ -356,7 +350,6 @@ In this tutorial, we focus on a music tagging task on a subset of MagnaTagATune.
 ### 2.1. Loading the small annotated dataset
 
 In this part, we rely on a small **annotated** dataset.
-
 
 ```python
 pd.read_csv("mtt_ssl/train/annotations.csv")
@@ -378,12 +371,9 @@ pd.read_csv("mtt_ssl/train/annotations.csv")
 
 <p>2594 rows × 51 columns</p>
 
-
-
 The quantity of annotated data is 10x smaller than the non-annotated one. We will now use this small quantity of data to train a simple linear probe in a supervised way, on top of the learned embeddings.
 
 Let us first build our `MultiLabelDataset` class.
-
 
 ```python
 class MultiLabelDataset(torch.utils.data.Dataset):
@@ -466,8 +456,6 @@ The Receiver Operating Characteristic (ROC) curve and the Area Under the Curve (
 
 For simplicity, we do not focus here on the specific implementation of these metrics and use the existing one from `scikit-learn`.
 
-
-
 ```python
 class LinearProbe(pl.LightningModule):
     def __init__(self,
@@ -541,7 +529,6 @@ class LinearProbe(pl.LightningModule):
         return optimizer
 ```
 
-
 ```python
 probe = LinearProbe(backbone=model.encoder, backbone_dim=512, num_labels=50)
 
@@ -550,12 +537,9 @@ train_set = MultiLabelDataset("mtt_ssl/train", duration=25.)
 val_set = MultiLabelDataset("mtt_ssl/test", duration=25.)
 ```
 
-
-
 ### 2.5. Downstream evaluation
 
 Finally, let's train our **linear probe**.
-
 
 ```python
 train_dataloader = torch.utils.data.DataLoader(train_set,
@@ -585,6 +569,7 @@ That's it! Once your big SSL model is trained, such a simple linear classifier a
 In this tutorial, we saw how to both train and evaluate an SSL model based on Siamese networks. We focused in particular on contrastive learning, which is the most widely used technique, but of course there are many others.
 
 Overall, the main directions of research are:
+
 - *How to create positive pairs?* We can use transforms as in this notebook, however one can instead use masking, or even multimodal data (e.g. an audio and its description) to build multimodal latent spaces (see [CLIP](https://arxiv.org/abs/2103.00020), [CLAP](https://arxiv.org/abs/2206.04769), etc.)
 - *How to prevent collapse?* In this notebook, we covered the contrastive loss but there are several other techniques, such as directly optimizing the batch statistics ([Wang et al.](https://arxiv.org/abs/2005.10242), [VICReg](https://arxiv.org/abs/2105.04906)...) or breaking the symmetry between the two branches of the Siamese network ([BYOL](https://arxiv.org/abs/2006.07733), etc.)
 
