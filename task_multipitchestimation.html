@@ -596,7 +596,7 @@ It is annotated as a sequence of notes (start,stop,midi-value) over time.</p>
 <li><p>The output <code class="docutils literal notranslate"><span class="pre">y</span></code> to be predicted is a binary matrix <span class="math notranslate nohighlight">\(\mathbf{Y} \in \{0,1\}^{(P,T)}\)</span> indicating the presence of all possible pitch-classes <span class="math notranslate nohighlight">\(p\in P\)</span> over time <span class="math notranslate nohighlight">\(t \in T\)</span></p></li>
 <li><p>The problem is then a <mark>supervised multi-label problem</mark></p>
 <ul>
-<li><p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> We use a softmax and a set of Binary-Cross-Entropy</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> We use a set sigmoids and Binary-Cross-Entropys</p></li>
 </ul>
 </li>
 </ul>
