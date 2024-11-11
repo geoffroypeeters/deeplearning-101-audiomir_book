@@ -168,7 +168,7 @@ We propose here a solution for the MPE task using [supervised learning](lab_supe
 ($f_0$ are quantized to their nearest semi-tone or $\frac{1}{5}^{th}$ of semi-tone)
 - The output `y` to be predicted is a binary matrix $\mathbf{Y} \in \{0,1\}^{(P,T)}$ indicating the presence of all possible pitch-classes $p\in P$ over time $t \in T$
 - The problem is then a <mark>supervised multi-label problem</mark>
-  - $\Rightarrow$ We use a softmax and a set of Binary-Cross-Entropy
+  - $\Rightarrow$ We use a set sigmoids and Binary-Cross-Entropys
 
 For the input `X`, we study various choices
 - the [CQT](lab_cqt)

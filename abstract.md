@@ -2,7 +2,7 @@
 
 **Context.** Audio-based MIR (MIR based on the processing of audio signals) covers a broad range of tasks, including
 - music audio <mark>analysis</mark> (pitch/chord, beats, tagging), retrieval (similarity, cover, fingerprint),
-- music audio <mark>processing</mark> (source separation, music translation)
+- music audio <mark>processing</mark> (source separation, music translation/style transfer)
 - music audio <mark>generation</mark> (of samples or whole tracks).
 
 A wide range of techniques can be employed for solving each of these tasks, spanning
